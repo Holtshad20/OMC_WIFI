@@ -1,0 +1,542 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L OMC_MASTER-rescue:Conn_01x07_Female-Connector J5
+U 1 1 6182EC49
+P 2750 6750
+F 0 "J5" H 2778 6776 50  0000 L CNN
+F 1 "Conn_01x07_Female_canbus" H 2778 6685 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical" H 2750 6750 50  0001 C CNN
+F 3 "~" H 2750 6750 50  0001 C CNN
+	1    2750 6750
+	1    0    0    -1  
+$EndComp
+$Comp
+L OMC_MASTER-rescue:RJ14-Connector J7
+U 1 1 61833190
+P 5750 6700
+F 0 "J7" H 5420 6704 50  0000 R CNN
+F 1 "RJ14" H 5420 6795 50  0000 R CNN
+F 2 "Connector_RJ:RJ14_Connfly_DS1133-S4_Horizontal" V 5750 6725 50  0001 C CNN
+F 3 "~" V 5750 6725 50  0001 C CNN
+	1    5750 6700
+	-1   0    0    1   
+$EndComp
+$Comp
+L OMC_MASTER-rescue:Conn_01x02_Female-Connector J6
+U 1 1 61835E4D
+P 4050 6700
+F 0 "J6" H 3942 6375 50  0000 C CNN
+F 1 "Conn_01x02_Female_canbus" H 3942 6466 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 4050 6700 50  0001 C CNN
+F 3 "~" H 4050 6700 50  0001 C CNN
+	1    4050 6700
+	-1   0    0    1   
+$EndComp
+$Comp
+L OMC_MASTER-rescue:GND-power #PWR0101
+U 1 1 6183C54C
+P 5050 7100
+F 0 "#PWR0101" H 5050 6850 50  0001 C CNN
+F 1 "GND" H 5055 6927 50  0000 C CNN
+F 2 "" H 5050 7100 50  0001 C CNN
+F 3 "" H 5050 7100 50  0001 C CNN
+	1    5050 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5350 6800 5050 6800
+Wire Wire Line
+	5050 6800 5050 7100
+NoConn ~ 5350 6900
+Text GLabel 2100 6450 0    50   Input ~ 0
+INTERRUPT
+Text GLabel 2100 6550 0    50   Input ~ 0
+SCK
+Text GLabel 2100 6650 0    50   Input ~ 0
+MOSI
+Text GLabel 2100 6750 0    50   Input ~ 0
+MISO
+Text GLabel 2100 6850 0    50   Input ~ 0
+CS
+$Comp
+L OMC_MASTER-rescue:+5V-power #PWR0102
+U 1 1 6183DEE3
+P 2450 7250
+F 0 "#PWR0102" H 2450 7100 50  0001 C CNN
+F 1 "+5V" H 2465 7423 50  0000 C CNN
+F 2 "" H 2450 7250 50  0001 C CNN
+F 3 "" H 2450 7250 50  0001 C CNN
+	1    2450 7250
+	-1   0    0    1   
+$EndComp
+$Comp
+L OMC_MASTER-rescue:GND-power #PWR0103
+U 1 1 6183E827
+P 2200 7250
+F 0 "#PWR0103" H 2200 7000 50  0001 C CNN
+F 1 "GND" H 2205 7077 50  0000 C CNN
+F 2 "" H 2200 7250 50  0001 C CNN
+F 3 "" H 2200 7250 50  0001 C CNN
+	1    2200 7250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2550 7050 2450 7050
+Wire Wire Line
+	2450 7050 2450 7250
+Wire Wire Line
+	2200 7250 2200 6950
+Wire Wire Line
+	2200 6950 2550 6950
+Wire Wire Line
+	2550 6850 2100 6850
+Wire Wire Line
+	2100 6750 2550 6750
+Wire Wire Line
+	2550 6650 2100 6650
+Wire Wire Line
+	2550 6550 2100 6550
+Wire Wire Line
+	2100 6450 2550 6450
+$Comp
+L OMC_MASTER-rescue:Conn_01x10_Female-Connector J10
+U 1 1 6183EF21
+P 4450 1850
+F 0 "J10" H 5000 1900 50  0000 C CNN
+F 1 "Conn_01x10_Female_digital1" H 5000 2050 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical" H 4450 1850 50  0001 C CNN
+F 3 "~" H 4450 1850 50  0001 C CNN
+	1    4450 1850
+	-1   0    0    1   
+$EndComp
+$Comp
+L OMC_MASTER-rescue:Conn_01x08_Female-Connector J9
+U 1 1 61838B69
+P 4450 2850
+F 0 "J9" H 5000 2850 50  0000 C CNN
+F 1 "Conn_01x08_Female_digital2" H 5000 2950 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 4450 2850 50  0001 C CNN
+F 3 "~" H 4450 2850 50  0001 C CNN
+	1    4450 2850
+	-1   0    0    1   
+$EndComp
+$Comp
+L OMC_MASTER-rescue:Conn_01x08_Female-Connector J3
+U 1 1 6182FA5A
+P 2400 3650
+F 0 "J3" H 2428 3626 50  0000 L CNN
+F 1 "Conn_01x08_Female_analog2" H 2428 3535 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 2400 3650 50  0001 C CNN
+F 3 "~" H 2400 3650 50  0001 C CNN
+	1    2400 3650
+	1    0    0    -1  
+$EndComp
+$Comp
+L OMC_MASTER-rescue:Conn_01x08_Female-Connector J2
+U 1 1 6182EE3B
+P 2400 2750
+F 0 "J2" H 2428 2726 50  0000 L CNN
+F 1 "Conn_01x08_Female_analog1" H 2428 2635 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 2400 2750 50  0001 C CNN
+F 3 "~" H 2400 2750 50  0001 C CNN
+	1    2400 2750
+	1    0    0    -1  
+$EndComp
+$Comp
+L OMC_MASTER-rescue:Conn_01x08_Female-Connector J1
+U 1 1 6182E289
+P 2400 1850
+F 0 "J1" H 2428 1826 50  0000 L CNN
+F 1 "Conn_01x08_Female_power" H 2428 1735 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 2400 1850 50  0001 C CNN
+F 3 "~" H 2400 1850 50  0001 C CNN
+	1    2400 1850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7850 5050 7850 5200
+Wire Wire Line
+	8100 5050 7850 5050
+$Comp
+L OMC_MASTER-rescue:GND-power #PWR0104
+U 1 1 618512DF
+P 7850 5200
+F 0 "#PWR0104" H 7850 4950 50  0001 C CNN
+F 1 "GND" H 7855 5027 50  0000 C CNN
+F 2 "" H 7850 5200 50  0001 C CNN
+F 3 "" H 7850 5200 50  0001 C CNN
+	1    7850 5200
+	1    0    0    -1  
+$EndComp
+NoConn ~ 8100 4550
+Text GLabel 7750 4650 0    50   Input ~ 0
+SQW
+Text GLabel 7750 4750 0    50   Input ~ 0
+SCL
+Text GLabel 7750 4850 0    50   Input ~ 0
+SDA
+$Comp
+L OMC_MASTER-rescue:+5V-power #PWR0105
+U 1 1 61835E6B
+P 7550 5200
+F 0 "#PWR0105" H 7550 5050 50  0001 C CNN
+F 1 "+5V" H 7565 5373 50  0000 C CNN
+F 2 "" H 7550 5200 50  0001 C CNN
+F 3 "" H 7550 5200 50  0001 C CNN
+	1    7550 5200
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	8100 4950 7550 4950
+Wire Wire Line
+	7550 4950 7550 5200
+Wire Wire Line
+	8100 4850 7750 4850
+Wire Wire Line
+	7750 4750 8100 4750
+Wire Wire Line
+	8100 4650 7750 4650
+$Comp
+L OMC_MASTER-rescue:+5V-power #PWR0106
+U 1 1 6184343E
+P 4800 4700
+F 0 "#PWR0106" H 4800 4550 50  0001 C CNN
+F 1 "+5V" H 4815 4873 50  0000 C CNN
+F 2 "" H 4800 4700 50  0001 C CNN
+F 3 "" H 4800 4700 50  0001 C CNN
+	1    4800 4700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4300 5100 4600 5100
+Wire Wire Line
+	4600 4450 4600 4750
+Wire Wire Line
+	4600 4750 4800 4750
+Wire Wire Line
+	4800 4750 4800 4700
+Connection ~ 4600 4750
+Wire Wire Line
+	4600 4750 4600 5100
+$Comp
+L OMC_MASTER-rescue:GND-power #PWR0107
+U 1 1 6185AD74
+P 2100 4800
+F 0 "#PWR0107" H 2100 4550 50  0001 C CNN
+F 1 "GND" H 2105 4627 50  0000 C CNN
+F 2 "" H 2100 4800 50  0001 C CNN
+F 3 "" H 2100 4800 50  0001 C CNN
+	1    2100 4800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2600 4400 2350 4400
+Wire Wire Line
+	2350 5100 2600 5100
+Wire Wire Line
+	2350 4400 2350 4750
+Wire Wire Line
+	2350 4750 2100 4750
+Wire Wire Line
+	2100 4750 2100 4800
+Connection ~ 2350 4750
+Wire Wire Line
+	2350 4750 2350 5100
+Text GLabel 2700 4300 1    50   Input ~ 0
+SCK
+Text GLabel 2800 5150 3    50   Input ~ 0
+MOSI
+NoConn ~ 2700 5000
+Text GLabel 2800 4300 1    50   Input ~ 0
+MISO
+Text GLabel 2900 5150 3    50   Input ~ 0
+CS
+Text GLabel 4950 2850 2    50   Input ~ 0
+INTERRUPT
+Wire Wire Line
+	4950 2850 4650 2850
+Wire Wire Line
+	2200 2450 2000 2450
+Wire Notes Line
+	6300 6300 1550 6300
+Wire Notes Line
+	1550 6300 1550 7550
+Wire Notes Line
+	1550 7550 6300 7550
+Wire Notes Line
+	6300 6300 6300 7550
+Text GLabel 2000 2450 0    50   Input ~ 0
+TEMP
+Wire Wire Line
+	8450 2150 8300 2150
+Text GLabel 8450 2150 2    50   Input ~ 0
+TEMP
+Wire Wire Line
+	7900 2450 7900 2650
+$Comp
+L OMC_MASTER-rescue:GND-power #PWR0108
+U 1 1 6184A073
+P 7900 2650
+F 0 "#PWR0108" H 7900 2400 50  0001 C CNN
+F 1 "GND" H 7905 2477 50  0000 C CNN
+F 2 "" H 7900 2650 50  0001 C CNN
+F 3 "" H 7900 2650 50  0001 C CNN
+	1    7900 2650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 1850 7900 1550
+$Comp
+L OMC_MASTER-rescue:+5V-power #PWR0109
+U 1 1 61848768
+P 7900 1550
+F 0 "#PWR0109" H 7900 1400 50  0001 C CNN
+F 1 "+5V" H 7915 1723 50  0000 C CNN
+F 2 "" H 7900 1550 50  0001 C CNN
+F 3 "" H 7900 1550 50  0001 C CNN
+	1    7900 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L OMC_MASTER-rescue:LM35-LP-Sensor_Temperature U1
+U 1 1 61841869
+P 7900 2150
+F 0 "U1" H 7571 2196 50  0000 R CNN
+F 1 "LM35-LP" H 7571 2105 50  0000 R CNN
+F 2 "Package_TO_SOT_THT:TO-92" H 7950 1900 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lm35.pdf" H 7900 2150 50  0001 C CNN
+	1    7900 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L OMC_MASTER-rescue:+5V-power #PWR0110
+U 1 1 618768F1
+P 1700 1800
+F 0 "#PWR0110" H 1700 1650 50  0001 C CNN
+F 1 "+5V" H 1715 1973 50  0000 C CNN
+F 2 "" H 1700 1800 50  0001 C CNN
+F 3 "" H 1700 1800 50  0001 C CNN
+	1    1700 1800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2200 1950 1700 1950
+$Comp
+L OMC_MASTER-rescue:GND-power #PWR0111
+U 1 1 61878B4C
+P 1700 2150
+F 0 "#PWR0111" H 1700 1900 50  0001 C CNN
+F 1 "GND" H 1705 1977 50  0000 C CNN
+F 2 "" H 1700 2150 50  0001 C CNN
+F 3 "" H 1700 2150 50  0001 C CNN
+	1    1700 2150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2200 2050 2050 2050
+Wire Wire Line
+	1700 2050 1700 2150
+Wire Wire Line
+	1700 1950 1700 1800
+Wire Notes Line
+	7150 1200 8750 1200
+Wire Notes Line
+	8750 1200 8750 3000
+Wire Notes Line
+	8750 3000 7150 3000
+Wire Notes Line
+	7150 3000 7150 1200
+Wire Notes Line
+	7350 4350 9100 4350
+Wire Notes Line
+	9100 4350 9100 5450
+Wire Notes Line
+	9100 5450 7350 5450
+Wire Notes Line
+	7350 5450 7350 4350
+Wire Notes Line
+	5650 1000 1550 1000
+Wire Notes Line
+	1550 1000 1550 5500
+Wire Notes Line
+	1550 5500 5650 5500
+Wire Notes Line
+	5650 1000 5650 5500
+Text GLabel 4950 2950 2    50   Input ~ 0
+SQW
+Wire Wire Line
+	4950 2950 4650 2950
+Text GLabel 4950 3950 2    50   Input ~ 0
+SDA
+Wire Wire Line
+	4950 3950 4650 3950
+Text GLabel 4950 4050 2    50   Input ~ 0
+SCL
+Wire Wire Line
+	4950 4050 4650 4050
+NoConn ~ 2200 2550
+NoConn ~ 2200 2650
+NoConn ~ 2200 2750
+NoConn ~ 2200 2850
+NoConn ~ 2200 2950
+NoConn ~ 2200 3050
+NoConn ~ 2200 3150
+NoConn ~ 2200 3350
+NoConn ~ 2200 3450
+NoConn ~ 2200 3550
+NoConn ~ 2200 3650
+NoConn ~ 2200 3750
+NoConn ~ 2200 3850
+NoConn ~ 2200 3950
+NoConn ~ 2200 4050
+NoConn ~ 2200 2250
+Wire Wire Line
+	2200 2150 2050 2150
+Wire Wire Line
+	2050 2150 2050 2050
+Connection ~ 2050 2050
+Wire Wire Line
+	2050 2050 1700 2050
+NoConn ~ 4200 4500
+NoConn ~ 4100 4500
+NoConn ~ 4000 4500
+NoConn ~ 3900 4500
+NoConn ~ 3800 4500
+NoConn ~ 3700 4500
+NoConn ~ 3600 4500
+NoConn ~ 3500 4500
+NoConn ~ 3400 4500
+NoConn ~ 3300 4500
+NoConn ~ 3200 4500
+NoConn ~ 3100 4500
+NoConn ~ 3000 4500
+NoConn ~ 2900 4500
+NoConn ~ 3000 5000
+NoConn ~ 3100 5000
+NoConn ~ 3200 5000
+NoConn ~ 3300 5000
+NoConn ~ 3400 5000
+NoConn ~ 3500 5000
+NoConn ~ 3600 5000
+NoConn ~ 3700 5000
+NoConn ~ 3800 5000
+NoConn ~ 3900 5000
+NoConn ~ 4000 5000
+NoConn ~ 4100 5000
+NoConn ~ 4200 5000
+Text GLabel 4350 6600 2    50   Input ~ 0
+H
+Text GLabel 5200 6600 0    50   Input ~ 0
+H
+Text GLabel 4350 6700 2    50   Input ~ 0
+L
+Text GLabel 5200 6700 0    50   Input ~ 0
+L
+Wire Wire Line
+	5350 6600 5200 6600
+Wire Wire Line
+	5200 6700 5350 6700
+Wire Wire Line
+	4350 6700 4250 6700
+Wire Wire Line
+	4250 6600 4350 6600
+Text Notes 7400 1150 0    50   ~ 0
+Sensor de temperatura LM35\n
+Text Notes 3250 950  0    50   ~ 0
+Arduino MEGA 2560
+Text Notes 3600 6250 0    50   ~ 0
+Módulo CANBUS
+Text Notes 7900 4300 0    50   ~ 0
+Reloj DS3231\n
+$Comp
+L OMC_MASTER-rescue:Conn_01x08_Female-Connector J8
+U 1 1 61834F9C
+P 4450 3750
+F 0 "J8" H 4950 3650 50  0000 C CNN
+F 1 "Conn_01x08_Female_digital3" H 4900 3750 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 4450 3750 50  0001 C CNN
+F 3 "~" H 4450 3750 50  0001 C CNN
+	1    4450 3750
+	-1   0    0    1   
+$EndComp
+NoConn ~ 4650 1350
+NoConn ~ 4650 1450
+NoConn ~ 4650 1550
+NoConn ~ 4650 1650
+NoConn ~ 4650 1750
+NoConn ~ 4650 1850
+NoConn ~ 4650 1950
+NoConn ~ 4650 2050
+NoConn ~ 4650 2150
+NoConn ~ 4650 2250
+NoConn ~ 4650 2450
+NoConn ~ 4650 2550
+NoConn ~ 4650 2650
+NoConn ~ 4650 2750
+NoConn ~ 4650 3050
+NoConn ~ 4650 3150
+NoConn ~ 4650 3350
+NoConn ~ 4650 3450
+NoConn ~ 4650 3550
+NoConn ~ 4650 3650
+NoConn ~ 4650 3750
+NoConn ~ 4650 3850
+NoConn ~ 2200 1550
+NoConn ~ 2200 1650
+NoConn ~ 2200 1750
+NoConn ~ 2200 1850
+$Comp
+L OMC_MASTER-rescue:Conn_01x06_Female-Connector J11
+U 1 1 6184DF13
+P 8300 4750
+F 0 "J11" H 8328 4726 50  0000 L CNN
+F 1 "Conn_01x06_Female_clock" H 8328 4635 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 8300 4750 50  0001 C CNN
+F 3 "~" H 8300 4750 50  0001 C CNN
+	1    8300 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_02x18_Odd_Even J4
+U 1 1 618747AA
+P 3400 4800
+F 0 "J4" V 3496 5679 50  0000 L CNN
+F 1 "Conn_02x18_Odd_Even" V 3405 5679 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x18_P2.54mm_Vertical" H 3400 4800 50  0001 C CNN
+F 3 "~" H 3400 4800 50  0001 C CNN
+	1    3400 4800
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4300 4450 4600 4450
+Wire Wire Line
+	2900 5150 2900 5000
+Wire Wire Line
+	2800 5000 2800 5150
+Wire Wire Line
+	2600 5000 2600 5100
+Wire Wire Line
+	2600 4500 2600 4400
+Wire Wire Line
+	2700 4300 2700 4500
+Wire Wire Line
+	2800 4300 2800 4500
+Wire Wire Line
+	4300 4500 4300 4450
+Wire Wire Line
+	4300 5000 4300 5100
+$EndSCHEMATC

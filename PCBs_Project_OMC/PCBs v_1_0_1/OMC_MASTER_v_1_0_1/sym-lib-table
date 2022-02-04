@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name OMC_MASTER-rescue)(type Legacy)(uri ${KIPRJMOD}/OMC_MASTER-rescue.lib)(options "")(descr ""))
+)
