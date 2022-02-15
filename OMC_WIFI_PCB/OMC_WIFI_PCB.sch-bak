@@ -500,7 +500,7 @@ U 1 1 623E700B
 P 8550 2700
 F 0 "J7" H 8442 2985 50  0000 C CNN
 F 1 "Control_Relay" H 8442 2894 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 8550 2700 50  0001 C CNN
+F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 8550 2700 50  0001 C CNN
 F 3 "~" H 8550 2700 50  0001 C CNN
 	1    8550 2700
 	-1   0    0    -1  
@@ -511,7 +511,7 @@ U 1 1 623E5D69
 P 7450 2700
 F 0 "J6" H 7478 2726 50  0000 L CNN
 F 1 "Line_Relay" H 7478 2635 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 7450 2700 50  0001 C CNN
+F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 7450 2700 50  0001 C CNN
 F 3 "~" H 7450 2700 50  0001 C CNN
 	1    7450 2700
 	1    0    0    -1  
@@ -921,7 +921,7 @@ U 1 1 621188AB
 P 8400 1200
 F 0 "J8" H 8428 1176 50  0000 L CNN
 F 1 "Line_ACS712" H 8428 1085 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 8400 1200 50  0001 C CNN
+F 2 "Connector_Wire:SolderWire-0.75sqmm_1x02_P4.8mm_D1.25mm_OD2.3mm" H 8400 1200 50  0001 C CNN
 F 3 "~" H 8400 1200 50  0001 C CNN
 	1    8400 1200
 	1    0    0    -1  
@@ -936,7 +936,7 @@ U 1 1 62231822
 P 5150 1300
 F 0 "J9" H 5178 1276 50  0000 L CNN
 F 1 "Line_ZMPT101B" H 5178 1185 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 5150 1300 50  0001 C CNN
+F 2 "Connector_Wire:SolderWire-0.75sqmm_1x02_P4.8mm_D1.25mm_OD2.3mm" H 5150 1300 50  0001 C CNN
 F 3 "~" H 5150 1300 50  0001 C CNN
 	1    5150 1300
 	1    0    0    -1  
