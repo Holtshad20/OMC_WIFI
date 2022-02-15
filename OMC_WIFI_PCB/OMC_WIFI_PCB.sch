@@ -184,17 +184,6 @@ Wire Wire Line
 Wire Wire Line
 	950  5450 1850 5450
 $Comp
-L Connector:Conn_01x02_Male J4
-U 1 1 62292DE9
-P 2150 1650
-F 0 "J4" V 2212 1462 50  0000 R CNN
-F 1 "Switch" V 2303 1462 50  0000 R CNN
-F 2 "Connector_Wire:SolderWire-0.75sqmm_1x02_P7mm_D1.25mm_OD3.5mm" H 2150 1650 50  0001 C CNN
-F 3 "~" H 2150 1650 50  0001 C CNN
-	1    2150 1650
-	0    -1   1    0   
-$EndComp
-$Comp
 L Converter_ACDC:HLK-PM01 PS1
 U 1 1 622A159D
 P 5500 2550
@@ -406,7 +395,7 @@ U 1 1 623E700B
 P 9400 2700
 F 0 "J7" H 9292 2985 50  0000 C CNN
 F 1 "Control_Relay" H 9292 2894 50  0000 C CNN
-F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 9400 2700 50  0001 C CNN
+F 2 "TerminalBlock:TerminalBlock_bornier-3_P5.08mm" H 9400 2700 50  0001 C CNN
 F 3 "~" H 9400 2700 50  0001 C CNN
 	1    9400 2700
 	-1   0    0    -1  
@@ -417,7 +406,7 @@ U 1 1 623E5D69
 P 8300 2700
 F 0 "J6" H 8328 2726 50  0000 L CNN
 F 1 "Line_Relay" H 8328 2635 50  0000 L CNN
-F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 8300 2700 50  0001 C CNN
+F 2 "TerminalBlock:TerminalBlock_bornier-3_P5.08mm" H 8300 2700 50  0001 C CNN
 F 3 "~" H 8300 2700 50  0001 C CNN
 	1    8300 2700
 	1    0    0    -1  
@@ -823,7 +812,7 @@ U 1 1 621188AB
 P 8400 1200
 F 0 "J8" H 8428 1176 50  0000 L CNN
 F 1 "Line_ACS712" H 8428 1085 50  0000 L CNN
-F 2 "Connector_Wire:SolderWire-0.75sqmm_1x02_P4.8mm_D1.25mm_OD2.3mm" H 8400 1200 50  0001 C CNN
+F 2 "TerminalBlock:TerminalBlock_bornier-2_P5.08mm" H 8400 1200 50  0001 C CNN
 F 3 "~" H 8400 1200 50  0001 C CNN
 	1    8400 1200
 	1    0    0    -1  
@@ -838,7 +827,7 @@ U 1 1 62231822
 P 5150 1300
 F 0 "J9" H 5178 1276 50  0000 L CNN
 F 1 "Line_ZMPT101B" H 5178 1185 50  0000 L CNN
-F 2 "Connector_Wire:SolderWire-0.75sqmm_1x02_P4.8mm_D1.25mm_OD2.3mm" H 5150 1300 50  0001 C CNN
+F 2 "TerminalBlock:TerminalBlock_bornier-2_P5.08mm" H 5150 1300 50  0001 C CNN
 F 3 "~" H 5150 1300 50  0001 C CNN
 	1    5150 1300
 	1    0    0    -1  
@@ -853,4 +842,32 @@ Wire Notes Line
 	7400 2050 7400 3450
 Wire Notes Line
 	7400 3450 10650 3450
+$Comp
+L Connector:Conn_01x03_Male J4
+U 1 1 6216C21C
+P 2250 1650
+F 0 "J4" V 2312 1794 50  0000 L CNN
+F 1 "Switch" V 2403 1794 50  0000 L CNN
+F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 2250 1650 50  0001 C CNN
+F 3 "~" H 2250 1650 50  0001 C CNN
+	1    2250 1650
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+5V #PWR0111
+U 1 1 62178CC2
+P 2550 1700
+F 0 "#PWR0111" H 2550 1550 50  0001 C CNN
+F 1 "+5V" H 2565 1873 50  0000 C CNN
+F 2 "" H 2550 1700 50  0001 C CNN
+F 3 "" H 2550 1700 50  0001 C CNN
+	1    2550 1700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2350 1850 2350 1900
+Wire Wire Line
+	2350 1900 2550 1900
+Wire Wire Line
+	2550 1900 2550 1700
 $EndSCHEMATC
