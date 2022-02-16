@@ -1,0 +1,19 @@
+{
+    "title":   "Configuración de AP",
+    "uri":     "/ap_config",
+    "true":    true,
+    "element": [
+        {
+            "name":  "caption",
+            "type":  "ACText",
+            "value": "Desde este portal podrá cambiar el nombre (SSID) y la contraseña del punto de acceso",
+            "style": "font-family:serif;color:#000000;"
+        },
+        {
+            "name": "header",
+            "type": "ACText",
+            "value": "<h2>Nuevas Credenciales</h2>",
+            "style": "text-align:center;color:2f4f4f;"
+        }
+    ]
+}
