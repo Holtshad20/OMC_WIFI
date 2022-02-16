@@ -38,9 +38,9 @@ $EndComp
 Text GLabel 1450 4150 0    50   Input ~ 0
 EN
 Text GLabel 1450 4250 0    50   Input ~ 0
-VP_ZMPT
+VP_ACS
 Text GLabel 1450 4350 0    50   Input ~ 0
-VN_ACS
+VN_ZMPT
 Text GLabel 1450 4450 0    50   Input ~ 0
 D34
 Text GLabel 1450 4550 0    50   Input ~ 0
@@ -54,7 +54,7 @@ D25
 Text GLabel 1450 4950 0    50   Input ~ 0
 D26
 Text GLabel 1450 5050 0    50   Input ~ 0
-D27_LED
+D27
 Text GLabel 1450 5150 0    50   Input ~ 0
 D14
 Text GLabel 1450 5250 0    50   Input ~ 0
@@ -62,7 +62,7 @@ D12
 Text GLabel 1450 5350 0    50   Input ~ 0
 D13
 Text GLabel 3750 4150 2    50   Input ~ 0
-D23
+D23_LED
 Text GLabel 3750 4250 2    50   Input ~ 0
 D22
 Text GLabel 3750 4350 2    50   Input ~ 0
@@ -278,10 +278,6 @@ F 3 "~" H 1350 2050 50  0001 C CNN
 	1    1350 2050
 	-1   0    0    -1  
 $EndComp
-Text GLabel 2200 2050 2    50   Input ~ 0
-I_ACS
-Text GLabel 2650 2050 0    50   Input ~ 0
-NO
 Text GLabel 1900 6100 0    50   Input ~ 0
 EN
 Text GLabel 1950 6200 0    50   Input ~ 0
@@ -294,35 +290,33 @@ Text GLabel 1950 6500 0    50   Input ~ 0
 D25
 Text GLabel 1950 6600 0    50   Input ~ 0
 D26
-Text GLabel 1950 6700 0    50   Input ~ 0
-D14
 Text GLabel 1950 6800 0    50   Input ~ 0
-D12
+D14
 Text GLabel 1950 6900 0    50   Input ~ 0
+D12
+Text GLabel 1950 7000 0    50   Input ~ 0
 D13
 Text GLabel 3050 6100 2    50   Input ~ 0
-D23
-Text GLabel 3050 6200 2    50   Input ~ 0
 D22
-Text GLabel 3050 6300 2    50   Input ~ 0
+Text GLabel 3050 6200 2    50   Input ~ 0
 D21
-Text GLabel 3050 6400 2    50   Input ~ 0
+Text GLabel 3050 6300 2    50   Input ~ 0
 D19
-Text GLabel 3050 6500 2    50   Input ~ 0
+Text GLabel 3050 6400 2    50   Input ~ 0
 D18
-Text GLabel 3050 6600 2    50   Input ~ 0
+Text GLabel 3050 6500 2    50   Input ~ 0
 D5
-Text GLabel 3050 6700 2    50   Input ~ 0
+Text GLabel 3050 6600 2    50   Input ~ 0
 TX2
-Text GLabel 3050 6800 2    50   Input ~ 0
+Text GLabel 3050 6700 2    50   Input ~ 0
 RX2
-Text GLabel 3050 6900 2    50   Input ~ 0
+Text GLabel 3050 6800 2    50   Input ~ 0
 D4
-Text GLabel 3050 7000 2    50   Input ~ 0
+Text GLabel 3050 6900 2    50   Input ~ 0
 D2
-Text GLabel 3050 7100 2    50   Input ~ 0
+Text GLabel 3050 7000 2    50   Input ~ 0
 D15
-Text GLabel 3050 7200 2    50   Input ~ 0
+Text GLabel 3050 7100 2    50   Input ~ 0
 3V3
 NoConn ~ 1900 6100
 NoConn ~ 1950 6200
@@ -330,9 +324,9 @@ NoConn ~ 1950 6300
 NoConn ~ 1950 6400
 NoConn ~ 1950 6500
 NoConn ~ 1950 6600
-NoConn ~ 1950 6700
 NoConn ~ 1950 6800
 NoConn ~ 1950 6900
+NoConn ~ 1950 7000
 NoConn ~ 3050 6100
 NoConn ~ 3050 6200
 NoConn ~ 3050 6300
@@ -344,7 +338,6 @@ NoConn ~ 3050 6800
 NoConn ~ 3050 6900
 NoConn ~ 3050 7000
 NoConn ~ 3050 7100
-NoConn ~ 3050 7200
 Wire Wire Line
 	7850 2800 8100 2800
 Wire Wire Line
@@ -453,7 +446,7 @@ Wire Wire Line
 Wire Wire Line
 	5300 5500 5200 5500
 Text GLabel 4800 5500 0    50   Input ~ 0
-D27_LED
+D23_LED
 Wire Wire Line
 	4800 5500 4900 5500
 Text Notes 4600 5200 0    50   ~ 10
@@ -463,17 +456,6 @@ Wire Notes Line
 Text GLabel 7850 3150 0    50   Input ~ 0
 NC
 NoConn ~ 7850 3150
-$Comp
-L Connector:Screw_Terminal_01x03 J12
-U 1 1 621955F9
-P 3100 2050
-F 0 "J12" H 3018 2367 50  0000 C CNN
-F 1 "Power_Out_Load" H 3018 2276 50  0000 C CNN
-F 2 "6PCV-03-006:TE_5-1437652-4" H 3100 2050 50  0001 C CNN
-F 3 "~" H 3100 2050 50  0001 C CNN
-	1    3100 2050
-	1    0    0    -1  
-$EndComp
 $Comp
 L power:GND #PWR0117
 U 1 1 621D0A5D
@@ -487,33 +469,12 @@ F 3 "" H 2200 2250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1550 2150 2200 2150
-Connection ~ 2200 2150
 Wire Wire Line
 	2200 2150 2200 2250
 Wire Wire Line
-	2200 2150 2900 2150
-Wire Wire Line
-	2150 1850 2150 1950
-Wire Wire Line
 	1550 1950 1750 1950
 Wire Wire Line
-	2250 1850 2250 1950
-Wire Wire Line
-	2250 1950 2800 1950
-Wire Wire Line
-	2200 2050 2050 2050
-Text GLabel 1950 1850 1    50   Input ~ 0
-LINE
-Text GLabel 2050 1850 1    50   Input ~ 0
-PHASE
-Wire Wire Line
-	1950 1850 1950 1950
-Connection ~ 1950 1950
-Wire Wire Line
-	1950 1950 2150 1950
-Wire Wire Line
 	2050 1850 2050 2050
-Connection ~ 2050 2050
 Wire Wire Line
 	2050 2050 1750 2050
 Text GLabel 5000 2450 0    50   Input ~ 0
@@ -600,9 +561,9 @@ F 3 "~" H 5100 4100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text GLabel 4700 4100 0    50   Input ~ 0
-TX0
-Text GLabel 4700 4000 0    50   Input ~ 0
 RX0
+Text GLabel 4700 4000 0    50   Input ~ 0
+TX0
 Text Notes 4720 3730 0    50   ~ 10
 FT232R
 Text Notes 2150 6500 0    50   ~ 10
@@ -610,7 +571,7 @@ Pines Sin Utilizar
 Wire Notes Line
 	1550 5900 1550 7300
 Wire Notes Line
-	1550 7300 3350 7300
+	1550 7200 3350 7200
 Wire Notes Line
 	3350 7300 3350 5900
 Wire Notes Line
@@ -664,7 +625,7 @@ F 3 "" H 9650 1450 50  0001 C CNN
 	1    0    0    1   
 $EndComp
 Text GLabel 9650 1250 2    50   Input ~ 0
-VN_ACS
+VP_ACS
 $Comp
 L Connector:Conn_01x03_Female J10
 U 1 1 620C97A5
@@ -681,7 +642,7 @@ Wire Notes Line
 Wire Wire Line
 	5850 1300 6150 1300
 Text GLabel 6150 1300 2    50   Input ~ 0
-VP_ZMPT
+VN_ZMPT
 Wire Wire Line
 	6050 1500 6050 1400
 Connection ~ 6050 1500
@@ -748,38 +709,6 @@ Connection ~ 1750 2050
 Wire Wire Line
 	1750 2050 1550 2050
 Connection ~ 1750 1950
-Wire Wire Line
-	1750 1950 1950 1950
-Wire Wire Line
-	2650 2050 2800 2050
-$Comp
-L power:PWR_FLAG #FLG0103
-U 1 1 624F2829
-P 2800 2050
-F 0 "#FLG0103" H 2800 2125 50  0001 C CNN
-F 1 "PWR_FLAG" H 2800 2223 50  0000 C CNN
-F 2 "" H 2800 2050 50  0001 C CNN
-F 3 "~" H 2800 2050 50  0001 C CNN
-	1    2800 2050
-	1    0    0    1   
-$EndComp
-Connection ~ 2800 2050
-Wire Wire Line
-	2800 2050 2900 2050
-$Comp
-L power:PWR_FLAG #FLG0104
-U 1 1 624F3089
-P 2800 1950
-F 0 "#FLG0104" H 2800 2025 50  0001 C CNN
-F 1 "PWR_FLAG" H 2800 2123 50  0000 C CNN
-F 2 "" H 2800 1950 50  0001 C CNN
-F 3 "~" H 2800 1950 50  0001 C CNN
-	1    2800 1950
-	1    0    0    -1  
-$EndComp
-Connection ~ 2800 1950
-Wire Wire Line
-	2800 1950 2900 1950
 Wire Notes Line
 	3800 1200 3800 2550
 Wire Notes Line
@@ -796,10 +725,8 @@ F 3 "~" H 8150 1300 50  0001 C CNN
 	1    8150 1300
 	1    0    0    1   
 $EndComp
-Text GLabel 8000 1200 0    50   Input ~ 0
-I_ACS
 Text GLabel 8000 1300 0    50   Input ~ 0
-COM
+NO
 Wire Wire Line
 	8000 1300 8150 1300
 Wire Wire Line
@@ -842,16 +769,90 @@ Wire Notes Line
 	7400 2050 7400 3450
 Wire Notes Line
 	7400 3450 10650 3450
+NoConn ~ 2200 1800
+Text GLabel 8000 1200 0    50   Input ~ 0
+PHASE
+Text GLabel 2050 1850 1    50   Input ~ 0
+PHASE
+Text GLabel 2500 1800 1    50   Input ~ 0
+LINE
+Wire Wire Line
+	2300 1800 2300 1950
+Text GLabel 1950 6700 0    50   Input ~ 0
+D27
+NoConn ~ 1950 6700
+Wire Wire Line
+	2350 1950 2350 2150
+Wire Wire Line
+	2350 2150 2200 2150
+Connection ~ 2200 2150
+Wire Wire Line
+	2800 2150 2900 2150
+$Comp
+L power:PWR_FLAG #FLG0104
+U 1 1 624F3089
+P 2800 2150
+F 0 "#FLG0104" H 2800 2225 50  0001 C CNN
+F 1 "PWR_FLAG" H 2800 2323 50  0000 C CNN
+F 2 "" H 2800 2150 50  0001 C CNN
+F 3 "~" H 2800 2150 50  0001 C CNN
+	1    2800 2150
+	1    0    0    1   
+$EndComp
+Wire Wire Line
+	2800 2050 2900 2050
+Connection ~ 2800 2050
+$Comp
+L power:PWR_FLAG #FLG0103
+U 1 1 624F2829
+P 2800 2050
+F 0 "#FLG0103" H 2800 2125 50  0001 C CNN
+F 1 "PWR_FLAG" H 2800 2223 50  0000 C CNN
+F 2 "" H 2800 2050 50  0001 C CNN
+F 3 "~" H 2800 2050 50  0001 C CNN
+	1    2800 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2650 2050 2800 2050
+$Comp
+L Connector:Screw_Terminal_01x03 J12
+U 1 1 621955F9
+P 3100 2050
+F 0 "J12" H 3018 2367 50  0000 C CNN
+F 1 "Power_Out_Load" H 3018 2276 50  0000 C CNN
+F 2 "6PCV-03-006:TE_5-1437652-4" H 3100 2050 50  0001 C CNN
+F 3 "~" H 3100 2050 50  0001 C CNN
+	1    3100 2050
+	1    0    0    -1  
+$EndComp
+Connection ~ 2800 2150
+Wire Wire Line
+	2400 2150 2800 2150
+Wire Wire Line
+	2900 1950 2350 1950
+Text GLabel 2650 2050 0    50   Input ~ 0
+COM
 $Comp
 L Connector:Conn_01x03_Male J4
 U 1 1 6216C21C
-P 2250 1650
-F 0 "J4" V 2312 1794 50  0000 L CNN
-F 1 "Switch" V 2403 1794 50  0000 L CNN
-F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 2250 1650 50  0001 C CNN
-F 3 "~" H 2250 1650 50  0001 C CNN
-	1    2250 1650
-	0    1    1    0   
+P 2300 1600
+F 0 "J4" V 2362 1744 50  0000 L CNN
+F 1 "Switch" V 2453 1744 50  0000 L CNN
+F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 2300 1600 50  0001 C CNN
+F 3 "~" H 2300 1600 50  0001 C CNN
+	1    2300 1600
+	0    -1   1    0   
 $EndComp
-NoConn ~ 2350 1850
+Wire Wire Line
+	2400 1800 2400 1850
+Wire Wire Line
+	1750 1950 2300 1950
+Wire Wire Line
+	2500 1800 2500 1850
+Wire Wire Line
+	2500 1850 2400 1850
+Connection ~ 2400 1850
+Wire Wire Line
+	2400 1850 2400 2150
 $EndSCHEMATC

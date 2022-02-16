@@ -1,4 +1,4 @@
-update=mar 15 feb 2022 09:47:16 -04
+update=mié 16 feb 2022 12:08:04 -04
 version=1
 last_client=kicad
 [general]
@@ -247,6 +247,17 @@ dPairWidth=0.3
 dPairGap=0.3
 dPairViaGap=0.25
 [pcbnew/Netclasses/1]
+Name=220V HC
+Clearance=1
+TrackWidth=4
+ViaDiameter=1.2
+ViaDrill=0.6
+uViaDiameter=1.2
+uViaDrill=0.6
+dPairWidth=0.3
+dPairGap=0.3
+dPairViaGap=0.25
+[pcbnew/Netclasses/2]
 Name=220V LC
 Clearance=1
 TrackWidth=2
