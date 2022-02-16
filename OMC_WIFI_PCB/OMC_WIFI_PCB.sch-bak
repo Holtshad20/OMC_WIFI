@@ -395,7 +395,7 @@ U 1 1 623E700B
 P 9400 2700
 F 0 "J7" H 9292 2985 50  0000 C CNN
 F 1 "Control_Relay" H 9292 2894 50  0000 C CNN
-F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 9400 2700 50  0001 C CNN
+F 2 "TerminalBlock:TerminalBlock_bornier-3_P5.08mm" H 9400 2700 50  0001 C CNN
 F 3 "~" H 9400 2700 50  0001 C CNN
 	1    9400 2700
 	-1   0    0    -1  
