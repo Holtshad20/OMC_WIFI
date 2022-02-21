@@ -560,8 +560,6 @@ F 3 "" H 6900 950 50  0001 C CNN
 	1    6900 950 
 	1    0    0    -1  
 $EndComp
-Text GLabel 8250 1400 2    50   Input ~ 0
-VP_ACS
 $Comp
 L Connector:Conn_01x03_Female J10
 U 1 1 620C97A5
@@ -696,9 +694,6 @@ Wire Notes Line
 Wire Notes Line
 	700  3000 3050 3000
 Wire Wire Line
-	2400 2400 2400 2700
-Connection ~ 2400 2700
-Wire Wire Line
 	2600 2400 2600 2500
 Wire Wire Line
 	2600 2500 2250 2500
@@ -804,70 +799,49 @@ Wire Wire Line
 Wire Wire Line
 	6900 1250 6900 1450
 $Comp
-L Device:Jumper JP?
+L Device:Jumper JP1
 U 1 1 621BDC2F
 P 7300 1150
-F 0 "JP?" H 7300 1414 50  0000 C CNN
+F 0 "JP1" H 7300 1414 50  0000 C CNN
 F 1 "Jumper" H 7300 1323 50  0000 C CNN
-F 2 "Connector_PinHeader_1.00mm:PinHeader_1x02_P1.00mm_Vertical" H 7300 1150 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7300 1150 50  0001 C CNN
 F 3 "~" H 7300 1150 50  0001 C CNN
 	1    7300 1150
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	6750 1150 7000 1150
-$Comp
-L Device:R R?
-U 1 1 621CBE6C
-P 7900 1150
-F 0 "R?" V 8107 1150 50  0000 C CNN
-F 1 "10K" V 8016 1150 50  0000 C CNN
-F 2 "Resistor_SMD:R_2010_5025Metric_Pad1.40x2.65mm_HandSolder" V 7830 1150 50  0001 C CNN
-F 3 "~" H 7900 1150 50  0001 C CNN
-	1    7900 1150
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R?
-U 1 1 621CF98B
-P 8400 1150
-F 0 "R?" V 8607 1150 50  0000 C CNN
-F 1 "20k" V 8516 1150 50  0000 C CNN
-F 2 "Resistor_SMD:R_2010_5025Metric_Pad1.40x2.65mm_HandSolder" V 8330 1150 50  0001 C CNN
-F 3 "~" H 8400 1150 50  0001 C CNN
-	1    8400 1150
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 621D76EE
-P 8800 1200
-F 0 "#PWR?" H 8800 950 50  0001 C CNN
-F 1 "GND" H 8805 1027 50  0000 C CNN
-F 2 "" H 8800 1200 50  0001 C CNN
-F 3 "" H 8800 1200 50  0001 C CNN
-	1    8800 1200
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7600 1150 7750 1150
-Wire Wire Line
-	8050 1150 8150 1150
-Wire Wire Line
-	8550 1150 8800 1150
-Wire Wire Line
-	8800 1150 8800 1200
-Wire Wire Line
-	8250 1400 8150 1400
-Wire Wire Line
-	8150 1400 8150 1150
-Connection ~ 8150 1150
-Wire Wire Line
-	8150 1150 8250 1150
 Wire Notes Line
 	4850 600  9000 600 
 Wire Notes Line
 	4850 1750 9000 1750
 Wire Notes Line
 	9000 600  9000 1750
+Text GLabel 7850 1150 2    50   Input ~ 0
+VP_ACS
+Wire Wire Line
+	7600 1150 7850 1150
+$Comp
+L power:PWR_FLAG #FLG0104
+U 1 1 62219A74
+P 2950 2450
+F 0 "#FLG0104" H 2950 2525 50  0001 C CNN
+F 1 "PWR_FLAG" H 2950 2623 50  0000 C CNN
+F 2 "" H 2950 2450 50  0001 C CNN
+F 3 "~" H 2950 2450 50  0001 C CNN
+	1    2950 2450
+	1    0    0    1   
+$EndComp
+Connection ~ 2950 2450
+$Comp
+L power:GND #PWR0111
+U 1 1 62227D4B
+P 2400 2400
+F 0 "#PWR0111" H 2400 2150 50  0001 C CNN
+F 1 "GND" H 2405 2227 50  0000 C CNN
+F 2 "" H 2400 2400 50  0001 C CNN
+F 3 "" H 2400 2400 50  0001 C CNN
+	1    2400 2400
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
