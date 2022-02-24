@@ -2,7 +2,7 @@
 #include <WebServer.h>     
 #include <AutoConnect.h>
 #include <AutoConnectCredential.h>
-#include <EEPROM.h>
+
 
 WebServer         Server;          
 AutoConnect       Portal(Server);
@@ -13,24 +13,26 @@ ACText(caption01, "Desde este portal podrá cambiar el hostname, el SSID y la co
 ACText(header01, "<h2>Cambiar Hostname</h2>", "text-align:center;color:2f4f4f;");
 ACInput(hostname, "", "Nuevo Hostname", "", "Introduzca el nuevo Hostname");
 ACText(cond01, "<p>La <b>longitud del Hostname</b> no debe exceder los 64 caracteres, solo puede contener <b>caracteres alfanuméricos</b> y <b>guiones (-)</b> y no puede culminar en un guión (-)</p>", "text-align:justify");
-ACText(rec01, "<p><b>RECOMENDACIÓN:</b> emplear el hostname <u>OMC_WIFI_nombre</u>. Por ejemplo: OMC_WIFI_laptop o OMC_WIFI_minero</p>")
+ACText(rec01, "<p><b>RECOMENDACIÓN:</b> emplear el hostname <u>OMC-WIFI-nombre</u>. Por ejemplo: OMC-WIFI-laptop o OMC-WIFI-minero</p>");
 ACText(header02, "<h2>Cambiar Credenciales</h2>", "text-align:center;color:2f4f4f;");
-ACInput(ssid, "", "Nueva SSID", "", "Introduzca su nuevo SSID");
-ACInput(pass1, "", "Nueva Clave", "", "Introduzca su nueva clave");
-ACInput(pass2, "", "Confirme Clave", "", "Introduzca su clave de nuevo");
-ACText(cond02, "<p>La <b>longitud del SSID</b> no debe exceder los 32 caracteres y ,<b>longitud de la clave</b> debe tener entre 8 y 63 caracateres</p>", "text-align:justify");
+ACInput(ssid, "", "Nueva SSID", "^.{2,32}$", "Introduzca su nuevo SSID");
+ACInput(pass1, "", "Nueva Clave", "^.{8,16}$", "Introduzca su nueva clave");
+ACInput(pass2, "", "Confirme Clave", "^.{8,16}$", "Introduzca su clave de nuevo");
+ACText(cond02, "<p>La <b>longitud del SSID</b> debe tener entre 2 y 32 caracteres (solo acepta el guión como caracter especial) y <b>longitud de la clave</b> debe tener entre 8 y 16 caracateres</p>", "text-align:justify");
 ACSubmit(change0, "Guardar cambios", "/post_config");
-ACSubmit(back0, "Volver", "/_ac");
+ACSubmit(back0, "Volver al menú", "/_ac");
 ACText(note01, "<p><b>NOTA:</b> si no desea cambiar algún parámetro, deje la casilla en blanco</p>", "text-align:justify");
 
 //Declaración de elementos AutoConnect para la página web post-configuración del AP
-
+ACText(header11, "<h2>Hostname</h2>", "text-align:center;color:2f4f4f;");
+ACText(ver10, "Karaoke");
 ACSubmit(reset, "Reiniciar", "/_ac#rdlg");
-ACSubmit(back1, "Volver al menú", "/_ac");
+//ACSubmit(back1, "Volver al menú", "/_ac");
 
 
 //Declaración de la página web para la página web de Configuración del AP
 AutoConnectAux ap_config("/ap_config", "Configuración de AP", true,{
+  
   caption01,
   header01,
   hostname,
@@ -43,26 +45,48 @@ AutoConnectAux ap_config("/ap_config", "Configuración de AP", true,{
   change0,
   back0,
   note01,
+
 });
 
 //Declaración de la página web para la página web post-configuración del AP
 AutoConnectAux post_config("/post_config", "Configuración de AP", false,{
+  
+  header11,
+  ver10,
   reset,
-  back1,
+  back0,
+
 });
 
 //Datos iniciales en la página de configuración del AP
-//String onConfig(AutoConnectAux& aux, PageArgument& args){
-  //aux["ssid"].as<AutoConnectInput>().value = "";
-  //aux["pass1"].as<AutoConnectInput>().value = "";
-  //aux["pass2"].as<AutoConnectInput>().value = "";
-  //return String();
-//}
+String onConfig(AutoConnectAux& aux, PageArgument& args){
+  
+  aux["hostname"].as<AutoConnectInput>().value = "";
+  aux["ssid"].as<AutoConnectInput>().value = "";
+  aux["pass1"].as<AutoConnectInput>().value = "";
+  aux["pass2"].as<AutoConnectInput>().value = "";
+  
+  return String();
 
-//String onPostConfig(AutoConnect& aux, PageArgument& args){
+}
+
+String onPostConfig(AutoConnectAux& aux, PageArgument& args){
   
+  //if (args.arg("hostname").isValid)
+    //aux["ver10"].as<AutoConnectText>().value = "El hostname es válido.";
+  //else
+    //aux["ver10"].as<AutoConnectText>().value = "El hostname NO es válido.";
+
+
+    
+  //if (args.arg("hostname") == "")
+    //aux["ver10"].as<AutoConnectText>().value = "NO ha sido cambiado.";
+  //else
+    //aux["ver10"].as<AutoConnectText>().value = "Cambiado a: " + args.arg("hostname");
+
+  return String();
   
-//}
+}
 
 //Función para mostrar la página de inicio al conectar
 void rootPage() {
@@ -118,11 +142,13 @@ void setup() {
   //Se borra la configuración Wi-Fi
   WiFi.disconnect(true, true);
 
-  config.hostName = "OMC_WIFI";
+  config.hostName = "OMC-WIFI";
   config.title = "OMC_WIFI Access Point";
   config.homeUri = "/_ac",
   Portal.config(config);
   Portal.join({ap_config, post_config});
+  Portal.on("/ap_config", onConfig);
+  Portal.on("/post_config", onPostConfig);
   Portal.begin();
   
   Server.on("/", rootPage);
