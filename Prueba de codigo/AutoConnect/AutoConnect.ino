@@ -2,6 +2,7 @@
 #include <WebServer.h>     
 #include <AutoConnect.h>
 #include <AutoConnectCredential.h>
+#include <Regexp.h>
 
 
 WebServer         Server;          
@@ -11,11 +12,12 @@ AutoConnectConfig config("OMC_WIFI","12345678");      //Credenciales para accede
 //Declaración de elementos AutoConnect para la página web de Configuración del AP
 ACText(caption01, "Desde este portal podrá cambiar el hostname, el SSID y la contraseña del punto de acceso OMC_WIFI", "text-align:justify;font-family:serif;color:#000000;");
 ACText(header01, "<h2>Cambiar Hostname</h2>", "text-align:center;color:2f4f4f;");
-ACInput(hostname, "", "Nuevo Hostname", "", "Introduzca el nuevo Hostname");
+ACInput(hostname, "", "Nuevo Hostname", "^[a-zA-ZñÑ\\d\\-]{1,31}[a-zA-ZñÑ\\d\\s]$", "Introduzca el nuevo Hostname");
 ACText(cond01, "<p>La <b>longitud del Hostname</b> no debe exceder los 64 caracteres, solo puede contener <b>caracteres alfanuméricos</b> y <b>guiones (-)</b> y no puede culminar en un guión (-)</p>", "text-align:justify");
 ACText(rec01, "<p><b>RECOMENDACIÓN:</b> emplear el hostname <u>OMC-WIFI-nombre</u>. Por ejemplo: OMC-WIFI-laptop o OMC-WIFI-minero</p>");
 ACText(header02, "<h2>Cambiar Credenciales</h2>", "text-align:center;color:2f4f4f;");
-ACInput(ssid, "", "Nueva SSID", "^.{2,32}$", "Introduzca su nuevo SSID");
+ACInput(ssid, "", "Nueva SSID", "^[a-zA-ZñÑ\\d\\s\\-]{2,31}$", "Introduzca su nuevo SSID");
+//ACInput(ssid, "", "Nueva SSID", "^[^\\?[\\]$\\+\"\\\\]{2,32}$", "Introduzca su nuevo SSID");
 ACInput(pass1, "", "Nueva Clave", "^.{8,16}$", "Introduzca su nueva clave");
 ACInput(pass2, "", "Confirme Clave", "^.{8,16}$", "Introduzca su clave de nuevo");
 ACText(cond02, "<p>La <b>longitud del SSID</b> debe tener entre 2 y 32 caracteres (solo acepta el guión como caracter especial) y <b>longitud de la clave</b> debe tener entre 8 y 16 caracateres</p>", "text-align:justify");
@@ -25,7 +27,11 @@ ACText(note01, "<p><b>NOTA:</b> si no desea cambiar algún parámetro, deje la c
 
 //Declaración de elementos AutoConnect para la página web post-configuración del AP
 ACText(header11, "<h2>Hostname</h2>", "text-align:center;color:2f4f4f;");
-ACText(ver10, "Karaoke");
+ACText(ver11, "", "text-align:center");
+ACText(header12, "<h2>SSID</h2>", "text-align:center;color:2f4f4f;");
+ACText(ver12, "", "text-align:center");
+ACText(header13, "<h2>Contraseña</h2>", "text-align:center;color:2f4f4f;");
+ACText(ver13, "", "text-align:center");
 ACSubmit(reset, "Reiniciar", "/_ac#rdlg");
 //ACSubmit(back1, "Volver al menú", "/_ac");
 
@@ -52,7 +58,11 @@ AutoConnectAux ap_config("/ap_config", "Configuración de AP", true,{
 AutoConnectAux post_config("/post_config", "Configuración de AP", false,{
   
   header11,
-  ver10,
+  ver11,
+  header12,
+  ver12,
+  header13,
+  ver13,
   reset,
   back0,
 
@@ -71,7 +81,33 @@ String onConfig(AutoConnectAux& aux, PageArgument& args){
 }
 
 String onPostConfig(AutoConnectAux& aux, PageArgument& args){
+  MatchState match;
+  int len = args.arg("hostname").length() + 1; 
+  char hostname[len];
+  args.arg("hostname").toCharArray(hostname, len);
+
+  Serial.println("Hostname: ");
+  Serial.println(hostname);
   
+  match.Target(hostname);
+  char result = match.Match("^[a-zA-ZñÑ\\d\\-]{1,31}[a-zA-ZñÑ\\d\\s]$",0);
+  Serial.println("Match Hostname: ");
+  Serial.println(result);
+  
+  if (args.arg("hostname") == "")
+    aux["ver11"].as<AutoConnectText>().value = "NO se detectó ningún cambio.\n";
+  else if (result + 0 > 0)
+    aux["ver11"].as<AutoConnectText>().value = "Cambiado a: " + args.arg("hostname") + ".\n";
+  else
+    aux["ver11"].as<AutoConnectText>().value = "El hostname introducido NO cumple las condiciones. Intente de nuevo.\n";
+  
+  //if (aux["ssid"].as<AutoConnectInput>().isValid())
+    //aux["ver10"].as<AutoConnectText>().value = "El hostname es válido.";
+  //else
+    //aux["ver10"].as<AutoConnectText>().value = "El hostname NO es válido.";
+  
+  
+    
   //if (args.arg("hostname").isValid)
     //aux["ver10"].as<AutoConnectText>().value = "El hostname es válido.";
   //else
@@ -79,10 +115,10 @@ String onPostConfig(AutoConnectAux& aux, PageArgument& args){
 
 
     
-  //if (args.arg("hostname") == "")
-    //aux["ver10"].as<AutoConnectText>().value = "NO ha sido cambiado.";
-  //else
-    //aux["ver10"].as<AutoConnectText>().value = "Cambiado a: " + args.arg("hostname");
+//  if (args.arg("hostname") == "")
+//    aux["ver10"].as<AutoConnectText>().value = "NO ha sido cambiado.\n";
+//  else
+//    aux["ver10"].as<AutoConnectText>().value = "Cambiado a: " + args.arg("hostname") + "\n";
 
   return String();
   
