@@ -3,9 +3,9 @@ void setup() {
 }
 
 void loop() {
-  int x1 = analogRead(39);
-
-  Serial.println(x1);
-
-  delay(10);
+  Serial.print(String("VN = ") + analogRead(39));  //SensorVN
+  Serial.print(" ");
+  Serial.println(String("VP = ") + analogRead(36));  //SensorVP
+  
+  delay(1/(4*60));
 }
