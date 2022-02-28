@@ -2,8 +2,6 @@
 #include <WebServer.h>     
 #include <AutoConnect.h>
 #include <AutoConnectCredential.h>
-#include <Regexp.h>
-
 
 WebServer         Server;          
 AutoConnect       Portal(Server);
@@ -81,48 +79,44 @@ String onConfig(AutoConnectAux& aux, PageArgument& args){
 }
 
 String onPostConfig(AutoConnectAux& aux, PageArgument& args){
-  MatchState match;
-  int len = args.arg("hostname").length() + 1; 
-  char hostname[len];
-  args.arg("hostname").toCharArray(hostname, len);
+  //Verificando que el hostname introducido cumple con las condiciones
+  AutoConnectInput& input = ap_config["hostname"].as<AutoConnectInput>();      //Se guarda el elemento AutoConnectInput denominado hostname de la página web ap_config
 
-  Serial.println("Hostname: ");
-  Serial.println(hostname);
-  
-  match.Target(hostname);
-  char result = match.Match("^[a-zA-ZñÑ\\d\\-]{1,31}[a-zA-ZñÑ\\d\\s]$",0);
-  Serial.println("Match Hostname: ");
-  Serial.println(result);
-  
   if (args.arg("hostname") == "")
     aux["ver11"].as<AutoConnectText>().value = "NO se detectó ningún cambio.\n";
-  else if (result + 0 > 0)
+  else if (input.isValid())
     aux["ver11"].as<AutoConnectText>().value = "Cambiado a: " + args.arg("hostname") + ".\n";
   else
-    aux["ver11"].as<AutoConnectText>().value = "El hostname introducido NO cumple las condiciones. Intente de nuevo.\n";
-  
-  //if (aux["ssid"].as<AutoConnectInput>().isValid())
-    //aux["ver10"].as<AutoConnectText>().value = "El hostname es válido.";
-  //else
-    //aux["ver10"].as<AutoConnectText>().value = "El hostname NO es válido.";
-  
-  
-    
-  //if (args.arg("hostname").isValid)
-    //aux["ver10"].as<AutoConnectText>().value = "El hostname es válido.";
-  //else
-    //aux["ver10"].as<AutoConnectText>().value = "El hostname NO es válido.";
+    aux["ver11"].as<AutoConnectText>().value = "El hostname introducido NO cumple las condiciones.\nIntente de nuevo.\n";
 
+  //Verificando que el SSID introducido cumple con las condiciones
+  input = ap_config["ssid"].as<AutoConnectInput>();      //Se guarda el elemento AutoConnectInput denominado ssid de la página web ap_config
 
-    
-//  if (args.arg("hostname") == "")
-//    aux["ver10"].as<AutoConnectText>().value = "NO ha sido cambiado.\n";
-//  else
-//    aux["ver10"].as<AutoConnectText>().value = "Cambiado a: " + args.arg("hostname") + "\n";
+  if (args.arg("ssid") == "")
+    aux["ver12"].as<AutoConnectText>().value = "NO se detectó ningún cambio.\n";
+  else if (input.isValid())
+    aux["ver12"].as<AutoConnectText>().value = "Cambiado a: " + args.arg("ssid") + ".\n";
+  else
+    aux["ver12"].as<AutoConnectText>().value = "El ssid introducido NO cumple las condiciones.\nIntente de nuevo.\n";
 
+  //Verificando que las claves introducidas coinciden
+  if (args.arg("pass1") == args.arg("pass2")){
+    //Verificando que la clave introducida cumple con las condiciones
+    input = ap_config["pass1"].as<AutoConnectInput>();      //Se guarda el elemento AutoConnectInput denominado pass1 (contraseña) de la página web ap_config
+
+    if (args.arg("pass1") == "")
+      aux["ver13"].as<AutoConnectText>().value = "NO se detectó ningún cambio.\n";
+    else if (input.isValid())
+      aux["ver13"].as<AutoConnectText>().value = "La contraseña ha sido cambiada exitosamente.\n";
+    else
+      aux["ver13"].as<AutoConnectText>().value = "El ssid introducido NO cumple las condiciones.\nIntente de nuevo.\n";
+    }  
+  else
+    aux["ver13"].as<AutoConnectText>().value = "Las contraseñas introducidas NO coinciden.\nIntente de nuevo.\n";
+  
   return String();
   
-}
+  }
 
 //Función para mostrar la página de inicio al conectar
 void rootPage() {
