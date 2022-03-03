@@ -7,6 +7,8 @@ float cuadradoVolt[1000];     //Arreglo con valores cuadrados que se sumarán (V
 float cuadradoCorr[1000];     //Arreglo con valores cuadrados que se sumarán (Ventana)
 uint16_t pos = 0;             //Posición en la ventana de los valores cuadrados
 
+boolean relay = LOW;
+
 const float multVolt = 1.11 * 1.11;    //Factor de escala para medir voltaje 1.23
 const float multCorr = 108 * 108;      //Factor de escala para medir corriente 108
 
@@ -30,6 +32,7 @@ void setup() {
 
 
   pinMode(23, OUTPUT);
+  digitalWrite(23, LOW);
   delay(100);
 }
 
@@ -69,6 +72,18 @@ void loop() {
   }
   rmsCorr = sqrt(suma / 1000);    //Calcula valor RMS al sacar raiz de promedio de valores cuadráticos
 
+  
+  
+  if (digitalRead(0) == LOW) {
+    if (rmsCorr == HIGH){
+      digitalWrite(23, LOW);
+      estado = LOW;
+    }
+    else {
+      digitalWrite(23, HIGH);
+      estado = HIGH;        
+    }
+  }
 
   //Imprime por serial
 
