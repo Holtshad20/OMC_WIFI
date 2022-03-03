@@ -1,19 +1,69 @@
-{
+[
+  {
     "title":   "Configuración de AP",
     "uri":     "/ap_config",
     "true":    true,
     "element": [
-        {
-            "name":  "caption",
-            "type":  "ACText",
-            "value": "Desde este portal podrá cambiar el nombre (SSID) y la contraseña del punto de acceso",
-            "style": "font-family:serif;color:#000000;"
-        },
-        {
-            "name": "header",
-            "type": "ACText",
-            "value": "<h2>Nuevas Credenciales</h2>",
-            "style": "text-align:center;color:2f4f4f;"
-        }
+      {
+        "name":  "caption01",
+        "type":  "ACText",
+        "value": "Desde este portal podrá cambiar el SSID y la contraseña del punto de acceso del OMC-WIFI",
+        "style": "text-align:justify;font-family:serif;color:#000000;"
+      },
+      {
+        "name": "text01",
+        "type": "ACText",
+        "value": "<p>La <b>longitud del SSID</b> debe tener entre 2 y 32 caracteres (solo acepta el guión como caracter especial) y <b>longitud de la clave</b> debe tener entre 8 y 16 caracteres\nEn caso de que alguna de estas condiciones NO se cumpla, las <b>casillas se colocarán de color</b></p>",
+        "style": "text-align:justify;"
+      },
+      {
+        "name": "header01",
+        "type": "ACText",
+        "value": "<h2>Cambiar Credenciales</h2>",
+        "style": "text-align:center;color:2f4f4f;"
+      },
+      {
+        "name": "ssid",
+        "type": "ACInput",
+        "value": "Nueva SSID",
+        "pattern": "^[a-zA-ZñÑ\\d\\-]{1,31}[a-zA-ZñÑ\\d\\s]$",
+        "label": "Introduzca su nuevo SSID",
+        "apply": "password"
+      },
+      {
+        "name": "pass01",
+        "type": "ACInput",
+        "value": "Nueva Clave",
+        "pattern": "^.{8,16}$",
+        "label": "Introduzca su nueva clave",
+        "apply": "password"
+      },
+      {
+        "name": "pass02",
+        "type": "ACInput",
+        "value": "Confirme Clave",
+        "pattern": "^.{8,16}$",
+        "label": "Introduzca su clave de nuevo",
+        "apply": "password"
+      },
+      {
+        "name": "text02",
+        "type": "ACText",
+        "value": "<p><b>NOTA:</b> si no desea cambiar algún parámetro, deje la casilla en blanco</p>",
+        "style": "text-align:justify;"
+      },
+      {
+        "name": "save",
+        "type": "ACSubmit",
+        "value": "Guardar cambios",
+        "uri": "/post_config"
+      },  
+      {
+        "name": "menu",
+        "type": "ACSubmit",
+        "value": "Volver al menú",
+        "uri": "/_ac"
+      }
     ]
-}
+  }
+]
