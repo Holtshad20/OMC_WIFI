@@ -27,11 +27,11 @@ Estado: Creación de códigos separados para posterior unificación.
 #### Mediciones voltaje y corriente
 Estado: A la espera de dispositivos que consuman mayor potencia para realizar más pruebas.
 
-#####Listo
+##### Listo
 - Código medición voltaje y corriente.
 - Realizar pruebas con distintos niveles de voltaje.
 
-#####Por hacer
+##### Por hacer
 - Realizar pruebas con dispositivos que consuman mayor potencia (> 25W).
 
 Rango voltaje: 70 - 240 V RMS\
@@ -41,12 +41,12 @@ Rango corriente: 0.2 - 15 A RMS\
 #### Accionamiento de relay
 Estado: En proceso de desarrollo y pruebas
 
-#####Listo
+##### Listo
 - Código de accionamiento de relay de acuerdo con nivel de voltaje.
 - Realizar pruebas con valores de voltaje enviados por comunicación serial.
 - Histéresis.
 
-#####Por hacer
+##### Por hacer
 - Accionar relay cuando haya sobrecorriente
 - Realizar pruebas con mediciones de voltaje real.
 - Añadir inicio retardado para caso multidispositivo.
@@ -54,21 +54,21 @@ Estado: En proceso de desarrollo y pruebas
 #### Configuración inicial - Conexión Dispositivo-Wi-Fi (AutoConnect)
 Estado: En proceso de desarrollo y pruebas.
 
-#####Listo
+##### Listo
 Por redactar
 
-#####Por hacer
+##### Por hacer
 Por redactar
 
 #### Conexión con servidor
 Estado: No se ha iniciado.
 
-#####Por hacer
+##### Por hacer
 - Implementación de MQTT
 
 #### Integración de códigos
 Estado: No se ha iniciado.
-#####Por hacer
+##### Por hacer
 - Buscar forma de integrar usando FreeRTOS
 - Comprobar funcionamiento de códigos integrados evitando interrupciones mutuas.
 
