@@ -6,63 +6,46 @@
 WebServer         Server;          
 AutoConnect       Portal(Server);
 AutoConnectConfig config("OMC_WIFI","12345678");      //Credenciales para acceder al AP
-AutoConnectAux    ap_config;
 
 
-////Declaración de elementos AutoConnect para la página web de Configuración del AP
-//ACText(caption01, "Desde este portal podrá cambiar el hostname, el SSID y la contraseña del punto de acceso OMC_WIFI", "text-align:justify;font-family:serif;color:#000000;");
-//ACText(header01, "<h2>Cambiar Hostname</h2>", "text-align:center;color:2f4f4f;");
-//ACInput(hostname, "", "Nuevo Hostname", "^[a-zA-ZñÑ\\d\\-]{1,31}[a-zA-ZñÑ\\d\\s]$", "Introduzca el nuevo Hostname");
-//ACText(cond01, "<p>La <b>longitud del Hostname</b> no debe exceder los 64 caracteres, solo puede contener <b>caracteres alfanuméricos</b> y <b>guiones (-)</b> y no puede culminar en un guión (-)</p>", "text-align:justify");
-//ACText(rec01, "<p><b>RECOMENDACIÓN:</b> emplear el hostname <u>OMC-WIFI-nombre</u>. Por ejemplo: OMC-WIFI-laptop o OMC-WIFI-minero</p>");
-//ACText(header02, "<h2>Cambiar Credenciales</h2>", "text-align:center;color:2f4f4f;");
-//ACInput(ssid, "", "Nueva SSID", "^[a-zA-ZñÑ\\d\\s\\-]{2,31}$", "Introduzca su nuevo SSID");
-//ACInput(pass1, "", "Nueva Clave", "^.{8,16}$", "Introduzca su nueva clave");
-//ACInput(pass2, "", "Confirme Clave", "^.{8,16}$", "Introduzca su clave de nuevo");
-//ACText(cond02, "<p>La <b>longitud del SSID</b> debe tener entre 2 y 32 caracteres (solo acepta el guión como caracter especial) y <b>longitud de la clave</b> debe tener entre 8 y 16 caracateres</p>", "text-align:justify");
-//ACSubmit(change0, "Guardar cambios", "/post_config");
+//Declaración de elementos AutoConnect para la página web de Configuración del AP
+ACText(caption01, "Desde este portal podrá cambiar el SSID y la contraseña del punto de acceso OMC_WIFI", "text-align:justify;font-family:serif;color:#000000;");
+ACText(header01, "<h2>Cambio de Credenciales</h2>", "text-align:center;color:2f4f4f;");
+ACText(cond01, "<p>La <b>longitud del SSID</b> debe tener entre 2 y 32 caracteres (solo acepta el guión como caracter especial) y <b>longitud de la clave</b> debe tener entre 8 y 16 caracateres</p>", "text-align:justify");
+ACInput(ssid, "", "Nueva SSID", "^[a-zA-ZñÑ\\d\\-]{1,31}[a-zA-ZñÑ\\d\\s]$", "Introduzca su nuevo SSID");
+ACInput(pass1, "", "Nueva Clave", "^.{8,16}$", "Introduzca su nueva clave");
+ACInput(pass2, "", "Confirme Clave", "^.{8,16}$", "Introduzca su clave de nuevo");
+ACText(note01, "<p><b>NOTA:</b> si no desea cambiar algún parámetro, deje la casilla en blanco</p>", "text-align:justify");
+ACSubmit(change0, "Guardar cambios", "/post_config");
 ACSubmit(back0, "Volver al menú", "/_ac");
-//ACText(note01, "<p><b>NOTA:</b> si no desea cambiar algún parámetro, deje la casilla en blanco</p>", "text-align:justify");
 
 //Declaración de elementos AutoConnect para la página web post-configuración del AP
-ACText(header11, "<h2>Hostname</h2>", "text-align:center;color:2f4f4f;");
 ACText(ver11, "", "text-align:center");
-ACText(header12, "<h2>SSID</h2>", "text-align:center;color:2f4f4f;");
 ACText(ver12, "", "text-align:center");
-ACText(header13, "<h2>Contraseña</h2>", "text-align:center;color:2f4f4f;");
-ACText(ver13, "", "text-align:center");
 ACSubmit(reset, "Reiniciar", "/_ac#rdlg");
-//ACSubmit(back1, "Volver al menú", "/_ac");
 
 
+//Declaración de la página web para la página web de Configuración del AP
+AutoConnectAux ap_config("/ap_config", "Configuración de AP", true,{
+  
+  caption01,
+  header01,
+  cond01,
+  ssid,
+  pass1,
+  pass2,
+  note01,
+  change0,
+  back0,
 
-////Declaración de la página web para la página web de Configuración del AP
-//AutoConnectAux ap_config("/ap_config", "Configuración de AP", true,{
-//  
-//  caption01,
-//  header01,
-//  hostname,
-//  cond01,
-//  header02,
-//  ssid,
-//  pass1,
-//  pass2,
-//  cond02,
-//  note01,
-//  change0,
-//  back0,
-//
-//});
+});
 
 //Declaración de la página web para la página web post-configuración del AP
 AutoConnectAux post_config("/post_config", "Configuración de AP", false,{
   
-  header11,
+  header01,
   ver11,
-  header12,
   ver12,
-  header13,
-  ver13,
   reset,
   back0,
 
@@ -71,7 +54,6 @@ AutoConnectAux post_config("/post_config", "Configuración de AP", false,{
 //Datos iniciales en la página de configuración del AP
 String onConfig(AutoConnectAux& aux, PageArgument& args){
   
-  aux["hostname"].as<AutoConnectInput>().value = "";
   aux["ssid"].as<AutoConnectInput>().value = "";
   aux["pass1"].as<AutoConnectInput>().value = "";
   aux["pass2"].as<AutoConnectInput>().value = "";
@@ -82,22 +64,32 @@ String onConfig(AutoConnectAux& aux, PageArgument& args){
 
 String onPostConfig(AutoConnectAux& aux, PageArgument& args){
 //VERIFICACIÓN GLOBAL
-  if (!ap_config.isValid())                         //Se verifica que la regexp sea válida
+  if (!ap_config.isValid()){                         //Si los datos introducidos NO son válidos
     aux["ver11"].as<AutoConnectText>().value = "Alguno de los datos introducidos NO cumple las condiciones establecidas.\nPor favor intente de nuevo.\n";
-  else
+    aux["ver12"].as<AutoConnectText>().value = "";
+  }
+  else {                                              //Si los datos introducidos son válidos
     if (args.arg("ssid") == ""){
-      aux["ver12"].as<AutoConnectText>().value = "NO se detectó ningún cambio.\n";
+      aux["ver11"].as<AutoConnectText>().value = "NO se detectó ningún cambio en el SSID.\n";
     }
     else{
-      aux["ver12"].as<AutoConnectText>().value = "Cambiado a: " + args.arg("ssid") + ".\n";
+      aux["ver11"].as<AutoConnectText>().value = "El <b>SSID</b> ha cambiado a:\n" + args.arg("ssid");
     }
+
+    if (args.arg("pass1") == args.arg("pass2")) {
+      if (args.arg("pass1") == ""){
+        aux["ver12"].as<AutoConnectText>().value = "NO se detectó ningún cambio en la contraseña.\n";
+      }
+      else{
+        aux["ver12"].as<AutoConnectText>().value = "La contraseña ha sido cambiada exitosamente.\n";
+      }
+    }
+    else{
+        aux["ver12"].as<AutoConnectText>().value = "Las contraseñas introducidas NO coinciden.\nPor favor intente de nuevo.";
+    }
+  }
+
     
-    if (args.arg("ssid") == ""){
-      aux["ver12"].as<AutoConnectText>().value = "NO se detectó ningún cambio.\n";
-    }
-    else{
-      aux["ver12"].as<AutoConnectText>().value = "Cambiado a: " + args.arg("ssid") + ".\n";
-    }
 
 
 //VERIFICACIONES INDIVIDUALES
@@ -196,9 +188,6 @@ void setup() {
   //Se borra la configuración Wi-Fi
   WiFi.disconnect(true, true);
 
-  
-  //ap_config.load(page);
-  
   config.hostName = "OMC-WIFI";
   config.title = "OMC-WIFI Access Point";
   config.homeUri = "/_ac",
