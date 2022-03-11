@@ -7,7 +7,7 @@
 WebServer         Server;          
 AutoConnect       Portal(Server);
 AutoConnectConfig config;             //Credenciales para acceder al AP
-Preferences       storage;            //Espacio en memoria para guardar las credenciales
+Preferences       storage;            //Espacio en memoria para guardar los datos necesarios
 
 
 //Declaración de elementos AutoConnect para la página web de Configuración del AP
@@ -61,7 +61,7 @@ AutoConnectAux ap_credentials("/ap_credentials", "Cambiar Credenciales de AP", t
 
 });
 
-//Declaración de la página web para la página web post-configuración del AP
+//Declaración de la página web para indicar el cambio de SSID
 AutoConnectAux ap_ssid("/ap_ssid", "Cambiar Credenciales de AP", false,{
   
   header01,
@@ -72,7 +72,7 @@ AutoConnectAux ap_ssid("/ap_ssid", "Cambiar Credenciales de AP", false,{
 
 });
 
-//Declaración de la página web para la página web post-configuración del AP
+//Declaración de la página web para la página web para indicar el cambio de clave
 AutoConnectAux ap_pass("/ap_pass", "Cambiar Credenciales de AP", false,{
   
   header02,
@@ -107,7 +107,7 @@ String onConfig(AutoConnectAux& aux, PageArgument& args){
 
 }
 
-//Función para validar el cambio de Contraseña
+//Función para validar el cambio de SSID
 String onChangeSSID(AutoConnectAux& aux, PageArgument& args){
   AutoConnectInput& ssid = ap_credentials["ssid"].as<AutoConnectInput>();                                   //Se guarda el elemento AutoConnectInput denominado ssid de la página web ap_credentials
   
@@ -128,7 +128,7 @@ String onChangeSSID(AutoConnectAux& aux, PageArgument& args){
   
   return String();
   
-  }
+}
 
 //Función para validar el cambio de Contraseña
 String onChangePass(AutoConnectAux& aux, PageArgument& args){
@@ -177,6 +177,7 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args){
 
   storage.end();
   return String();
+  
 }
 
 
@@ -203,7 +204,7 @@ void deleteAllCredentials(void) {
   //Se guardan las credenciales que se encuentran en la flash
   AutoConnectCredential credential;
   station_config_t      config;
-  uint8_t qty           = credential.entries();       //Cantidad de credenciales guardadas
+  uint8_t qty           = credential.entries();                                  //Cantidad de credenciales guardadas
 
   Serial.println("Borrando credenciales");
   if (qty)
@@ -228,7 +229,7 @@ void deleteAllCredentials(void) {
 void setup() {
   delay(1000);
   Serial.begin(115200);
-  Serial.println();
+  Serial.println("Inicializando OMF-WIFI");
   
 
   //Se borra la configuración Wi-Fi
