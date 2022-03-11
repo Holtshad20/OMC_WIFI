@@ -11,20 +11,24 @@ Preferences       storage;            //Espacio en memoria para guardar los dato
 
 
 //Declaración de elementos AutoConnect para la página web de Configuración del AP
-ACText(caption01, "Desde este portal podrá cambiar el SSID y la contraseña del punto de acceso OMC_WIFI", "text-align:justify;font-family:serif;color:#000000;");
-ACText(header01, "<h2>Cambio de SSID</h2>", "text-align:center;color:2f4f4f;");
-ACText(txt01, "<p>La <b>longitud del SSID</b> debe tener entre 2 y 32 caracteres (solo acepta el guión como caracter especial).</p>", "text-align:justify");
-ACInput(ssid, "", "Nueva SSID", "^[a-zA-ZñÑ\\d\\-]{1,31}[a-zA-ZñÑ\\d\\s]$", "Introduzca su nuevo SSID");
-ACSubmit(change01, "Guardar SSID", "/ap_ssid");
-ACText(header02, "<h2>Cambio de Clave</h2>", "text-align:center;color:2f4f4f;");
-ACText(txt02, "<p>La <b>longitud de la clave</b> debe tener entre 8 y 16 caracateres</p>", "text-align:justify");
-ACInput(pass1, "", "Nueva Clave", "^.{8,16}$", "Introduzca su nueva clave");
-ACInput(pass2, "", "Confirme Clave", "^.{8,16}$", "Introduzca su clave de nuevo");
-ACSubmit(change02, "Guardar Clave", "/ap_pass");
+ACText(caption01, "Desde este portal podrá configurar algunas características del dispositivo OMC-WIFI", "text-align:justify;font-family:serif;color:#000000;");
+ACText(header01, "<h2>Cambiar Nombre del Dispositivo</h2>", "text-align:center;color:2f4f4f;");
+ACText(txt01, "<p>El <b>nombre</b> debe tener entre 2 y 32 caracteres y solo acepta el guión como caracter especial (NO puede ser el último).</p>", "text-align:justify");
+ACInput(ssid, "", "Nuevo Nombre", "^[a-zA-ZñÑ\\d\\-]{1,31}[a-zA-ZñÑ\\d\\s]$", "Introduzca el nuevo nombre");
+ACSubmit(save01, "Guardar Nombre", "/ap_ssid");
+ACText(header02, "<h2>Cambiar Clave del Dispositivo</h2>", "text-align:center;color:2f4f4f;");
+ACText(txt02, "<p>La <b>clave</b> debe tener entre 8 y 16 caracateres</p>", "text-align:justify");
+ACInput(pass1, "", "Nueva Clave", "^.{8,16}$", "Introduzca la nueva clave");
+ACInput(pass2, "", "Confirme Clave", "^.{8,16}$", "Introduzca la clave de nuevo");
+ACSubmit(save02, "Guardar Clave", "/ap_pass");
 ACText(header03, "<h2>Restablecer Credenciales</h2>", "text-align:center;color:2f4f4f;");
-ACText(txt03, "Introduzca la <b>clave actual del AP</b> para restablecer las credenciales a las de fábrica", "text-align:justify");
+ACText(txt03, "Introduzca la <b>clave actual del dispositivo</b> para restablecer las credenciales a las de fábrica", "text-align:justify");
 ACInput(pass3, "", "Clave Actual", "^.{8,16}$", "Introduzca la clave actual");
-ACSubmit(change03, "Restablecer Credenciales", "/cred_reset");
+ACSubmit(save03, "Restablecer Credenciales", "/cred_reset");
+ACText(header04, "<h2>Configurar Dirección IP del Servidor</h2>", "text-align:center;color:2f4f4f;");
+ACText(txt04, "A continuación deberá introducir la <b>dirección IP</b> del servidor al que se desea conectar", "text-align:justify");
+ACInput(server, "", "IP del Servidor", "\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\\b", "Introduzca la IP del servidor");
+ACSubmit(save04, "Guardar Dirección IP", "/server_ip");
 ACSubmit(back, "Volver al menú", "/_ac");
 
 //Declaración de elementos AutoConnect para la página web para guardado de SSID
@@ -39,30 +43,37 @@ ACText(txt21, "", "text-align:center");
 //Declaración de elementos AutoConnect para la página web para restablecer las credenciales
 ACText(txt31, "", "text-align:center");
 
+//Declaración de elementos AutoConnect para la página web para configurar la dirección IP del servidor
+ACText(txt41, "", "text-align:center");
+
 
 //Declaración de la página web para la página web de Configuración del AP
-AutoConnectAux ap_credentials("/ap_credentials", "Cambiar Credenciales de AP", true,{
+AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true,{
   
   caption01,
   header01,
   txt01,
   ssid,
-  change01,
+  save01,
   header02,
   txt02,
   pass1,
   pass2,
-  change02,
+  save02,
   header03,
   txt03,
   pass3,
-  change03,
+  save03,
+  header04,
+  txt04,
+  server,
+  save04,
   back,
 
 });
 
 //Declaración de la página web para indicar el cambio de SSID
-AutoConnectAux ap_ssid("/ap_ssid", "Cambiar Credenciales de AP", false,{
+AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false,{
   
   header01,
   txt11,
@@ -73,7 +84,7 @@ AutoConnectAux ap_ssid("/ap_ssid", "Cambiar Credenciales de AP", false,{
 });
 
 //Declaración de la página web para la página web para indicar el cambio de clave
-AutoConnectAux ap_pass("/ap_pass", "Cambiar Credenciales de AP", false,{
+AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false,{
   
   header02,
   txt21,
@@ -84,7 +95,7 @@ AutoConnectAux ap_pass("/ap_pass", "Cambiar Credenciales de AP", false,{
 });
 
 //Declaración de la página web para restablecer las credenciales a las de fábrica
-AutoConnectAux cred_reset("/cred_reset", "Cambiar Credenciales de AP", false,{
+AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false,{
   
   header03,
   txt31,
@@ -94,14 +105,24 @@ AutoConnectAux cred_reset("/cred_reset", "Cambiar Credenciales de AP", false,{
 
 });
 
+//Declaración de la página web para configurar la dirección IP del servidor 
+AutoConnectAux server_ip("/server_ip", "Configuración del Dispositivo", false,{
+  
+  header04,
+  txt41,
+  back,
+
+});
+
 
 //Función para colocar los datos iniciales en la página de configuración del AP
 String onConfig(AutoConnectAux& aux, PageArgument& args){
   
-  aux["ssid"].as<AutoConnectInput>().value  = "";
-  aux["pass1"].as<AutoConnectInput>().value = "";
-  aux["pass2"].as<AutoConnectInput>().value = "";
-  aux["pass3"].as<AutoConnectInput>().value = "";
+  aux["ssid"].as<AutoConnectInput>().value   = "";
+  aux["pass1"].as<AutoConnectInput>().value  = "";
+  aux["pass2"].as<AutoConnectInput>().value  = "";
+  aux["pass3"].as<AutoConnectInput>().value  = "";
+  aux["server"].as<AutoConnectInput>().value = "";
   
   return String();
 
@@ -109,13 +130,13 @@ String onConfig(AutoConnectAux& aux, PageArgument& args){
 
 //Función para validar el cambio de SSID
 String onChangeSSID(AutoConnectAux& aux, PageArgument& args){
-  AutoConnectInput& ssid = ap_credentials["ssid"].as<AutoConnectInput>();                                   //Se guarda el elemento AutoConnectInput denominado ssid de la página web ap_credentials
+  AutoConnectInput& ssid = ap_config["ssid"].as<AutoConnectInput>();                                   //Se guarda el elemento AutoConnectInput denominado ssid de la página web ap_config
   
   if (args.arg("ssid") == ""){
     aux["txt11"].as<AutoConnectText>().value = "NO se detectó ningún cambio en el <b>SSID</b>.\n";
   }
   else if (ssid.isValid()){
-    storage.begin("credentials", false);                                                                    //Se apertura el espacio de las credenciales para leer y escribir (false)
+    storage.begin("config", false);                                                                    //Se apertura el espacio de las credenciales para leer y escribir (false)
     storage.putString("ssid", args.arg("ssid"));                                                            //Se guarda el SSID
     Serial.println("El <b>SSID</b> ha cambiado a:\n" + storage.getString("ssid",""));
     storage.end();
@@ -134,13 +155,13 @@ String onChangeSSID(AutoConnectAux& aux, PageArgument& args){
 String onChangePass(AutoConnectAux& aux, PageArgument& args){
   //Verificando que las claves introducidas coinciden
   if (args.arg("pass1") == args.arg("pass2")){ 
-    AutoConnectInput& pass = ap_credentials["pass1"].as<AutoConnectInput>();                                //Se guarda el elemento AutoConnectInput denominado pass1 de la página web ap_credentials   
+    AutoConnectInput& pass = ap_config["pass1"].as<AutoConnectInput>();                                //Se guarda el elemento AutoConnectInput denominado pass1 de la página web ap_config   
     //Verificando que la clave introducida cumple con las condiciones
     if (args.arg("pass1") == ""){
       aux["txt21"].as<AutoConnectText>().value = "NO se detectó ningún cambio en la <b>clave</b>.\n";
     }
     else if (pass.isValid()){
-      storage.begin("credentials", false);                                                                  //Se apertura el espacio de las credenciales para leer y escribir (false)
+      storage.begin("config", false);                                                                  //Se apertura el espacio de las credenciales para leer y escribir (false)
       storage.putString("pass", args.arg("pass1"));                                                         //Se guarda la clave
       Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass",""));
       storage.end();
@@ -160,7 +181,7 @@ String onChangePass(AutoConnectAux& aux, PageArgument& args){
 }
 
 String onCredentialReset(AutoConnectAux& aux, PageArgument& args){
-  storage.begin("credentials", false);                           //Se apertura el espacio de las credenciales para leer y escribir (false)
+  storage.begin("config", false);                           //Se apertura el espacio de las credenciales para leer y escribir (false)
 
   if (args.arg("pass3") == storage.getString("pass","12345678")){
     storage.putString("ssid", "OMC-WIFI");    //Se guarda el SSID
@@ -180,6 +201,27 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args){
   
 }
 
+String onServerIP(AutoConnectAux& aux, PageArgument& args){
+  AutoConnectInput& server = ap_config["server"].as<AutoConnectInput>();                                   //Se guarda el elemento AutoConnectInput denominado server de la página web ap_config
+  
+  if (args.arg("server") == ""){
+    aux["txt41"].as<AutoConnectText>().value = "NO introdujo ninguna <b>dirección IP</b>.\n";
+  }
+  else if (server.isValid()){
+    storage.begin("config", false);                                                                    //Se apertura el espacio de las credenciales para leer y escribir (false)
+    storage.putString("server_ip", args.arg("server"));                                                            //Se guarda el SSID
+    Serial.println("La <b>dirección IP del servidor</b> ha cambiado a:\n" + storage.getString("server_ip",""));
+    storage.end();
+          
+    aux["txt41"].as<AutoConnectText>().value = "La <b>dirección IP del servidor</b> ha cambiado a:\n" + args.arg("server");
+  }
+  else{
+    aux["txt41"].as<AutoConnectText>().value = "La <b>dirección IP</b> introducida es inválida.\nPor favor intente de nuevo.\n";
+  }
+  
+  return String();
+  
+}
 
 //Función para generar la página de inicio
 void rootPage() {
@@ -225,19 +267,15 @@ void deleteAllCredentials(void) {
 }
 
 
-//Función de configuración
-void setup() {
-  delay(1000);
-  Serial.begin(115200);
-  Serial.println("Inicializando OMF-WIFI");
+//Función para configurar inicialmente los parámetros 
+void acConfig(void){
   
-
   //Se borra la configuración Wi-Fi
   deleteAllCredentials();
   WiFi.disconnect(true, true);
 
   //Se hace la configuración inicial del AP
-  storage.begin("credentials", true);
+  storage.begin("config", true);
     
   //Configuración Hostname y SSID
   if (storage.getString("ssid","") != ""){            //Si hay un SSID guardado en memoria, se cambia
@@ -262,18 +300,31 @@ void setup() {
   config.title = "OMC-WIFI Access Point";
   config.homeUri = "/_ac",
   Portal.config(config);
-  Portal.join({ap_credentials, ap_ssid, ap_pass, cred_reset});
-  Portal.on("/ap_credentials", onConfig);
+  Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip});
+  Portal.on("/ap_config", onConfig);
   Portal.on("/ap_ssid", onChangeSSID);
   Portal.on("/ap_pass", onChangePass);
   Portal.on("/cred_reset", onCredentialReset);
+  Portal.on("/server_ip", onServerIP);
   Portal.begin();
   
   Server.on("/", rootPage);
   if (Portal.begin()) {
     Serial.println("WiFi connected: " + WiFi.localIP().toString());
   }
+  
 }
+
+//Función de configuración
+void setup() {
+  delay(1000);
+  Serial.begin(115200);
+  Serial.println("Inicializando OMF-WIFI");
+  
+  acConfig();
+
+}
+
 
 void loop() {
     Portal.handleClient();
