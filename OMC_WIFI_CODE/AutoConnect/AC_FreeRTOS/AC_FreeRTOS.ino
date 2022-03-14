@@ -318,6 +318,14 @@ void acConfig(void){
   
 }
 
+
+void acCode (void *acParameter){
+  while(true){
+    Portal.handleClient();
+  }
+}
+
+
 //Función de configuración
 void setup() {
   delay(1000);
@@ -326,9 +334,19 @@ void setup() {
   
   acConfig();
 
+  //Tarea para ejecutar el código de AutoConnect
+  xTaskCreatePinnedToCore(
+    acCode,                 //Función que se ejecutará en la tarea
+    "AutoConnect",          //Descripción
+    40000,                  //Tamaño del Stack para esta tarea
+    NULL,                   //Parámetro para guardar la función
+    1,                      //Prioridad de la tarea (de 0 a 25)
+    NULL,                   //Manejador de tareas
+    0);                     //Núcleo en el que se ejecutará
+
 }
 
 
 void loop() {
-    Portal.handleClient();
+    
 }
