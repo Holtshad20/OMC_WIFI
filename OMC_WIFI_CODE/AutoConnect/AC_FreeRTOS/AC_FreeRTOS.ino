@@ -507,7 +507,7 @@ void analogReadCode (void *analogReadParameter){
     //Serial.println(lecturaVolt[i]);
     //Serial.print("VP =  ");
     //Serial.println(lecturaCorr[i]);
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
+    //vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     Serial.print("V RMS = ");
     Serial.println(rmsVolt);
