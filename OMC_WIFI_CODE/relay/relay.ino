@@ -1,4 +1,17 @@
-int entero = 0;
+#include <WiFi.h>
+#include <PubSubClient.h> 
+
+// SSID y Contraseña de la red (Hard coded)
+const char* ssid = "dos_desktop";
+const char* password = "8RlGCKQL";
+// Dirección IP del broker MQTT (Hard coded)
+const char* mqtt_server = "192.168.7.217";
+
+WiFiClient espClient;
+PubSubClient client(espClient)
+long lastMsg = 0;
+char msg[50];
+int value = 0;
 
 volatile int interruptCounter;
 int totalInterruptCounter;
@@ -11,6 +24,8 @@ void IRAM_ATTR onTimer() {
   portEXIT_CRITICAL_ISR(&timerMux);
 
 }
+
+int entero = 0;
 
 void setup() {
   Serial.begin(115200);       //Inicializa comunicación serial
