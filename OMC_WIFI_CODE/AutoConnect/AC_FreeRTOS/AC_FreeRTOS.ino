@@ -353,7 +353,7 @@ void acSetUp(void){
 
   //Se hace la configuración inicial del AP
   storage.begin("config", true);                          //Se apertura el espacio de las credenciales para leer y sin posibilidad de escribir (true)
-    
+  
   //Configuración Hostname y SSID
   if (storage.getString("ssid","") != ""){                //Si hay un SSID guardado en memoria, se cambia
     config.hostName = storage.getString("ssid","");         //Se extrae el hostname guardado en el espacio de memoria "storage"
@@ -375,22 +375,35 @@ void acSetUp(void){
   storage.end();
   
   config.apip    = IPAddress(172,22,174,254);                           //Se configura la dirección IPv4 del AP ESP32
+  Serial.println("Pruebaci[on AutoConnect apip");
   config.title   = "OMC-WIFI-" + String(chipID, HEX);                   //Título de la página web
+  Serial.println("Pruebaci[on AutoConnect title");
   config.homeUri = "/_ac",                                              //Directorio HOME de la página web
+  Serial.println("Pruebaci[on AutoConnect uri");
   Portal.config(config);                                                //Se añaden las configuraciones al portal web
+  Serial.println("Pruebaci[on AutoConnect Portal.config");
   Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip});    //Se cargan las páginas web diseñadas en el portal web
+  Serial.println("Pruebaci[on AutoConnect Portal.join");
   Portal.on("/ap_config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap_config" (la función se ejecutará cada vez que se acceda al directorio)
+  Serial.println("Pruebaci[on AutoConnect Portal.on (onConfig)");
   Portal.on("/ap_ssid", onChangeSSID);                                  //Se enlaza la función "onChangeSSID" con la página en el directorio "/ap_ssid" (la función se ejecutará cada vez que se acceda al directorio)
+  Serial.println("Pruebaci[on AutoConnect Portal.on (onSSID)");
   Portal.on("/ap_pass", onChangePass);                                  //Se enlaza la función "onChangePass" con la página en el directorio "/ap_pass" (la función se ejecutará cada vez que se acceda al directorio)
+  Serial.println("Pruebaci[on AutoConnect Portal.on (onPass)");
   Portal.on("/cred_reset", onCredentialReset);                          //Se enlaza la función "onCredentialReset" con la página en el directorio "/cred_reset" (la función se ejecutará cada vez que se acceda al directorio)
+  Serial.println("Pruebaci[on AutoConnect Portal.on (onCredReset)");
   Portal.on("/server_ip", onServerIP);                                  //Se enlaza la función "onServerIP" con la página en el directorio "/server_ip" (la función se ejecutará cada vez que se acceda al directorio)
-  Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
+  Serial.println("Pruebaci[on AutoConnect Portal.on (onServerIP)");
+  //Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
+  Serial.println("Pruebaci[on AutoConnect Portal.begin");
   
-  Server.on("/", rootPage);                                             //Se inicializa el servidor web
-  if (Portal.begin()) {                                                 //Si se configura una conexión del ESP32 a un punto de acceso
-    Serial.println("WiFi connected: " + WiFi.localIP().toString());       //Se imprime la dirección IP del ESP32 en esa red en la pantalla serial
-  }
-  
+  //Server.on("/", rootPage);                                             //Se inicializa el servidor web
+  Serial.println("Pruebaci[on AutoConnect Server.on");
+//  if (Portal.begin()) {                                                 //Si se configura una conexión del ESP32 a un punto de acceso
+//    Serial.println("WiFi connected: " + WiFi.localIP().toString());       //Se imprime la dirección IP del ESP32 en esa red en la pantalla serial
+//  }
+
+  Serial.println("Pruebaci[on AutoConnect Final");
 }
 
 
@@ -411,6 +424,8 @@ void analogReadSetUp(void) {
   promedioCorr = promedioCorr / 1000;
 
   pinMode(23, OUTPUT);                    //Se inicializa el PIN 23 como salida
+
+  Serial.println("Pruebaci[on");
   
 }
 
@@ -426,6 +441,14 @@ void analogReadSetUp(void) {
 
 //Código para el portal captivo de AutoConnect
 void acCode (void *acParameter){
+  Serial.println("AutoConnect Task created");
+
+  Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
+  Serial.println("Pruebaci[on AutoConnect Portal.begin");
+  
+  Server.on("/", rootPage);                                             //Se inicializa el servidor web
+
+  
   while(true){
     Portal.handleClient();
   }
@@ -434,11 +457,17 @@ void acCode (void *acParameter){
 
 
 void analogReadCode (void *analogReadParameter){
-  float suma = 0;                                     //Variable para guardar la suma de valores cuadrados
-  float rmsVolt = 0;                                  //Variable para guardar el valor RMS de Voltaje
-  float rmsCorr = 0;                                  //Variable para guardar el valor RMS de Corriente
+  float suma;                                     //Variable para guardar la suma de valores cuadrados
+  float rmsVolt;                                  //Variable para guardar el valor RMS de Voltaje
+  float rmsCorr;                                  //Variable para guardar el valor RMS de Corriente
 
+  Serial.println("Analog Read Task created");
+  
   while (true){
+    suma    = 0;
+    rmsVolt = 0;
+    rmsCorr = 0;
+    
     lecturaVolt[pos] = analogRead(39);                  //Se lee ADC
     vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);    //Frecuencia de muestreo de 4 veces 60 Hz (En realidad se obtiene una fs inferior, pero no tanto)
     lecturaCorr[pos] = analogRead(36);                  //Se lee ADC
@@ -478,6 +507,8 @@ void analogReadCode (void *analogReadParameter){
     //Serial.println(lecturaVolt[i]);
     //Serial.print("VP =  ");
     //Serial.println(lecturaCorr[i]);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+
     Serial.print("V RMS = ");
     Serial.println(rmsVolt);
     Serial.print("C RMS = ");
@@ -498,9 +529,9 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Inicializando OMC-WIFI-" + String(chipID, HEX));
   
-  acSetUp();
   analogReadSetUp();
-
+  acSetUp();
+  
   //Tarea para ejecutar el código de AutoConnect
   xTaskCreatePinnedToCore(
     acCode,                 //Función que se ejecutará en la tarea
@@ -509,19 +540,21 @@ void setup() {
     NULL,                   //Parámetro para guardar la función
     1,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
-    0);                     //Núcleo en el que se ejecutará
+    1);                     //Núcleo en el que se ejecutará
 
   //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
   xTaskCreatePinnedToCore(
     analogReadCode,         //Función que se ejecutará en la tarea
     "AnalogRead",           //Nombre descriptivo 
-    15000,                  //Tamaño del Stack para esta tarea
+    50000,                  //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
-    2,                      //Prioridad de la tarea (de 0 a 25)
+    1,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
-    1);                     //Núcleo en el que se ejecutará
+    0);                     //Núcleo en el que se ejecutará
 
   vTaskDelay(500 / portTICK_PERIOD_MS);
+
+  //vTaskStartScheduler();    //Se inicializa el organizador de tareas
   
 }
 
