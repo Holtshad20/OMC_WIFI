@@ -1,5 +1,5 @@
-#include <WiFi.h>          
-#include <WebServer.h>     
+#include <WiFi.h>
+#include <WebServer.h>
 #include <AutoConnect.h>
 #include <AutoConnectCredential.h>
 #include <Preferences.h>
@@ -10,17 +10,31 @@
 //*******************************************************    CONSTANTES Y CONSTRUCTORES PARA AUTOCONNECT     ****************************************************
 //***************************************************************************************************************************************************************
 
-WebServer         Server;                     //Constructor del servidor web del ESP32       
-AutoConnect       Portal(Server);             //Constructor del portal captivo del ESP32
-AutoConnectConfig config;                     //Constructor de las configuraciones del AutoConnect
-Preferences       storage;                    //Espacio en memoria para guardar los datos necesarios
+WebServer         Server;             //Constructor del servidor web del ESP32
+AutoConnect       Portal(Server);     //Constructor del portal captivo del ESP32
+AutoConnectConfig config;             //Constructor de las configuraciones del AutoConnect
+Preferences       storage;            //Espacio en memoria para guardar los datos necesarios
 
-uint32_t chipID = ESP.getEfuseMac() >> 24;    //Constante donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
+String chipID;                        //Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
+
+boolean manualControl = true;
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 
+//const char* scSwitchSupply = R"(
+//<script type='text/javascript'>
+//function switchSupply(switchState) {
+//  if (switchState){
+//    manualControl = true;
+//  }
+//  else{
+//    manualControl = false;
+//  }
+//}
+//</script>
+//)";
 
 
 //***************************************************************************************************************************************************************
@@ -89,11 +103,16 @@ ACText(txt31, "", "text-align:center");
 ACText(txt41, "", "text-align:center");
 
 
+//Declaración de elementos AutoConnect para la página web de corte del suministro eléctrico
+ACText(caption02, "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo", "text-align:justify;font-family:serif;color:#000000;");
+ACButton(cut, "Cortar suministro", "switchSupply(false)");
+ACButton(restore, "Reestablecer suministro", "switchSupply(true)");
+ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){manualControl = true;}else{manualControl = false;}}</script>");
 
 
 //Declaración de la página web para la página web de configuración del AP del ESP32
-AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true,{
-  
+AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true, {
+
   caption01,
   header01,
   txt01,
@@ -118,8 +137,8 @@ AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true,{
 
 
 //Declaración de la página web para indicar el cambio de SSID
-AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false,{
-  
+AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false, {
+
   header01,
   txt11,
   note11,
@@ -130,8 +149,8 @@ AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false,{
 
 
 //Declaración de la página web para la página web para indicar el cambio de clave
-AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false,{
-  
+AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false, {
+
   header02,
   txt21,
   note11,
@@ -142,8 +161,8 @@ AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false,{
 
 
 //Declaración de la página web para restablecer las credenciales a las de fábrica
-AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false,{
-  
+AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false, {
+
   header03,
   txt31,
   note11,
@@ -153,12 +172,21 @@ AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false
 });
 
 
-//Declaración de la página web para configurar la dirección IP del servidor 
-AutoConnectAux server_ip("/server_ip", "Configuración del Dispositivo", false,{
-  
+//Declaración de la página web para configurar la dirección IP del servidor
+AutoConnectAux server_ip("/server_ip", "Configuración del Dispositivo", false, {
+
   header04,
   txt41,
   back,
+
+});
+
+
+AutoConnectAux cut_supply("/cut_supply", "Suministro Eléctrico", true, {
+
+  caption02,
+  cut,
+  restore,
 
 });
 
@@ -167,89 +195,88 @@ AutoConnectAux server_ip("/server_ip", "Configuración del Dispositivo", false,{
 //***************************************************************************************************************************************************************
 
 
-
 //***************************************************************************************************************************************************************
 //*************************************************    FUNCIONES DE LAS PÁGINAS WEB DE AUTOCONNECT     **********************************************************
 //***************************************************************************************************************************************************************
 
 //Función para reiniciar los datos en la página de configuración del AP
-String onConfig(AutoConnectAux& aux, PageArgument& args){
+String onConfig(AutoConnectAux& aux, PageArgument& args) {
 
   //Se limpian las entradas de datos al acceder al directorio
-  aux["ssid"].as<AutoConnectInput>().value   = "";        
+  aux["ssid"].as<AutoConnectInput>().value   = "";
   aux["pass1"].as<AutoConnectInput>().value  = "";
   aux["pass2"].as<AutoConnectInput>().value  = "";
   aux["pass3"].as<AutoConnectInput>().value  = "";
   aux["server"].as<AutoConnectInput>().value = "";
-  
+
   return String();
 
 }
 
 
 //Función para validar el cambio de SSID
-String onChangeSSID(AutoConnectAux& aux, PageArgument& args){
+String onChangeSSID(AutoConnectAux& aux, PageArgument& args) {
   AutoConnectInput& ssid = ap_config["ssid"].as<AutoConnectInput>();                                                                      //Se guarda el elemento AutoConnectInput denominado "ssid" de la página web ap_config, que guarda los datos del nuevo SSID introducidos por el usuario
-  
-  if (args.arg("ssid") == ""){                                                                                                            //Si NO se introdujo un SSID
+
+  if (args.arg("ssid") == "") {                                                                                                           //Si NO se introdujo un SSID
     aux["txt11"].as<AutoConnectText>().value = "NO se detectó ningún cambio en el <b>SSID</b>.\n";                                          //Aparecerá este mensaje en la página web
   }
-  else if (ssid.isValid()){                                                                                                               //Si se introdujo un SSID y se cumplen las condiciones establecidas
+  else if (ssid.isValid()) {                                                                                                              //Si se introdujo un SSID y se cumplen las condiciones establecidas
     storage.begin("config", false);                                                                                                         //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
     storage.putString("ssid", args.arg("ssid"));                                                                                            //Se guarda el SSID introducido por el usuario en la memoria flash
-    Serial.println("El <b>SSID</b> ha cambiado a:\n" + storage.getString("ssid",""));
+    Serial.println("El <b>SSID</b> ha cambiado a:\n" + storage.getString("ssid", ""));
     storage.end();                                                                                                                          //Se cierra el espacio en memoria flash denominado "storage"
-          
+
     aux["txt11"].as<AutoConnectText>().value = "El <b>SSID</b> ha cambiado a:\n" + args.arg("ssid");                                        //Aparecerá este mensaje en la página web
   }
-  else{                                                                                                                                   //Si se introdujo un SSID pero NO se cumplen las condiciones establecidas
+  else {                                                                                                                                  //Si se introdujo un SSID pero NO se cumplen las condiciones establecidas
     aux["txt11"].as<AutoConnectText>().value = "El <b>SSID</b> introducido NO cumple las condiciones.\nPor favor intente de nuevo.\n";      //Aparecerá este mensaje en la página web
   }
-  
+
   return String();
-  
+
 }
 
 
 //Función para validar el cambio de Contraseña
-String onChangePass(AutoConnectAux& aux, PageArgument& args){
-  
-  if (args.arg("pass1") == args.arg("pass2")){                                                                                              //Si las claves introducidas coinciden
-    AutoConnectInput& pass = ap_config["pass1"].as<AutoConnectInput>();                                                                       //Se guarda el elemento AutoConnectInput denominado "pass1" de la página web ap_config, que guarda los datos de la nueva clave introducidos por el usuario   
+String onChangePass(AutoConnectAux& aux, PageArgument& args) {
+
+  if (args.arg("pass1") == args.arg("pass2")) {                                                                                             //Si las claves introducidas coinciden
+    AutoConnectInput& pass = ap_config["pass1"].as<AutoConnectInput>();                                                                       //Se guarda el elemento AutoConnectInput denominado "pass1" de la página web ap_config, que guarda los datos de la nueva clave introducidos por el usuario
     //Verificando que la clave introducida cumple con las condiciones
-    if (args.arg("pass1") == ""){                                                                                                             //Si NO se introdujo una clave
+    if (args.arg("pass1") == "") {                                                                                                            //Si NO se introdujo una clave
       aux["txt21"].as<AutoConnectText>().value = "NO se detectó ningún cambio en la <b>clave</b>.\n";                                           //Aparecerá este mensaje en la página web
     }
-    else if (pass.isValid()){                                                                                                                 //Si se introdujo una clave y se cumplen las condiciones establecidas
+    else if (pass.isValid()) {                                                                                                                //Si se introdujo una clave y se cumplen las condiciones establecidas
       storage.begin("config", false);                                                                                                           //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
       storage.putString("pass", args.arg("pass1"));                                                                                             //Se guarda la clave introducida por el usuario en la memoria flash
-      Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass",""));
+      Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass", ""));
       storage.end();                                                                                                                            //Se cierra el espacio en memoria flash denominado "storage"
-      
-      aux["txt21"].as<AutoConnectText>().value = "La <b>clave</b> ha sido cambiada exitosamente.\n";                                            //Aparecerá este mensaje en la página web 
+
+      aux["txt21"].as<AutoConnectText>().value = "La <b>clave</b> ha sido cambiada exitosamente.\n";                                            //Aparecerá este mensaje en la página web
     }
-    else{                                                                                                                                     //Si se introdujo una clave pero NO se cumplen las condiciones establecidas
-      aux["txt21"].as<AutoConnectText>().value = "La <b>clave</b> introducida NO cumple las condiciones.\nPor favor intente de nuevo.\n";       //Aparecerá este mensaje en la página web 
-    }  
-  }  
-  else{                                                                                                                                     //Si las claves introducidas coinciden
+    else {                                                                                                                                    //Si se introdujo una clave pero NO se cumplen las condiciones establecidas
+      aux["txt21"].as<AutoConnectText>().value = "La <b>clave</b> introducida NO cumple las condiciones.\nPor favor intente de nuevo.\n";       //Aparecerá este mensaje en la página web
+    }
+  }
+  else {                                                                                                                                    //Si las claves introducidas coinciden
     aux["txt21"].as<AutoConnectText>().value = "Las <b>claves</b> introducidas NO coinciden.\nPor favor intente de nuevo.\n";                 //Aparecerá este mensaje en la página web
   }
-  
+
   return String();
-  
+
 }
 
 
 //Función para validar el reinicio de credenciales
-String onCredentialReset(AutoConnectAux& aux, PageArgument& args){
-  
-  if (args.arg("pass3") == storage.getString("pass","12345678")){                                                 //Si la clave introducida por el usuario coincide con la actual del ESP32
+String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
+
+  if (args.arg("pass3") == storage.getString("pass", "12345678")) {                                               //Si la clave introducida por el usuario coincide con la actual del ESP32
     storage.begin("config", false);                                                                                 //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
-    storage.putString("ssid", "OMC-WIFI-" + String(chipID, HEX));                                                   //Se guarda el SSID de fábrica en la memoria flash
+    storage.putString("ssid", "OMC-WIFI-" + chipID);                                                   //Se guarda el SSID de fábrica en la memoria flash
     storage.putString("pass", "12345678");                                                                          //Se guarda la clave de fábrica en la memoria flash
-    Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass",""));
-    Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass",""));
+    Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass", ""));
+    Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass", ""));
     storage.end();                                                                                                  //Se cierra el espacio en memoria flash denominado "storage"
 
     aux["txt31"].as<AutoConnectText>().value = "Las <b>credenciales</b> han sido restablecidas exitosamente.\n";    //Aparecerá este mensaje en la página web
@@ -259,32 +286,44 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args){
   }
 
   return String();
-  
+
 }
 
 
-//Función para validar la dirección IP del servidor 
-String onServerIP(AutoConnectAux& aux, PageArgument& args){
+//Función para validar la dirección IP del servidor
+String onServerIP(AutoConnectAux& aux, PageArgument& args) {
   AutoConnectInput& server = ap_config["server"].as<AutoConnectInput>();                                                            //Se guarda el elemento AutoConnectInput denominado "server" de la página web ap_config, que guarda los datos de la dirección IP introducidos por el usuario
-  
-  if (args.arg("server") == ""){                                                                                                    //Si NO se introdujo una dirección IP
+
+  if (args.arg("server") == "") {                                                                                                   //Si NO se introdujo una dirección IP
     aux["txt41"].as<AutoConnectText>().value = "NO introdujo ninguna <b>dirección IP</b>.\n";                                         //Aparecerá este mensaje en la página web
   }
-  else if (server.isValid()){                                                                                                       //Si se introdujo una dirección IP y se cumplen las condiciones establecidas
+  else if (server.isValid()) {                                                                                                      //Si se introdujo una dirección IP y se cumplen las condiciones establecidas
     storage.begin("config", false);                                                                                                   //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
     storage.putString("server_ip", args.arg("server"));                                                                               //Se guarda la dirección IP en la memoria flash
-    Serial.println("La <b>dirección IP del servidor</b> ha cambiado a:\n" + storage.getString("server_ip",""));
+    Serial.println("La <b>dirección IP del servidor</b> ha cambiado a:\n" + storage.getString("server_ip", ""));
     storage.end();                                                                                                                    //Se cierra el espacio en memoria flash denominado "storage"
-          
+
     aux["txt41"].as<AutoConnectText>().value = "La <b>dirección IP del servidor</b> ha cambiado a:\n" + args.arg("server");           //Aparecerá este mensaje en la página web
   }
-  else{                                                                                                                             //Si se introdujo una dirección IP pero NO se cumplen las condiciones establecidas
+  else {                                                                                                                            //Si se introdujo una dirección IP pero NO se cumplen las condiciones establecidas
     aux["txt41"].as<AutoConnectText>().value = "La <b>dirección IP</b> introducida es inválida.\nPor favor intente de nuevo.\n";      //Aparecerá este mensaje en la página web
   }
-  
+
   return String();
-  
+
 }
+
+
+//void switchSupply (boolean switchState){
+//
+//  if (switchState == false){
+//    manualControl = false;
+//  }
+//  else{
+//    manualControl = true;
+//  }
+//  
+//}
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -293,9 +332,9 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args){
 
 //Función para generar la página de inicio
 void rootPage() {
-  
+
   //Declaración de página web alojada en el directorio "/"
-  String content = 
+  String content =
     "<html>"
     "<head>"
     "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
@@ -327,15 +366,15 @@ void rootPage() {
 //    Serial.println("No hay credenciales guardadas.");
 //    return;
 //  }
-//  
+//
 //  //Ciclo para borrar las credenciales
 //   while (qty--) {
 //    credential.load((int8_t)0, &config);                                        //Se cargan las credenciales de la flash
 //    if (credential.del((const char*)&config.ssid[0]))                           //Se borran las credenciales cargadas anteriormente
 //      Serial.printf("%s fue borrada.\n", (const char*)config.ssid);
 //    else
-//      Serial.printf("%s NO pudo ser borrada.\n", (const char*)config.ssid);     
-//  }                                                
+//      Serial.printf("%s NO pudo ser borrada.\n", (const char*)config.ssid);
+//  }
 //}
 
 
@@ -345,65 +384,65 @@ void rootPage() {
 //***************************************************************************************************************************************************************
 
 //Función para configurar inicialmente los parámetros de AutoConnect
-void acSetUp(void){
-  
-//  //Se borra la configuración Wi-Fi
-//  deleteAllCredentials();
-//  WiFi.disconnect(true, true);
+void acSetUp(void) {
+  byte mac[6];
+
+  //  //Se borra la configuración Wi-Fi
+  //  deleteAllCredentials();
+  //  WiFi.disconnect(true, true);
+
+
+  //Se toman los 3 últimos bytes de la MAC del ESP32
+  WiFi.macAddress(mac);
+
+  for (int i = 3; i < 6; i++) {
+    if (mac[i] < 0x10) {
+      chipID += '0';
+    }
+    chipID += String(mac[i], HEX);
+  }
+
 
   //Se hace la configuración inicial del AP
   storage.begin("config", true);                          //Se apertura el espacio de las credenciales para leer y sin posibilidad de escribir (true)
-  
+
   //Configuración Hostname y SSID
-  if (storage.getString("ssid","") != ""){                //Si hay un SSID guardado en memoria, se cambia
-    config.hostName = storage.getString("ssid","");         //Se extrae el hostname guardado en el espacio de memoria "storage"
-    config.apid     = storage.getString("ssid","");         //Se extrae el SSID guardado en el espacio de memoria "storage"
+  if (storage.getString("ssid", "") != "") {              //Si hay un SSID guardado en memoria, se cambia
+    config.hostName = storage.getString("ssid", "");        //Se extrae el hostname guardado en el espacio de memoria "storage"
+    config.apid     = storage.getString("ssid", "");        //Se extrae el SSID guardado en el espacio de memoria "storage"
   }
   else {                                                  //Si NO hay un SSID guardado en memoria, se coloca el default
-    config.hostName = "OMC-WIFI-" + String(chipID, HEX);    //Se coloca el hostname por defecto
-    config.apid     = "OMC-WIFI-" + String(chipID, HEX);    //Se coloca el hostname por defecto                   
+    config.hostName = "OMC-WIFI-" + chipID;    //Se coloca el hostname por defecto
+    config.apid     = "OMC-WIFI-" + chipID;    //Se coloca el hostname por defecto
   }
 
   //Configuración Contraseña
-  if (storage.getString("pass","") != ""){                //Si hay una clave guardada en memoria, se cambia
-    config.psk = storage.getString("pass","");              //Se extrae la contraseña guardada en el espacio de memoria "storage"
+  if (storage.getString("pass", "") != "") {              //Si hay una clave guardada en memoria, se cambia
+    config.psk = storage.getString("pass", "");             //Se extrae la contraseña guardada en el espacio de memoria "storage"
   }
   else {                                                  //Si NO hay una clave guardada en memoria, se cambia
     config.psk = "12345678";                                //Se coloca la contraseña por defecto
   }
-  
-  storage.end();
-  
-  config.apip    = IPAddress(172,22,174,254);                           //Se configura la dirección IPv4 del AP ESP32
-  Serial.println("Pruebaci[on AutoConnect apip");
-  config.title   = "OMC-WIFI-" + String(chipID, HEX);                   //Título de la página web
-  Serial.println("Pruebaci[on AutoConnect title");
-  config.homeUri = "/_ac",                                              //Directorio HOME de la página web
-  Serial.println("Pruebaci[on AutoConnect uri");
-  Portal.config(config);                                                //Se añaden las configuraciones al portal web
-  Serial.println("Pruebaci[on AutoConnect Portal.config");
-  Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip});    //Se cargan las páginas web diseñadas en el portal web
-  Serial.println("Pruebaci[on AutoConnect Portal.join");
-  Portal.on("/ap_config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap_config" (la función se ejecutará cada vez que se acceda al directorio)
-  Serial.println("Pruebaci[on AutoConnect Portal.on (onConfig)");
-  Portal.on("/ap_ssid", onChangeSSID);                                  //Se enlaza la función "onChangeSSID" con la página en el directorio "/ap_ssid" (la función se ejecutará cada vez que se acceda al directorio)
-  Serial.println("Pruebaci[on AutoConnect Portal.on (onSSID)");
-  Portal.on("/ap_pass", onChangePass);                                  //Se enlaza la función "onChangePass" con la página en el directorio "/ap_pass" (la función se ejecutará cada vez que se acceda al directorio)
-  Serial.println("Pruebaci[on AutoConnect Portal.on (onPass)");
-  Portal.on("/cred_reset", onCredentialReset);                          //Se enlaza la función "onCredentialReset" con la página en el directorio "/cred_reset" (la función se ejecutará cada vez que se acceda al directorio)
-  Serial.println("Pruebaci[on AutoConnect Portal.on (onCredReset)");
-  Portal.on("/server_ip", onServerIP);                                  //Se enlaza la función "onServerIP" con la página en el directorio "/server_ip" (la función se ejecutará cada vez que se acceda al directorio)
-  Serial.println("Pruebaci[on AutoConnect Portal.on (onServerIP)");
-  //Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
-  Serial.println("Pruebaci[on AutoConnect Portal.begin");
-  
-  //Server.on("/", rootPage);                                             //Se inicializa el servidor web
-  Serial.println("Pruebaci[on AutoConnect Server.on");
-//  if (Portal.begin()) {                                                 //Si se configura una conexión del ESP32 a un punto de acceso
-//    Serial.println("WiFi connected: " + WiFi.localIP().toString());       //Se imprime la dirección IP del ESP32 en esa red en la pantalla serial
-//  }
 
-  Serial.println("Pruebaci[on AutoConnect Final");
+  storage.end();
+
+  config.apip    = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
+  config.title   = "OMC-WIFI-" + chipID;                                //Título de la página web
+  config.homeUri = "/_ac",                                              //Directorio HOME de la página web
+         Portal.config(config);                                                //Se añaden las configuraciones al portal web
+  Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip, cut_supply});    //Se cargan las páginas web diseñadas en el portal web
+  Portal.on("/ap_config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap_config" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/ap_ssid", onChangeSSID);                                  //Se enlaza la función "onChangeSSID" con la página en el directorio "/ap_ssid" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/ap_pass", onChangePass);                                  //Se enlaza la función "onChangePass" con la página en el directorio "/ap_pass" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/cred_reset", onCredentialReset);                          //Se enlaza la función "onCredentialReset" con la página en el directorio "/cred_reset" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/server_ip", onServerIP);                                  //Se enlaza la función "onServerIP" con la página en el directorio "/server_ip" (la función se ejecutará cada vez que se acceda al directorio)
+  //  Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
+  //
+  //  Server.on("/", rootPage);                                             //Se inicializa el servidor web
+  //  if (Portal.begin()) {                                                 //Si se configura una conexión del ESP32 a un punto de acceso
+  //    Serial.println("WiFi connected: " + WiFi.localIP().toString());       //Se imprime la dirección IP del ESP32 en esa red en la pantalla serial
+  //  }
+
 }
 
 
@@ -425,8 +464,6 @@ void analogReadSetUp(void) {
 
   pinMode(23, OUTPUT);                    //Se inicializa el PIN 23 como salida
 
-  Serial.println("Pruebaci[on");
-  
 }
 
 //***************************************************************************************************************************************************************
@@ -440,45 +477,43 @@ void analogReadSetUp(void) {
 //***************************************************************************************************************************************************************
 
 //Código para el portal captivo de AutoConnect
-void acCode (void *acParameter){
+void acCode (void *acParameter) {
   Serial.println("AutoConnect Task created");
 
   Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
-  Serial.println("Pruebaci[on AutoConnect Portal.begin");
-  
   Server.on("/", rootPage);                                             //Se inicializa el servidor web
 
-  
-  while(true){
+
+  while (true) {
     Portal.handleClient();
   }
-  
+
 }
 
 
-void analogReadCode (void *analogReadParameter){
+void analogReadCode (void *analogReadParameter) {
   float suma;                                     //Variable para guardar la suma de valores cuadrados
   float rmsVolt;                                  //Variable para guardar el valor RMS de Voltaje
   float rmsCorr;                                  //Variable para guardar el valor RMS de Corriente
 
   Serial.println("Analog Read Task created");
-  
-  while (true){
+
+  while (true) {
     suma    = 0;
     rmsVolt = 0;
     rmsCorr = 0;
-    
+
     lecturaVolt[pos] = analogRead(39);                  //Se lee ADC
     vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);    //Frecuencia de muestreo de 4 veces 60 Hz (En realidad se obtiene una fs inferior, pero no tanto)
     lecturaCorr[pos] = analogRead(36);                  //Se lee ADC
     vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);    //Frecuencia de muestreo de 4 veces 60 Hz (En realidad se obtiene una fs inferior, pero no tanto)
-  
+
     cuadradoVolt[pos] = (lecturaVolt[pos] - promedioVolt) * (lecturaVolt[pos] - promedioVolt) / (multVolt); //Se calcula el cuadrado de la lectura reescalada
     cuadradoCorr[pos] = (lecturaCorr[pos] - promedioCorr) * (lecturaCorr[pos] - promedioCorr) / (multCorr); //Se calcula el cuadrado de la lectura reescalada
     pos++;
     if (pos == 999) {                           //Si se llega a la última posición se vuelve a la primera
       pos = 0;
-      
+
       //Calculando promedios nuevamente cada 1000 muestras
       for (int i = 0; i <= 999; i++) {
         promedioVolt += lecturaVolt[i];
@@ -487,36 +522,54 @@ void analogReadCode (void *analogReadParameter){
       promedioVolt = promedioVolt / 1000;
       promedioCorr = promedioCorr / 1000;
     }
-  
+
     suma = 0;
     for (int i = 0; i <= 999; i++) {
       suma += cuadradoVolt[i];                //Se suman todos los valores cuadráticos.
     }
     rmsVolt = sqrt(suma / 1000);              //Calcula valor RMS al sacar raiz de promedio de valores cuadráticos
-  
+
     suma = 0;
     for (int i = 0; i <= 999; i++) {
       suma += cuadradoCorr[i];                //Se suman todos los valores cuadráticos.
     }
     rmsCorr = sqrt(suma / 1000);              //Calcula valor RMS al sacar raiz de promedio de valores cuadráticos
-  
-  
+
+
     //Imprime por serial
-  
+
     //Serial.print("VN =  ");
     //Serial.println(lecturaVolt[i]);
     //Serial.print("VP =  ");
     //Serial.println(lecturaCorr[i]);
-    //vTaskDelay(1000 / portTICK_PERIOD_MS);
+    //vTaskDelay(3000 / portTICK_PERIOD_MS);
 
     Serial.print("V RMS = ");
     Serial.println(rmsVolt);
     Serial.print("C RMS = ");
     Serial.println(rmsCorr);
-      
+
   }
-    
+
 }
+
+
+void printCode (void *analogReadParameter) {
+  Serial.println("Print Task created");
+  
+  while (true) {
+    vTaskDelay(3000 / portTICK_PERIOD_MS);
+
+    if (manualControl == 1) {
+      Serial.println("Reestablecido");
+    }
+    else {
+      Serial.println("CORTADO");
+    }
+  }
+
+}
+
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -525,40 +578,55 @@ void analogReadCode (void *analogReadParameter){
 
 //Función de configuración inicial del microcontrolador
 void setup() {
+
   vTaskDelay(500 / portTICK_PERIOD_MS);
+
   Serial.begin(115200);
-  Serial.println("Inicializando OMC-WIFI-" + String(chipID, HEX));
-  
+  Serial.println("Inicializando OMC-WIFI-" + chipID);
+
   analogReadSetUp();
   acSetUp();
-  
+
+
   //Tarea para ejecutar el código de AutoConnect
   xTaskCreatePinnedToCore(
     acCode,                 //Función que se ejecutará en la tarea
-    "AutoConnect",          //Nombre descriptivo
-    40000,                  //Tamaño del Stack para esta tarea
-    NULL,                   //Parámetro para guardar la función
-    1,                      //Prioridad de la tarea (de 0 a 25)
-    NULL,                   //Manejador de tareas
-    1);                     //Núcleo en el que se ejecutará
-
-  //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
-  xTaskCreatePinnedToCore(
-    analogReadCode,         //Función que se ejecutará en la tarea
-    "AnalogRead",           //Nombre descriptivo 
-    50000,                  //Tamaño del Stack para esta tarea
+    "AutoConnectCode",      //Nombre descriptivo
+    10000,                  //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
     1,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
     0);                     //Núcleo en el que se ejecutará
 
+
+  //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
+  //  xTaskCreatePinnedToCore(
+  //    analogReadCode,         //Función que se ejecutará en la tarea
+  //    "AnalogReadCode",       //Nombre descriptivo
+  //    100000,                  //Tamaño del Stack para esta tarea
+  //    NULL,                   //Parámetro para guardar la función
+  //    1,                      //Prioridad de la tarea (de 0 a 25)
+  //    NULL,                   //Manejador de tareas
+  //    1);                     //Núcleo en el que se ejecutará
+
+
+  //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
+  xTaskCreatePinnedToCore(
+    printCode,              //Función que se ejecutará en la tarea
+    "PrintCode",            //Nombre descriptivo
+    1024,                   //Tamaño del Stack para esta tarea
+    NULL,                   //Parámetro para guardar la función
+    1,                      //Prioridad de la tarea (de 0 a 25)
+    NULL,                   //Manejador de tareas
+    1);                     //Núcleo en el que se ejecutará
+
   vTaskDelay(500 / portTICK_PERIOD_MS);
 
   //vTaskStartScheduler();    //Se inicializa el organizador de tareas
-  
+
 }
 
 
 void loop() {
-    
+
 }

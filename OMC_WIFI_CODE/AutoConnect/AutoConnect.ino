@@ -1,15 +1,16 @@
-#include <WiFi.h>          
-#include <WebServer.h>     
+#include <WiFi.h>
+#include <WebServer.h>
 #include <AutoConnect.h>
 #include <AutoConnectCredential.h>
 #include <Preferences.h>
 
-WebServer         Server;          
+WebServer         Server;
 AutoConnect       Portal(Server);
 AutoConnectConfig config;             //Credenciales para acceder al AP
 Preferences       storage;            //Espacio en memoria para guardar los datos necesarios
 
-uint32_t chipID = ESP.getEfuseMac() >> 24;
+String chipID;
+boolean manualControl = 1;
 
 
 //Declaración de elementos AutoConnect para la página web de Configuración del AP
@@ -49,9 +50,14 @@ ACText(txt31, "", "text-align:center");
 ACText(txt41, "", "text-align:center");
 
 
+//Declaración de elementos AutoConnect para la página web de corte del suministro eléctrico
+ACText(caption02, "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo", "text-align:justify;font-family:serif;color:#000000;");
+ACButton(cut, "Cortar", "manualControl = 0");
+ACButton(restore, "Reestablecer", "manualControl = 1");
+
 //Declaración de la página web para la página web de Configuración del AP
-AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true,{
-  
+AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true, {
+
   caption01,
   header01,
   txt01,
@@ -75,8 +81,8 @@ AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true,{
 });
 
 //Declaración de la página web para indicar el cambio de SSID
-AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false,{
-  
+AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false, {
+
   header01,
   txt11,
   note11,
@@ -86,8 +92,8 @@ AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false,{
 });
 
 //Declaración de la página web para la página web para indicar el cambio de clave
-AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false,{
-  
+AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false, {
+
   header02,
   txt21,
   note11,
@@ -97,8 +103,8 @@ AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false,{
 });
 
 //Declaración de la página web para restablecer las credenciales a las de fábrica
-AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false,{
-  
+AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false, {
+
   header03,
   txt31,
   note11,
@@ -107,89 +113,97 @@ AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false
 
 });
 
-//Declaración de la página web para configurar la dirección IP del servidor 
-AutoConnectAux server_ip("/server_ip", "Configuración del Dispositivo", false,{
-  
+//Declaración de la página web para configurar la dirección IP del servidor
+AutoConnectAux server_ip("/server_ip", "Configuración del Dispositivo", false, {
+
   header04,
   txt41,
   back,
 
 });
 
+AutoConnectAux cut_supply("/cut_supply", "Suministro Eléctrico", true, {
+
+  caption02,
+  cut,
+  restore,
+
+});
+
 
 //Función para colocar los datos iniciales en la página de configuración del AP
-String onConfig(AutoConnectAux& aux, PageArgument& args){
-  
+String onConfig(AutoConnectAux& aux, PageArgument& args) {
+
   aux["ssid"].as<AutoConnectInput>().value   = "";
   aux["pass1"].as<AutoConnectInput>().value  = "";
   aux["pass2"].as<AutoConnectInput>().value  = "";
   aux["pass3"].as<AutoConnectInput>().value  = "";
   aux["server"].as<AutoConnectInput>().value = "";
-  
+
   return String();
 
 }
 
 //Función para validar el cambio de SSID
-String onChangeSSID(AutoConnectAux& aux, PageArgument& args){
+String onChangeSSID(AutoConnectAux& aux, PageArgument& args) {
   AutoConnectInput& ssid = ap_config["ssid"].as<AutoConnectInput>();                                   //Se guarda el elemento AutoConnectInput denominado ssid de la página web ap_config
-  
-  if (args.arg("ssid") == ""){
+
+  if (args.arg("ssid") == "") {
     aux["txt11"].as<AutoConnectText>().value = "NO se detectó ningún cambio en el <b>SSID</b>.\n";
   }
-  else if (ssid.isValid()){
+  else if (ssid.isValid()) {
     storage.begin("config", false);                                                                    //Se apertura el espacio de las credenciales para leer y escribir (false)
     storage.putString("ssid", args.arg("ssid"));                                                            //Se guarda el SSID
-    Serial.println("El <b>SSID</b> ha cambiado a:\n" + storage.getString("ssid",""));
+    Serial.println("El <b>SSID</b> ha cambiado a:\n" + storage.getString("ssid", ""));
     storage.end();
-          
+
     aux["txt11"].as<AutoConnectText>().value = "El <b>SSID</b> ha cambiado a:\n" + args.arg("ssid");
   }
-  else{
+  else {
     aux["txt11"].as<AutoConnectText>().value = "El <b>SSID</b> introducido NO cumple las condiciones.\nPor favor intente de nuevo.\n";
   }
-  
+
   return String();
-  
+
 }
 
 //Función para validar el cambio de Contraseña
-String onChangePass(AutoConnectAux& aux, PageArgument& args){
+String onChangePass(AutoConnectAux& aux, PageArgument& args) {
   //Verificando que las claves introducidas coinciden
-  if (args.arg("pass1") == args.arg("pass2")){ 
-    AutoConnectInput& pass = ap_config["pass1"].as<AutoConnectInput>();                                //Se guarda el elemento AutoConnectInput denominado pass1 de la página web ap_config   
+  if (args.arg("pass1") == args.arg("pass2")) {
+    AutoConnectInput& pass = ap_config["pass1"].as<AutoConnectInput>();                                //Se guarda el elemento AutoConnectInput denominado pass1 de la página web ap_config
     //Verificando que la clave introducida cumple con las condiciones
-    if (args.arg("pass1") == ""){
+    if (args.arg("pass1") == "") {
       aux["txt21"].as<AutoConnectText>().value = "NO se detectó ningún cambio en la <b>clave</b>.\n";
     }
-    else if (pass.isValid()){
+    else if (pass.isValid()) {
       storage.begin("config", false);                                                                  //Se apertura el espacio de las credenciales para leer y escribir (false)
       storage.putString("pass", args.arg("pass1"));                                                         //Se guarda la clave
-      Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass",""));
+      Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass", ""));
       storage.end();
-      
+
       aux["txt21"].as<AutoConnectText>().value = "La <b>clave</b> ha sido cambiada exitosamente.\n";
     }
-    else{
+    else {
       aux["txt21"].as<AutoConnectText>().value = "La <b>clave</b> introducida NO cumple las condiciones.\nPor favor intente de nuevo.\n";
-    }  
-  }  
-  else{
+    }
+  }
+  else {
     aux["txt21"].as<AutoConnectText>().value = "Las <b>claves</b> introducidas NO coinciden.\nPor favor intente de nuevo.\n";
   }
-  
+
   return String();
-  
+
 }
 
-String onCredentialReset(AutoConnectAux& aux, PageArgument& args){
+String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
   storage.begin("config", false);                           //Se apertura el espacio de las credenciales para leer y escribir (false)
 
-  if (args.arg("pass3") == storage.getString("pass","12345678")){
-    storage.putString("ssid", "OMC-WIFI-" + String(chipID, HEX));    //Se guarda el SSID
+  if (args.arg("pass3") == storage.getString("pass", "12345678")) {
+    storage.putString("ssid", "OMC-WIFI-" + chipID);    //Se guarda el SSID
     storage.putString("pass", "12345678");    //Se guarda la clave
-    Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass",""));
-    Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass",""));
+    Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass", ""));
+    Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass", ""));
     storage.end();
 
     aux["txt31"].as<AutoConnectText>().value = "Las <b>credenciales</b> han sido restablecidas exitosamente.\n";
@@ -200,34 +214,34 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args){
 
   storage.end();
   return String();
-  
+
 }
 
-String onServerIP(AutoConnectAux& aux, PageArgument& args){
+String onServerIP(AutoConnectAux& aux, PageArgument& args) {
   AutoConnectInput& server = ap_config["server"].as<AutoConnectInput>();                                   //Se guarda el elemento AutoConnectInput denominado server de la página web ap_config
-  
-  if (args.arg("server") == ""){
+
+  if (args.arg("server") == "") {
     aux["txt41"].as<AutoConnectText>().value = "NO introdujo ninguna <b>dirección IP</b>.\n";
   }
-  else if (server.isValid()){
+  else if (server.isValid()) {
     storage.begin("config", false);                                                                    //Se apertura el espacio de las credenciales para leer y escribir (false)
     storage.putString("server_ip", args.arg("server"));                                                            //Se guarda el SSID
-    Serial.println("La <b>dirección IP del servidor</b> ha cambiado a:\n" + storage.getString("server_ip",""));
+    Serial.println("La <b>dirección IP del servidor</b> ha cambiado a:\n" + storage.getString("server_ip", ""));
     storage.end();
-          
+
     aux["txt41"].as<AutoConnectText>().value = "La <b>dirección IP del servidor</b> ha cambiado a:\n" + args.arg("server");
   }
-  else{
+  else {
     aux["txt41"].as<AutoConnectText>().value = "La <b>dirección IP</b> introducida es inválida.\nPor favor intente de nuevo.\n";
   }
-  
+
   return String();
-  
+
 }
 
 //Función para generar la página de inicio
 void rootPage() {
-  String content = 
+  String content =
     "<html>"
     "<head>"
     "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
@@ -257,78 +271,97 @@ void rootPage() {
 //    Serial.println("No hay credenciales guardadas.");
 //    return;
 //  }
-//  
+//
 //  //Ciclo para borrar las credenciales
 //   while (qty--) {
 //    credential.load((int8_t)0, &config);                                        //Se cargan las credenciales de la flash
 //    if (credential.del((const char*)&config.ssid[0]))                           //Se borran las credenciales cargadas anteriormente
 //      Serial.printf("%s fue borrada.\n", (const char*)config.ssid);
 //    else
-//      Serial.printf("%s NO pudo ser borrada.\n", (const char*)config.ssid);     
-//  }                                                
+//      Serial.printf("%s NO pudo ser borrada.\n", (const char*)config.ssid);
+//  }
 //}
 
 
-//Función para configurar inicialmente los parámetros 
-void acConfig(void){
-  
-//  //Se borra la configuración Wi-Fi
-//  deleteAllCredentials();
-//  WiFi.disconnect(true, true);
+//Función para configurar inicialmente los parámetros
+void acConfig(void) {
+  byte mac[6];                                        //Variable para guardar la MAC del ESP32
+
+
+  //  //Se borra la configuración Wi-Fi
+  //  deleteAllCredentials();
+  //  WiFi.disconnect(true, true);
+
+  //Se toman los 3 últimos bytes de la MAC del ESP32
+  WiFi.macAddress(mac);
+
+  for (int i = 3; i < 6; i++) {
+    if (mac[i] < 0x10) {
+      chipID += '0';
+    }
+    chipID += String(mac[i], HEX);
+  }
 
   //Se hace la configuración inicial del AP
   storage.begin("config", true);
-    
+
   //Configuración Hostname y SSID
-  if (storage.getString("ssid","") != ""){            //Si hay un SSID guardado en memoria, se cambia
-    config.hostName = storage.getString("ssid","");
-    config.apid     = storage.getString("ssid","");    
+  if (storage.getString("ssid", "") != "") {          //Si hay un SSID guardado en memoria, se cambia
+    config.hostName = storage.getString("ssid", "");
+    config.apid     = storage.getString("ssid", "");
   }
   else {                                              //Si NO hay un SSID guardado en memoria, se coloca el default
-    config.hostName = "OMC-WIFI-" + String(chipID, HEX);
-    config.apid     = "OMC-WIFI-" + String(chipID, HEX);                   
+    config.hostName = "OMC-WIFI-" + chipID;
+    config.apid     = "OMC-WIFI-" + chipID;
   }
 
   //Configuración Contraseña
-  if (storage.getString("pass","") != ""){            //Si hay una clave guardada en memoria, se cambia
-    config.psk = storage.getString("pass","");
+  if (storage.getString("pass", "") != "") {          //Si hay una clave guardada en memoria, se cambia
+    config.psk = storage.getString("pass", "");
   }
   else {                                              //Si NO hay una clave guardada en memoria, se cambia
     config.psk = "12345678";
   }
-  
+
   storage.end();
-  
-  config.apip    = IPAddress(172,22,174,254);
-  config.title   = "OMC-WIFI-" + String(chipID, HEX);
+
+  config.apip    = IPAddress(172, 22, 174, 254);
+  config.title   = "OMC-WIFI-" + chipID;
   config.homeUri = "/_ac",
   Portal.config(config);
-  Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip});
+  Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip, cut_supply});
   Portal.on("/ap_config", onConfig);
   Portal.on("/ap_ssid", onChangeSSID);
   Portal.on("/ap_pass", onChangePass);
   Portal.on("/cred_reset", onCredentialReset);
   Portal.on("/server_ip", onServerIP);
   Portal.begin();
-  
+
   Server.on("/", rootPage);
   if (Portal.begin()) {
     Serial.println("WiFi connected: " + WiFi.localIP().toString());
   }
-  
+
 }
 
 //Función de configuración
 void setup() {
   delay(1000);
   Serial.begin(115200);
-  Serial.println("Inicializando OMC-WIFI-" + String(chipID, HEX));
-  
+  Serial.println("Inicializando OMC-WIFI-" + chipID);
+
   acConfig();
 
 }
 
 
 void loop() {
-    Portal.handleClient();
+  Portal.handleClient();
+
+  if(manualControl == 1){
+    Serial.println("CORTADO");
+  }
+  else{
+    Serial.println("Restablecido");
+  }
 }
