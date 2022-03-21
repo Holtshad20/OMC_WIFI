@@ -52,8 +52,8 @@ ACText(txt41, "", "text-align:center");
 
 //Declaración de elementos AutoConnect para la página web de corte del suministro eléctrico
 ACText(caption02, "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo", "text-align:justify;font-family:serif;color:#000000;");
-ACButton(cut, "Cortar", "manualControl = 0");
-ACButton(restore, "Reestablecer", "manualControl = 1");
+ACButton(cut, "Cortar suministro", "manualControl = 0");
+ACButton(restore, "Reestablecer suministro", "manualControl = 1");
 
 //Declaración de la página web para la página web de Configuración del AP
 AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true, {
@@ -357,11 +357,5 @@ void setup() {
 
 void loop() {
   Portal.handleClient();
-
-  if(manualControl == 1){
-    Serial.println("CORTADO");
-  }
-  else{
-    Serial.println("Restablecido");
-  }
+  
 }

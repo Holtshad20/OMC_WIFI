@@ -13,11 +13,13 @@
 WebServer         Server;             //Constructor del servidor web del ESP32
 AutoConnect       Portal(Server);     //Constructor del portal captivo del ESP32
 AutoConnectConfig config;             //Constructor de las configuraciones del AutoConnect
+//AutoConnectAux    aux;
+
 Preferences       storage;            //Espacio en memoria para guardar los datos necesarios
 
 String chipID;                        //Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
-boolean manualControl = true;
+boolean manualControl = false;
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -105,9 +107,13 @@ ACText(txt41, "", "text-align:center");
 
 //Declaración de elementos AutoConnect para la página web de corte del suministro eléctrico
 ACText(caption02, "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo", "text-align:justify;font-family:serif;color:#000000;");
-ACButton(cut, "Cortar suministro", "switchSupply(false)");
-ACButton(restore, "Reestablecer suministro", "switchSupply(true)");
-ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){manualControl = true;}else{manualControl = false;}}</script>");
+ACText(switchState, "Nada que ver", "text-align:center;");
+ACSubmit(cutRestore, "Cortar/Reestablecer suministro", "/switch_relay");
+//ACButton(cut, "Cortar suministro", "document.getElementById('switchState').innerHTML = '0'");
+//ACButton(restore, "Reestablecer suministro", "document.getElementById('switchState').innerHTML = '1'");
+//ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){manualControl = true;}else{manualControl = false;}}</script>");
+
+
 
 
 //Declaración de la página web para la página web de configuración del AP del ESP32
@@ -185,10 +191,22 @@ AutoConnectAux server_ip("/server_ip", "Configuración del Dispositivo", false, 
 AutoConnectAux cut_supply("/cut_supply", "Suministro Eléctrico", true, {
 
   caption02,
-  cut,
-  restore,
+  cutRestore,
+  //cut,
+  //restore,
 
 });
+
+
+AutoConnectAux switch_relay("/switch_relay", "Suministro Eléctrico", false, {
+
+  switchState,
+  back,
+
+});
+
+
+//AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -314,6 +332,17 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
 }
 
 
+String onCutSupply(AutoConnectAux& aux, PageArgument& args) {
+
+  //if (args.arg("switchState") == "0"){
+  //manualControl = true;
+  //  }
+  //  else if (args.arg("switchState") == "1"){
+  //    manualControl = true;
+  //  }
+
+}
+
 //void switchSupply (boolean switchState){
 //
 //  if (switchState == false){
@@ -322,8 +351,21 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
 //  else{
 //    manualControl = true;
 //  }
-//  
+//
 //}
+
+
+String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
+
+  //AutoConnectText& switchRelay = cut_supply["switchState"].as<AutoConnectText>();
+
+  if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
+    aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
+  }
+  else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
+    aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
+  }
+}
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -391,7 +433,6 @@ void acSetUp(void) {
   //  deleteAllCredentials();
   //  WiFi.disconnect(true, true);
 
-
   //Se toman los 3 últimos bytes de la MAC del ESP32
   WiFi.macAddress(mac);
 
@@ -428,14 +469,16 @@ void acSetUp(void) {
 
   config.apip    = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
   config.title   = "OMC-WIFI-" + chipID;                                //Título de la página web
-  config.homeUri = "/_ac",                                              //Directorio HOME de la página web
-         Portal.config(config);                                                //Se añaden las configuraciones al portal web
-  Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip, cut_supply});    //Se cargan las páginas web diseñadas en el portal web
+  config.homeUri = "/_ac";                                              //Directorio HOME de la página web
+  Portal.config(config);                                                //Se añaden las configuraciones al portal web
+  Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip, cut_supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
   Portal.on("/ap_config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap_config" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap_ssid", onChangeSSID);                                  //Se enlaza la función "onChangeSSID" con la página en el directorio "/ap_ssid" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap_pass", onChangePass);                                  //Se enlaza la función "onChangePass" con la página en el directorio "/ap_pass" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/cred_reset", onCredentialReset);                          //Se enlaza la función "onCredentialReset" con la página en el directorio "/cred_reset" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/server_ip", onServerIP);                                  //Se enlaza la función "onServerIP" con la página en el directorio "/server_ip" (la función se ejecutará cada vez que se acceda al directorio)
+  //Portal.on("/cut_supply", onCutSupply);                                //Se enlaza la función "onCutSupply" con la página en el directorio "/cut_supply" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/switch_relay", onSwitchRelay);
   //  Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
   //
   //  Server.on("/", rootPage);                                             //Se inicializa el servidor web
@@ -542,7 +585,7 @@ void analogReadCode (void *analogReadParameter) {
     //Serial.println(lecturaVolt[i]);
     //Serial.print("VP =  ");
     //Serial.println(lecturaCorr[i]);
-    //vTaskDelay(3000 / portTICK_PERIOD_MS);
+    vTaskDelay(3000 / portTICK_PERIOD_MS);
 
     Serial.print("V RMS = ");
     Serial.println(rmsVolt);
@@ -555,17 +598,34 @@ void analogReadCode (void *analogReadParameter) {
 
 
 void printCode (void *analogReadParameter) {
+
+  AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
+
   Serial.println("Print Task created");
-  
+
   while (true) {
     vTaskDelay(3000 / portTICK_PERIOD_MS);
 
-    if (manualControl == 1) {
-      Serial.println("Reestablecido");
+    Serial.println(switchRelay.value);
+
+    if (switchRelay.value == "Suministro cortado.") {
+      manualControl = false;
     }
-    else {
-      Serial.println("CORTADO");
+    else if (switchRelay.value == "Suministro reestablecido.") {
+      manualControl = true;
     }
+
+    if (manualControl == true){
+      switchRelay.value = "Suministro reestablecido.";
+    }
+    else{
+      switchRelay.value = "Suministro cortado.";
+    }
+    
+
+    Serial.println(manualControl);
+
+
   }
 
 }
@@ -592,7 +652,7 @@ void setup() {
   xTaskCreatePinnedToCore(
     acCode,                 //Función que se ejecutará en la tarea
     "AutoConnectCode",      //Nombre descriptivo
-    10000,                  //Tamaño del Stack para esta tarea
+    15000,                  //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
     1,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
@@ -600,14 +660,14 @@ void setup() {
 
 
   //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
-  //  xTaskCreatePinnedToCore(
-  //    analogReadCode,         //Función que se ejecutará en la tarea
-  //    "AnalogReadCode",       //Nombre descriptivo
-  //    100000,                  //Tamaño del Stack para esta tarea
-  //    NULL,                   //Parámetro para guardar la función
-  //    1,                      //Prioridad de la tarea (de 0 a 25)
-  //    NULL,                   //Manejador de tareas
-  //    1);                     //Núcleo en el que se ejecutará
+  xTaskCreatePinnedToCore(
+    analogReadCode,         //Función que se ejecutará en la tarea
+    "AnalogReadCode",       //Nombre descriptivo
+    10000,                 //Tamaño del Stack para esta tarea
+    NULL,                   //Parámetro para guardar la función
+    1,                      //Prioridad de la tarea (de 0 a 25)
+    NULL,                   //Manejador de tareas
+    1);                     //Núcleo en el que se ejecutará
 
 
   //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
@@ -616,7 +676,7 @@ void setup() {
     "PrintCode",            //Nombre descriptivo
     1024,                   //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
-    1,                      //Prioridad de la tarea (de 0 a 25)
+    2,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
     1);                     //Núcleo en el que se ejecutará
 
