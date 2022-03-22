@@ -7,7 +7,7 @@ float cuadradoVolt[1000];     //Arreglo con valores cuadrados que se sumarán (V
 float cuadradoCorr[1000];     //Arreglo con valores cuadrados que se sumarán (Ventana)
 uint16_t pos = 0;             //Posición en la ventana de los valores cuadrados
 
-const float multVolt = 1.11 * 1.11;    //Factor de escala para medir voltaje 1.23
+const float multVolt = 1.23 * 1.23;    //Factor de escala para medir voltaje 1.23 1.1 1.2
 const float multCorr = 108 * 108;      //Factor de escala para medir corriente 108
 
 void setup() {
@@ -76,8 +76,8 @@ void loop() {
   //Serial.println(lecturaVolt[i]);
   //Serial.print("VP =  ");
   //Serial.println(lecturaCorr[i]);
-  Serial.print("V RMS = ");
+  //Serial.print("V RMS = ");
   Serial.println(rmsVolt);
-  Serial.print("C RMS = ");
-  Serial.println(rmsCorr);
+  //Serial.print("C RMS = ");
+  //Serial.println(rmsCorr);
 }
