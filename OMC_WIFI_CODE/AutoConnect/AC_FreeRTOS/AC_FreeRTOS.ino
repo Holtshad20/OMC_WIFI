@@ -1,6 +1,7 @@
 #include <WiFi.h>
 #include <WebServer.h>
 #include <AutoConnect.h>
+#include <AutoConnectDefs.h>
 #include <AutoConnectCredential.h>
 #include <Preferences.h>
 
@@ -13,13 +14,12 @@
 WebServer         Server;             //Constructor del servidor web del ESP32
 AutoConnect       Portal(Server);     //Constructor del portal captivo del ESP32
 AutoConnectConfig config;             //Constructor de las configuraciones del AutoConnect
-//AutoConnectAux    aux;
 
 Preferences       storage;            //Espacio en memoria para guardar los datos necesarios
 
 String chipID;                        //Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
-boolean manualControl = false;
+boolean manualControl = true;
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -84,13 +84,14 @@ ACText(header04, "<h2>Configurar Dirección IP del Servidor</h2>", "text-align:c
 ACText(txt04, "A continuación deberá introducir la <b>dirección IP</b> del servidor al que se desea conectar", "text-align:justify");
 ACInput(server, "", "IP del Servidor", "\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\\b", "Introduzca la IP del servidor");
 ACSubmit(save04, "Guardar Dirección IP", "/server_ip");
-ACSubmit(back, "Volver al menú", "/_ac");
+ACSubmit(backMenu, "Volver al menú", "/_ac");
 
 
 //Declaración de elementos AutoConnect para la página web para guardado de SSID
 ACText(txt11, "", "text-align:center");
 ACText(note11, "<p><b>ADVERTENCIA:</b> para aplicar los cambios el dispositivo debe ser <b>reiniciado</b>, por lo que el dispositivo conectado al OMC-WIFI será desconectado del suministro eléctrico momentáneamente.</p>", "text-align:justify");
 ACSubmit(reset, "Reiniciar equipo", "/_ac#rdlg");
+ACSubmit(backConfig, "Volver", "/ap_config");
 
 
 //Declaración de elementos AutoConnect para la página web para guardado de contraseña
@@ -107,12 +108,12 @@ ACText(txt41, "", "text-align:center");
 
 //Declaración de elementos AutoConnect para la página web de corte del suministro eléctrico
 ACText(caption02, "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo", "text-align:justify;font-family:serif;color:#000000;");
-ACText(switchState, "Nada que ver", "text-align:center;");
+ACText(switchState, "Suministro reestablecido.", "text-align:center;");
 ACSubmit(cutRestore, "Cortar/Reestablecer suministro", "/switch_relay");
 //ACButton(cut, "Cortar suministro", "document.getElementById('switchState').innerHTML = '0'");
 //ACButton(restore, "Reestablecer suministro", "document.getElementById('switchState').innerHTML = '1'");
 //ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){manualControl = true;}else{manualControl = false;}}</script>");
-
+ACSubmit(backSupply, "Volver", "/cut_supply");
 
 
 
@@ -137,7 +138,7 @@ AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true, {
   txt04,
   server,
   save04,
-  back,
+  backMenu,
 
 });
 
@@ -149,7 +150,7 @@ AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false, {
   txt11,
   note11,
   reset,
-  back,
+  backConfig,
 
 });
 
@@ -161,7 +162,7 @@ AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false, {
   txt21,
   note11,
   reset,
-  back,
+  backConfig,
 
 });
 
@@ -173,7 +174,7 @@ AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false
   txt31,
   note11,
   reset,
-  back,
+  backConfig,
 
 });
 
@@ -183,7 +184,7 @@ AutoConnectAux server_ip("/server_ip", "Configuración del Dispositivo", false, 
 
   header04,
   txt41,
-  back,
+  backConfig,
 
 });
 
@@ -192,8 +193,7 @@ AutoConnectAux cut_supply("/cut_supply", "Suministro Eléctrico", true, {
 
   caption02,
   cutRestore,
-  //cut,
-  //restore,
+  backMenu,
 
 });
 
@@ -201,7 +201,7 @@ AutoConnectAux cut_supply("/cut_supply", "Suministro Eléctrico", true, {
 AutoConnectAux switch_relay("/switch_relay", "Suministro Eléctrico", false, {
 
   switchState,
-  back,
+  backSupply,
 
 });
 
@@ -360,11 +360,22 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
   //AutoConnectText& switchRelay = cut_supply["switchState"].as<AutoConnectText>();
 
   if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
+    manualControl = false;
     aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
   }
   else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
+    manualControl = true;
     aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
   }
+
+//  if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
+//    aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
+//  }
+//  else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
+//    aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
+//  }
+
+  return String();
 }
 
 //***************************************************************************************************************************************************************
@@ -469,7 +480,7 @@ void acSetUp(void) {
 
   config.apip    = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
   config.title   = "OMC-WIFI-" + chipID;                                //Título de la página web
-  config.homeUri = "/_ac";                                              //Directorio HOME de la página web
+  config.homeUri = "/_ac";                                           //Directorio HOME de la página web
   Portal.config(config);                                                //Se añaden las configuraciones al portal web
   Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip, cut_supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
   Portal.on("/ap_config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap_config" (la función se ejecutará cada vez que se acceda al directorio)
@@ -608,19 +619,19 @@ void printCode (void *analogReadParameter) {
 
     Serial.println(switchRelay.value);
 
-    if (switchRelay.value == "Suministro cortado.") {
-      manualControl = false;
-    }
-    else if (switchRelay.value == "Suministro reestablecido.") {
-      manualControl = true;
-    }
-
-    if (manualControl == true){
-      switchRelay.value = "Suministro reestablecido.";
-    }
-    else{
-      switchRelay.value = "Suministro cortado.";
-    }
+//    if (switchRelay.value == "Suministro cortado.") {
+//      manualControl = false;
+//    }
+//    else if (switchRelay.value == "Suministro reestablecido.") {
+//      manualControl = true;
+//    }
+//
+//    if (manualControl == true){
+//      switchRelay.value = "Suministro reestablecido.";
+//    }
+//    else{
+//      switchRelay.value = "Suministro cortado.";
+//    }
     
 
     Serial.println(manualControl);
