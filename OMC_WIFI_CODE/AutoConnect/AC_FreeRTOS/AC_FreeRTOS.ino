@@ -1,9 +1,11 @@
 #include <WiFi.h>
 #include <WebServer.h>
 #include <AutoConnect.h>
-#include <AutoConnectDefs.h>
 #include <AutoConnectCredential.h>
 #include <Preferences.h>
+//#include <AsyncMqttClient.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/timers.h"
 
 
 
@@ -11,49 +13,64 @@
 //*******************************************************    CONSTANTES Y CONSTRUCTORES PARA AUTOCONNECT     ****************************************************
 //***************************************************************************************************************************************************************
 
-WebServer         Server;             //Constructor del servidor web del ESP32
-AutoConnect       Portal(Server);     //Constructor del portal captivo del ESP32
-AutoConnectConfig config;             //Constructor de las configuraciones del AutoConnect
+WebServer         Server;             // Constructor del servidor web del ESP32
+AutoConnect       Portal(Server);     // Constructor del portal captivo del ESP32
+AutoConnectConfig config;             // Constructor de las configuraciones del AutoConnect
 
-Preferences       storage;            //Espacio en memoria para guardar los datos necesarios
+Preferences       storage;            // Espacio en memoria para guardar los datos necesarios
 
-String chipID;                        //Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
-
-boolean manualControl = true;
+String chipID;                        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 
-//const char* scSwitchSupply = R"(
-//<script type='text/javascript'>
-//function switchSupply(switchState) {
-//  if (switchState){
-//    manualControl = true;
-//  }
-//  else{
-//    manualControl = false;
-//  }
-//}
-//</script>
-//)";
-
+TimerHandle_t mqttReconnectTimer;
+TimerHandle_t publishTimer;
 
 //***************************************************************************************************************************************************************
 //*************************************************    VARIABLES, CONSTANTES Y ARREGLOS PARA LECTURA ANALÓGICA     **********************************************
 //***************************************************************************************************************************************************************
 
-uint32_t promedioVolt = 0;              //Variable para guardar el promedio de las mediciones (de voltaje) analógicas, usado para eliminar nivel DC
-uint32_t promedioCorr = 0;              //Variable para guardar el promedio de las mediciones (de corriente) analógicas, usado para eliminar nivel DC
+uint32_t promedioVolt = 0;            // Promedio de las mediciones analógicas, usado para eliminar nivel DC
+uint32_t promedioCorr = 0;
 
-float lecturaVolt[1000];                //Arreglo con valores del ADC para promedio (Ventana)
-float lecturaCorr[1000];                //Arreglo con valores del ADC para promedio (Ventana)
-float cuadradoVolt[1000];               //Arreglo con valores cuadrados que se sumarán (Ventana)
-float cuadradoCorr[1000];               //Arreglo con valores cuadrados que se sumarán (Ventana)
-uint16_t pos = 0;                       //Posición en la ventana de los valores cuadrados
+float lecturaVolt[2500];              // Arreglo con valores del ADC para promedio (Ventana)
+float lecturaCorr[2500];              // Arreglo con valores del ADC para promedio (Ventana)
+float cuadradoVolt[2500];             // Arreglo con valores cuadrados que se sumarán (Ventana)
+float cuadradoCorr[2500];             // Arreglo con valores cuadrados que se sumarán (Ventana)
+int pos = 0;                          // Posición en la ventana de los valores cuadrados
 
-const float multVolt = 1.11 * 1.11;     //Factor de escala para medir voltaje 1.11
-const float multCorr = 108 * 108;       //Factor de escala para medir corriente 108
+const float multVolt = 1.28 * 1.28;   // Factor de escala para medir voltaje 1.23 1.21
+const float multCorr = 108 * 108;     // Factor de escala para medir corriente 108
+
+float rmsVolt = 0;                    // Valor RMS Voltaje
+float rmsCorr = 0;                    // Valor RMS Corriente
+
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+
+
+
+//***************************************************************************************************************************************************************
+//*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
+//***************************************************************************************************************************************************************
+
+uint8_t voltSup = 135;                // Máximo voltaje permitido
+uint8_t voltInf = 100;                // Mínimo voltaje permitido
+uint8_t corrSup = 15;                 // Máxima corriente permitida
+
+uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
+
+boolean relay = LOW;                  // Estado del relay (software)
+boolean pasoElTiempo = 0;             // Indica si transcurrió el tiempo de recuperación
+
+boolean controlGlobalRelay = true;    // Control Global del Relé
+                                        // Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
+                                        // Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
+
+TimerHandle_t timerRecuperacion;      // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -65,7 +82,7 @@ const float multCorr = 108 * 108;       //Factor de escala para medir corriente 
 //*************************************************    ELEMENTOS Y CONSTRUCTORES PARA PÁGINA WEB DE AUTOCONNECT     *********************************************
 //***************************************************************************************************************************************************************
 
-//Declaración de elementos AutoConnect para la página web de configuración del AP del ESP32
+// Declaración de elementos AutoConnect para la página web de configuración del AP del ESP32
 ACText(caption01, "Desde este portal podrá configurar algunas características del dispositivo OMC-WIFI", "text-align:justify;font-family:serif;color:#000000;");
 ACText(header01, "<h2>Cambiar Nombre del Dispositivo</h2>", "text-align:center;color:2f4f4f;");
 ACText(txt01, "<p>El <b>nombre</b> debe tener entre 2 y 32 caracteres y solo acepta el guión como caracter especial (NO puede ser el último).</p>", "text-align:justify");
@@ -87,37 +104,37 @@ ACSubmit(save04, "Guardar Dirección IP", "/server_ip");
 ACSubmit(backMenu, "Volver al menú", "/_ac");
 
 
-//Declaración de elementos AutoConnect para la página web para guardado de SSID
+// Declaración de elementos AutoConnect para la página web para guardado de SSID
 ACText(txt11, "", "text-align:center");
 ACText(note11, "<p><b>ADVERTENCIA:</b> para aplicar los cambios el dispositivo debe ser <b>reiniciado</b>, por lo que el dispositivo conectado al OMC-WIFI será desconectado del suministro eléctrico momentáneamente.</p>", "text-align:justify");
 ACSubmit(reset, "Reiniciar equipo", "/_ac#rdlg");
 ACSubmit(backConfig, "Volver", "/ap_config");
 
 
-//Declaración de elementos AutoConnect para la página web para guardado de contraseña
+// Declaración de elementos AutoConnect para la página web para guardado de contraseña
 ACText(txt21, "", "text-align:center");
 
 
-//Declaración de elementos AutoConnect para la página web para restablecer las credenciales
+// Declaración de elementos AutoConnect para la página web para restablecer las credenciales
 ACText(txt31, "", "text-align:center");
 
 
-//Declaración de elementos AutoConnect para la página web para configurar la dirección IP del servidor
+// Declaración de elementos AutoConnect para la página web para configurar la dirección IP del servidor
 ACText(txt41, "", "text-align:center");
 
 
-//Declaración de elementos AutoConnect para la página web de corte del suministro eléctrico
+// Declaración de elementos AutoConnect para la página web de corte del suministro eléctrico
 ACText(caption02, "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo", "text-align:justify;font-family:serif;color:#000000;");
-ACText(switchState, "Suministro reestablecido.", "text-align:center;");
+ACText(switchState, "", "text-align:center;");
 ACSubmit(cutRestore, "Cortar/Reestablecer suministro", "/switch_relay");
 //ACButton(cut, "Cortar suministro", "document.getElementById('switchState').innerHTML = '0'");
 //ACButton(restore, "Reestablecer suministro", "document.getElementById('switchState').innerHTML = '1'");
-//ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){manualControl = true;}else{manualControl = false;}}</script>");
+//ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){controlGlobalRelay  = true;}else{controlGlobalRelay  = false;}}</script>");
 ACSubmit(backSupply, "Volver", "/cut_supply");
 
 
 
-//Declaración de la página web para la página web de configuración del AP del ESP32
+// Declaración de la página web para la página web de configuración del AP del ESP32
 AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true, {
 
   caption01,
@@ -143,7 +160,7 @@ AutoConnectAux ap_config("/ap_config", "Configuración del Dispositivo", true, {
 });
 
 
-//Declaración de la página web para indicar el cambio de SSID
+// Declaración de la página web para indicar el cambio de SSID
 AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false, {
 
   header01,
@@ -155,7 +172,7 @@ AutoConnectAux ap_ssid("/ap_ssid", "Configuración del Dispositivo", false, {
 });
 
 
-//Declaración de la página web para la página web para indicar el cambio de clave
+// Declaración de la página web para la página web para indicar el cambio de clave
 AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false, {
 
   header02,
@@ -167,7 +184,7 @@ AutoConnectAux ap_pass("/ap_pass", "Configuración del Dispositivo", false, {
 });
 
 
-//Declaración de la página web para restablecer las credenciales a las de fábrica
+// Declaración de la página web para restablecer las credenciales a las de fábrica
 AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false, {
 
   header03,
@@ -179,7 +196,7 @@ AutoConnectAux cred_reset("/cred_reset", "Configuración del Dispositivo", false
 });
 
 
-//Declaración de la página web para configurar la dirección IP del servidor
+// Declaración de la página web para configurar la dirección IP del servidor
 AutoConnectAux server_ip("/server_ip", "Configuración del Dispositivo", false, {
 
   header04,
@@ -217,7 +234,7 @@ AutoConnectAux switch_relay("/switch_relay", "Suministro Eléctrico", false, {
 //*************************************************    FUNCIONES DE LAS PÁGINAS WEB DE AUTOCONNECT     **********************************************************
 //***************************************************************************************************************************************************************
 
-//Función para reiniciar los datos en la página de configuración del AP
+// Función para reiniciar los datos en la página de configuración del AP
 String onConfig(AutoConnectAux& aux, PageArgument& args) {
 
   //Se limpian las entradas de datos al acceder al directorio
@@ -256,7 +273,7 @@ String onChangeSSID(AutoConnectAux& aux, PageArgument& args) {
 }
 
 
-//Función para validar el cambio de Contraseña
+// Función para validar el cambio de Contraseña
 String onChangePass(AutoConnectAux& aux, PageArgument& args) {
 
   if (args.arg("pass1") == args.arg("pass2")) {                                                                                             //Si las claves introducidas coinciden
@@ -286,7 +303,7 @@ String onChangePass(AutoConnectAux& aux, PageArgument& args) {
 }
 
 
-//Función para validar el reinicio de credenciales
+// Función para validar el reinicio de credenciales
 String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
 
   if (args.arg("pass3") == storage.getString("pass", "12345678")) {                                               //Si la clave introducida por el usuario coincide con la actual del ESP32
@@ -308,7 +325,7 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
 }
 
 
-//Función para validar la dirección IP del servidor
+// Función para validar la dirección IP del servidor
 String onServerIP(AutoConnectAux& aux, PageArgument& args) {
   AutoConnectInput& server = ap_config["server"].as<AutoConnectInput>();                                                            //Se guarda el elemento AutoConnectInput denominado "server" de la página web ap_config, que guarda los datos de la dirección IP introducidos por el usuario
 
@@ -335,10 +352,10 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
 String onCutSupply(AutoConnectAux& aux, PageArgument& args) {
 
   //if (args.arg("switchState") == "0"){
-  //manualControl = true;
+  //controlGlobalRelay  = true;
   //  }
   //  else if (args.arg("switchState") == "1"){
-  //    manualControl = true;
+  //    controlGlobalRelay  = true;
   //  }
 
 }
@@ -346,10 +363,10 @@ String onCutSupply(AutoConnectAux& aux, PageArgument& args) {
 //void switchSupply (boolean switchState){
 //
 //  if (switchState == false){
-//    manualControl = false;
+//    controlGlobalRelay  = false;
 //  }
 //  else{
-//    manualControl = true;
+//    controlGlobalRelay  = true;
 //  }
 //
 //}
@@ -360,20 +377,20 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
   //AutoConnectText& switchRelay = cut_supply["switchState"].as<AutoConnectText>();
 
   if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
-    manualControl = false;
+    controlGlobalRelay  = false;
     aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
   }
   else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
-    manualControl = true;
+    controlGlobalRelay  = true;
     aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
   }
 
-//  if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
-//    aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
-//  }
-//  else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
-//    aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
-//  }
+  //  if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
+  //    aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
+  //  }
+  //  else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
+  //    aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
+  //  }
 
   return String();
 }
@@ -383,7 +400,7 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
 //***************************************************************************************************************************************************************
 
 
-//Función para generar la página de inicio
+// Función para generar la página de inicio
 void rootPage() {
 
   //Declaración de página web alojada en el directorio "/"
@@ -439,14 +456,15 @@ void rootPage() {
 //Función para configurar inicialmente los parámetros de AutoConnect
 void acSetUp(void) {
   byte mac[6];
-
+  AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
+  
   //  //Se borra la configuración Wi-Fi
   //  deleteAllCredentials();
   //  WiFi.disconnect(true, true);
 
   //Se toman los 3 últimos bytes de la MAC del ESP32
   WiFi.macAddress(mac);
-
+  
   for (int i = 3; i < 6; i++) {
     if (mac[i] < 0x10) {
       chipID += '0';
@@ -478,6 +496,13 @@ void acSetUp(void) {
 
   storage.end();
 
+  if (controlGlobalRelay == true){
+    switchRelay.value = "Suministro reestablecido.";
+  }
+  else{
+    switchRelay.value = "Suministro cortado.";
+  }
+
   config.apip    = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
   config.title   = "OMC-WIFI-" + chipID;                                //Título de la página web
   config.homeUri = "/_ac";                                           //Directorio HOME de la página web
@@ -502,21 +527,47 @@ void acSetUp(void) {
 
 void analogReadSetUp(void) {
 
-  //Calculando el promedio (nivel DC) con 1000 muestras
-  for (int i = 0; i <= 999; i++) {
+  // Sacando promedio inicial (nivel DC) con 2500 muestras
+  for (int i = 0; i <= 2499; i++) {
     promedioVolt += analogRead(39);
-    vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);           //Frecuencia de muestreo de 4 veces 60 Hz
+    vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);      //Frecuencia de muestreo de 4 veces 60 Hz
   }
-  promedioVolt = promedioVolt / 1000;
 
-  //Calculando el promedio (nivel DC) con 1000 muestras
-  for (int i = 0; i <= 999; i++) {
+  promedioVolt = promedioVolt / 2500;
+
+  // Sacando promedio inicial (nivel DC) con 25000 muestras
+  for (int i = 0; i <= 2499; i++) {
     promedioCorr += analogRead(36);
-    vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);           //Frecuencia de muestreo de 4 veces 60 Hz
+    vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);      //Frecuencia de muestreo de 4 veces 60 Hz
   }
-  promedioCorr = promedioCorr / 1000;
 
-  pinMode(23, OUTPUT);                    //Se inicializa el PIN 23 como salida
+  promedioCorr = promedioCorr / 2500;
+
+}
+
+
+void pasoTiempoRecuperacion() {   // Se ejecuta luego de que trascurran "tiempoRecuperacion" segundos
+  pasoElTiempo = 1;               // La variable indica que transcurrieron los segundos
+}
+
+
+void relaySetUp () {
+
+  pinMode(23, OUTPUT);        // El Relé es una salida
+  digitalWrite(23, LOW);      // Al reiniciar el dispositivo el relé está apagado
+  relay = LOW;                // Variable del estado relay (para ser leída por software)
+
+  pasoElTiempo = 0;           // La variable indica que transcurrieron los segundos necesarios para restaurar corriente
+
+  // Creación del temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
+  timerRecuperacion = xTimerCreate("TimerDeRecuperacion", pdMS_TO_TICKS(tiempoRecuperacion * 2500), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(pasoTiempoRecuperacion));
+  xTimerStop(timerRecuperacion, 0); // Mantiene apagado el temporizador hasta que se vuelva a iniciar
+
+  //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
+
+  Serial.println();
+  Serial.println("Dispositivo inicializado");
+  Serial.println("*** Relay apagado ***");
 
 }
 
@@ -547,55 +598,53 @@ void acCode (void *acParameter) {
 
 void analogReadCode (void *analogReadParameter) {
   float suma;                                     //Variable para guardar la suma de valores cuadrados
-  float rmsVolt;                                  //Variable para guardar el valor RMS de Voltaje
-  float rmsCorr;                                  //Variable para guardar el valor RMS de Corriente
 
   Serial.println("Analog Read Task created");
 
   while (true) {
-    suma    = 0;
-    rmsVolt = 0;
-    rmsCorr = 0;
 
-    lecturaVolt[pos] = analogRead(39);                  //Se lee ADC
-    vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);    //Frecuencia de muestreo de 4 veces 60 Hz (En realidad se obtiene una fs inferior, pero no tanto)
-    lecturaCorr[pos] = analogRead(36);                  //Se lee ADC
-    vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);    //Frecuencia de muestreo de 4 veces 60 Hz (En realidad se obtiene una fs inferior, pero no tanto)
+    suma = 0;
 
-    cuadradoVolt[pos] = (lecturaVolt[pos] - promedioVolt) * (lecturaVolt[pos] - promedioVolt) / (multVolt); //Se calcula el cuadrado de la lectura reescalada
-    cuadradoCorr[pos] = (lecturaCorr[pos] - promedioCorr) * (lecturaCorr[pos] - promedioCorr) / (multCorr); //Se calcula el cuadrado de la lectura reescalada
+    lecturaVolt[pos] = analogRead(39);                      // Se lee ADC
+    vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);        // Frecuencia de muestreo de 4 veces 60 Hz (En realidad se obtiene una fs inferior, pero no tanto)
+    lecturaCorr[pos] = analogRead(36);                      // Se lee ADC
+    vTaskDelay((1 / (4 * 60)) / portTICK_PERIOD_MS);        // Frecuencia de muestreo de 4 veces 60 Hz (En realidad se obtiene una fs inferior, pero no tanto)
+
+    cuadradoVolt[pos] = (lecturaVolt[pos] - promedioVolt) * (lecturaVolt[pos] - promedioVolt) / (multVolt);   // Se calcula el cuadrado de la lectura reescalada
+    cuadradoCorr[pos] = (lecturaCorr[pos] - promedioCorr) * (lecturaCorr[pos] - promedioCorr) / (multCorr);   // Se calcula el cuadrado de la lectura reescalada
     pos++;
-    if (pos == 999) {                           //Si se llega a la última posición se vuelve a la primera
+
+    if (pos == 2499) {                    // Si se llega a la última posición se vuelve a la primera
       pos = 0;
 
-      //Calculando promedios nuevamente cada 1000 muestras
-      for (int i = 0; i <= 999; i++) {
+      // Sacando promedios nuevamente cada 2500 muestras
+      for (int i = 0; i <= 2499; i++) {
         promedioVolt += lecturaVolt[i];
         promedioCorr += lecturaCorr[i];
       }
-      promedioVolt = promedioVolt / 1000;
-      promedioCorr = promedioCorr / 1000;
+
+      promedioVolt = promedioVolt / 2500;
+      promedioCorr = promedioCorr / 2500;
     }
 
     suma = 0;
-    for (int i = 0; i <= 999; i++) {
-      suma += cuadradoVolt[i];                //Se suman todos los valores cuadráticos.
+
+    for (int i = 0; i <= 2499; i++) {
+      suma += cuadradoVolt[i];            //Se suman todos los valores cuadráticos.
     }
-    rmsVolt = sqrt(suma / 1000);              //Calcula valor RMS al sacar raiz de promedio de valores cuadráticos
+
+    rmsVolt = sqrt(suma / 2500);          //Calcula valor RMS al sacar raiz de promedio de valores cuadráticos
 
     suma = 0;
-    for (int i = 0; i <= 999; i++) {
-      suma += cuadradoCorr[i];                //Se suman todos los valores cuadráticos.
+
+    for (int i = 0; i <= 2499; i++) {
+      suma += cuadradoCorr[i];            //Se suman todos los valores cuadráticos.
     }
-    rmsCorr = sqrt(suma / 1000);              //Calcula valor RMS al sacar raiz de promedio de valores cuadráticos
+
+    //rmsCorr = sqrt(suma / 2500);        //Calcula valor RMS al sacar raiz de promedio de valores cuadráticos
+    rmsCorr = 0;
 
 
-    //Imprime por serial
-
-    //Serial.print("VN =  ");
-    //Serial.println(lecturaVolt[i]);
-    //Serial.print("VP =  ");
-    //Serial.println(lecturaCorr[i]);
     vTaskDelay(3000 / portTICK_PERIOD_MS);
 
     Serial.print("V RMS = ");
@@ -603,43 +652,128 @@ void analogReadCode (void *analogReadParameter) {
     Serial.print("C RMS = ");
     Serial.println(rmsCorr);
 
+
+    // Código de control del relay
+    if (controlGlobalRelay == true) {                                                              // Si el relay está en modo automático entonces ejecuta el control automático:
+      if ( (rmsVolt >= voltInf) && (rmsVolt <= voltSup) && (rmsCorr <= corrSup) && (relay == LOW) ) {      // Una vez esté la alimenteciión en los niveles correctos:
+        if (xTimerIsTimerActive(timerRecuperacion) == pdFALSE ) {
+          xTimerReset(timerRecuperacion, 0);                                                          // Se inicia el temporizador solo si no estaba activo antes
+
+          Serial.println();
+          Serial.println("*** Voltaje/corriente dentro de rango *** ");
+          Serial.print("Temporizador inicializado - Esperando ");
+          Serial.print(tiempoRecuperacion);
+          Serial.println(" segundos para restaurar alimentación");
+        }
+
+        if (pasoElTiempo == 1) {                                                                    // Si pasaron los segundos necesarios entonces
+          relay = HIGH;                                                                               // Enciende el relay
+          digitalWrite(23, HIGH);
+
+          xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
+          xTimerStop(timerRecuperacion, 0);
+          pasoElTiempo = 0;
+
+          //mqttClient.publish("esp32/estadoRelay", 0, true, "ON");
+
+          Serial.println();
+          Serial.println("*** Relay encendido ***");
+          Serial.println("Temporizador detenido");
+
+
+          //xTimerStop(publishTimer, 0);
+          pos = 0;
+          vTaskDelay(500 / portTICK_PERIOD_MS);
+          //xTimerReset(publishTimer, 0);
+        }
+
+      }
+
+      if ( (rmsVolt < voltInf) || (rmsVolt > voltSup) || (rmsCorr > corrSup) ) {     // Si la alimentación está mal entonces:
+        if (relay == HIGH) {                                                          // Solo si el relay estaba encendido antes
+          relay = LOW;                                                                  // Apaga el relay
+          digitalWrite(23, LOW);
+
+          xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
+          xTimerStop(timerRecuperacion, 0);
+          pasoElTiempo = 0;
+
+          //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
+
+          Serial.println();
+          Serial.println("*** ¡Voltaje/corriente fuera de rango! ***");
+          Serial.println("*** Relay apagado ***");
+          Serial.println("Temporizador detenido");
+        }
+        else {                                                                // Si en cambio el relay estaba apagado entonces significa que se interrumpio la recuperación
+          if (xTimerIsTimerActive(timerRecuperacion) != pdFALSE ) {             // Pero solo se muestra el mensaje una sola vez
+            xTimerStop(timerRecuperacion, 0);
+            pasoElTiempo = 0;
+            Serial.println();
+            Serial.println("*** ¡Voltaje/corriente fuera de rango! ***");
+            Serial.println("Recuperación fallida");
+            Serial.println("Temporizador detenido");
+          }
+
+        }
+
+      }
+
+    }
+    else if (relay == HIGH) {             // Si el relé se mandó a apagar de manera manual:
+      relay = LOW;                          // Se apaga el relé
+      digitalWrite(23, LOW);
+
+      xTimerReset(timerRecuperacion, 0);    // Se detiene el temporizador
+      xTimerStop(timerRecuperacion, 0);
+      pasoElTiempo = 0;
+
+      //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
+
+      Serial.println();
+      Serial.println("*** Se ha forzado corte de alimentación ***");
+      Serial.println("*** Relay apagado ***");
+    }
+
   }
+
+
 
 }
 
 
-void printCode (void *analogReadParameter) {
-
-  AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
-
-  Serial.println("Print Task created");
-
-  while (true) {
-    vTaskDelay(3000 / portTICK_PERIOD_MS);
-
-    Serial.println(switchRelay.value);
-
-//    if (switchRelay.value == "Suministro cortado.") {
-//      manualControl = false;
-//    }
-//    else if (switchRelay.value == "Suministro reestablecido.") {
-//      manualControl = true;
-//    }
+//void printCode (void *analogReadParameter) {
 //
-//    if (manualControl == true){
-//      switchRelay.value = "Suministro reestablecido.";
-//    }
-//    else{
-//      switchRelay.value = "Suministro cortado.";
-//    }
-    
-
-    Serial.println(manualControl);
-
-
-  }
-
-}
+//  AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
+//
+//  Serial.println("Print Task created");
+//
+//  while (true) {
+//    vTaskDelay(3000 / portTICK_PERIOD_MS);
+//
+//    Serial.println(switchRelay.value);
+//
+//    //    if (switchRelay.value == "Suministro cortado.") {
+//    //      controlGlobalRelay  = false;
+//    //    }
+//    //    else if (switchRelay.value == "Suministro reestablecido.") {
+//    //      controlGlobalRelay  = true;
+//    //    }
+//    //
+//    //    if (controlGlobalRelay  == true){
+//    //      switchRelay.value = "Suministro reestablecido.";
+//    //    }
+//    //    else{
+//    //      switchRelay.value = "Suministro cortado.";
+//    //    }
+//
+//
+//    Serial.println(controlGlobalRelay);
+//
+//
+//  }
+//
+//}
 
 
 //***************************************************************************************************************************************************************
@@ -655,7 +789,9 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Inicializando OMC-WIFI-" + chipID);
 
+
   analogReadSetUp();
+  relaySetUp();
   acSetUp();
 
 
@@ -670,7 +806,7 @@ void setup() {
     0);                     //Núcleo en el que se ejecutará
 
 
-  //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
+  //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
   xTaskCreatePinnedToCore(
     analogReadCode,         //Función que se ejecutará en la tarea
     "AnalogReadCode",       //Nombre descriptivo
@@ -681,15 +817,15 @@ void setup() {
     1);                     //Núcleo en el que se ejecutará
 
 
-  //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
-  xTaskCreatePinnedToCore(
-    printCode,              //Función que se ejecutará en la tarea
-    "PrintCode",            //Nombre descriptivo
-    1024,                   //Tamaño del Stack para esta tarea
-    NULL,                   //Parámetro para guardar la función
-    2,                      //Prioridad de la tarea (de 0 a 25)
-    NULL,                   //Manejador de tareas
-    1);                     //Núcleo en el que se ejecutará
+  //  //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
+  //  xTaskCreatePinnedToCore(
+  //    printCode,              //Función que se ejecutará en la tarea
+  //    "PrintCode",            //Nombre descriptivo
+  //    1024,                   //Tamaño del Stack para esta tarea
+  //    NULL,                   //Parámetro para guardar la función
+  //    2,                      //Prioridad de la tarea (de 0 a 25)
+  //    NULL,                   //Manejador de tareas
+  //    1);                     //Núcleo en el que se ejecutará
 
   vTaskDelay(500 / portTICK_PERIOD_MS);
 
