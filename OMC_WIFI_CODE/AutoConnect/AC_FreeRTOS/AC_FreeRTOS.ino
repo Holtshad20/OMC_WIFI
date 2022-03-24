@@ -3,30 +3,38 @@
 #include <AutoConnect.h>
 #include <AutoConnectCredential.h>
 #include <Preferences.h>
-//#include <AsyncMqttClient.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/timers.h"
+#include <AsyncMqttClient.h>
+//#include "freertos/FreeRTOS.h"
+//#include "freertos/timers.h"
 
 
 
-//***************************************************************************************************************************************************************
-//*******************************************************    CONSTANTES Y CONSTRUCTORES PARA AUTOCONNECT     ****************************************************
-//***************************************************************************************************************************************************************
-
-WebServer         Server;             // Constructor del servidor web del ESP32
-AutoConnect       Portal(Server);     // Constructor del portal captivo del ESP32
-AutoConnectConfig config;             // Constructor de las configuraciones del AutoConnect
-
-Preferences       storage;            // Espacio en memoria para guardar los datos necesarios
-
-String chipID;                        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 //***************************************************************************************************************************************************************
+//******************************************************    VARIABLES Y CONSTANTES PARA CLIENTE MQTT     ********************************************************
 //***************************************************************************************************************************************************************
-//***************************************************************************************************************************************************************
+//
+//#define WIFI_SSID "dos-desktop"
+//#define WIFI_PASSWORD "8RlGCKQL"
 
+//#define WIFI_SSID "Thorondor"
+//#define WIFI_PASSWORD "n140862m041260n200689m170697gizmokingdom"
+//#define MQTT_HOST IPAddress(192, 168, 0, 50)
+//#define MQTT_PORT 1883
+
+#define   MQTT_PORT 1883
+IPAddress MQTT_HOST;
+
+AsyncMqttClient mqttClient;
 TimerHandle_t mqttReconnectTimer;
+TimerHandle_t wifiReconnectTimer;
 TimerHandle_t publishTimer;
+
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+
+
 
 //***************************************************************************************************************************************************************
 //*************************************************    VARIABLES, CONSTANTES Y ARREGLOS PARA LECTURA ANALÓGICA     **********************************************
@@ -39,7 +47,7 @@ float lecturaVolt[2500];              // Arreglo con valores del ADC para promed
 float lecturaCorr[2500];              // Arreglo con valores del ADC para promedio (Ventana)
 float cuadradoVolt[2500];             // Arreglo con valores cuadrados que se sumarán (Ventana)
 float cuadradoCorr[2500];             // Arreglo con valores cuadrados que se sumarán (Ventana)
-int pos = 0;                          // Posición en la ventana de los valores cuadrados
+int   pos = 0;                          // Posición en la ventana de los valores cuadrados
 
 const float multVolt = 1.28 * 1.28;   // Factor de escala para medir voltaje 1.23 1.21
 const float multCorr = 108 * 108;     // Factor de escala para medir corriente 108
@@ -57,8 +65,8 @@ float rmsCorr = 0;                    // Valor RMS Corriente
 //*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
 //***************************************************************************************************************************************************************
 
-uint8_t voltSup = 135;                // Máximo voltaje permitido
-uint8_t voltInf = 100;                // Mínimo voltaje permitido
+uint8_t voltSup = 100;                // Máximo voltaje permitido
+uint8_t voltInf = 0;                // Mínimo voltaje permitido
 uint8_t corrSup = 15;                 // Máxima corriente permitida
 
 uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
@@ -67,10 +75,28 @@ boolean relay = LOW;                  // Estado del relay (software)
 boolean pasoElTiempo = 0;             // Indica si transcurrió el tiempo de recuperación
 
 boolean controlGlobalRelay = true;    // Control Global del Relé
-                                        // Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
-                                        // Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
+// Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
+// Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
 
 TimerHandle_t timerRecuperacion;      // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
+
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+
+
+
+//***************************************************************************************************************************************************************
+//*******************************************************    CONSTANTES Y CONSTRUCTORES PARA AUTOCONNECT     ****************************************************
+//***************************************************************************************************************************************************************
+
+WebServer         Server;             // Constructor del servidor web del ESP32
+AutoConnect       Portal(Server);     // Constructor del portal captivo del ESP32
+AutoConnectConfig config;             // Constructor de las configuraciones del AutoConnect
+
+Preferences       storage;            // Espacio en memoria para guardar los datos necesarios
+
+String chipID;                        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -338,6 +364,8 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
     Serial.println("La <b>dirección IP del servidor</b> ha cambiado a:\n" + storage.getString("server_ip", ""));
     storage.end();                                                                                                                    //Se cierra el espacio en memoria flash denominado "storage"
 
+    mqttClient.setServer(MQTT_HOST.fromString(args.arg("server")), MQTT_PORT);
+    
     aux["txt41"].as<AutoConnectText>().value = "La <b>dirección IP del servidor</b> ha cambiado a:\n" + args.arg("server");           //Aparecerá este mensaje en la página web
   }
   else {                                                                                                                            //Si se introdujo una dirección IP pero NO se cumplen las condiciones establecidas
@@ -400,27 +428,6 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
 //***************************************************************************************************************************************************************
 
 
-// Función para generar la página de inicio
-void rootPage() {
-
-  //Declaración de página web alojada en el directorio "/"
-  String content =
-    "<html>"
-    "<head>"
-    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-    "<title>OMC-WIFI</title>"
-    "</head>"
-    "<body>"
-    "<h1 align=\"center\" style=\"color:purple;margin:10px;\">Bienvenido al Menú</h1>"
-    "<p></p>"
-    "<p style=\"padding-top:5px;text-align:center\">"AUTOCONNECT_LINK(COG_24)"</p>"
-    "</body>"
-    "</html>";
-
-  //Se envía al usuario el contenido de la página web
-  Server.send(200, "text/html", content);
-}
-
 
 //Función para borrar las credenciales (sólo para la etapa de desarrollo)
 //void deleteAllCredentials(void) {
@@ -453,76 +460,155 @@ void rootPage() {
 //*************************************************    FUNCIONES DE CONFIGURACIÓN INICIALES (SETUP)     *********************************************************
 //***************************************************************************************************************************************************************
 
-//Función para configurar inicialmente los parámetros de AutoConnect
-void acSetUp(void) {
-  byte mac[6];
-  AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
-  
-  //  //Se borra la configuración Wi-Fi
-  //  deleteAllCredentials();
-  //  WiFi.disconnect(true, true);
+//Funciones necesarias para configurar el cliente MQTT
+//void connectToWifi() {
+//  Serial.println();
+//  Serial.println("Connecting to Wi-Fi...");
+//  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+//}
 
-  //Se toman los 3 últimos bytes de la MAC del ESP32
-  WiFi.macAddress(mac);
-  
-  for (int i = 3; i < 6; i++) {
-    if (mac[i] < 0x10) {
-      chipID += '0';
-    }
-    chipID += String(mac[i], HEX);
+void connectToMqtt() {
+  Serial.println();
+  Serial.println("Connecting to MQTT...");
+  mqttClient.connect();
+}
+
+void WiFiEvent(WiFiEvent_t event) {
+  Serial.println();
+  Serial.printf("[WiFi-event] event: %d\n", event);
+  switch (event) {
+    case SYSTEM_EVENT_STA_GOT_IP:
+      Serial.println("WiFi connected");
+      Serial.println("IP address: ");
+      Serial.println(WiFi.localIP());
+      connectToMqtt();
+      break;
+    
+    case SYSTEM_EVENT_STA_DISCONNECTED:
+      Serial.println("WiFi lost connection");
+      xTimerStop(mqttReconnectTimer, 0); // ensure we don't reconnect to MQTT while reconnecting to Wi-Fi
+      //xTimerStart(wifiReconnectTimer, 0);
+      break;
   }
+}
 
+void onMqttConnect(bool sessionPresent) {
+  Serial.println();
+  Serial.println("Connected to MQTT.");
+  Serial.print("Session present: ");
+  Serial.println(sessionPresent);
 
-  //Se hace la configuración inicial del AP
-  storage.begin("config", true);                          //Se apertura el espacio de las credenciales para leer y sin posibilidad de escribir (true)
+  uint16_t packetIdSub = mqttClient.subscribe("esp32/estadoRelay", 0);
+  Serial.println();
+  Serial.print("Suscrito a esp32/estadoRelay con QoS 0. Packet ID: ");
+  Serial.println(packetIdSub);
 
-  //Configuración Hostname y SSID
-  if (storage.getString("ssid", "") != "") {              //Si hay un SSID guardado en memoria, se cambia
-    config.hostName = storage.getString("ssid", "");        //Se extrae el hostname guardado en el espacio de memoria "storage"
-    config.apid     = storage.getString("ssid", "");        //Se extrae el SSID guardado en el espacio de memoria "storage"
+  packetIdSub = mqttClient.subscribe("esp32/controlRelay", 1);
+  Serial.println();
+  Serial.print("Suscrito a esp32/controlRelay con QoS 1. Packet ID: ");
+  Serial.println(packetIdSub);
+
+  packetIdSub = mqttClient.subscribe("esp32/volt", 0);
+  Serial.println();
+  Serial.print("Suscrito a esp32/volt con QoS 0. Packet ID: ");
+  Serial.println(packetIdSub);
+
+  packetIdSub = mqttClient.subscribe("esp32/corr", 1);
+  Serial.println();
+  Serial.print("Suscrito a esp32/corr con QoS 0. Packet ID: ");
+  Serial.println(packetIdSub);
+}
+
+void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
+  Serial.println();
+  Serial.println("Disconnected from MQTT.");
+  if (WiFi.isConnected()) {
+    xTimerStart(mqttReconnectTimer, 0);
   }
-  else {                                                  //Si NO hay un SSID guardado en memoria, se coloca el default
-    config.hostName = "OMC-WIFI-" + chipID;    //Se coloca el hostname por defecto
-    config.apid     = "OMC-WIFI-" + chipID;    //Se coloca el hostname por defecto
-  }
+}
 
-  //Configuración Contraseña
-  if (storage.getString("pass", "") != "") {              //Si hay una clave guardada en memoria, se cambia
-    config.psk = storage.getString("pass", "");             //Se extrae la contraseña guardada en el espacio de memoria "storage"
-  }
-  else {                                                  //Si NO hay una clave guardada en memoria, se cambia
-    config.psk = "12345678";                                //Se coloca la contraseña por defecto
-  }
+void onMqttSubscribe(uint16_t packetId, uint8_t qos) {
+  Serial.println();
+  Serial.println("Subscribe acknowledged.");
+  Serial.print("  packetId: ");
+  Serial.println(packetId);
+  Serial.print("  qos: ");
+  Serial.println(qos);
+}
 
+void onMqttUnsubscribe(uint16_t packetId) {
+  Serial.println();
+  Serial.println("Unsubscribe acknowledged.");
+  Serial.print("  packetId: ");
+  Serial.println(packetId);
+}
+
+void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
+  //Serial.println();
+  //Serial.println("Se ha enviado/recibido un mensaje MQTT");
+  //Serial.println("Topic: " + String(topic));
+  //Serial.println("Payload: " + String(payload));
+
+  if (String(topic) == "esp32/controlRelay") {
+    Serial.println("Cambio de control");
+    controlGlobalRelay = atoi(String(payload).c_str());
+  }
+}
+
+void onMqttPublish(uint16_t packetId) {
+  //Serial.println();
+  //Serial.println("Publish acknowledged.");
+  //Serial.print("  packetId: ");
+  //Serial.println(packetId);
+}
+
+void publicarValores() {
+
+  mqttClient.publish("esp32/volt", 0, true, String(rmsVolt).c_str());
+  //mqttClient.publish("esp32/corr", 0, true, String(rmsCorr).c_str());
+  mqttClient.publish("esp32/corr", 0, true, "0");
+  Serial.println();
+  Serial.print("V RMS = ");
+  Serial.println(rmsVolt);
+  Serial.print("C RMS = ");
+  Serial.println(rmsCorr);
+  xTimerReset(publishTimer, 0);
+}
+
+void mqttSetUp() {
+
+  storage.begin("config", true);                                          //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
+  MQTT_HOST.fromString(storage.getString("server_ip", "0.0.0.0"));
   storage.end();
 
-  if (controlGlobalRelay == true){
-    switchRelay.value = "Suministro reestablecido.";
-  }
-  else{
-    switchRelay.value = "Suministro cortado.";
+  mqttReconnectTimer = xTimerCreate("mqttTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToMqtt));
+  //wifiReconnectTimer = xTimerCreate("wifiTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToWifi));
+  publishTimer = xTimerCreate("publishTimer", pdMS_TO_TICKS(1000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(publicarValores));
+  xTimerStop(publishTimer, 0);
+
+  WiFi.onEvent(WiFiEvent);
+
+  mqttClient.onConnect(onMqttConnect);
+  mqttClient.onDisconnect(onMqttDisconnect);
+  mqttClient.onSubscribe(onMqttSubscribe);
+  mqttClient.onUnsubscribe(onMqttUnsubscribe);
+  mqttClient.onMessage(onMqttMessage);
+  mqttClient.onPublish(onMqttPublish);
+
+  if (MQTT_HOST != IPAddress(0, 0, 0, 0)) {
+
+    mqttClient.setServer(MQTT_HOST, MQTT_PORT);
+
   }
 
-  config.apip    = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
-  config.title   = "OMC-WIFI-" + chipID;                                //Título de la página web
-  config.homeUri = "/_ac";                                           //Directorio HOME de la página web
-  Portal.config(config);                                                //Se añaden las configuraciones al portal web
-  Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip, cut_supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
-  Portal.on("/ap_config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap_config" (la función se ejecutará cada vez que se acceda al directorio)
-  Portal.on("/ap_ssid", onChangeSSID);                                  //Se enlaza la función "onChangeSSID" con la página en el directorio "/ap_ssid" (la función se ejecutará cada vez que se acceda al directorio)
-  Portal.on("/ap_pass", onChangePass);                                  //Se enlaza la función "onChangePass" con la página en el directorio "/ap_pass" (la función se ejecutará cada vez que se acceda al directorio)
-  Portal.on("/cred_reset", onCredentialReset);                          //Se enlaza la función "onCredentialReset" con la página en el directorio "/cred_reset" (la función se ejecutará cada vez que se acceda al directorio)
-  Portal.on("/server_ip", onServerIP);                                  //Se enlaza la función "onServerIP" con la página en el directorio "/server_ip" (la función se ejecutará cada vez que se acceda al directorio)
-  //Portal.on("/cut_supply", onCutSupply);                                //Se enlaza la función "onCutSupply" con la página en el directorio "/cut_supply" (la función se ejecutará cada vez que se acceda al directorio)
-  Portal.on("/switch_relay", onSwitchRelay);
-  //  Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
-  //
-  //  Server.on("/", rootPage);                                             //Se inicializa el servidor web
-  //  if (Portal.begin()) {                                                 //Si se configura una conexión del ESP32 a un punto de acceso
-  //    Serial.println("WiFi connected: " + WiFi.localIP().toString());       //Se imprime la dirección IP del ESP32 en esa red en la pantalla serial
-  //  }
-
+  //  connectToWifi();
+  xTimerReset(publishTimer, 0);
 }
+
+
+
+
+
 
 
 void analogReadSetUp(void) {
@@ -563,13 +649,110 @@ void relaySetUp () {
   timerRecuperacion = xTimerCreate("TimerDeRecuperacion", pdMS_TO_TICKS(tiempoRecuperacion * 2500), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(pasoTiempoRecuperacion));
   xTimerStop(timerRecuperacion, 0); // Mantiene apagado el temporizador hasta que se vuelva a iniciar
 
-  //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
+  mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
 
   Serial.println();
   Serial.println("Dispositivo inicializado");
   Serial.println("*** Relay apagado ***");
 
 }
+
+
+
+// Función para generar la página de inicio
+void rootPage() {
+
+  //Declaración de página web alojada en el directorio "/"
+  String content =
+    "<html>"
+    "<head>"
+    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+    "<title>OMC-WIFI</title>"
+    "</head>"
+    "<body>"
+    "<h1 align=\"center\" style=\"color:purple;margin:10px;\">Bienvenido al Menú</h1>"
+    "<p></p>"
+    "<p style=\"padding-top:5px;text-align:center\">"AUTOCONNECT_LINK(COG_24)"</p>"
+    "</body>"
+    "</html>";
+
+  //Se envía al usuario el contenido de la página web
+  Server.send(200, "text/html", content);
+
+}
+
+
+//Función para configurar inicialmente los parámetros de AutoConnect
+void acSetUp(void) {
+  byte mac[6];
+  AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
+
+  //  //Se borra la configuración Wi-Fi
+  //  deleteAllCredentials();
+  //  WiFi.disconnect(true, true);
+
+  //Se toman los 3 últimos bytes de la MAC del ESP32
+  WiFi.macAddress(mac);
+
+  for (int i = 3; i < 6; i++) {
+    if (mac[i] < 0x10) {
+      chipID += '0';
+    }
+    chipID += String(mac[i], HEX);
+  }
+
+
+  //Se hace la configuración inicial del AP
+  storage.begin("config", true);                          //Se apertura el espacio de las credenciales para leer y sin posibilidad de escribir (true)
+
+  //Configuración Hostname y SSID
+  if (storage.getString("ssid", "") != "") {              //Si hay un SSID guardado en memoria, se cambia
+    config.hostName = storage.getString("ssid", "");        //Se extrae el hostname guardado en el espacio de memoria "storage"
+    config.apid     = storage.getString("ssid", "");        //Se extrae el SSID guardado en el espacio de memoria "storage"
+  }
+  else {                                                  //Si NO hay un SSID guardado en memoria, se coloca el default
+    config.hostName = "OMC-WIFI-" + chipID;    //Se coloca el hostname por defecto
+    config.apid     = "OMC-WIFI-" + chipID;    //Se coloca el hostname por defecto
+  }
+
+  //Configuración Contraseña
+  if (storage.getString("pass", "") != "") {              //Si hay una clave guardada en memoria, se cambia
+    config.psk = storage.getString("pass", "");             //Se extrae la contraseña guardada en el espacio de memoria "storage"
+  }
+  else {                                                  //Si NO hay una clave guardada en memoria, se cambia
+    config.psk = "12345678";                                //Se coloca la contraseña por defecto
+  }
+
+  storage.end();
+
+  if (controlGlobalRelay == true) {
+    switchRelay.value = "Suministro reestablecido.";
+  }
+  else {
+    switchRelay.value = "Suministro cortado.";
+  }
+
+  config.apip    = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
+  config.title   = "OMC-WIFI-" + chipID;                                //Título de la página web
+  config.homeUri = "/_ac";                                           //Directorio HOME de la página web
+  Portal.config(config);                                                //Se añaden las configuraciones al portal web
+  Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip, cut_supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
+  Portal.on("/ap_config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap_config" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/ap_ssid", onChangeSSID);                                  //Se enlaza la función "onChangeSSID" con la página en el directorio "/ap_ssid" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/ap_pass", onChangePass);                                  //Se enlaza la función "onChangePass" con la página en el directorio "/ap_pass" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/cred_reset", onCredentialReset);                          //Se enlaza la función "onCredentialReset" con la página en el directorio "/cred_reset" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/server_ip", onServerIP);                                  //Se enlaza la función "onServerIP" con la página en el directorio "/server_ip" (la función se ejecutará cada vez que se acceda al directorio)
+  //Portal.on("/cut_supply", onCutSupply);                                //Se enlaza la función "onCutSupply" con la página en el directorio "/cut_supply" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/switch_relay", onSwitchRelay);
+  //  Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
+  //
+  //  Server.on("/", rootPage);                                             //Se inicializa el servidor web
+  //  if (Portal.begin()) {                                                 //Si se configura una conexión del ESP32 a un punto de acceso
+  //    Serial.println("WiFi connected: " + WiFi.localIP().toString());       //Se imprime la dirección IP del ESP32 en esa red en la pantalla serial
+  //  }
+
+}
+
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -645,12 +828,12 @@ void analogReadCode (void *analogReadParameter) {
     rmsCorr = 0;
 
 
-    vTaskDelay(3000 / portTICK_PERIOD_MS);
-
-    Serial.print("V RMS = ");
-    Serial.println(rmsVolt);
-    Serial.print("C RMS = ");
-    Serial.println(rmsCorr);
+//    vTaskDelay(1000 / portTICK_PERIOD_MS);
+//
+//    Serial.print("V RMS = ");
+//    Serial.println(rmsVolt);
+//    Serial.print("C RMS = ");
+//    Serial.println(rmsCorr);
 
 
     // Código de control del relay
@@ -674,17 +857,17 @@ void analogReadCode (void *analogReadParameter) {
           xTimerStop(timerRecuperacion, 0);
           pasoElTiempo = 0;
 
-          //mqttClient.publish("esp32/estadoRelay", 0, true, "ON");
+          mqttClient.publish("esp32/estadoRelay", 0, true, "ON");
 
           Serial.println();
           Serial.println("*** Relay encendido ***");
           Serial.println("Temporizador detenido");
 
 
-          //xTimerStop(publishTimer, 0);
+          xTimerStop(publishTimer, 0);
           pos = 0;
           vTaskDelay(500 / portTICK_PERIOD_MS);
-          //xTimerReset(publishTimer, 0);
+          xTimerReset(publishTimer, 0);
         }
 
       }
@@ -698,7 +881,7 @@ void analogReadCode (void *analogReadParameter) {
           xTimerStop(timerRecuperacion, 0);
           pasoElTiempo = 0;
 
-          //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
+          mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
 
           Serial.println();
           Serial.println("*** ¡Voltaje/corriente fuera de rango! ***");
@@ -728,7 +911,7 @@ void analogReadCode (void *analogReadParameter) {
       xTimerStop(timerRecuperacion, 0);
       pasoElTiempo = 0;
 
-      //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
+      mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
 
       Serial.println();
       Serial.println("*** Se ha forzado corte de alimentación ***");
@@ -789,7 +972,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Inicializando OMC-WIFI-" + chipID);
 
-
+  mqttSetUp();
   analogReadSetUp();
   relaySetUp();
   acSetUp();

@@ -158,7 +158,10 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   
   if (String(topic) == "esp32/controlRelay") {
     Serial.println("Cambio de control");
-    controlGlobalRelay = atoi(String(payload).c_str());
+    int recibido = atoi(String(payload).c_str());
+    if (recibido != controlGlobalRelay) {
+      controlGlobalRelay = recibido;
+    }
   }
 }
 
