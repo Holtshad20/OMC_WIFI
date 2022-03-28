@@ -45,17 +45,6 @@ F 3 "http://www.hlktech.net/product_detail.php?ProId=54" H 2250 2250 50  0001 C 
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:PWR_FLAG #FLG0101
-U 1 1 622CF9F0
-P 1250 1200
-F 0 "#FLG0101" H 1250 1275 50  0001 C CNN
-F 1 "PWR_FLAG" H 1250 1373 50  0000 C CNN
-F 2 "" H 1250 1200 50  0001 C CNN
-F 3 "~" H 1250 1200 50  0001 C CNN
-	1    1250 1200
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:+5V #PWR0103
 U 1 1 622DB783
 P 2950 2400
@@ -96,17 +85,6 @@ Wire Wire Line
 	2500 6850 2500 6950
 Text Notes 1000 800  0    50   ~ 10
 Alimentación y Carga
-$Comp
-L Connector:Screw_Terminal_01x03 J3
-U 1 1 6243119F
-P 850 1300
-F 0 "J3" H 768 1617 50  0000 C CNN
-F 1 "Power_In" H 768 1526 50  0000 C CNN
-F 2 "6PCV-03-006:TE_5-1437652-4" H 850 1300 50  0001 C CNN
-F 3 "~" H 850 1300 50  0001 C CNN
-	1    850  1300
-	-1   0    0    -1  
-$EndComp
 Wire Wire Line
 	3800 2550 4050 2550
 Wire Wire Line
@@ -221,8 +199,6 @@ Wire Notes Line
 Text GLabel 3800 2900 0    50   Input ~ 0
 NC
 NoConn ~ 3800 2900
-Wire Wire Line
-	1050 1200 1250 1200
 Wire Wire Line
 	1450 2700 1350 2700
 Wire Wire Line
@@ -445,9 +421,6 @@ Wire Notes Line
 	3350 3200 6600 3200
 Text GLabel 5250 1100 0    50   Input ~ 0
 NO
-Wire Wire Line
-	1400 1200 1250 1200
-Connection ~ 1250 1200
 Wire Notes Line
 	700  1950 2200 1950
 Wire Notes Line
@@ -496,8 +469,6 @@ Wire Wire Line
 	5250 1200 5450 1200
 Wire Notes Line
 	2200 600  2200 1950
-Text GLabel 1400 1200 2    50   Input ~ 0
-COM
 Text GLabel 1350 2700 0    50   Input ~ 0
 NEUTRAL
 Text GLabel 1350 2500 0    50   Input ~ 0
@@ -564,11 +535,6 @@ $EndComp
 Text GLabel 2000 1300 2    50   Input ~ 0
 LINE
 Wire Wire Line
-	1050 1300 1150 1300
-Wire Wire Line
-	1050 1400 1250 1400
-Connection ~ 1250 1400
-Wire Wire Line
 	6750 1250 6900 1250
 Wire Wire Line
 	6900 1250 6900 1450
@@ -629,9 +595,6 @@ Wire Wire Line
 	1450 1300 1450 1250
 Wire Wire Line
 	1450 1250 1150 1250
-Wire Wire Line
-	1150 1250 1150 1300
-Connection ~ 1150 1300
 Wire Wire Line
 	1900 4250 1750 4250
 Wire Wire Line
@@ -756,4 +719,52 @@ Wire Notes Line
 	4150 3550 4150 7250
 Wire Notes Line
 	700  3550 700  7250
+$Comp
+L omc-plugs:OMC-Female-Plug JP2
+U 1 1 6242580B
+P 3500 550
+F 0 "JP2" H 3174 773 50  0000 C CNN
+F 1 "OMC-Female-Plug" H 3174 682 50  0000 C CNN
+F 2 "" H 3492 440 50  0001 C CNN
+F 3 "" H 3492 440 50  0001 C CNN
+	1    3500 550 
+	1    0    0    -1  
+$EndComp
+NoConn ~ 3426 552 
+Wire Wire Line
+	1150 1250 1150 1300
+Wire Wire Line
+	998  1301 1150 1301
+Wire Wire Line
+	1150 1301 1150 1300
+Connection ~ 1150 1300
+$Comp
+L Connector:Conn_01x01_Male J?
+U 1 1 6246AC9C
+P 798 1301
+F 0 "J?" H 906 1482 50  0000 C CNN
+F 1 "Line Input" H 906 1391 50  0000 C CNN
+F 2 "" H 798 1301 50  0001 C CNN
+F 3 "~" H 798 1301 50  0001 C CNN
+	1    798  1301
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x01_Male J?
+U 1 1 624922FE
+P 907 1401
+F 0 "J?" H 1015 1582 50  0000 C CNN
+F 1 "Nuetral Input" H 957 1357 50  0000 C CNN
+F 2 "" H 907 1401 50  0001 C CNN
+F 3 "~" H 907 1401 50  0001 C CNN
+	1    907  1401
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1250 1400 1104 1400
+Wire Wire Line
+	1104 1400 1104 1401
+Wire Wire Line
+	1104 1401 1107 1401
+Connection ~ 1250 1400
 $EndSCHEMATC
