@@ -1,6 +1,23 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
+# Connector_Conn_01x01_Female
+#
+DEF Connector_Conn_01x01_Female J 0 40 Y N 1 F N
+F0 "J" 0 100 50 H V C CNN
+F1 "Connector_Conn_01x01_Female" 0 -100 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*
+$ENDFPLIST
+DRAW
+A 0 0 20 901 -901 1 1 6 N 0 20 0 -20
+P 2 1 1 6 -50 0 -20 0 N
+X Pin_1 1 -200 0 150 R 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
 # Connector_Conn_01x01_Male
 #
 DEF Connector_Conn_01x01_Male J 0 40 Y N 1 F N
@@ -193,28 +210,6 @@ X ~ 2 0 -150 50 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Device_Jumper
-#
-DEF Device_Jumper JP 0 30 Y N 1 F N
-F0 "JP" 0 150 50 H V C CNN
-F1 "Device_Jumper" 0 -80 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- SolderJumper*
- Jumper*
- TestPoint*2Pads*
- TestPoint*Bridge*
-$ENDFPLIST
-DRAW
-A 0 -26 125 1426 373 0 1 0 N -98 50 99 50
-C -100 0 35 0 1 0 N
-C 100 0 35 0 1 0 N
-X 1 1 -300 0 165 R 50 50 0 1 P
-X 2 2 300 0 165 L 50 50 0 1 P
-ENDDRAW
-ENDDEF
-#
 # Device_LED
 #
 DEF Device_LED D 0 40 N N 1 F N
@@ -307,18 +302,6 @@ X IO34 6 600 -1000 100 L 50 50 1 1 I
 X IO35 7 600 -1100 100 L 50 50 1 1 I
 X IO32 8 600 -800 100 L 50 50 1 1 B
 X IO33 9 600 -900 100 L 50 50 1 1 B
-ENDDRAW
-ENDDEF
-#
-# omc-plugs_OMC-Female-Plug
-#
-DEF omc-plugs_OMC-Female-Plug JP 0 40 Y Y 1 F N
-F0 "JP" -8 -110 50 H V C CNN
-F1 "omc-plugs_OMC-Female-Plug" 12 106 50 H V C CNN
-F2 "" -8 -110 50 H I C CNN
-F3 "" -8 -110 50 H I C CNN
-DRAW
-X ~ ~ 46 -2 118 L 50 50 1 1 w
 ENDDRAW
 ENDDEF
 #

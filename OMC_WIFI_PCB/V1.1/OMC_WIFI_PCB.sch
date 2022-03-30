@@ -13,20 +13,6 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text GLabel 1750 4250 0    50   Input ~ 0
-EN
-Text GLabel 1750 4450 0    50   Input ~ 0
-VP_ACS
-Text GLabel 1750 4550 0    50   Input ~ 0
-VN_ZMPT
-Text GLabel 3300 6250 2    50   Input ~ 0
-D32_RELAY
-Text GLabel 3300 5850 2    50   Input ~ 0
-D23_LED
-Text GLabel 3300 4350 2    50   Input ~ 0
-TX0
-Text GLabel 3300 4550 2    50   Input ~ 0
-RX0
 Wire Notes Line
 	-3100 3050 350  3050
 Text Notes 2100 3750 0    50   ~ 10
@@ -70,19 +56,6 @@ Wire Wire Line
 	2250 2700 2400 2700
 Wire Wire Line
 	2400 2700 2400 2750
-$Comp
-L power:GND #PWR0107
-U 1 1 62346668
-P 2500 6950
-F 0 "#PWR0107" H 2500 6700 50  0001 C CNN
-F 1 "GND" H 2505 6777 50  0000 C CNN
-F 2 "" H 2500 6950 50  0001 C CNN
-F 3 "" H 2500 6950 50  0001 C CNN
-	1    2500 6950
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2500 6850 2500 6950
 Text Notes 1000 800  0    50   ~ 10
 Alimentación y Carga
 Wire Wire Line
@@ -214,7 +187,6 @@ Text GLabel 5550 4700 0    50   Input ~ 0
 CTS
 Text GLabel 5400 4600 0    50   Input ~ 0
 VCC
-NoConn ~ 1700 5450
 Text GLabel 5350 4500 0    50   Input ~ 0
 DTR
 Wire Notes Line
@@ -286,127 +258,125 @@ Wire Notes Line
 Wire Notes Line
 	6050 3250 600  3250
 Wire Notes Line
-	4850 1750 4850 600 
+	6936 1666 6936 516 
 Wire Wire Line
-	6900 1050 6900 950 
+	8986 966  8986 866 
 Wire Wire Line
-	6750 1050 6900 1050
+	8836 966  8986 966 
 $Comp
 L power:GND #PWR0110
 U 1 1 620E6BF1
-P 6900 1450
-F 0 "#PWR0110" H 6900 1200 50  0001 C CNN
-F 1 "GND" H 6905 1277 50  0000 C CNN
-F 2 "" H 6900 1450 50  0001 C CNN
-F 3 "" H 6900 1450 50  0001 C CNN
-	1    6900 1450
+P 8986 1366
+F 0 "#PWR0110" H 8986 1116 50  0001 C CNN
+F 1 "GND" H 8991 1193 50  0000 C CNN
+F 2 "" H 8986 1366 50  0001 C CNN
+F 3 "" H 8986 1366 50  0001 C CNN
+	1    8986 1366
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:+5V #PWR0109
 U 1 1 620E6405
-P 6900 950
-F 0 "#PWR0109" H 6900 800 50  0001 C CNN
-F 1 "+5V" H 6915 1123 50  0000 C CNN
-F 2 "" H 6900 950 50  0001 C CNN
-F 3 "" H 6900 950 50  0001 C CNN
-	1    6900 950 
+P 8986 866
+F 0 "#PWR0109" H 8986 716 50  0001 C CNN
+F 1 "+5V" H 9001 1039 50  0000 C CNN
+F 2 "" H 8986 866 50  0001 C CNN
+F 3 "" H 8986 866 50  0001 C CNN
+	1    8986 866 
 	1    0    0    -1  
 $EndComp
 $Comp
 L Connector:Conn_01x03_Female J10
 U 1 1 620C97A5
-P 6550 1150
-F 0 "J10" H 6442 1435 50  0000 C CNN
-F 1 "Control_ACS712" H 6442 1344 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 6550 1150 50  0001 C CNN
-F 3 "~" H 6550 1150 50  0001 C CNN
-	1    6550 1150
+P 8636 1066
+F 0 "J10" H 8528 1351 50  0000 C CNN
+F 1 "Control_ACS712" H 8528 1260 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 8636 1066 50  0001 C CNN
+F 3 "~" H 8636 1066 50  0001 C CNN
+	1    8636 1066
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	4000 1250 4300 1250
-Text GLabel 4300 1250 2    50   Input ~ 0
+	6086 1166 6386 1166
+Text GLabel 6386 1166 2    50   Input ~ 0
 VN_ZMPT
 Wire Wire Line
-	4200 1450 4200 1350
-Connection ~ 4200 1450
+	6286 1366 6286 1266
+Connection ~ 6286 1366
 Wire Wire Line
-	4000 1450 4200 1450
+	6086 1366 6286 1366
 Wire Wire Line
-	4200 1350 4000 1350
+	6286 1266 6086 1266
 Wire Wire Line
-	4200 1550 4200 1450
+	6286 1466 6286 1366
 Wire Wire Line
-	4200 1150 4000 1150
+	6286 1066 6086 1066
 Wire Wire Line
-	4200 1000 4200 1150
+	6286 916  6286 1066
 $Comp
 L power:GND #PWR0106
 U 1 1 622EDE98
-P 4200 1550
-F 0 "#PWR0106" H 4200 1300 50  0001 C CNN
-F 1 "GND" H 4205 1377 50  0000 C CNN
-F 2 "" H 4200 1550 50  0001 C CNN
-F 3 "" H 4200 1550 50  0001 C CNN
-	1    4200 1550
+P 6286 1466
+F 0 "#PWR0106" H 6286 1216 50  0001 C CNN
+F 1 "GND" H 6291 1293 50  0000 C CNN
+F 2 "" H 6286 1466 50  0001 C CNN
+F 3 "" H 6286 1466 50  0001 C CNN
+	1    6286 1466
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:+5V #PWR0105
 U 1 1 622ED7BD
-P 4200 1000
-F 0 "#PWR0105" H 4200 850 50  0001 C CNN
-F 1 "+5V" H 4215 1173 50  0000 C CNN
-F 2 "" H 4200 1000 50  0001 C CNN
-F 3 "" H 4200 1000 50  0001 C CNN
-	1    4200 1000
+P 6286 916
+F 0 "#PWR0105" H 6286 766 50  0001 C CNN
+F 1 "+5V" H 6301 1089 50  0000 C CNN
+F 2 "" H 6286 916 50  0001 C CNN
+F 3 "" H 6286 916 50  0001 C CNN
+	1    6286 916 
 	1    0    0    -1  
 $EndComp
 $Comp
 L Connector:Conn_01x04_Female J11
 U 1 1 62243A42
-P 3800 1250
-F 0 "J11" H 3692 1535 50  0000 C CNN
-F 1 "Control_ZMPT101B" H 3692 1444 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 3800 1250 50  0001 C CNN
-F 3 "~" H 3800 1250 50  0001 C CNN
-	1    3800 1250
+P 5886 1166
+F 0 "J11" H 5778 1451 50  0000 C CNN
+F 1 "Control_ZMPT101B" H 5778 1360 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 5886 1166 50  0001 C CNN
+F 3 "~" H 5886 1166 50  0001 C CNN
+	1    5886 1166
 	-1   0    0    -1  
 $EndComp
 Wire Notes Line
-	4720 1700 2350 1700
+	6806 1616 4436 1616
 Wire Notes Line
-	2350 1700 2350 690 
-Text Notes 2430 860  0    50   ~ 0
+	4436 1616 4436 606 
+Text Notes 4516 776  0    50   ~ 0
 Módulo ZMPT101B (Sensor Voltaje)\n
-Text Notes 5210 780  0    50   ~ 10
+Text Notes 7296 696  0    50   ~ 10
 Módulo ACS712 (Sensor Corriente)\n
 Wire Notes Line
-	4720 690  4720 1700
+	6806 606  6806 1616
 Wire Notes Line
 	6050 7350 6050 3250
 Wire Notes Line
 	600  7350 6050 7350
 Wire Notes Line
-	2350 690  4720 690 
-Wire Notes Line
-	700  600  700  1950
+	4436 606  6806 606 
 Wire Wire Line
-	5250 1100 5450 1100
+	7336 1016 7536 1016
 Wire Wire Line
-	3100 1350 2800 1350
+	5186 1266 4886 1266
 Wire Wire Line
-	3100 1250 2800 1250
+	5186 1166 4886 1166
 $Comp
 L Connector:Conn_01x02_Female J9
 U 1 1 62231822
-P 3300 1250
-F 0 "J9" H 3328 1226 50  0000 L CNN
-F 1 "Line_ZMPT101B" H 3328 1135 50  0000 L CNN
-F 2 "TerminalBlock:TerminalBlock_bornier-2_P5.08mm" H 3300 1250 50  0001 C CNN
-F 3 "~" H 3300 1250 50  0001 C CNN
-	1    3300 1250
+P 5386 1166
+F 0 "J9" H 5414 1142 50  0000 L CNN
+F 1 "Line_ZMPT101B" H 5414 1051 50  0000 L CNN
+F 2 "TerminalBlock:TerminalBlock_bornier-2_P5.08mm" H 5386 1166 50  0001 C CNN
+F 3 "~" H 5386 1166 50  0001 C CNN
+	1    5386 1166
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -419,12 +389,8 @@ Wire Notes Line
 	3350 1800 3350 3200
 Wire Notes Line
 	3350 3200 6600 3200
-Text GLabel 5250 1100 0    50   Input ~ 0
+Text GLabel 7336 1016 0    50   Input ~ 0
 NO
-Wire Notes Line
-	700  1950 2200 1950
-Wire Notes Line
-	2200 600  700  600 
 $Comp
 L Connector:Conn_01x03_Male J4
 U 1 1 6216C21C
@@ -457,27 +423,25 @@ Wire Wire Line
 $Comp
 L Connector:Conn_01x02_Female J8
 U 1 1 621188AB
-P 5650 1100
-F 0 "J8" H 5678 1076 50  0000 L CNN
-F 1 "Line_ACS712" H 5678 985 50  0000 L CNN
-F 2 "TerminalBlock:TerminalBlock_bornier-2_P5.08mm" H 5650 1100 50  0001 C CNN
-F 3 "~" H 5650 1100 50  0001 C CNN
-	1    5650 1100
+P 7736 1016
+F 0 "J8" H 7764 992 50  0000 L CNN
+F 1 "Line_ACS712" H 7764 901 50  0000 L CNN
+F 2 "TerminalBlock:TerminalBlock_bornier-2_P5.08mm" H 7736 1016 50  0001 C CNN
+F 3 "~" H 7736 1016 50  0001 C CNN
+	1    7736 1016
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5250 1200 5450 1200
-Wire Notes Line
-	2200 600  2200 1950
+	7336 1116 7536 1116
 Text GLabel 1350 2700 0    50   Input ~ 0
-NEUTRAL
+Line
 Text GLabel 1350 2500 0    50   Input ~ 0
+Neutral
+Text GLabel 7336 1116 0    50   Input ~ 0
 LINE
-Text GLabel 5250 1200 0    50   Input ~ 0
-LINE
-Text GLabel 2800 1350 0    50   Input ~ 0
+Text GLabel 4886 1266 0    50   Input ~ 0
 NEUTRAL
-Text GLabel 2800 1250 0    50   Input ~ 0
+Text GLabel 4886 1166 0    50   Input ~ 0
 LINE
 Wire Wire Line
 	1400 1400 1250 1400
@@ -535,32 +499,17 @@ $EndComp
 Text GLabel 2000 1300 2    50   Input ~ 0
 LINE
 Wire Wire Line
-	6750 1250 6900 1250
+	8836 1166 8986 1166
 Wire Wire Line
-	6900 1250 6900 1450
-$Comp
-L Device:Jumper JP1
-U 1 1 621BDC2F
-P 7300 1150
-F 0 "JP1" H 7300 1414 50  0000 C CNN
-F 1 "Jumper" H 7300 1323 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7300 1150 50  0001 C CNN
-F 3 "~" H 7300 1150 50  0001 C CNN
-	1    7300 1150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6750 1150 7000 1150
+	8986 1166 8986 1366
 Wire Notes Line
-	4850 600  9000 600 
+	6936 516  11086 516 
 Wire Notes Line
-	4850 1750 9000 1750
+	6936 1666 11086 1666
 Wire Notes Line
-	9000 600  9000 1750
-Text GLabel 7850 1150 2    50   Input ~ 0
+	11086 516  11086 1666
+Text GLabel 9087 1066 2    50   Input ~ 0
 VP_ACS
-Wire Wire Line
-	7600 1150 7850 1150
 $Comp
 L power:PWR_FLAG #FLG0104
 U 1 1 62219A74
@@ -596,141 +545,26 @@ Wire Wire Line
 Wire Wire Line
 	1450 1250 1150 1250
 Wire Wire Line
-	1900 4250 1750 4250
-Wire Wire Line
-	1900 4450 1750 4450
-Wire Wire Line
-	1750 4550 1900 4550
-Wire Wire Line
-	2000 3950 2000 4050
+	1865 4367 1715 4367
 $Comp
 L power:+5V #PWR0101
 U 1 1 621F2808
-P 2000 3950
-F 0 "#PWR0101" H 2000 3800 50  0001 C CNN
-F 1 "+5V" H 2015 4123 50  0000 C CNN
-F 2 "" H 2000 3950 50  0001 C CNN
-F 3 "" H 2000 3950 50  0001 C CNN
-	1    2000 3950
+P 1682 3905
+F 0 "#PWR0101" H 1682 3755 50  0001 C CNN
+F 1 "+5V" H 1697 4078 50  0000 C CNN
+F 2 "" H 1682 3905 50  0001 C CNN
+F 3 "" H 1682 3905 50  0001 C CNN
+	1    1682 3905
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3300 6550 3100 6550
-Wire Wire Line
-	3300 6450 3100 6450
-Wire Wire Line
-	3100 6250 3300 6250
-Wire Wire Line
-	3100 6150 3300 6150
-Wire Wire Line
-	3100 6050 3300 6050
-Wire Wire Line
-	3300 5950 3100 5950
-Wire Wire Line
-	3300 5850 3100 5850
-Wire Wire Line
-	3300 5750 3100 5750
-Wire Wire Line
-	3300 5650 3100 5650
-Wire Wire Line
-	3100 5550 3300 5550
-Wire Wire Line
-	3100 5450 3300 5450
-Wire Wire Line
-	3100 5350 3300 5350
-Wire Wire Line
-	3300 5250 3100 5250
-Wire Wire Line
-	3100 5150 3300 5150
-Wire Wire Line
-	3100 5050 3300 5050
-Wire Wire Line
-	3100 4950 3300 4950
-Wire Wire Line
-	3100 4850 3300 4850
-Wire Wire Line
-	3100 4750 3300 4750
-Wire Wire Line
-	3100 4650 3300 4650
-Wire Wire Line
-	3100 4550 3300 4550
-Wire Wire Line
-	3100 4450 3300 4450
-Wire Wire Line
-	3100 4350 3300 4350
-$Comp
-L RF_Module:ESP32-WROOM-32 U1
-U 1 1 623B9AA7
-P 2500 5450
-F 0 "U1" H 2500 7031 50  0000 C CNN
-F 1 "ESP32-WROOM-32" H 2500 6940 50  0000 C CNN
-F 2 "RF_Module:ESP32-WROOM-32" H 2500 3950 50  0001 C CNN
-F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf" H 2200 5500 50  0001 C CNN
-	1    2500 5450
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2000 4050 2500 4050
-Wire Wire Line
-	1700 5450 1900 5450
-NoConn ~ 1700 5550
-Wire Wire Line
-	1700 5550 1900 5550
-NoConn ~ 1700 5650
-Wire Wire Line
-	1700 5650 1900 5650
-NoConn ~ 1700 5750
-Wire Wire Line
-	1700 5750 1900 5750
-NoConn ~ 1700 5850
-Wire Wire Line
-	1700 5850 1900 5850
-NoConn ~ 1700 5950
-Wire Wire Line
-	1700 5950 1900 5950
-Text GLabel 3300 4250 2    50   Input ~ 0
-BOOT
-Wire Wire Line
-	3300 4250 3100 4250
-Wire Wire Line
-	3100 6350 3300 6350
-NoConn ~ 3300 4450
-NoConn ~ 3300 4650
-NoConn ~ 3300 4750
-NoConn ~ 3300 4850
-NoConn ~ 3300 4950
-NoConn ~ 3300 5050
-NoConn ~ 3300 5150
-NoConn ~ 3300 5250
-NoConn ~ 3300 5350
-NoConn ~ 3300 5450
-NoConn ~ 3300 5550
-NoConn ~ 3300 5650
-NoConn ~ 3300 5750
-NoConn ~ 3300 5950
-NoConn ~ 3300 6050
-NoConn ~ 3300 6150
-NoConn ~ 3300 6350
-NoConn ~ 3300 6450
-NoConn ~ 3300 6550
+	3265 4367 3065 4367
 Wire Notes Line
 	4150 7250 700  7250
 Wire Notes Line
 	4150 3550 4150 7250
 Wire Notes Line
 	700  3550 700  7250
-$Comp
-L omc-plugs:OMC-Female-Plug JP2
-U 1 1 6242580B
-P 3500 550
-F 0 "JP2" H 3174 773 50  0000 C CNN
-F 1 "OMC-Female-Plug" H 3174 682 50  0000 C CNN
-F 2 "" H 3492 440 50  0001 C CNN
-F 3 "" H 3492 440 50  0001 C CNN
-	1    3500 550 
-	1    0    0    -1  
-$EndComp
-NoConn ~ 3426 552 
 Wire Wire Line
 	1150 1250 1150 1300
 Wire Wire Line
@@ -739,23 +573,23 @@ Wire Wire Line
 	1150 1301 1150 1300
 Connection ~ 1150 1300
 $Comp
-L Connector:Conn_01x01_Male J?
+L Connector:Conn_01x01_Male J1
 U 1 1 6246AC9C
 P 798 1301
-F 0 "J?" H 906 1482 50  0000 C CNN
+F 0 "J1" H 906 1482 50  0000 C CNN
 F 1 "Line Input" H 906 1391 50  0000 C CNN
-F 2 "" H 798 1301 50  0001 C CNN
+F 2 "omc-plugs:OMC-Male-Plug" H 798 1301 50  0001 C CNN
 F 3 "~" H 798 1301 50  0001 C CNN
 	1    798  1301
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x01_Male J?
+L Connector:Conn_01x01_Male J2
 U 1 1 624922FE
 P 907 1401
-F 0 "J?" H 1015 1582 50  0000 C CNN
+F 0 "J2" H 1015 1582 50  0000 C CNN
 F 1 "Nuetral Input" H 957 1357 50  0000 C CNN
-F 2 "" H 907 1401 50  0001 C CNN
+F 2 "omc-plugs:OMC-Male-Plug" H 907 1401 50  0001 C CNN
 F 3 "~" H 907 1401 50  0001 C CNN
 	1    907  1401
 	1    0    0    -1  
@@ -767,4 +601,209 @@ Wire Wire Line
 Wire Wire Line
 	1104 1401 1107 1401
 Connection ~ 1250 1400
+$Comp
+L Device:R R3
+U 1 1 62488DE2
+P 3055 3987
+F 0 "R3" V 2848 3987 50  0000 C CNN
+F 1 "2K" V 2939 3987 50  0000 C CNN
+F 2 "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder" V 2985 3987 50  0001 C CNN
+F 3 "~" H 3055 3987 50  0001 C CNN
+	1    3055 3987
+	0    1    1    0   
+$EndComp
+$Comp
+L RF_Module:ESP32-WROOM-32 U1
+U 1 1 623B9AA7
+P 2465 5567
+F 0 "U1" H 2465 7148 50  0000 C CNN
+F 1 "ESP32-WROOM-32" H 2465 7057 50  0000 C CNN
+F 2 "RF_Module:ESP32-WROOM-32" H 2465 4067 50  0001 C CNN
+F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf" H 2165 5617 50  0001 C CNN
+	1    2465 5567
+	1    0    0    -1  
+$EndComp
+NoConn ~ 3265 6667
+NoConn ~ 3265 6567
+NoConn ~ 3265 6467
+NoConn ~ 3265 6267
+NoConn ~ 3265 6167
+NoConn ~ 3265 6067
+NoConn ~ 3265 5867
+NoConn ~ 3265 5767
+NoConn ~ 3265 5667
+NoConn ~ 3265 5567
+NoConn ~ 3265 5467
+NoConn ~ 3265 5367
+NoConn ~ 3265 5267
+NoConn ~ 3265 5167
+NoConn ~ 3265 5067
+NoConn ~ 3265 4967
+NoConn ~ 3265 4867
+NoConn ~ 3265 4767
+NoConn ~ 3265 4567
+Wire Wire Line
+	3065 6467 3265 6467
+Text GLabel 3265 4367 2    50   Input ~ 0
+BOOT
+Wire Wire Line
+	1665 6067 1865 6067
+NoConn ~ 1665 6067
+Wire Wire Line
+	1665 5967 1865 5967
+NoConn ~ 1665 5967
+Wire Wire Line
+	1665 5867 1865 5867
+NoConn ~ 1665 5867
+Wire Wire Line
+	1665 5767 1865 5767
+NoConn ~ 1665 5767
+Wire Wire Line
+	1665 5667 1865 5667
+NoConn ~ 1665 5667
+Wire Wire Line
+	1665 5567 1865 5567
+Wire Wire Line
+	3065 4467 3265 4467
+Wire Wire Line
+	3065 4567 3265 4567
+Wire Wire Line
+	3065 4667 3265 4667
+Wire Wire Line
+	3065 4767 3265 4767
+Wire Wire Line
+	3065 4867 3265 4867
+Wire Wire Line
+	3065 4967 3265 4967
+Wire Wire Line
+	3065 5067 3265 5067
+Wire Wire Line
+	3065 5167 3265 5167
+Wire Wire Line
+	3065 5267 3265 5267
+Wire Wire Line
+	3265 5367 3065 5367
+Wire Wire Line
+	3065 5467 3265 5467
+Wire Wire Line
+	3065 5567 3265 5567
+Wire Wire Line
+	3065 5667 3265 5667
+Wire Wire Line
+	3265 5767 3065 5767
+Wire Wire Line
+	3265 5867 3065 5867
+Wire Wire Line
+	3265 5967 3065 5967
+Wire Wire Line
+	3265 6067 3065 6067
+Wire Wire Line
+	3065 6167 3265 6167
+Wire Wire Line
+	3065 6267 3265 6267
+Wire Wire Line
+	3065 6367 3265 6367
+Wire Wire Line
+	3265 6567 3065 6567
+Wire Wire Line
+	3265 6667 3065 6667
+Wire Wire Line
+	1715 4667 1865 4667
+Wire Wire Line
+	1865 4567 1715 4567
+NoConn ~ 1665 5567
+Wire Wire Line
+	2465 6967 2465 7067
+$Comp
+L power:GND #PWR0107
+U 1 1 62346668
+P 2465 7067
+F 0 "#PWR0107" H 2465 6817 50  0001 C CNN
+F 1 "GND" H 2470 6894 50  0000 C CNN
+F 2 "" H 2465 7067 50  0001 C CNN
+F 3 "" H 2465 7067 50  0001 C CNN
+	1    2465 7067
+	1    0    0    -1  
+$EndComp
+Text GLabel 3265 4667 2    50   Input ~ 0
+RX0
+Text GLabel 3265 4467 2    50   Input ~ 0
+TX0
+Text GLabel 3265 5967 2    50   Input ~ 0
+D23_LED
+Text GLabel 3265 6367 2    50   Input ~ 0
+D32_RELAY
+Text GLabel 1715 4667 0    50   Input ~ 0
+VN_ZMPT
+Text GLabel 1715 4567 0    50   Input ~ 0
+VP_ACS
+Text GLabel 1715 4367 0    50   Input ~ 0
+EN
+$Comp
+L Device:R R2
+U 1 1 6247BBA5
+P 1975 3984
+F 0 "R2" V 1768 3984 50  0000 C CNN
+F 1 "1K" V 1859 3984 50  0000 C CNN
+F 2 "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder" V 1905 3984 50  0001 C CNN
+F 3 "~" H 1975 3984 50  0001 C CNN
+	1    1975 3984
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2465 3987 2905 3987
+Wire Wire Line
+	2125 3984 2465 3984
+Wire Wire Line
+	2465 3984 2465 3987
+Connection ~ 2465 3987
+Wire Wire Line
+	2465 3987 2465 4167
+Wire Wire Line
+	1825 3984 1682 3984
+Wire Wire Line
+	1682 3984 1682 3905
+$Comp
+L power:GND #PWR0102
+U 1 1 62554B4E
+P 3293 4064
+F 0 "#PWR0102" H 3293 3814 50  0001 C CNN
+F 1 "GND" H 3298 3891 50  0000 C CNN
+F 2 "" H 3293 4064 50  0001 C CNN
+F 3 "" H 3293 4064 50  0001 C CNN
+	1    3293 4064
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3205 3987 3293 3987
+Wire Wire Line
+	3293 3987 3293 4064
+Wire Wire Line
+	9087 1066 8836 1066
+$Comp
+L Connector:Conn_01x01_Female J3
+U 1 1 625CD894
+P 3035 1258
+F 0 "J3" H 3063 1284 50  0000 L CNN
+F 1 "Line Output" H 3063 1193 50  0000 L CNN
+F 2 "omc-plugs:OMC-Female-Plug" H 3035 1258 50  0001 C CNN
+F 3 "~" H 3035 1258 50  0001 C CNN
+	1    3035 1258
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x01_Female J12
+U 1 1 625CDD0C
+P 3038 1440
+F 0 "J12" H 3066 1466 50  0000 L CNN
+F 1 "Nuetral Output" H 3066 1375 50  0000 L CNN
+F 2 "omc-plugs:OMC-Female-Plug" H 3038 1440 50  0001 C CNN
+F 3 "~" H 3038 1440 50  0001 C CNN
+	1    3038 1440
+	1    0    0    -1  
+$EndComp
+Text GLabel 2739 1440 0    50   Input ~ 0
+Neutral
+Wire Wire Line
+	2838 1440 2739 1440
 $EndSCHEMATC
