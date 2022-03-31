@@ -844,6 +844,18 @@ F 3 "" H 2400 2400 50  0001 C CNN
 	1    2400 2400
 	1    0    0    -1  
 $EndComp
-NoConn ~ 1450 1300
-NoConn ~ 1500 1300
+Wire Wire Line
+	1500 1300 1500 1250
+Wire Wire Line
+	1500 1250 1800 1250
+Wire Wire Line
+	1800 1250 1800 1300
+Connection ~ 1800 1300
+Wire Wire Line
+	1450 1300 1450 1250
+Wire Wire Line
+	1450 1250 1150 1250
+Wire Wire Line
+	1150 1250 1150 1300
+Connection ~ 1150 1300
 $EndSCHEMATC

@@ -533,48 +533,44 @@ Wire Notes Line
 Wire Notes Line
 	6050 3250 600  3250
 Wire Notes Line
-	4850 1750 4850 600 
+	6888 1725 6888 575 
 Wire Wire Line
-	6900 1050 6900 950 
+	8938 1025 8938 925 
 Wire Wire Line
-	6750 1050 6900 1050
+	8788 1025 8938 1025
 $Comp
 L power:GND #PWR0110
 U 1 1 620E6BF1
-P 6900 1450
-F 0 "#PWR0110" H 6900 1200 50  0001 C CNN
-F 1 "GND" H 6905 1277 50  0000 C CNN
-F 2 "" H 6900 1450 50  0001 C CNN
-F 3 "" H 6900 1450 50  0001 C CNN
-	1    6900 1450
+P 8938 1425
+F 0 "#PWR0110" H 8938 1175 50  0001 C CNN
+F 1 "GND" H 8943 1252 50  0000 C CNN
+F 2 "" H 8938 1425 50  0001 C CNN
+F 3 "" H 8938 1425 50  0001 C CNN
+	1    8938 1425
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:+5V #PWR0109
 U 1 1 620E6405
-P 6900 950
-F 0 "#PWR0109" H 6900 800 50  0001 C CNN
-F 1 "+5V" H 6915 1123 50  0000 C CNN
-F 2 "" H 6900 950 50  0001 C CNN
-F 3 "" H 6900 950 50  0001 C CNN
-	1    6900 950 
+P 8938 925
+F 0 "#PWR0109" H 8938 775 50  0001 C CNN
+F 1 "+5V" H 8953 1098 50  0000 C CNN
+F 2 "" H 8938 925 50  0001 C CNN
+F 3 "" H 8938 925 50  0001 C CNN
+	1    8938 925 
 	1    0    0    -1  
 $EndComp
 $Comp
 L Connector:Conn_01x03_Female J10
 U 1 1 620C97A5
-P 6550 1150
-F 0 "J10" H 6442 1435 50  0000 C CNN
-F 1 "Control_ACS712" H 6442 1344 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 6550 1150 50  0001 C CNN
-F 3 "~" H 6550 1150 50  0001 C CNN
-	1    6550 1150
+P 8588 1125
+F 0 "J10" H 8480 1410 50  0000 C CNN
+F 1 "Control_ACS712" H 8480 1319 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 8588 1125 50  0001 C CNN
+F 3 "~" H 8588 1125 50  0001 C CNN
+	1    8588 1125
 	-1   0    0    1   
 $EndComp
-Wire Wire Line
-	4000 1250 4300 1250
-Text GLabel 4300 1250 2    50   Input ~ 0
-VN_ZMPT
 Wire Wire Line
 	4200 1450 4200 1350
 Connection ~ 4200 1450
@@ -622,25 +618,19 @@ F 3 "~" H 3800 1250 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 Wire Notes Line
-	4720 1700 2350 1700
-Wire Notes Line
 	2350 1700 2350 690 
 Text Notes 2430 860  0    50   ~ 0
 Módulo ZMPT101B (Sensor Voltaje)\n
-Text Notes 5210 780  0    50   ~ 10
+Text Notes 7248 755  0    50   ~ 10
 Módulo ACS712 (Sensor Corriente)\n
-Wire Notes Line
-	4720 690  4720 1700
 Wire Notes Line
 	6050 7350 6050 3250
 Wire Notes Line
 	600  7350 6050 7350
 Wire Notes Line
-	2350 690  4720 690 
-Wire Notes Line
 	700  600  700  1950
 Wire Wire Line
-	5250 1100 5450 1100
+	7288 1075 7488 1075
 Wire Wire Line
 	3100 1350 2800 1350
 Wire Wire Line
@@ -666,7 +656,7 @@ Wire Notes Line
 	3350 1800 3350 3200
 Wire Notes Line
 	3350 3200 6600 3200
-Text GLabel 5250 1100 0    50   Input ~ 0
+Text GLabel 7288 1075 0    50   Input ~ 0
 NO
 Text GLabel 1950 6700 0    50   Input ~ 0
 D27
@@ -710,16 +700,16 @@ Wire Wire Line
 $Comp
 L Connector:Conn_01x02_Female J8
 U 1 1 621188AB
-P 5650 1100
-F 0 "J8" H 5678 1076 50  0000 L CNN
-F 1 "Line_ACS712" H 5678 985 50  0000 L CNN
-F 2 "TerminalBlock:TerminalBlock_bornier-2_P5.08mm" H 5650 1100 50  0001 C CNN
-F 3 "~" H 5650 1100 50  0001 C CNN
-	1    5650 1100
+P 7688 1075
+F 0 "J8" H 7716 1051 50  0000 L CNN
+F 1 "Line_ACS712" H 7716 960 50  0000 L CNN
+F 2 "TerminalBlock:TerminalBlock_bornier-2_P5.08mm" H 7688 1075 50  0001 C CNN
+F 3 "~" H 7688 1075 50  0001 C CNN
+	1    7688 1075
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5250 1200 5450 1200
+	7288 1175 7488 1175
 Wire Notes Line
 	2200 600  2200 1950
 Text GLabel 1400 1200 2    50   Input ~ 0
@@ -728,7 +718,7 @@ Text GLabel 1350 2700 0    50   Input ~ 0
 NEUTRAL
 Text GLabel 1350 2500 0    50   Input ~ 0
 LINE
-Text GLabel 5250 1200 0    50   Input ~ 0
+Text GLabel 7288 1175 0    50   Input ~ 0
 LINE
 Text GLabel 2800 1350 0    50   Input ~ 0
 NEUTRAL
@@ -795,32 +785,15 @@ Wire Wire Line
 	1050 1400 1250 1400
 Connection ~ 1250 1400
 Wire Wire Line
-	6750 1250 6900 1250
+	8788 1225 8938 1225
 Wire Wire Line
-	6900 1250 6900 1450
-$Comp
-L Device:Jumper JP1
-U 1 1 621BDC2F
-P 7300 1150
-F 0 "JP1" H 7300 1414 50  0000 C CNN
-F 1 "Jumper" H 7300 1323 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7300 1150 50  0001 C CNN
-F 3 "~" H 7300 1150 50  0001 C CNN
-	1    7300 1150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6750 1150 7000 1150
+	8938 1225 8938 1425
 Wire Notes Line
-	4850 600  9000 600 
+	6888 575  11038 575 
 Wire Notes Line
-	4850 1750 9000 1750
+	6888 1725 11038 1725
 Wire Notes Line
-	9000 600  9000 1750
-Text GLabel 7850 1150 2    50   Input ~ 0
-VP_ACS
-Wire Wire Line
-	7600 1150 7850 1150
+	11038 575  11038 1725
 $Comp
 L power:PWR_FLAG #FLG0104
 U 1 1 62219A74
@@ -858,4 +831,114 @@ Wire Wire Line
 Wire Wire Line
 	1150 1250 1150 1300
 Connection ~ 1150 1300
+Wire Wire Line
+	8788 1125 9039 1125
+Wire Wire Line
+	9942 1126 9942 1181
+Wire Wire Line
+	9761 1126 9942 1126
+Wire Wire Line
+	9387 1125 9461 1125
+Connection ~ 9387 1125
+Wire Wire Line
+	9387 1279 9387 1125
+Wire Wire Line
+	9455 1279 9387 1279
+Wire Wire Line
+	9339 1125 9387 1125
+Wire Wire Line
+	9461 1125 9461 1126
+$Comp
+L Device:R R3
+U 1 1 62476E7A
+P 9611 1126
+F 0 "R3" V 9818 1126 50  0000 C CNN
+F 1 "10K" V 9727 1126 50  0000 C CNN
+F 2 "Resistor_SMD:R_2010_5025Metric_Pad1.40x2.65mm_HandSolder" V 9541 1126 50  0001 C CNN
+F 3 "~" H 9611 1126 50  0001 C CNN
+	1    9611 1126
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0112
+U 1 1 624773A1
+P 9942 1181
+F 0 "#PWR0112" H 9942 931 50  0001 C CNN
+F 1 "GND" H 9947 1008 50  0000 C CNN
+F 2 "" H 9942 1181 50  0001 C CNN
+F 3 "" H 9942 1181 50  0001 C CNN
+	1    9942 1181
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 6246D72C
+P 9189 1125
+F 0 "R2" V 9396 1125 50  0000 C CNN
+F 1 "3.3K" V 9305 1125 50  0000 C CNN
+F 2 "Resistor_SMD:R_2010_5025Metric_Pad1.40x2.65mm_HandSolder" V 9119 1125 50  0001 C CNN
+F 3 "~" H 9189 1125 50  0001 C CNN
+	1    9189 1125
+	0    -1   -1   0   
+$EndComp
+Text GLabel 9455 1279 2    50   Input ~ 0
+VP_ACS
+Wire Wire Line
+	5204 1251 5204 1306
+Wire Wire Line
+	5023 1251 5204 1251
+Wire Wire Line
+	4649 1250 4723 1250
+Connection ~ 4649 1250
+Wire Wire Line
+	4649 1404 4649 1250
+Wire Wire Line
+	4717 1404 4649 1404
+Wire Wire Line
+	4601 1250 4649 1250
+Wire Wire Line
+	4723 1250 4723 1251
+$Comp
+L Device:R R5
+U 1 1 624E965B
+P 4873 1251
+F 0 "R5" V 5080 1251 50  0000 C CNN
+F 1 "10K" V 4989 1251 50  0000 C CNN
+F 2 "Resistor_SMD:R_2010_5025Metric_Pad1.40x2.65mm_HandSolder" V 4803 1251 50  0001 C CNN
+F 3 "~" H 4873 1251 50  0001 C CNN
+	1    4873 1251
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0113
+U 1 1 624E9661
+P 5204 1306
+F 0 "#PWR0113" H 5204 1056 50  0001 C CNN
+F 1 "GND" H 5209 1133 50  0000 C CNN
+F 2 "" H 5204 1306 50  0001 C CNN
+F 3 "" H 5204 1306 50  0001 C CNN
+	1    5204 1306
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R4
+U 1 1 624E9667
+P 4451 1250
+F 0 "R4" V 4658 1250 50  0000 C CNN
+F 1 "3.3K" V 4567 1250 50  0000 C CNN
+F 2 "Resistor_SMD:R_2010_5025Metric_Pad1.40x2.65mm_HandSolder" V 4381 1250 50  0001 C CNN
+F 3 "~" H 4451 1250 50  0001 C CNN
+	1    4451 1250
+	0    -1   -1   0   
+$EndComp
+Text GLabel 4717 1404 2    50   Input ~ 0
+VN_ZMPT
+Wire Wire Line
+	4000 1250 4301 1250
+Wire Notes Line
+	5226 690  5226 1700
+Wire Notes Line
+	2350 1700 5226 1700
+Wire Notes Line
+	2350 690  5226 690 
 $EndSCHEMATC
