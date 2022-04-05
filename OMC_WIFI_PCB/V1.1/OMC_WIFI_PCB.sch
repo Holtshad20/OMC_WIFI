@@ -549,12 +549,12 @@ Wire Wire Line
 $Comp
 L power:+5V #PWR0101
 U 1 1 621F2808
-P 1682 3905
-F 0 "#PWR0101" H 1682 3755 50  0001 C CNN
-F 1 "+5V" H 1697 4078 50  0000 C CNN
-F 2 "" H 1682 3905 50  0001 C CNN
-F 3 "" H 1682 3905 50  0001 C CNN
-	1    1682 3905
+P 1110 3783
+F 0 "#PWR0101" H 1110 3633 50  0001 C CNN
+F 1 "+5V" H 1125 3956 50  0000 C CNN
+F 2 "" H 1110 3783 50  0001 C CNN
+F 3 "" H 1110 3783 50  0001 C CNN
+	1    1110 3783
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -601,17 +601,6 @@ Wire Wire Line
 Wire Wire Line
 	1104 1401 1107 1401
 Connection ~ 1250 1400
-$Comp
-L Device:R R3
-U 1 1 62488DE2
-P 3055 3987
-F 0 "R3" V 2848 3987 50  0000 C CNN
-F 1 "2K" V 2939 3987 50  0000 C CNN
-F 2 "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder" V 2985 3987 50  0001 C CNN
-F 3 "~" H 3055 3987 50  0001 C CNN
-	1    3055 3987
-	0    1    1    0   
-$EndComp
 $Comp
 L RF_Module:ESP32-WROOM-32 U1
 U 1 1 623B9AA7
@@ -739,26 +728,6 @@ Text GLabel 1715 4567 0    50   Input ~ 0
 VP_ACS
 Text GLabel 1715 4367 0    50   Input ~ 0
 EN
-$Comp
-L Device:R R2
-U 1 1 6247BBA5
-P 1975 3984
-F 0 "R2" V 1768 3984 50  0000 C CNN
-F 1 "1K" V 1859 3984 50  0000 C CNN
-F 2 "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder" V 1905 3984 50  0001 C CNN
-F 3 "~" H 1975 3984 50  0001 C CNN
-	1    1975 3984
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	2465 3987 2905 3987
-Wire Wire Line
-	2125 3984 2465 3984
-Wire Wire Line
-	2465 3984 2465 3987
-Connection ~ 2465 3987
-Wire Wire Line
-	2465 3987 2465 4167
 Wire Wire Line
 	1825 3984 1682 3984
 Wire Wire Line
@@ -774,10 +743,6 @@ F 3 "" H 3293 4064 50  0001 C CNN
 	1    3293 4064
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	3205 3987 3293 3987
-Wire Wire Line
-	3293 3987 3293 4064
 Wire Wire Line
 	9087 1066 8836 1066
 $Comp
@@ -806,4 +771,15 @@ Text GLabel 2739 1440 0    50   Input ~ 0
 Neutral
 Wire Wire Line
 	2838 1440 2739 1440
+$Comp
+L Connector:Conn_01x03_Female J?
+U 1 1 624BB1DC
+P 1530 3938
+F 0 "J?" H 1558 3964 50  0000 L CNN
+F 1 "Conn_01x03_Female" H 1558 3873 50  0000 L CNN
+F 2 "" H 1530 3938 50  0001 C CNN
+F 3 "~" H 1530 3938 50  0001 C CNN
+	1    1530 3938
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

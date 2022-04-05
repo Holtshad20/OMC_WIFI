@@ -3,6 +3,7 @@
 #include <AutoConnect.h>
 #include <AutoConnectCredential.h>
 #include <Preferences.h>
+#include <nvs_flash.h>
 #include <AsyncMqttClient.h>
 //#include "freertos/FreeRTOS.h"
 //#include "freertos/timers.h"
@@ -732,10 +733,10 @@ void acSetUp(void) {
     switchRelay.value = "Suministro cortado.";
   }
 
-  config.apip    = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
-  config.title   = "OMC-WIFI-" + chipID;                                //Título de la página web
-  config.homeUri = "/_ac";                                           //Directorio HOME de la página web
-  Portal.config(config);                                                //Se añaden las configuraciones al portal web
+  config.apip      = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
+  config.title     = "OMC-WIFI-" + chipID;                                //Título de la página web
+  config.homeUri   = "/_ac";                                              //Directorio HOME de la página web
+  config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET | AC_MENUITEM_HOME;                           //Se deshabilita el menú de desconectar del AP
   Portal.join({ap_config, ap_ssid, ap_pass, cred_reset, server_ip, cut_supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
   Portal.on("/ap_config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap_config" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap_ssid", onChangeSSID);                                  //Se enlaza la función "onChangeSSID" con la página en el directorio "/ap_ssid" (la función se ejecutará cada vez que se acceda al directorio)
@@ -744,6 +745,7 @@ void acSetUp(void) {
   Portal.on("/server_ip", onServerIP);                                  //Se enlaza la función "onServerIP" con la página en el directorio "/server_ip" (la función se ejecutará cada vez que se acceda al directorio)
   //Portal.on("/cut_supply", onCutSupply);                                //Se enlaza la función "onCutSupply" con la página en el directorio "/cut_supply" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/switch_relay", onSwitchRelay);
+  Portal.config(config);                                                //Se añaden las configuraciones al portal web
   //  Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
   //
   //  Server.on("/", rootPage);                                             //Se inicializa el servidor web
