@@ -99,6 +99,7 @@ Preferences       storage;            // Espacio en memoria para guardar los dat
 
 String chipID;                        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
+boolean inside = false;
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -125,7 +126,7 @@ ACText(txtCenter, "", "text-align:center");
 
 
 // Declaración de elementos AutoConnect para la página web de verificación de contraseña antes de configurar el dispositivo
-ACInput(passVer, "", "Clave Actual", "^.{8,16}$", "Introduzca la clave actual");
+ACInput(passVer, "", "Clave Actual", "^.{8,16}$", "Introduzca la clave actual", AC_Tag_None, AC_Input_Password);
 ACSubmit(ver, "Configurar Dispositivo", "/ap-config");
 ACSubmit(backMenu, "Volver al menú", "/_ac");
 
@@ -133,11 +134,12 @@ ACSubmit(backMenu, "Volver al menú", "/_ac");
 // Declaración de elementos AutoConnect para la página web de configuración del AP del ESP32
 ACInput(ssid, "", "Nuevo Nombre", "^[a-zA-ZñÑ\\d\\-]{1,31}[a-zA-ZñÑ\\d\\s]$", "Introduzca el nuevo nombre");
 ACSubmit(save01, "Guardar Nombre", "/ap-ssid");
-ACInput(pass1, "", "Nueva Clave", "^.{8,16}$", "Introduzca la nueva clave");
-ACInput(pass2, "", "Confirme Clave", "^.{8,16}$", "Introduzca la clave de nuevo");
+ACInput(pass1, "", "Nueva Clave", "^.{8,16}$", "Introduzca la nueva clave", AC_Tag_None, AC_Input_Password);
+ACInput(pass2, "", "Confirme Clave", "^.{8,16}$", "Introduzca la clave de nuevo", AC_Tag_None, AC_Input_Password);
 ACSubmit(save02, "Guardar Clave", "/ap-pass");
 ACInput(server, "", "IP del Servidor", "\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\\b", "Introduzca la IP del servidor");
 ACSubmit(save03, "Guardar Dirección IP", "/server-ip");
+ACRadio(resetCred, {"Sí", "No"}, "", AC_Horizontal, 2);
 ACSubmit(save04, "Restablecer Credenciales", "/cred-reset");
 
 
@@ -190,7 +192,7 @@ AutoConnectAux ap_config("/ap-config", "Configuración del Dispositivo", false, 
   save03,
   header04,
   txt05,
-  passVer,
+  resetCred,
   save04,
   backMenu,
 
@@ -256,6 +258,7 @@ AutoConnectAux switch_relay("/switch-relay", "Suministro Eléctrico", false, {
 
   switchState,
   backSupply,
+  resetCred,
 
 });
 
@@ -275,8 +278,10 @@ AutoConnectAux switch_relay("/switch-relay", "Suministro Eléctrico", false, {
 // Función para reiniciar los datos en la página de configuración del AP
 String onPreConfig(AutoConnectAux& aux, PageArgument& args) {
 
+  inside = false;
+
   //Se habilita y limpia el campo para introducir la clave
-  aux["passVer"].as<AutoConnectInput>().enable = true;
+  //aux["passVer"].as<AutoConnectInput>().enable = true;
   aux["passVer"].as<AutoConnectInput>().value  = "";
 
   //Textos que aparecerán es esta página
@@ -293,13 +298,16 @@ String onConfig(AutoConnectAux& aux, PageArgument& args) {
 
   storage.begin("config", true);       // Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
 
-  if (args.arg("passVer") == storage.getString("pass", "12345678")) {
+  if ((args.arg("passVer") == storage.getString("pass", "12345678")) or (inside == true)) {
+
+    inside = true;
+
     //Textos que aparecerán es esta página
     aux["txt01"].as<AutoConnectText>().value = "Desde este portal podrá configurar algunas características del dispositivo OMC-WIFI.";
     aux["txt02"].as<AutoConnectText>().value = "<p>El <b>nombre</b> debe tener entre 2 y 32 caracteres y solo acepta el guión como caracter especial (NO puede ser el último).</p>";
     aux["txt03"].as<AutoConnectText>().value = "<p>La <b>clave</b> debe tener entre 8 y 16 caracateres.</p>";
     aux["txt04"].as<AutoConnectText>().value = "A continuación deberá introducir la <b>dirección IP</b> del servidor al que se desea conectar (la dirección IP actual es " + storage.getString("server_ip", "0.0.0.0") + ").";
-    aux["txt05"].as<AutoConnectText>().value = "Introduzca la <b>clave actual del dispositivo</b> para restablecer las credenciales a las de fábrica.";
+    aux["txt05"].as<AutoConnectText>().value = "Elija <b>\"Sí\"</b> para restablecer los datos del dispositivo a los de fábrica (APs conectados, credenciales, dirección del servidor IP). <b>ESTE PROCESO ES IRREVERSIBLE</b>";
 
     aux["header01"].as<AutoConnectText>().value = "<h2>Cambiar Nombre del Dispositivo</h2>";
     aux["header02"].as<AutoConnectText>().value = "<h2>Cambiar Clave del Dispositivo</h2>";
@@ -312,12 +320,13 @@ String onConfig(AutoConnectAux& aux, PageArgument& args) {
     aux["pass1"].as<AutoConnectInput>().enable   = true;
     aux["pass2"].as<AutoConnectInput>().enable   = true;
     aux["server"].as<AutoConnectInput>().enable  = true;
-    aux["passVer"].as<AutoConnectInput>().enable = true;
 
     aux["save01"].as<AutoConnectSubmit>().enable = true;
     aux["save02"].as<AutoConnectSubmit>().enable = true;
     aux["save03"].as<AutoConnectSubmit>().enable = true;
     aux["save04"].as<AutoConnectSubmit>().enable = true;
+
+    aux["resetCred"].as<AutoConnectRadio>().enable = true;
 
 
     //Se limpian las entradas de datos al acceder al directorio
@@ -325,9 +334,10 @@ String onConfig(AutoConnectAux& aux, PageArgument& args) {
     aux["pass1"].as<AutoConnectInput>().value    = "";
     aux["pass2"].as<AutoConnectInput>().value    = "";
     aux["server"].as<AutoConnectInput>().value   = "";
-    aux["passVer"].as<AutoConnectInput>().value  = "";
+
   }
   else {
+
     //Textos que aparecerán es esta página
     aux["txt01"].as<AutoConnectText>().value = "La <b>clave introducida</b> es <b>inválida</b>, no podrá configurar el dispositivo.";
     aux["txt02"].as<AutoConnectText>().value = "";
@@ -345,12 +355,13 @@ String onConfig(AutoConnectAux& aux, PageArgument& args) {
     aux["pass1"].as<AutoConnectInput>().enable   = false;
     aux["pass2"].as<AutoConnectInput>().enable   = false;
     aux["server"].as<AutoConnectInput>().enable  = false;
-    aux["passVer"].as<AutoConnectInput>().enable = false;
 
     aux["save01"].as<AutoConnectSubmit>().enable = false;
     aux["save02"].as<AutoConnectSubmit>().enable = false;
     aux["save03"].as<AutoConnectSubmit>().enable = false;
     aux["save04"].as<AutoConnectSubmit>().enable = false;
+
+    aux["resetCred"].as<AutoConnectRadio>().enable = false;
 
   }
 
@@ -366,7 +377,9 @@ String onChangeSSID(AutoConnectAux& aux, PageArgument& args) {
   AutoConnectInput& ssid = ap_config["ssid"].as<AutoConnectInput>();                                                                          //Se guarda el elemento AutoConnectInput denominado "ssid" de la página web ap_config, que guarda los datos del nuevo SSID introducidos por el usuario
 
   aux["header01"].as<AutoConnectText>().value = "<h2>Cambiar Nombre del Dispositivo</h2>";
-  
+
+  storage.begin("config", false);
+
   if (args.arg("ssid") == "") {                                                                                                               //Si NO se introdujo un SSID
     aux["txtCenter"].as<AutoConnectText>().value = "NO se detectó ningún cambio en el <b>SSID</b>.\n";                                          //Aparecerá este mensaje en la página web
   }
@@ -458,21 +471,24 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
 
   storage.begin("config", false);                                                                                 //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
 
-  if (args.arg("passVer") == storage.getString("pass", "12345678")) {                                               //Si la clave introducida por el usuario coincide con la actual del ESP32
+  if (args.arg("resetCred") == "Sí") {                                               //Si la clave introducida por el usuario coincide con la actual del ESP32
 
-    nvs_flash_deinit();     // Se desinicializa la partición NVS
+    nvs_flash_deinit();     // Se desinicializa la partición NVS (necesario para poder borrarla)
     nvs_flash_erase();      // Se borra la partición NVS
     nvs_flash_init();       // Se inicializa la partición NVS
 
-    aux["txtCenter"].as<AutoConnectText>().value = "Las <b>credenciales</b> han sido restablecidas exitosamente.\n";    //Aparecerá este mensaje en la página web
+    aux["txtCenter"].as<AutoConnectText>().value = "Los <b>datos guardados</b> han sido restablecidas exitosamente.\n";    //Aparecerá este mensaje en la página web
+    aux["txt01"].as<AutoConnectText>().value = "<p><b>ADVERTENCIA:</b> para aplicar los cambios el dispositivo debe ser <b>reiniciado</b>, por lo que el dispositivo conectado al OMC-WIFI será desconectado del suministro eléctrico momentáneamente.</p>";
+
   }
   else {                                                                                                          //Si la clave introducida por el usuario coincide con la actual del ESP32
-    aux["txtCenter"].as<AutoConnectText>().value = "La <b>clave</b> introducida es inválida.\nIntente de nuevo.";       //Aparecerá este mensaje en la página web
+    aux["txtCenter"].as<AutoConnectText>().value = "Los <b>datos guardados</b> se han mantenido.";                  //Aparecerá este mensaje en la página web
+    aux["txt01"].as<AutoConnectText>().value = "";
+
   }
 
   storage.end();                                                                                                  //Se cierra el espacio en memoria flash denominado "storage"
 
-  aux["txt01"].as<AutoConnectText>().value = "<p><b>ADVERTENCIA:</b> para aplicar los cambios el dispositivo debe ser <b>reiniciado</b>, por lo que el dispositivo conectado al OMC-WIFI será desconectado del suministro eléctrico momentáneamente.</p>";
 
   return String();
 
@@ -778,6 +794,7 @@ void rootPage() {
 //Función para configurar inicialmente los parámetros de AutoConnect
 void acSetUp(void) {
   byte mac[6];
+
   AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
 
   //  //Se borra la configuración Wi-Fi
