@@ -7,7 +7,7 @@ float cuadradoVolt[1000];     //Arreglo con valores cuadrados que se sumarán (V
 float cuadradoCorr[1000];     //Arreglo con valores cuadrados que se sumarán (Ventana)
 uint16_t pos = 0;             //Posición en la ventana de los valores cuadrados
 
-const float multVolt = 1.23 * 1.23;    //Factor de escala para medir voltaje 1.23 1.1 1.2
+const float multVolt = 2.70*2.70;    //Factor de escala para medir voltaje ultimo: 1.23 2.46
 const float multCorr = 108 * 108;      //Factor de escala para medir corriente 108
 
 void setup() {
