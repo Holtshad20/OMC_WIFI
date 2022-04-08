@@ -111,10 +111,10 @@ boolean inside = false;
 //***************************************************************************************************************************************************************
 
 //Declaración de elementos para títulos
-ACText(header01, "<h2>Cambiar Nombre del Dispositivo</h2>", "text-align:center;color:2f4f4f;");
-ACText(header02, "<h2>Cambiar Clave del Dispositivo</h2>", "text-align:center;color:2f4f4f;");
-ACText(header03, "<h2>Configurar Dirección IP del Servidor</h2>", "text-align:center;color:2f4f4f;");
-ACText(header04, "<h2>Restablecer Credenciales</h2>", "text-align:center;color:2f4f4f;");
+ACText(header01, "", "text-align:center;color:2f4f4f;");
+ACText(header02, "", "text-align:center;color:2f4f4f;");
+ACText(header03, "", "text-align:center;color:2f4f4f;");
+ACText(header04, "", "text-align:center;color:2f4f4f;");
 
 //Declaración de elementos para texto
 ACText(txt01, "", "text-align:justify");
@@ -122,13 +122,14 @@ ACText(txt02, "", "text-align:justify");
 ACText(txt03, "", "text-align:justify");
 ACText(txt04, "", "text-align:justify");
 ACText(txt05, "", "text-align:justify");
-ACText(txtCenter, "", "text-align:center");
+ACText(txtCenter01, "", "text-align:center");
+ACText(txtCenter02, "", "text-align:center");
 
 
 // Declaración de elementos AutoConnect para la página web de verificación de contraseña antes de configurar el dispositivo
 ACInput(passVer, "", "Clave Actual", "^.{8,16}$", "Introduzca la clave actual", AC_Tag_None, AC_Input_Password);
 ACSubmit(ver, "Configurar Dispositivo", "/ap-config");
-ACSubmit(backMenu, "Volver al menú", "/_ac");
+ACSubmit(backMenu, "Volver", "/_ac");
 
 
 // Declaración de elementos AutoConnect para la página web de configuración del AP del ESP32
@@ -146,20 +147,17 @@ ACSubmit(save04, "Restablecer Credenciales", "/cred-reset");
 
 
 // Declaración de elementos AutoConnect para la página web para guardado de SSID
-//ACText(txt11, "", "text-align:center");
-//ACText(note11, "<p><b>ADVERTENCIA:</b> para aplicar los cambios el dispositivo debe ser <b>reiniciado</b>, por lo que el dispositivo conectado al OMC-WIFI será desconectado del suministro eléctrico momentáneamente.</p>", "text-align:justify");
 ACSubmit(reset, "Reiniciar equipo", "/_ac#rdlg");
 ACSubmit(backConfig, "Volver", "/ap-config");
 
 
 // Declaración de elementos AutoConnect para la página web de corte del suministro eléctrico
-//ACText(caption02, "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo", "text-align:justify;font-family:serif;color:#000000;");
 ACText(switchState, "", "text-align:center;");
 ACSubmit(cutRestore, "Cortar/Reestablecer suministro", "/switch-relay");
 //ACButton(cut, "Cortar suministro", "document.getElementById('switchState').innerHTML = '0'");
 //ACButton(restore, "Reestablecer suministro", "document.getElementById('switchState').innerHTML = '1'");
 //ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){controlGlobalRelay  = true;}else{controlGlobalRelay  = false;}}</script>");
-ACSubmit(backSupply, "Volver", "/cut-supply");
+ACSubmit(backSupply, "Volver", "/supply");
 
 
 // Declaración de la página web para la página web de verificación de contraseña antes de configurar el dispositivo
@@ -203,7 +201,7 @@ AutoConnectAux ap_config("/ap-config", "Configuración del Dispositivo", false, 
 AutoConnectAux ap_ssid("/ap-ssid", "Configuración del Dispositivo", false, {
 
   header01,
-  txtCenter,
+  txtCenter01,
   txt01,
   reset,
   backConfig,
@@ -215,7 +213,7 @@ AutoConnectAux ap_ssid("/ap-ssid", "Configuración del Dispositivo", false, {
 AutoConnectAux ap_pass("/ap-pass", "Configuración del Dispositivo", false, {
 
   header02,
-  txtCenter,
+  txtCenter01,
   txt01,
   reset,
   backConfig,
@@ -227,7 +225,7 @@ AutoConnectAux ap_pass("/ap-pass", "Configuración del Dispositivo", false, {
 AutoConnectAux server_ip("/server-ip", "Configuración del Dispositivo", false, {
 
   header03,
-  txtCenter,
+  txtCenter01,
   backConfig,
 
 });
@@ -237,7 +235,7 @@ AutoConnectAux server_ip("/server-ip", "Configuración del Dispositivo", false, 
 AutoConnectAux cred_reset("/cred-reset", "Configuración del Dispositivo", false, {
 
   header04,
-  txtCenter,
+  txtCenter01,
   txt01,
   reset,
   backConfig,
@@ -245,9 +243,15 @@ AutoConnectAux cred_reset("/cred-reset", "Configuración del Dispositivo", false
 });
 
 
-AutoConnectAux cut_supply("/cut-supply", "Suministro Eléctrico", true, {
+AutoConnectAux supply("/supply", "Suministro Eléctrico", true, {
 
-  txt01,
+  header01,
+  txtCenter01,
+  header02,
+  txtCenter02,
+  header03,
+  txt03,
+  passVer,
   cutRestore,
   backMenu,
 
@@ -256,9 +260,10 @@ AutoConnectAux cut_supply("/cut-supply", "Suministro Eléctrico", true, {
 
 AutoConnectAux switch_relay("/switch-relay", "Suministro Eléctrico", false, {
 
+  header03,
+  txt01,
   switchState,
   backSupply,
-  resetCred,
 
 });
 
@@ -381,7 +386,7 @@ String onChangeSSID(AutoConnectAux& aux, PageArgument& args) {
   storage.begin("config", false);
 
   if (args.arg("ssid") == "") {                                                                                                               //Si NO se introdujo un SSID
-    aux["txtCenter"].as<AutoConnectText>().value = "NO se detectó ningún cambio en el <b>SSID</b>.\n";                                          //Aparecerá este mensaje en la página web
+    aux["txtCenter01"].as<AutoConnectText>().value = "NO se detectó ningún cambio en el <b>SSID</b>.\n";                                          //Aparecerá este mensaje en la página web
   }
   else if (ssid.isValid()) {                                                                                                                  //Si se introdujo un SSID y se cumplen las condiciones establecidas
     storage.begin("config", false);                                                                                                             //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
@@ -389,10 +394,10 @@ String onChangeSSID(AutoConnectAux& aux, PageArgument& args) {
     Serial.println("El <b>SSID</b> ha cambiado a:\n" + storage.getString("ssid", ""));
     storage.end();                                                                                                                              //Se cierra el espacio en memoria flash denominado "storage"
 
-    aux["txtCenter"].as<AutoConnectText>().value = "El <b>SSID</b> ha cambiado a:\n" + args.arg("ssid");                                        //Aparecerá este mensaje en la página web
+    aux["txtCenter01"].as<AutoConnectText>().value = "El <b>SSID</b> ha cambiado a:\n" + args.arg("ssid");                                        //Aparecerá este mensaje en la página web
   }
   else {                                                                                                                                      //Si se introdujo un SSID pero NO se cumplen las condiciones establecidas
-    aux["txtCenter"].as<AutoConnectText>().value = "El <b>SSID</b> introducido NO cumple las condiciones.\nPor favor intente de nuevo.\n";      //Aparecerá este mensaje en la página web
+    aux["txtCenter01"].as<AutoConnectText>().value = "El <b>SSID</b> introducido NO cumple las condiciones.\nPor favor intente de nuevo.\n";      //Aparecerá este mensaje en la página web
   }
 
   aux["txt01"].as<AutoConnectText>().value = "<p><b>ADVERTENCIA:</b> para aplicar los cambios el dispositivo debe ser <b>reiniciado</b>, por lo que el dispositivo conectado al OMC-WIFI será desconectado del suministro eléctrico momentáneamente.</p>";
@@ -411,7 +416,7 @@ String onChangePass(AutoConnectAux& aux, PageArgument& args) {
     AutoConnectInput& pass = ap_config["pass1"].as<AutoConnectInput>();                                                                       //Se guarda el elemento AutoConnectInput denominado "pass1" de la página web ap_config, que guarda los datos de la nueva clave introducidos por el usuario
     //Verificando que la clave introducida cumple con las condiciones
     if (args.arg("pass1") == "") {                                                                                                            //Si NO se introdujo una clave
-      aux["txtCenter"].as<AutoConnectText>().value = "NO se detectó ningún cambio en la <b>clave</b>.\n";                                           //Aparecerá este mensaje en la página web
+      aux["txtCenter01"].as<AutoConnectText>().value = "NO se detectó ningún cambio en la <b>clave</b>.\n";                                           //Aparecerá este mensaje en la página web
     }
     else if (pass.isValid()) {                                                                                                                //Si se introdujo una clave y se cumplen las condiciones establecidas
       storage.begin("config", false);                                                                                                           //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
@@ -419,14 +424,14 @@ String onChangePass(AutoConnectAux& aux, PageArgument& args) {
       Serial.println("La <b>clave</b> ha cambiado a:\n" + storage.getString("pass", ""));
       storage.end();                                                                                                                            //Se cierra el espacio en memoria flash denominado "storage"
 
-      aux["txtCenter"].as<AutoConnectText>().value = "La <b>clave</b> ha sido cambiada exitosamente.\n";                                            //Aparecerá este mensaje en la página web
+      aux["txtCenter01"].as<AutoConnectText>().value = "La <b>clave</b> ha sido cambiada exitosamente.\n";                                            //Aparecerá este mensaje en la página web
     }
     else {                                                                                                                                    //Si se introdujo una clave pero NO se cumplen las condiciones establecidas
-      aux["txtCenter"].as<AutoConnectText>().value = "La <b>clave</b> introducida NO cumple las condiciones.\nPor favor intente de nuevo.\n";       //Aparecerá este mensaje en la página web
+      aux["txtCenter01"].as<AutoConnectText>().value = "La <b>clave</b> introducida NO cumple las condiciones.\nPor favor intente de nuevo.\n";       //Aparecerá este mensaje en la página web
     }
   }
   else {                                                                                                                                    //Si las claves introducidas coinciden
-    aux["txtCenter"].as<AutoConnectText>().value = "Las <b>claves</b> introducidas NO coinciden.\nPor favor intente de nuevo.\n";                 //Aparecerá este mensaje en la página web
+    aux["txtCenter01"].as<AutoConnectText>().value = "Las <b>claves</b> introducidas NO coinciden.\nPor favor intente de nuevo.\n";                 //Aparecerá este mensaje en la página web
   }
 
   aux["txt01"].as<AutoConnectText>().value = "<p><b>ADVERTENCIA:</b> para aplicar los cambios el dispositivo debe ser <b>reiniciado</b>, por lo que el dispositivo conectado al OMC-WIFI será desconectado del suministro eléctrico momentáneamente.</p>";
@@ -443,7 +448,7 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
   aux["header03"].as<AutoConnectText>().value = "<h2>Configurar Dirección IP del Servidor</h2>";
 
   if (args.arg("server") == "") {                                                                                                   //Si NO se introdujo una dirección IP
-    aux["txtCenter"].as<AutoConnectText>().value = "NO introdujo ninguna <b>dirección IP</b>.\n";                                         //Aparecerá este mensaje en la página web
+    aux["txtCenter01"].as<AutoConnectText>().value = "NO introdujo ninguna <b>dirección IP</b>.\n";                                         //Aparecerá este mensaje en la página web
   }
   else if (server.isValid()) {                                                                                                      //Si se introdujo una dirección IP y se cumplen las condiciones establecidas
     storage.begin("config", false);                                                                                                   //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
@@ -453,10 +458,10 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
 
     mqttClient.setServer(MQTT_HOST.fromString(args.arg("server")), MQTT_PORT);
 
-    aux["txtCenter"].as<AutoConnectText>().value = "La <b>dirección IP del servidor</b> ha cambiado a:\n" + args.arg("server");           //Aparecerá este mensaje en la página web
+    aux["txtCenter01"].as<AutoConnectText>().value = "La <b>dirección IP del servidor</b> ha cambiado a:\n" + args.arg("server");           //Aparecerá este mensaje en la página web
   }
   else {                                                                                                                            //Si se introdujo una dirección IP pero NO se cumplen las condiciones establecidas
-    aux["txtCenter"].as<AutoConnectText>().value = "La <b>dirección IP</b> introducida es inválida.\nPor favor intente de nuevo.\n";      //Aparecerá este mensaje en la página web
+    aux["txtCenter01"].as<AutoConnectText>().value = "La <b>dirección IP</b> introducida es inválida.\nPor favor intente de nuevo.\n";      //Aparecerá este mensaje en la página web
   }
 
   return String();
@@ -477,12 +482,12 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
     nvs_flash_erase();      // Se borra la partición NVS
     nvs_flash_init();       // Se inicializa la partición NVS
 
-    aux["txtCenter"].as<AutoConnectText>().value = "Los <b>datos guardados</b> han sido restablecidas exitosamente.\n";    //Aparecerá este mensaje en la página web
+    aux["txtCenter01"].as<AutoConnectText>().value = "Los <b>datos guardados</b> han sido restablecidas exitosamente.\n";    //Aparecerá este mensaje en la página web
     aux["txt01"].as<AutoConnectText>().value = "<p><b>ADVERTENCIA:</b> para aplicar los cambios el dispositivo debe ser <b>reiniciado</b>, por lo que el dispositivo conectado al OMC-WIFI será desconectado del suministro eléctrico momentáneamente.</p>";
 
   }
   else {                                                                                                          //Si la clave introducida por el usuario coincide con la actual del ESP32
-    aux["txtCenter"].as<AutoConnectText>().value = "Los <b>datos guardados</b> se han mantenido.";                  //Aparecerá este mensaje en la página web
+    aux["txtCenter01"].as<AutoConnectText>().value = "Los <b>datos guardados</b> se han mantenido.";                  //Aparecerá este mensaje en la página web
     aux["txt01"].as<AutoConnectText>().value = "";
 
   }
@@ -495,39 +500,49 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
 }
 
 
-String onCutSupply(AutoConnectAux& aux, PageArgument& args) {
+String onSupply(AutoConnectAux& aux, PageArgument& args) {
 
-  aux["txt01"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.";
+  //Textos que aparecerán es esta página
+  aux["txtCenter01"].as<AutoConnectText>().value = String(rmsVolt) + " Volts";
+  aux["txtCenter02"].as<AutoConnectText>().value = String(rmsCorr) + " Amps";
+  aux["txt03"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.";
 
-  //if (args.arg("switchState") == "0"){
-  //controlGlobalRelay  = true;
-  //  }
-  //  else if (args.arg("switchState") == "1"){
-  //    controlGlobalRelay  = true;
-  //  }
+  aux["header01"].as<AutoConnectText>().value = "<h2>Voltaje</h2>";
+  aux["header02"].as<AutoConnectText>().value = "<h2>Corriente</h2>";
+  aux["header03"].as<AutoConnectText>().value = "<h2>Cortar/Reestablecer Suministro</h2>";
+
+
+  aux["passVer"].as<AutoConnectInput>().value  = "";
+
+  return String();
 
 }
 
 
 String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
 
-  //AutoConnectText& switchRelay = cut_supply["switchState"].as<AutoConnectText>();
+  //AutoConnectText& switchRelay = supply["switchState"].as<AutoConnectText>();
+  if (args.arg("passVer") == storage.getString("pass", "12345678")) {
 
-  if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
-    controlGlobalRelay  = false;
-    aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
+    aux["txt01"].as<AutoConnectText>().value = "";
+    aux["switchState"].as<AutoConnectText>().enable = true;
+
+    if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
+      controlGlobalRelay  = false;
+      aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
+    }
+    else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
+      controlGlobalRelay  = true;
+      aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
+
+    }
   }
-  else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
-    controlGlobalRelay  = true;
-    aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
+  else {
+    aux["txt01"].as<AutoConnectText>().value = "La <b>clave introducida</b> es <b>inválida</b>. No podrá cambiar el estado del suministro.";
+    aux["switchState"].as<AutoConnectText>().enable = false;
+
   }
 
-  //  if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
-  //    aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
-  //  }
-  //  else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
-  //    aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
-  //  }
 
   return String();
 }
@@ -676,11 +691,11 @@ void publicarValores() {
   mqttClient.publish("esp32/volt", 0, true, String(rmsVolt).c_str());
   //mqttClient.publish("esp32/corr", 0, true, String(rmsCorr).c_str());
   mqttClient.publish("esp32/corr", 0, true, "0");
-  //  Serial.println();
-  //  Serial.print("V RMS = ");
-  //  Serial.println(rmsVolt);
-  //  Serial.print("C RMS = ");
-  //  Serial.println(rmsCorr);
+  Serial.println();
+  Serial.print("V RMS = ");
+  Serial.println(rmsVolt);
+  Serial.print("C RMS = ");
+  Serial.println(rmsCorr);
   xTimerReset(publishTimer, 0);
 }
 
@@ -846,14 +861,14 @@ void acSetUp(void) {
   config.title     = "OMC-WIFI-" + chipID;                                //Título de la página web
   config.homeUri   = "/_ac";                                              //Directorio HOME de la página web
   config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET | AC_MENUITEM_HOME;                           //Se deshabilita el menú de desconectar del AP
-  Portal.join({pre_config, ap_config, ap_ssid, ap_pass, cred_reset, server_ip, cut_supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
+  Portal.join({pre_config, ap_config, ap_ssid, ap_pass, cred_reset, server_ip, supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
   Portal.on("/pre-config", onPreConfig);                                //Se enlaza la función "onPreConfig" con la página en el directorio "/pre-config" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap-config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap-config" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap-ssid", onChangeSSID);                                  //Se enlaza la función "onChangeSSID" con la página en el directorio "/ap-ssid" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap-pass", onChangePass);                                  //Se enlaza la función "onChangePass" con la página en el directorio "/ap-pass" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/cred-reset", onCredentialReset);                          //Se enlaza la función "onCredentialReset" con la página en el directorio "/cred-reset" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/server-ip", onServerIP);                                  //Se enlaza la función "onServerIP" con la página en el directorio "/server-ip" (la función se ejecutará cada vez que se acceda al directorio)
-  Portal.on("/cut-supply", onCutSupply);                                //Se enlaza la función "onCutSupply" con la página en el directorio "/cut-supply" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/supply", onSupply);                                       //Se enlaza la función "onSupply" con la página en el directorio "/supply" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/switch-relay", onSwitchRelay);                            //Se enlaza la función "onSwitchRelay" con la página en el directorio "/switch-relay" (la función se ejecutará cada vez que se acceda al directorio)
 
   Portal.config(config);                                                //Se añaden las configuraciones al portal web
