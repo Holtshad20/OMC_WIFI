@@ -50,7 +50,7 @@ float cuadradoVolt[2500];             // Arreglo con valores cuadrados que se su
 float cuadradoCorr[2500];             // Arreglo con valores cuadrados que se sumarán (Ventana)
 int   pos = 0;                          // Posición en la ventana de los valores cuadrados
 
-const float multVolt = 1.28 * 1.28;   // Factor de escala para medir voltaje 1.23 1.21
+const float multVolt = 2.75 * 2.75;   // Factor de escala para medir voltaje 2.75
 const float multCorr = 108 * 108;     // Factor de escala para medir corriente 108
 
 float rmsVolt = 0;                    // Valor RMS Voltaje
@@ -66,8 +66,8 @@ float rmsCorr = 0;                    // Valor RMS Corriente
 //*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
 //***************************************************************************************************************************************************************
 
-uint8_t voltSup = 100;                // Máximo voltaje permitido
-uint8_t voltInf = 0;                // Mínimo voltaje permitido
+uint8_t voltSup = 130;                // Máximo voltaje permitido
+uint8_t voltInf = 100;                // Mínimo voltaje permitido
 uint8_t corrSup = 15;                 // Máxima corriente permitida
 
 uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
@@ -124,6 +124,7 @@ ACText(txt04, "", "text-align:justify");
 ACText(txt05, "", "text-align:justify");
 ACText(txtCenter01, "", "text-align:center");
 ACText(txtCenter02, "", "text-align:center");
+ACText(txtCenter03, "", "text-align:center");
 
 
 // Declaración de elementos AutoConnect para la página web de verificación de contraseña antes de configurar el dispositivo
@@ -146,7 +147,7 @@ ACSubmit(save04, "Restablecer Credenciales", "/cred-reset");
 
 
 
-// Declaración de elementos AutoConnect para la página web para guardado de SSID
+// Declaración de elementos AutoConnect para la página web para guardado de configuraciones
 ACSubmit(reset, "Reiniciar equipo", "/_ac#rdlg");
 ACSubmit(backConfig, "Volver", "/ap-config");
 
@@ -158,6 +159,7 @@ ACSubmit(cutRestore, "Cortar/Reestablecer suministro", "/switch-relay");
 //ACButton(restore, "Reestablecer suministro", "document.getElementById('switchState').innerHTML = '1'");
 //ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){controlGlobalRelay  = true;}else{controlGlobalRelay  = false;}}</script>");
 ACSubmit(backSupply, "Volver", "/supply");
+//ACElement(reloadPage,"<script type='text/javascript'>setInterval(function(){window.location.reload();},3000);</script>");
 
 
 // Declaración de la página web para la página web de verificación de contraseña antes de configurar el dispositivo
@@ -250,18 +252,21 @@ AutoConnectAux supply("/supply", "Suministro Eléctrico", true, {
   header02,
   txtCenter02,
   header03,
-  txt03,
+  txtCenter03,
+  header04,
+  txt04,
   passVer,
   cutRestore,
   backMenu,
+  //reloadPage,
 
 });
 
 
 AutoConnectAux switch_relay("/switch-relay", "Suministro Eléctrico", false, {
 
-  header03,
-  txt01,
+  header04,
+  txtCenter01,
   switchState,
   backSupply,
 
@@ -505,11 +510,19 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
   //Textos que aparecerán es esta página
   aux["txtCenter01"].as<AutoConnectText>().value = String(rmsVolt) + " Volts";
   aux["txtCenter02"].as<AutoConnectText>().value = String(rmsCorr) + " Amps";
-  aux["txt03"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.";
+  aux["txt04"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.";
 
+  if(controlGlobalRelay == true){
+    aux["txtCenter03"].as<AutoConnectText>().value = "Encendido";
+  }
+  else{
+    aux["txtCenter03"].as<AutoConnectText>().value = "Apagado";
+  }
+  
   aux["header01"].as<AutoConnectText>().value = "<h2>Voltaje</h2>";
   aux["header02"].as<AutoConnectText>().value = "<h2>Corriente</h2>";
-  aux["header03"].as<AutoConnectText>().value = "<h2>Cortar/Reestablecer Suministro</h2>";
+  aux["header03"].as<AutoConnectText>().value = "<h2>Estado del Relay</h2>";
+  aux["header04"].as<AutoConnectText>().value = "<h2>Cortar/Reestablecer Suministro</h2>";
 
 
   aux["passVer"].as<AutoConnectInput>().value  = "";
@@ -524,7 +537,7 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
   //AutoConnectText& switchRelay = supply["switchState"].as<AutoConnectText>();
   if (args.arg("passVer") == storage.getString("pass", "12345678")) {
 
-    aux["txt01"].as<AutoConnectText>().value = "";
+    aux["txtCenter01"].as<AutoConnectText>().value = "";
     aux["switchState"].as<AutoConnectText>().enable = true;
 
     if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
@@ -538,13 +551,14 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
     }
   }
   else {
-    aux["txt01"].as<AutoConnectText>().value = "La <b>clave introducida</b> es <b>inválida</b>. No podrá cambiar el estado del suministro.";
+    aux["txtCenter01"].as<AutoConnectText>().value = "La <b>clave introducida</b> es <b>inválida</b>. No podrá cambiar el estado del suministro.";
     aux["switchState"].as<AutoConnectText>().enable = false;
 
   }
 
 
   return String();
+  
 }
 
 //***************************************************************************************************************************************************************
