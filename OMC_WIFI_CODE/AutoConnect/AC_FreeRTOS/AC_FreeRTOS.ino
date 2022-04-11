@@ -100,6 +100,17 @@ Preferences       storage;            // Espacio en memoria para guardar los dat
 String chipID;                        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 boolean inside = false;
+//
+//const char* scUpdateData = R"(
+//<script language="javascript">
+//setInterval(function(){
+//  document.getElementById('txtCenter01').innerHTML = rmsVolt.toString() + "Volts";
+//  document.getElementById('txtCenter02').innerHTML = rmsCorr.toString() + "Amps";
+//  },1000);
+//</script>
+//)";
+
+
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -159,6 +170,8 @@ ACSubmit(cutRestore, "Cortar/Reestablecer suministro", "/switch-relay");
 //ACButton(restore, "Reestablecer suministro", "document.getElementById('switchState').innerHTML = '1'");
 //ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){controlGlobalRelay  = true;}else{controlGlobalRelay  = false;}}</script>");
 ACSubmit(backSupply, "Volver", "/supply");
+ACButton(updateData, "Actualizar Datos", "window.location.reload()");
+//ACElement(reloadPage, scUpdateData);
 //ACElement(reloadPage,"<script type='text/javascript'>setInterval(function(){window.location.reload();},3000);</script>");
 
 
@@ -253,6 +266,7 @@ AutoConnectAux supply("/supply", "Suministro Eléctrico", true, {
   txtCenter02,
   header03,
   txtCenter03,
+  updateData,
   header04,
   txt04,
   passVer,
@@ -267,7 +281,7 @@ AutoConnectAux switch_relay("/switch-relay", "Suministro Eléctrico", false, {
 
   header04,
   txtCenter01,
-  switchState,
+  txtCenter02,
   backSupply,
 
 });
@@ -510,15 +524,24 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
   //Textos que aparecerán es esta página
   aux["txtCenter01"].as<AutoConnectText>().value = String(rmsVolt) + " Volts";
   aux["txtCenter02"].as<AutoConnectText>().value = String(rmsCorr) + " Amps";
-  aux["txt04"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.";
 
-  if(controlGlobalRelay == true){
+  if (relay == HIGH) {
     aux["txtCenter03"].as<AutoConnectText>().value = "Encendido";
   }
-  else{
+  else {
     aux["txtCenter03"].as<AutoConnectText>().value = "Apagado";
   }
-  
+
+  if (controlGlobalRelay == true) {
+    aux["txt04"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.\n Actualmente el suministro se encuentra <b>habilitado manualmente</b>.";
+
+  }
+  else{
+    aux["txt04"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.\n Actualmente el suministro se encuentra <b>cortado manualmente</b>.";
+
+  }
+
+
   aux["header01"].as<AutoConnectText>().value = "<h2>Voltaje</h2>";
   aux["header02"].as<AutoConnectText>().value = "<h2>Corriente</h2>";
   aux["header03"].as<AutoConnectText>().value = "<h2>Estado del Relay</h2>";
@@ -538,27 +561,29 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
   if (args.arg("passVer") == storage.getString("pass", "12345678")) {
 
     aux["txtCenter01"].as<AutoConnectText>().value = "";
-    aux["switchState"].as<AutoConnectText>().enable = true;
 
-    if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
+    //if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
+    if (controlGlobalRelay == true) {
       controlGlobalRelay  = false;
-      aux["switchState"].as<AutoConnectText>().value = "Suministro cortado.";
+      aux["txtCenter02"].as<AutoConnectText>().value = "Suministro cortado manualmente.";
+
     }
-    else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
+    //else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
+    else {
       controlGlobalRelay  = true;
-      aux["switchState"].as<AutoConnectText>().value = "Suministro reestablecido.";
+      aux["txtCenter02"].as<AutoConnectText>().value = "Suministro reestablecido manualmente.";
 
     }
   }
   else {
     aux["txtCenter01"].as<AutoConnectText>().value = "La <b>clave introducida</b> es <b>inválida</b>. No podrá cambiar el estado del suministro.";
-    aux["switchState"].as<AutoConnectText>().enable = false;
+    aux["txtCenter02"].as<AutoConnectText>().value = "";
 
   }
 
 
   return String();
-  
+
 }
 
 //***************************************************************************************************************************************************************
@@ -824,7 +849,7 @@ void rootPage() {
 void acSetUp(void) {
   byte mac[6];
 
-  AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
+  //AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
 
   //  //Se borra la configuración Wi-Fi
   //  deleteAllCredentials();
@@ -864,12 +889,12 @@ void acSetUp(void) {
 
   storage.end();
 
-  if (controlGlobalRelay == true) {
-    switchRelay.value = "Suministro reestablecido.";
-  }
-  else {
-    switchRelay.value = "Suministro cortado.";
-  }
+  //  if (controlGlobalRelay == true) {
+  //    switchRelay.value = "Suministro reestablecido.";
+  //  }
+  //  else {
+  //    switchRelay.value = "Suministro cortado.";
+  //  }
 
   config.apip      = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
   config.title     = "OMC-WIFI-" + chipID;                                //Título de la página web
