@@ -566,13 +566,13 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
     if (controlGlobalRelay == true) {
       controlGlobalRelay  = false;
       aux["txtCenter02"].as<AutoConnectText>().value = "Suministro cortado manualmente.";
-
+      mqttClient.publish("esp32/controlRelay", 0, true, "0");
     }
     //else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
     else {
       controlGlobalRelay  = true;
       aux["txtCenter02"].as<AutoConnectText>().value = "Suministro reestablecido manualmente.";
-
+      mqttClient.publish("esp32/controlRelay", 0, true, "1");
     }
   }
   else {
@@ -666,17 +666,19 @@ void onMqttConnect(bool sessionPresent) {
   Serial.print("Suscrito a esp32/estadoRelay con QoS 0. Packet ID: ");
   Serial.println(packetIdSub);
 
-  packetIdSub = mqttClient.subscribe("esp32/controlRelay", 1);
+  packetIdSub = mqttClient.subscribe("esp32/controlRelay", 0);
   Serial.println();
   Serial.print("Suscrito a esp32/controlRelay con QoS 1. Packet ID: ");
   Serial.println(packetIdSub);
+
+  mqttClient.publish("esp32/controlRelay", 0, true, "1");
 
   packetIdSub = mqttClient.subscribe("esp32/volt", 0);
   Serial.println();
   Serial.print("Suscrito a esp32/volt con QoS 0. Packet ID: ");
   Serial.println(packetIdSub);
 
-  packetIdSub = mqttClient.subscribe("esp32/corr", 1);
+  packetIdSub = mqttClient.subscribe("esp32/corr", 0);
   Serial.println();
   Serial.print("Suscrito a esp32/corr con QoS 0. Packet ID: ");
   Serial.println(packetIdSub);
@@ -713,11 +715,20 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   //Serial.println("Payload: " + String(payload));
 
   if (String(topic) == "esp32/controlRelay") {
-    String recibido = String(payload);
-    if (recibido == "s1" or recibido == "s0"){
-      Serial.println("Cambio de control");
-      recibido = recibido[1];
-      controlGlobalRelay = atoi(recibido.c_str());
+    Serial.println();
+    Serial.println(payload);
+    Serial.println();
+    if (controlGlobalRelay == false){
+       controlGlobalRelay = true;
+       Serial.println("Cambio a habilitado");
+       Serial.println();
+       Serial.println(controlGlobalRelay);
+    }
+    else if (controlGlobalRelay == true){
+       controlGlobalRelay = false;
+       Serial.println("Cambio a deshabilitado");
+       Serial.println();
+       Serial.println(controlGlobalRelay);
     }
   }
 }
