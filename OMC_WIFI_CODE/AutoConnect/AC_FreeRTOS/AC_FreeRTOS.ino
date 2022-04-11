@@ -50,7 +50,7 @@ float cuadradoVolt[2500];             // Arreglo con valores cuadrados que se su
 float cuadradoCorr[2500];             // Arreglo con valores cuadrados que se sumarán (Ventana)
 int   pos = 0;                          // Posición en la ventana de los valores cuadrados
 
-const float multVolt = 2.75 * 2.75;   // Factor de escala para medir voltaje 2.75
+const float multVolt = 2.8 * 2.8;   // Factor de escala para medir voltaje 2.75
 const float multCorr = 108 * 108;     // Factor de escala para medir corriente 108
 
 float rmsVolt = 0;                    // Valor RMS Voltaje
@@ -66,7 +66,7 @@ float rmsCorr = 0;                    // Valor RMS Corriente
 //*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
 //***************************************************************************************************************************************************************
 
-uint8_t voltSup = 130;                // Máximo voltaje permitido
+uint8_t voltSup = 135;                // Máximo voltaje permitido
 uint8_t voltInf = 100;                // Mínimo voltaje permitido
 uint8_t corrSup = 15;                 // Máxima corriente permitida
 
@@ -713,8 +713,12 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   //Serial.println("Payload: " + String(payload));
 
   if (String(topic) == "esp32/controlRelay") {
-    Serial.println("Cambio de control");
-    controlGlobalRelay = atoi(String(payload).c_str());
+    String recibido = String(payload);
+    if (recibido == "s1" or recibido == "s0"){
+      Serial.println("Cambio de control");
+      recibido = recibido[1];
+      controlGlobalRelay = atoi(recibido.c_str());
+    }
   }
 }
 
