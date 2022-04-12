@@ -288,17 +288,6 @@ Wire Notes Line
 Wire Notes Line
 	850  2300 850  6000
 $Comp
-L Connector:Conn_01x01_Male J2
-U 1 1 624922FE
-P 1150 1450
-F 0 "J2" H 1258 1631 50  0000 C CNN
-F 1 "Nuetral Input" H 1200 1406 50  0000 C CNN
-F 2 "omc-plugs:OMC-Male-Plug" H 1150 1450 50  0001 C CNN
-F 3 "~" H 1150 1450 50  0001 C CNN
-	1    1150 1450
-	1    0    0    -1  
-$EndComp
-$Comp
 L RF_Module:ESP32-WROOM-32 U1
 U 1 1 623B9AA7
 P 2650 4150
@@ -706,17 +695,6 @@ F 3 "~" H 1650 1150 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector:Conn_01x01_Male J1
-U 1 1 6246AC9C
-P 1150 1150
-F 0 "J1" H 1258 1331 50  0000 C CNN
-F 1 "Line Input" H 1258 1240 50  0000 C CNN
-F 2 "omc-plugs:OMC-Male-Plug" H 1150 1150 50  0001 C CNN
-F 3 "~" H 1150 1150 50  0001 C CNN
-	1    1150 1150
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:PWR_FLAG #FLG0103
 U 1 1 62597663
 P 1900 1050
@@ -875,4 +853,17 @@ F 3 "~" H 3250 1450 50  0001 C CNN
 	1    3250 1450
 	1    0    0    -1  
 $EndComp
+$Comp
+L Connector:Conn_01x02_Male J1
+U 1 1 62564E0F
+P 1150 1150
+F 0 "J1" H 1258 1331 50  0000 C CNN
+F 1 "Conn_01x02_Male" H 1258 1240 50  0000 C CNN
+F 2 "omc-plugs:OMC-Male-Plug" H 1150 1150 50  0001 C CNN
+F 3 "~" H 1150 1150 50  0001 C CNN
+	1    1150 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1350 1250 1350 1450
 $EndSCHEMATC

@@ -1,3 +1,4 @@
 (fp_lib_table
   (lib (name SLA-12VDC-SL-C)(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/SLA-12VDC-SL-C")(options "")(descr ""))
+  (lib (name omc-plugs)(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/omc-plugs.pretty")(options "")(descr ""))
 )
