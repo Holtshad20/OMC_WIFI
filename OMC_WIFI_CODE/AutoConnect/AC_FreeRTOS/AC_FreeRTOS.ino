@@ -706,7 +706,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   //Serial.println("Payload: " + String(payload));
 
   if (String(topic) == "esp32/controlRelay") {
-<<<<<<< Updated upstream
+
     Serial.println();
     Serial.println(payload);
     Serial.println();
@@ -721,13 +721,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
        Serial.println("Cambio a deshabilitado");
        Serial.println();
        Serial.println(controlGlobalRelay);
-=======
-    String recibido = String(payload);
-    if (recibido == "s1" or recibido == "s0") {
-      Serial.println("Cambio de control");
-      recibido = recibido[1];
-      controlGlobalRelay = atoi(recibido.c_str());
->>>>>>> Stashed changes
+
     }
   }
 }
