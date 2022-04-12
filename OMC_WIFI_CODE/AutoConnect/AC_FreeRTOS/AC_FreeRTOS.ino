@@ -36,7 +36,6 @@ TimerHandle_t publishTimer;
 //***************************************************************************************************************************************************************
 
 
-
 //***************************************************************************************************************************************************************
 //*************************************************    VARIABLES, CONSTANTES Y ARREGLOS PARA LECTURA ANALÓGICA     **********************************************
 //***************************************************************************************************************************************************************
@@ -100,21 +99,18 @@ Preferences       storage;            // Espacio en memoria para guardar los dat
 String chipID;                        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 boolean inside = false;
-//
-//const char* scUpdateData = R"(
-//<script language="javascript">
-//setInterval(function(){
-//  document.getElementById('txtCenter01').innerHTML = rmsVolt.toString() + "Volts";
-//  document.getElementById('txtCenter02').innerHTML = rmsCorr.toString() + "Amps";
-//  },1000);
-//</script>
-//)";
 
+void credReset() {
+
+  nvs_flash_deinit();     // Se desinicializa la partición NVS (necesario para poder borrarla)
+  nvs_flash_erase();      // Se borra la partición NVS
+  nvs_flash_init();       // Se inicializa la partición NVS
+  
+}
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
-
 
 
 //***************************************************************************************************************************************************************
@@ -156,8 +152,6 @@ ACRadio(resetCred, {"Sí", "No"}, "", AC_Horizontal, 2);
 ACSubmit(save04, "Restablecer Credenciales", "/cred-reset");
 
 
-
-
 // Declaración de elementos AutoConnect para la página web para guardado de configuraciones
 ACSubmit(reset, "Reiniciar equipo", "/_ac#rdlg");
 ACSubmit(backConfig, "Volver", "/ap-config");
@@ -170,7 +164,7 @@ ACSubmit(cutRestore, "Cortar/Reestablecer suministro", "/switch-relay");
 //ACButton(restore, "Reestablecer suministro", "document.getElementById('switchState').innerHTML = '1'");
 //ACElement(SwitchSupply, "<script type='text/javascript'>function switchSupply(switchState) {if (switchState){controlGlobalRelay  = true;}else{controlGlobalRelay  = false;}}</script>");
 ACSubmit(backSupply, "Volver", "/supply");
-ACButton(updateData, "Actualizar Datos", "window.location.reload()");
+ACButton(updateData, "Actualizar Datos", "window.location = window.location.href");
 //ACElement(reloadPage, scUpdateData);
 //ACElement(reloadPage,"<script type='text/javascript'>setInterval(function(){window.location.reload();},3000);</script>");
 
@@ -285,7 +279,6 @@ AutoConnectAux switch_relay("/switch-relay", "Suministro Eléctrico", false, {
   backSupply,
 
 });
-
 
 //AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
 
@@ -497,9 +490,7 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
 
   if (args.arg("resetCred") == "Sí") {                                               //Si la clave introducida por el usuario coincide con la actual del ESP32
 
-    nvs_flash_deinit();     // Se desinicializa la partición NVS (necesario para poder borrarla)
-    nvs_flash_erase();      // Se borra la partición NVS
-    nvs_flash_init();       // Se inicializa la partición NVS
+    credReset();
 
     aux["txtCenter01"].as<AutoConnectText>().value = "Los <b>datos guardados</b> han sido restablecidas exitosamente.\n";    //Aparecerá este mensaje en la página web
     aux["txt01"].as<AutoConnectText>().value = "<p><b>ADVERTENCIA:</b> para aplicar los cambios el dispositivo debe ser <b>reiniciado</b>, por lo que el dispositivo conectado al OMC-WIFI será desconectado del suministro eléctrico momentáneamente.</p>";
@@ -536,7 +527,7 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
     aux["txt04"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.\n Actualmente el suministro se encuentra <b>habilitado manualmente</b>.";
 
   }
-  else{
+  else {
     aux["txt04"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.\n Actualmente el suministro se encuentra <b>cortado manualmente</b>.";
 
   }
@@ -715,6 +706,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   //Serial.println("Payload: " + String(payload));
 
   if (String(topic) == "esp32/controlRelay") {
+<<<<<<< Updated upstream
     Serial.println();
     Serial.println(payload);
     Serial.println();
@@ -729,6 +721,13 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
        Serial.println("Cambio a deshabilitado");
        Serial.println();
        Serial.println(controlGlobalRelay);
+=======
+    String recibido = String(payload);
+    if (recibido == "s1" or recibido == "s0") {
+      Serial.println("Cambio de control");
+      recibido = recibido[1];
+      controlGlobalRelay = atoi(recibido.c_str());
+>>>>>>> Stashed changes
     }
   }
 }
@@ -782,11 +781,6 @@ void mqttSetUp() {
   //  connectToWifi();
   xTimerReset(publishTimer, 0);
 }
-
-
-
-
-
 
 
 void analogReadSetUp(void) {
@@ -911,10 +905,13 @@ void acSetUp(void) {
   //    switchRelay.value = "Suministro cortado.";
   //  }
 
-  config.apip      = IPAddress(172, 22, 174, 254);                        //Se configura la dirección IPv4 del AP ESP32
-  config.title     = "OMC-WIFI-" + chipID;                                //Título de la página web
-  config.homeUri   = "/_ac";                                              //Directorio HOME de la página web
-  config.menuItems = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET | AC_MENUITEM_HOME;                           //Se deshabilita el menú de desconectar del AP
+  config.apip       = IPAddress(172, 16, 16, 1);                     //Se configura la dirección IPv4 del AP ESP32
+  config.gateway    = IPAddress(172, 16, 16, 1);                     //Se configura la dirección IPv4 del gateway
+  //config.retainPortal = true;                                          //Se mantiene el portal
+  //config.preserveAPMode = true;
+  config.title      = "OMC-WIFI-" + chipID;                             //Título de la página web
+  config.homeUri    = "/_ac";                                           //Directorio HOME de la página web
+  config.menuItems  = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET | AC_MENUITEM_HOME;     //Se deshabilita el menú de desconectar del AP
   Portal.join({pre_config, ap_config, ap_ssid, ap_pass, cred_reset, server_ip, supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
   Portal.on("/pre-config", onPreConfig);                                //Se enlaza la función "onPreConfig" con la página en el directorio "/pre-config" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap-config", onConfig);                                    //Se enlaza la función "onConfig" con la página en el directorio "/ap-config" (la función se ejecutará cada vez que se acceda al directorio)
