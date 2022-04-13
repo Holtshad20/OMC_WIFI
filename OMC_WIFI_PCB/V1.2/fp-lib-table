@@ -1,4 +1,7 @@
 (fp_lib_table
   (lib (name SLA-12VDC-SL-C)(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/SLA-12VDC-SL-C")(options "")(descr ""))
-  (lib (name omc-plugs)(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/omc-plugs.pretty")(options "")(descr ""))
+  (lib (name Libs)(type KiCad)(uri /home/dos/Documents/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs)(options "")(descr ""))
+  (lib (name Fuse)(type KiCad)(uri /home/dos/Documents/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/Fuse)(options "")(descr ""))
+  (lib (name omc-schematics)(type KiCad)(uri /home/dos/Documents/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/omc-schematics.pretty)(options "")(descr ""))
+  (lib (name HLK-PM01)(type KiCad)(uri /home/dos/Documents/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/HLK-PM01)(options "")(descr ""))
 )
