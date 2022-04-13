@@ -1,4 +1,4 @@
 (sym_lib_table
-  (lib (name omc-schematics)(type Legacy)(uri /home/dos/Documents/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/omc-schematics.lib)(options "")(descr ""))
-  (lib (name SLA-12VDC-SL-C)(type Legacy)(uri /home/dos/Documents/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/SLA-12VDC-SL-C/SLA-12VDC-SL-C.lib)(options "")(descr ""))
+  (lib (name omc-schematics)(type Legacy)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/omc-schematics.lib")(options "")(descr ""))
+  (lib (name SLA-12VDC-SL-C)(type Legacy)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/SLA-12VDC-SL-C/SLA-12VDC-SL-C.lib")(options "")(descr ""))
 )
