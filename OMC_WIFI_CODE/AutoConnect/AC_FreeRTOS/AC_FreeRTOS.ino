@@ -901,7 +901,7 @@ void acSetUp(void) {
 
   config.apip       = IPAddress(172, 16, 16, 1);                     //Se configura la dirección IPv4 del AP ESP32
   config.gateway    = IPAddress(172, 16, 16, 1);                     //Se configura la dirección IPv4 del gateway
-  //config.retainPortal = true;                                          //Se mantiene el portal
+  config.retainPortal = true;                                          //Se mantiene el portal
   //config.preserveAPMode = true;
   config.title      = "OMC-WIFI-" + chipID;                             //Título de la página web
   config.homeUri    = "/_ac";                                           //Directorio HOME de la página web
@@ -1159,7 +1159,7 @@ void setup() {
     NULL,                   //Parámetro para guardar la función
     2,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
-    0);                     //Núcleo en el que se ejecutará
+    1);                     //Núcleo en el que se ejecutará
 
 
   //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay

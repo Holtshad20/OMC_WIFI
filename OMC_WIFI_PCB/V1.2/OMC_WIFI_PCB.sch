@@ -859,6 +859,14 @@ F 3 "" H 8950 2883 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10150 3050 10550 3050
+Wire Wire Line
+	2950 1450 3050 1450
+Wire Wire Line
+	3050 1450 3050 1250
+Wire Wire Line
+	3050 1250 3300 1250
+Wire Wire Line
+	2950 1150 3300 1150
 $Comp
 L Connector:Conn_01x02_Female J2
 U 1 1 626943A8
@@ -870,12 +878,4 @@ F 3 "~" H 3500 1250 50  0001 C CNN
 	1    3500 1250
 	1    0    0    1   
 $EndComp
-Wire Wire Line
-	2950 1150 3300 1150
-Wire Wire Line
-	2950 1450 3050 1450
-Wire Wire Line
-	3050 1450 3050 1250
-Wire Wire Line
-	3050 1250 3300 1250
 $EndSCHEMATC

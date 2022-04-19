@@ -385,17 +385,6 @@ D32_RELAY_3V
 Text GLabel 1900 2950 0    50   Input ~ 0
 EN
 $Comp
-L Connector:Conn_01x01_Female J12
-U 1 1 625CDD0C
-P 3250 1150
-F 0 "J12" H 3278 1176 50  0000 L CNN
-F 1 "Line Output" H 3278 1085 50  0000 L CNN
-F 2 "omc-plugs:OMC-Female-Plug" H 3250 1150 50  0001 C CNN
-F 3 "~" H 3250 1150 50  0001 C CNN
-	1    3250 1150
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:GND #PWR0102
 U 1 1 625D653D
 P 5350 5600
@@ -659,10 +648,6 @@ Text GLabel 2950 1450 0    50   Input ~ 0
 NEUTRAL
 Text GLabel 2950 1150 0    50   Input ~ 0
 LINE_OUT
-Wire Wire Line
-	2950 1450 3050 1450
-Wire Wire Line
-	2950 1150 3050 1150
 $Comp
 L SLA-12VDC-SL-C:SLA-12VDC-SL-C K1
 U 1 1 626D4711
@@ -777,17 +762,6 @@ Wire Notes Line
 Wire Wire Line
 	8450 1950 8450 1850
 $Comp
-L Connector:Conn_01x01_Female J3
-U 1 1 625CD894
-P 3250 1450
-F 0 "J3" H 3278 1476 50  0000 L CNN
-F 1 "Neutral Output" H 3278 1385 50  0000 L CNN
-F 2 "omc-plugs:OMC-Female-Plug" H 3250 1450 50  0001 C CNN
-F 3 "~" H 3250 1450 50  0001 C CNN
-	1    3250 1450
-	1    0    0    -1  
-$EndComp
-$Comp
 L Connector:Conn_01x02_Male J1
 U 1 1 62564E0F
 P 1000 1250
@@ -885,4 +859,23 @@ F 3 "" H 8950 2883 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10150 3050 10550 3050
+$Comp
+L Connector:Conn_01x02_Female J2
+U 1 1 626943A8
+P 3500 1250
+F 0 "J2" H 3528 1226 50  0000 L CNN
+F 1 "Conn_01x02_Female" H 3528 1135 50  0000 L CNN
+F 2 "omc-schematics LE:OMC-Female-Plug" H 3500 1250 50  0001 C CNN
+F 3 "~" H 3500 1250 50  0001 C CNN
+	1    3500 1250
+	1    0    0    1   
+$EndComp
+Wire Wire Line
+	2950 1150 3300 1150
+Wire Wire Line
+	2950 1450 3050 1450
+Wire Wire Line
+	3050 1450 3050 1250
+Wire Wire Line
+	3050 1250 3300 1250
 $EndSCHEMATC
