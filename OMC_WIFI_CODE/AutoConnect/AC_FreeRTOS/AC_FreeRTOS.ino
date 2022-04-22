@@ -96,10 +96,60 @@ AutoConnectConfig config;             // Constructor de las configuraciones del 
 
 Preferences       storage;            // Espacio en memoria para guardar los datos necesarios
 
-String chipID;                        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
+String hostname;                        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 boolean inside = false;
 
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+
+
+
+//***************************************************************************************************************************************************************
+//*******************************************************    CONSTANTES Y CONSTRUCTORES PARA TOUCH SENSOR     ***************************************************
+//***************************************************************************************************************************************************************
+
+#define THRESHOLD            40               //Se define cuál es el valor para activar la interrrupción del Touch Sensor
+#define AP_MODE_THRESHOLD    1000             //Se define cuál es el valor para activar o desactivar el modo AP
+#define REBOOT_THRESHOLD     5000             //Se define cuál es el valor para reiniciar el equipo
+#define CRED_RESET_THRESHOLD 10000             //Se define cuál es el valor para reiniciar credenciales y luego el equipo
+#define TOUCH_SENSOR         T0               //Se define cuál es el pin a utilizar como touch sensor
+
+
+static TaskHandle_t  xTouchHandle;        //Manejador de tareas de la rutina del Touch Sensor
+
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+
+
+
+//***************************************************************************************************************************************************************
+//************************************************************    FUNCIONES GENERALES     ***********************************************************************
+//***************************************************************************************************************************************************************
+
+//Función para obtner el ChipID para el hostname
+void getChipID(){
+  
+  byte mac[6];
+
+  //Se toman los 3 últimos bytes de la MAC del ESP32
+  WiFi.macAddress(mac);
+
+  for (int i = 3; i < 6; i++) {
+    if (mac[i] < 0x10) {
+      hostname += '0';
+    }
+    hostname += String(mac[i], HEX);
+  }
+
+  hostname = "OMC-WIFI-" + hostname;
+  
+}
+
+
+//Función para reiniciar credenciales
 void credReset() {
 
   nvs_flash_deinit();     // Se desinicializa la partición NVS (necesario para poder borrarla)
@@ -108,9 +158,20 @@ void credReset() {
   
 }
 
+
+//Función de interrupción por Touch Sensor
+void touchInterrupt() {
+
+  Serial.println("Interrupted");
+  vTaskResume(xTouchHandle);
+  touch_pad_intr_disable();
+
+}
+
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
+
 
 
 //***************************************************************************************************************************************************************
@@ -313,7 +374,7 @@ String onPreConfig(AutoConnectAux& aux, PageArgument& args) {
 // Función para indicar los datos iniciales en la página de configuración del AP
 String onConfig(AutoConnectAux& aux, PageArgument& args) {
 
-  storage.begin("config", true);       // Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
+  storage.begin("config", true);       // Se apertura el espacio en memoria flash denominado "storage" para leer (true)
 
   if ((args.arg("passVer") == storage.getString("pass", "12345678")) or (inside == true)) {
 
@@ -850,7 +911,7 @@ void rootPage() {
 
 //Función para configurar inicialmente los parámetros de AutoConnect
 void acSetUp(void) {
-  byte mac[6];
+  
 
   //AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
 
@@ -858,16 +919,7 @@ void acSetUp(void) {
   //  deleteAllCredentials();
   //  WiFi.disconnect(true, true);
 
-  //Se toman los 3 últimos bytes de la MAC del ESP32
-  WiFi.macAddress(mac);
-
-  for (int i = 3; i < 6; i++) {
-    if (mac[i] < 0x10) {
-      chipID += '0';
-    }
-    chipID += String(mac[i], HEX);
-  }
-
+  getChipID();
 
   //Se hace la configuración inicial del AP
   storage.begin("config", true);                          //Se apertura el espacio de las credenciales para leer y sin posibilidad de escribir (true)
@@ -878,8 +930,8 @@ void acSetUp(void) {
     config.apid     = storage.getString("ssid", "");        //Se extrae el SSID guardado en el espacio de memoria "storage"
   }
   else {                                                  //Si NO hay un SSID guardado en memoria, se coloca el default
-    config.hostName = "OMC-WIFI-" + chipID;    //Se coloca el hostname por defecto
-    config.apid     = "OMC-WIFI-" + chipID;    //Se coloca el hostname por defecto
+    config.hostName = hostname;    //Se coloca el hostname por defecto
+    config.apid     = hostname;    //Se coloca el hostname por defecto
   }
 
   //Configuración Contraseña
@@ -903,7 +955,7 @@ void acSetUp(void) {
   config.gateway    = IPAddress(172, 16, 16, 1);                     //Se configura la dirección IPv4 del gateway
   config.retainPortal = true;                                          //Se mantiene el portal
   //config.preserveAPMode = true;
-  config.title      = "OMC-WIFI-" + chipID;                             //Título de la página web
+  config.title      = hostname;                             //Título de la página web
   config.homeUri    = "/_ac";                                           //Directorio HOME de la página web
   config.menuItems  = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET | AC_MENUITEM_HOME;     //Se deshabilita el menú de desconectar del AP
   Portal.join({pre_config, ap_config, ap_ssid, ap_pass, cred_reset, server_ip, supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
@@ -1098,38 +1150,72 @@ void analogReadCode (void *analogReadParameter) {
 }
 
 
-//void printCode (void *analogReadParameter) {
-//
-//  AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
-//
-//  Serial.println("Print Task created");
-//
-//  while (true) {
-//    vTaskDelay(3000 / portTICK_PERIOD_MS);
-//
-//    Serial.println(switchRelay.value);
-//
-//    //    if (switchRelay.value == "Suministro cortado.") {
-//    //      controlGlobalRelay  = false;
-//    //    }
-//    //    else if (switchRelay.value == "Suministro reestablecido.") {
-//    //      controlGlobalRelay  = true;
-//    //    }
-//    //
-//    //    if (controlGlobalRelay  == true){
-//    //      switchRelay.value = "Suministro reestablecido.";
-//    //    }
-//    //    else{
-//    //      switchRelay.value = "Suministro cortado.";
-//    //    }
-//
-//
-//    Serial.println(controlGlobalRelay);
-//
-//
-//  }
-//
-//}
+//Tarea p
+void touchTask(void *touchParameter) {
+
+  uint32_t ticks;
+  
+  while (true) {
+
+    ticks = xTaskGetTickCount();
+
+    while ((touchRead(TOUCH_SENSOR) < THRESHOLD) and (xTaskGetTickCount() - ticks <= 10000)) {
+      
+    }
+
+    ticks = xTaskGetTickCount() - ticks;
+
+    Serial.println(ticks);
+
+
+    if ((ticks >= AP_MODE_THRESHOLD) and (ticks < REBOOT_THRESHOLD)) {
+
+      if (WiFi.softAPdisconnect()) {                          //Si el ESP32 está en modo AP/Estación
+
+        WiFi.mode(WIFI_STA);                                    //Se cambia el modo del ESP32 a Estación
+        Serial.println("Cambiado a modo Estación");
+
+      }
+      else {                                                  //Si el ESP32 está en modo Estación
+        
+        storage.begin("config", true);                          // Se apertura el espacio en memoria flash denominado "storage" para leer (true)
+
+        WiFi.mode(WIFI_AP_STA);                                 //Se cambia el modo del ESP32 a AP/Estación
+        WiFi.softAP(storage.getString("ssid", hostname.c_str()).c_str(), storage.getString("pass", "12345678").c_str());                    //Se inicializa el AP con las credenciales guardadas
+        Serial.println("Cambiado a modo AP/Estación");
+
+
+      }
+
+    }
+    else if ((ticks >= REBOOT_THRESHOLD) and (ticks < CRED_RESET_THRESHOLD)) {
+
+      Serial.println("Rebooting OMC-WIFI in 5 seconds...");
+      vTaskDelay(5000 / portTICK_PERIOD_MS);
+      ESP.restart();
+
+    }
+    else if (ticks >= CRED_RESET_THRESHOLD) {
+
+      Serial.println("Clearing credentials and rebooting OMC-WIFI in 5 seconds...");
+      credReset();
+      vTaskDelay(5000 / portTICK_PERIOD_MS);
+      ESP.restart();
+
+    }
+    else {
+
+      Serial.println("Se presionó el botón por menos de 5 segundos");
+
+    }
+
+
+    touch_pad_intr_enable();          //sE HABILITA NUEVAMNETE LA INTERRUPCIÓN
+    vTaskSuspend(NULL);               //Se suspende la tarea del Touch Sensor
+
+  }
+
+}
 
 
 //***************************************************************************************************************************************************************
@@ -1140,15 +1226,19 @@ void analogReadCode (void *analogReadParameter) {
 //Función de configuración inicial del microcontrolador
 void setup() {
 
+  Serial.begin(115200);
+
   vTaskDelay(500 / portTICK_PERIOD_MS);
 
-  Serial.begin(115200);
-  Serial.println("Inicializando OMC-WIFI-" + chipID);
+  Serial.println("Inicializando " + hostname);
 
   mqttSetUp();
   analogReadSetUp();
   relaySetUp();
   acSetUp();
+
+  //Se asocia la interrupción touchInterrupt al Touch Sensor
+  touchAttachInterrupt(TOUCH_SENSOR, touchInterrupt, THRESHOLD);
 
 
   //Tarea para ejecutar el código de AutoConnect
@@ -1183,7 +1273,20 @@ void setup() {
   //    NULL,                   //Manejador de tareas
   //    1);                     //Núcleo en el que se ejecutará
 
-  vTaskDelay(500 / portTICK_PERIOD_MS);
+  
+
+
+  //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
+  xTaskCreatePinnedToCore(
+    touchTask,              //Función que se ejecutará en la tarea
+    "touch",                //Nombre descriptivo
+    10000,                  //Tamaño del Stack para esta tarea
+    NULL,                   //Parámetro para guardar la función
+    1,                      //Prioridad de la tarea (de 0 a 25)
+    &xTouchHandle,          //Manejador de tareas
+    1);                     //Núcleo en el que se ejecutará
+
+  vTaskSuspend(xTouchHandle);
 
   //vTaskStartScheduler();    //Se inicializa el organizador de tareas
 
