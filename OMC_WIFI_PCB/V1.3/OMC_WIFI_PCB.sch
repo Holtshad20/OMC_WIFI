@@ -5,8 +5,8 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 1 1
 Title "OMC_WIFI"
-Date "2022-04-21"
-Rev "V1.2"
+Date "2022-04-28"
+Rev "V1.3"
 Comp "SCADA"
 Comment1 "Br. Carlos García y Br. David Hernández"
 Comment2 ""
