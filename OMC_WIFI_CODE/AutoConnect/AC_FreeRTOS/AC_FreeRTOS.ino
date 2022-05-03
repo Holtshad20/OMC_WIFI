@@ -8,7 +8,7 @@
 //#include "freertos/FreeRTOS.h"
 //#include "freertos/timers.h"
 
-
+int i = 0;
 
 
 //***************************************************************************************************************************************************************
@@ -66,7 +66,7 @@ float rmsCorr = 0;                    // Valor RMS Corriente
 //***************************************************************************************************************************************************************
 
 uint8_t voltSup = 135;                // Máximo voltaje permitido
-uint8_t voltInf = 100;                // Mínimo voltaje permitido
+uint8_t voltInf = 0;                // Mínimo voltaje permitido
 uint8_t corrSup = 15;                 // Máxima corriente permitida
 
 uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
@@ -98,7 +98,24 @@ Preferences       storage;            // Espacio en memoria para guardar los dat
 
 String hostname;                        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
-boolean inside = false;
+boolean inside     = false;
+boolean connServer = false;
+
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+
+
+
+//***************************************************************************************************************************************************************
+//*******************************************************    CONSTANTES Y CONSTRUCTORES PARA LEDS    ************************************************************
+//***************************************************************************************************************************************************************
+
+const int greenLed     = 2;       //Pin que se empleará para el Led Verde
+const int greenChannel = 0;       //Canal PWM empleado para el Led Verde
+
+const int redLed       = 15;      //Pin que se empleará para el Led Rojo
+const int redChannel   = 1;       //Canal PWM empleado para el Led Rojo
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -110,14 +127,14 @@ boolean inside = false;
 //*******************************************************    CONSTANTES Y CONSTRUCTORES PARA TOUCH SENSOR     ***************************************************
 //***************************************************************************************************************************************************************
 
-#define THRESHOLD            40               //Se define cuál es el valor para activar la interrrupción del Touch Sensor
-#define AP_MODE_THRESHOLD    1000             //Se define cuál es el valor para activar o desactivar el modo AP
-#define REBOOT_THRESHOLD     5000             //Se define cuál es el valor para reiniciar el equipo
-#define CRED_RESET_THRESHOLD 10000             //Se define cuál es el valor para reiniciar credenciales y luego el equipo
-#define TOUCH_SENSOR         T0               //Se define cuál es el pin a utilizar como touch sensor
+#define TOUCH_SENSOR  T0                    //Se define cuál es el pin a utilizar como touch sensor
 
+const int THRESHOLD            = 40;        //Se define cuál es el valor para activar la interrrupción del Touch Sensor
+const int AP_MODE_THRESHOLD    = 1000;      //Se define cuál es el valor para activar o desactivar el modo AP
+const int REBOOT_THRESHOLD     = 5000;      //Se define cuál es el valor para reiniciar el equipo
+const int CRED_RESET_THRESHOLD = 10000;     //Se define cuál es el valor para reiniciar credenciales y luego el equipo
 
-static TaskHandle_t  xTouchHandle;        //Manejador de tareas de la rutina del Touch Sensor
+static TaskHandle_t  xTouchHandle;          //Manejador de tareas de la rutina del Touch Sensor
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -130,8 +147,8 @@ static TaskHandle_t  xTouchHandle;        //Manejador de tareas de la rutina del
 //***************************************************************************************************************************************************************
 
 //Función para obtner el ChipID para el hostname
-void getChipID(){
-  
+void getChipID() {
+
   byte mac[6];
 
   //Se toman los 3 últimos bytes de la MAC del ESP32
@@ -145,7 +162,7 @@ void getChipID(){
   }
 
   hostname = "OMC-WIFI-" + hostname;
-  
+
 }
 
 
@@ -155,7 +172,7 @@ void credReset() {
   nvs_flash_deinit();     // Se desinicializa la partición NVS (necesario para poder borrarla)
   nvs_flash_erase();      // Se borra la partición NVS
   nvs_flash_init();       // Se inicializa la partición NVS
-  
+
 }
 
 
@@ -708,6 +725,9 @@ void WiFiEvent(WiFiEvent_t event) {
 }
 
 void onMqttConnect(bool sessionPresent) {
+
+  connServer = true;
+
   Serial.println();
   Serial.println("Connected to MQTT.");
   Serial.print("Session present: ");
@@ -737,11 +757,18 @@ void onMqttConnect(bool sessionPresent) {
 }
 
 void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
+
+  connServer = false;
+
   Serial.println();
   Serial.println("Disconnected from MQTT.");
+
   if (WiFi.isConnected()) {
+
     xTimerStart(mqttReconnectTimer, 0);
+
   }
+
 }
 
 void onMqttSubscribe(uint16_t packetId, uint8_t qos) {
@@ -771,17 +798,17 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     Serial.println();
     Serial.println(payload);
     Serial.println();
-    if (controlGlobalRelay == false){
-       controlGlobalRelay = true;
-       Serial.println("Cambio a habilitado");
-       Serial.println();
-       Serial.println(controlGlobalRelay);
+    if (controlGlobalRelay == false) {
+      controlGlobalRelay = true;
+      Serial.println("Cambio a habilitado");
+      Serial.println();
+      Serial.println(controlGlobalRelay);
     }
-    else if (controlGlobalRelay == true){
-       controlGlobalRelay = false;
-       Serial.println("Cambio a deshabilitado");
-       Serial.println();
-       Serial.println(controlGlobalRelay);
+    else if (controlGlobalRelay == true) {
+      controlGlobalRelay = false;
+      Serial.println("Cambio a deshabilitado");
+      Serial.println();
+      Serial.println(controlGlobalRelay);
 
     }
   }
@@ -911,7 +938,7 @@ void rootPage() {
 
 //Función para configurar inicialmente los parámetros de AutoConnect
 void acSetUp(void) {
-  
+
 
   //AutoConnectText& switchRelay = switch_relay["switchState"].as<AutoConnectText>();
 
@@ -1150,17 +1177,163 @@ void analogReadCode (void *analogReadParameter) {
 }
 
 
+void greenLedTask(void *greenLedParameter) {
+
+  wifi_mode_t esp_mode;
+
+  Serial.println("Green Led Task created");
+
+  while (true) {
+
+    esp_wifi_get_mode(&esp_mode);
+
+    if ((esp_mode == WIFI_MODE_APSTA) and WiFi.isConnected()) {
+
+      ledcWrite(greenChannel, 255);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+      ledcWrite(greenChannel, 0);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+      ledcWrite(greenChannel, 255);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+      ledcWrite(greenChannel, 0);
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+
+    }
+    else {
+
+      if (connServer) {
+
+        ledcWrite(greenChannel, 255);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+
+      }
+      else if (WiFi.isConnected() and !connServer) {
+
+        //ledcSetup(greenChannel, 1, 8);
+        ledcWrite(greenChannel, 255);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+
+        ledcWrite(greenChannel, 0);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+
+
+      }
+      else if (!WiFi.isConnected()) {
+
+        for (int dutyCycle = 0; dutyCycle <= 128; dutyCycle++) {
+          // changing the LED brightness with PWM
+          ledcWrite(greenChannel, dutyCycle);
+          vTaskDelay(10 / portTICK_PERIOD_MS);
+        }
+
+        // decrease the LED brightness
+        for (int dutyCycle = 128; dutyCycle >= 0; dutyCycle--) {
+          // changing the LED brightness with PWM
+          ledcWrite(greenChannel, dutyCycle);
+          vTaskDelay(10 / portTICK_PERIOD_MS);
+        }
+
+      }
+
+    }
+
+
+  }
+
+}
+
+
+void redLedTask(void *redLedParameter) {
+
+  Serial.println("Red Led Task created");
+
+  while (true) {
+
+    if (controlGlobalRelay == false) {
+
+      ledcWrite(redChannel, 255);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+    }
+    else if (xTimerIsTimerActive(timerRecuperacion) != pdFALSE) {
+
+      for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle++) {
+        // changing the LED brightness with PWM
+        ledcWrite(redChannel, dutyCycle);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+      }
+
+      // decrease the LED brightness
+      for (int dutyCycle = 255; dutyCycle >= 0; dutyCycle--) {
+        // changing the LED brightness with PWM
+        ledcWrite(redChannel, dutyCycle);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+      }
+
+    }
+    else if (rmsCorr > 0.9 * corrSup) {
+
+      //ledcSetup(greenChannel, 1, 8);
+      ledcWrite(redChannel, 255);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+      ledcWrite(redChannel, 0);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+    }
+    else if (rmsVolt > voltSup) {
+
+      ledcWrite(redChannel, 255);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+      ledcWrite(redChannel, 0);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+      ledcWrite(redChannel, 255);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+      ledcWrite(redChannel, 0);
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+
+    }
+    else if (rmsVolt < voltInf) {
+
+      //ledcSetup(greenChannel, 1, 8);
+      ledcWrite(redChannel, 255);
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+
+      ledcWrite(redChannel, 0);
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+
+    }
+    else{
+
+      ledcWrite(redChannel, 0);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+      
+    }
+
+  }
+
+}
+
+
 //Tarea p
 void touchTask(void *touchParameter) {
 
   uint32_t ticks;
-  
+
+  Serial.println("Touch Task created");
+
   while (true) {
 
     ticks = xTaskGetTickCount();
 
     while ((touchRead(TOUCH_SENSOR) < THRESHOLD) and (xTaskGetTickCount() - ticks <= 10000)) {
-      
+
     }
 
     ticks = xTaskGetTickCount() - ticks;
@@ -1177,10 +1350,11 @@ void touchTask(void *touchParameter) {
 
       }
       else {                                                  //Si el ESP32 está en modo Estación
-        
+
         storage.begin("config", true);                          // Se apertura el espacio en memoria flash denominado "storage" para leer (true)
 
         WiFi.mode(WIFI_AP_STA);                                 //Se cambia el modo del ESP32 a AP/Estación
+        WiFi.softAPConfig(IPAddress(172, 16, 16, 1), IPAddress(172, 16, 16, 1), IPAddress(255, 255, 255, 0));
         WiFi.softAP(storage.getString("ssid", hostname.c_str()).c_str(), storage.getString("pass", "12345678").c_str());                    //Se inicializa el AP con las credenciales guardadas
         Serial.println("Cambiado a modo AP/Estación");
 
@@ -1237,6 +1411,12 @@ void setup() {
   relaySetUp();
   acSetUp();
 
+  ledcSetup(greenChannel, 1000, 8);
+  ledcAttachPin(greenLed, greenChannel);
+
+  ledcSetup(redChannel, 1000, 8);
+  ledcAttachPin(redLed, redChannel);
+
   //Se asocia la interrupción touchInterrupt al Touch Sensor
   touchAttachInterrupt(TOUCH_SENSOR, touchInterrupt, THRESHOLD);
 
@@ -1247,40 +1427,47 @@ void setup() {
     "AutoConnectCode",      //Nombre descriptivo
     15000,                  //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
-    2,                      //Prioridad de la tarea (de 0 a 25)
+    0,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
-    1);                     //Núcleo en el que se ejecutará
+    0);                     //Núcleo en el que se ejecutará
 
 
   //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
   xTaskCreatePinnedToCore(
     analogReadCode,         //Función que se ejecutará en la tarea
     "AnalogReadCode",       //Nombre descriptivo
-    10000,                 //Tamaño del Stack para esta tarea
+    10000,                  //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
     1,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
     1);                     //Núcleo en el que se ejecutará
 
 
-  //  //Tarea para ejecutar el código de lectura analógica de voltaje y correinte
-  //  xTaskCreatePinnedToCore(
-  //    printCode,              //Función que se ejecutará en la tarea
-  //    "PrintCode",            //Nombre descriptivo
-  //    1024,                   //Tamaño del Stack para esta tarea
-  //    NULL,                   //Parámetro para guardar la función
-  //    2,                      //Prioridad de la tarea (de 0 a 25)
-  //    NULL,                   //Manejador de tareas
-  //    1);                     //Núcleo en el que se ejecutará
+  xTaskCreatePinnedToCore(
+    greenLedTask,               //Función que se ejecutará en la tarea
+    "greenLedTask",             //Nombre descriptivo
+    1024,                       //Tamaño del Stack para esta tarea
+    NULL,                       //Parámetro para guardar la función
+    1,                          //Prioridad de la tarea (de 0 a 25)
+    NULL,                       //Manejador de tareas
+    1);                         //Núcleo en el que se ejecutará
 
-  
+
+  xTaskCreatePinnedToCore(
+    redLedTask,                 //Función que se ejecutará en la tarea
+    "redLedTask",               //Nombre descriptivo
+    1024,                       //Tamaño del Stack para esta tarea
+    NULL,                       //Parámetro para guardar la función
+    1,                          //Prioridad de la tarea (de 0 a 25)
+    NULL,                       //Manejador de tareas
+    1);                         //Núcleo en el que se ejecutará
 
 
   //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
   xTaskCreatePinnedToCore(
     touchTask,              //Función que se ejecutará en la tarea
     "touch",                //Nombre descriptivo
-    10000,                  //Tamaño del Stack para esta tarea
+    1024,                   //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
     1,                      //Prioridad de la tarea (de 0 a 25)
     &xTouchHandle,          //Manejador de tareas
