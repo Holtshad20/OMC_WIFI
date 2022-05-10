@@ -1,0 +1,8 @@
+(fp_lib_table
+  (lib (name "Libs LE")(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs")(options "")(descr ""))
+  (lib (name "Fuse LE")(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/Fuse")(options "")(descr ""))
+  (lib (name "HLK-PM01 LE")(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/HLK-PM01")(options "")(descr ""))
+  (lib (name "omc-schematics LE")(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/omc-schematics.pretty")(options "")(descr ""))
+  (lib (name "SLA-12VDC-SL-C LE")(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/SLA-12VDC-SL-C")(options "")(descr ""))
+  (lib (name level_shifter)(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/level_shifter")(options "")(descr ""))
+)
