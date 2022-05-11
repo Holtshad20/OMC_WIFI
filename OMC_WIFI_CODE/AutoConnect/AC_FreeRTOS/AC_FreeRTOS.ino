@@ -114,7 +114,7 @@ boolean connServer = false;
 const int greenLed     = 2;       //Pin que se empleará para el Led Verde
 const int greenChannel = 0;       //Canal PWM empleado para el Led Verde
 
-const int redLed       = 15;      //Pin que se empleará para el Led Rojo
+const int redLed       = 23;      //Pin que se empleará para el Led Rojo
 const int redChannel   = 1;       //Canal PWM empleado para el Led Rojo
 
 //***************************************************************************************************************************************************************
@@ -893,8 +893,8 @@ void pasoTiempoRecuperacion() {   // Se ejecuta luego de que trascurran "tiempoR
 
 void relaySetUp () {
 
-  pinMode(23, OUTPUT);        // El Relé es una salida
-  digitalWrite(23, LOW);      // Al reiniciar el dispositivo el relé está apagado
+  pinMode(32, OUTPUT);        // El Relé es una salida
+  digitalWrite(32, LOW);      // Al reiniciar el dispositivo el relé está apagado
   relay = LOW;                // Variable del estado relay (para ser leída por software)
 
   pasoElTiempo = 0;           // La variable indica que transcurrieron los segundos necesarios para restaurar corriente
@@ -1103,7 +1103,7 @@ void analogReadCode (void *analogReadParameter) {
 
         if (pasoElTiempo == 1) {                                                                    // Si pasaron los segundos necesarios entonces
           relay = HIGH;                                                                               // Enciende el relay
-          digitalWrite(23, HIGH);
+          digitalWrite(32, HIGH);
 
           xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
           xTimerStop(timerRecuperacion, 0);
@@ -1127,7 +1127,7 @@ void analogReadCode (void *analogReadParameter) {
       if ( (rmsVolt < voltInf) || (rmsVolt > voltSup) || (rmsCorr > corrSup) ) {     // Si la alimentación está mal entonces:
         if (relay == HIGH) {                                                          // Solo si el relay estaba encendido antes
           relay = LOW;                                                                  // Apaga el relay
-          digitalWrite(23, LOW);
+          digitalWrite(32, LOW);
 
           xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
           xTimerStop(timerRecuperacion, 0);
@@ -1157,7 +1157,7 @@ void analogReadCode (void *analogReadParameter) {
     }
     else if (relay == HIGH) {             // Si el relé se mandó a apagar de manera manual:
       relay = LOW;                          // Se apaga el relé
-      digitalWrite(23, LOW);
+      digitalWrite(32, LOW);
 
       xTimerReset(timerRecuperacion, 0);    // Se detiene el temporizador
       xTimerStop(timerRecuperacion, 0);
