@@ -171,10 +171,10 @@ U 1 1 6216C21C
 P 8200 800
 F 0 "J4" V 8262 944 50  0000 L CNN
 F 1 "Switch" V 8353 944 50  0000 L CNN
-F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 8200 800 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 8200 800 50  0001 C CNN
 F 3 "~" H 8200 800 50  0001 C CNN
 	1    8200 800 
-	0    1    1    0   
+	0    -1   1    0   
 $EndComp
 Wire Wire Line
 	8300 1000 8300 1100
@@ -610,7 +610,6 @@ Wire Notes Line
 	4450 4850 6150 4850
 Wire Wire Line
 	3250 4350 3450 4350
-NoConn ~ 3450 4950
 Wire Wire Line
 	3250 4450 3450 4450
 $Comp
@@ -971,4 +970,19 @@ Text Notes 4800 950  0    50   ~ 0
 Toroide
 Wire Wire Line
 	4650 1350 5150 1350
+Text GLabel 3450 4950 2    50   Input ~ 0
+TOUCH
+Text GLabel 9500 1000 0    50   Input ~ 0
+TOUCH
+$Comp
+L Connector:Conn_01x01_Male J10
+U 1 1 627E9A98
+P 9700 1000
+F 0 "J10" H 9672 932 50  0000 R CNN
+F 1 "Conn_01x01_Male" H 9672 1023 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 9700 1000 50  0001 C CNN
+F 3 "~" H 9700 1000 50  0001 C CNN
+	1    9700 1000
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC

@@ -54,7 +54,7 @@ Wire Wire Line
 	7950 1300 8100 1300
 Wire Wire Line
 	8100 1300 8100 1350
-Text Notes 2900 800  0    50   ~ 10
+Text Notes 2850 800  0    50   ~ 10
 Alimentación y Carga
 $Comp
 L Device:R R1
@@ -171,10 +171,10 @@ U 1 1 6216C21C
 P 8200 800
 F 0 "J4" V 8262 944 50  0000 L CNN
 F 1 "Switch" V 8353 944 50  0000 L CNN
-F 2 "Connector_Wire:SolderWire-0.75sqmm_1x03_P4.8mm_D1.25mm_OD2.3mm" H 8200 800 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 8200 800 50  0001 C CNN
 F 3 "~" H 8200 800 50  0001 C CNN
 	1    8200 800 
-	0    1    1    0   
+	0    -1   1    0   
 $EndComp
 Wire Wire Line
 	8300 1000 8300 1100
@@ -532,9 +532,9 @@ Connection ~ 1900 1150
 Wire Wire Line
 	2050 1450 1900 1450
 Connection ~ 1900 1450
-Text GLabel 3450 1350 0    50   Input ~ 0
+Text GLabel 4650 1350 0    50   Input ~ 0
 NEUTRAL
-Text GLabel 4350 1050 0    50   Input ~ 0
+Text GLabel 4650 1250 0    50   Input ~ 0
 LINE_OUT
 Wire Notes Line
 	750  600  750  1850
@@ -610,22 +610,17 @@ Wire Notes Line
 	4450 4850 6150 4850
 Wire Wire Line
 	3250 4350 3450 4350
-NoConn ~ 3450 4950
 Wire Wire Line
 	3250 4450 3450 4450
-Wire Wire Line
-	4450 1150 4700 1150
-Wire Wire Line
-	4350 1050 4700 1050
 $Comp
 L Connector:Conn_01x02_Female J2
 U 1 1 626943A8
-P 4900 1150
-F 0 "J2" H 4928 1126 50  0000 L CNN
-F 1 "Conn_01x02_Female" H 4928 1035 50  0000 L CNN
-F 2 "omc-schematics LE:OMC-Female-Plug" H 4900 1150 50  0001 C CNN
-F 3 "~" H 4900 1150 50  0001 C CNN
-	1    4900 1150
+P 5350 1350
+F 0 "J2" H 5378 1326 50  0000 L CNN
+F 1 "Conn_01x02_Female" H 5378 1235 50  0000 L CNN
+F 2 "omc-schematics LE:OMC-Female-Plug" H 5350 1350 50  0001 C CNN
+F 3 "~" H 5350 1350 50  0001 C CNN
+	1    5350 1350
 	1    0    0    1   
 $EndComp
 $Comp
@@ -938,26 +933,24 @@ Relay\n
 $Comp
 L Connector:Conn_01x01_Female J7
 U 1 1 6284CB5E
-P 3550 1550
-F 0 "J7" V 3396 1598 50  0000 L CNN
-F 1 "Conn_01x01_Female" V 3487 1598 50  0000 L CNN
-F 2 "Connector_Pin:Pin_D1.3mm_L10.0mm_W3.5mm_Flat" H 3550 1550 50  0001 C CNN
-F 3 "~" H 3550 1550 50  0001 C CNN
-	1    3550 1550
-	0    1    1    0   
+P 4750 1000
+F 0 "J7" V 4596 1048 50  0000 L CNN
+F 1 "Conn_01x01_Female" V 4687 1048 50  0000 L CNN
+F 2 "Connector_Pin:Pin_D1.3mm_L10.0mm_W3.5mm_Flat" H 4750 1000 50  0001 C CNN
+F 3 "~" H 4750 1000 50  0001 C CNN
+	1    4750 1000
+	0    -1   -1   0   
 $EndComp
-Wire Wire Line
-	3550 1350 3450 1350
 $Comp
 L Connector:Conn_01x01_Female J9
 U 1 1 62853AFC
-P 4450 1350
-F 0 "J9" V 4296 1398 50  0000 L CNN
-F 1 "Conn_01x01_Female" V 4387 1398 50  0000 L CNN
-F 2 "Connector_Pin:Pin_D1.3mm_L10.0mm_W3.5mm_Flat" H 4450 1350 50  0001 C CNN
-F 3 "~" H 4450 1350 50  0001 C CNN
-	1    4450 1350
-	0    1    1    0   
+P 5100 1000
+F 0 "J9" V 4946 1048 50  0000 L CNN
+F 1 "Conn_01x01_Female" V 5037 1048 50  0000 L CNN
+F 2 "Connector_Pin:Pin_D1.3mm_L10.0mm_W3.5mm_Flat" H 5100 1000 50  0001 C CNN
+F 3 "~" H 5100 1000 50  0001 C CNN
+	1    5100 1000
+	0    1    -1   0   
 $EndComp
 Wire Notes Line
 	750  600  6200 600 
@@ -965,4 +958,31 @@ Wire Notes Line
 	6200 600  6200 1850
 Wire Notes Line
 	750  1850 6200 1850
+Wire Wire Line
+	5100 1200 5100 1250
+Wire Wire Line
+	4650 1250 4750 1250
+Wire Wire Line
+	4750 1250 4750 1200
+Wire Wire Line
+	5100 1250 5150 1250
+Text Notes 4800 950  0    50   ~ 0
+Toroide
+Wire Wire Line
+	4650 1350 5150 1350
+Text GLabel 3450 4950 2    50   Input ~ 0
+TOUCH
+Text GLabel 9500 1000 0    50   Input ~ 0
+TOUCH
+$Comp
+L Connector:Conn_01x01_Male J?
+U 1 1 627E9A98
+P 9700 1000
+F 0 "J?" H 9672 932 50  0000 R CNN
+F 1 "Conn_01x01_Male" H 9672 1023 50  0000 R CNN
+F 2 "" H 9700 1000 50  0001 C CNN
+F 3 "~" H 9700 1000 50  0001 C CNN
+	1    9700 1000
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC
