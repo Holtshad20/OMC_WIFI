@@ -539,15 +539,15 @@ LINE_OUT
 Wire Notes Line
 	750  600  750  1850
 $Comp
-L Connector:Conn_01x02_Male J1
+L Connector:Conn_01x03_Male J1
 U 1 1 62564E0F
 P 1000 1250
 F 0 "J1" H 1108 1431 50  0000 C CNN
 F 1 "Conn_01x02_Male" H 1108 1340 50  0000 C CNN
-F 2 "omc-plugs:OMC-Male-Plug" H 1000 1250 50  0001 C CNN
+F 2 "NEMA_5_P:NEMA_5_P" H 1000 1250 50  0001 C CNN
 F 3 "~" H 1000 1250 50  0001 C CNN
 	1    1000 1250
-	1    0    0    1   
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	1350 1250 1350 1450
@@ -613,15 +613,15 @@ Wire Wire Line
 Wire Wire Line
 	3250 4450 3450 4450
 $Comp
-L Connector:Conn_01x02_Female J2
+L Connector:Conn_01x03_Female J2
 U 1 1 626943A8
 P 5350 1350
 F 0 "J2" H 5378 1326 50  0000 L CNN
 F 1 "Conn_01x02_Female" H 5378 1235 50  0000 L CNN
-F 2 "omc-schematics LE:OMC-Female-Plug" H 5350 1350 50  0001 C CNN
+F 2 "NEMA_5_R:NEMA_5_R" H 5350 1350 50  0001 C CNN
 F 3 "~" H 5350 1350 50  0001 C CNN
 	1    5350 1350
-	1    0    0    1   
+	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR0116
@@ -985,4 +985,12 @@ F 3 "~" H 9700 1000 50  0001 C CNN
 	1    9700 1000
 	-1   0    0    1   
 $EndComp
+Text GLabel 1250 1600 2    50   Input ~ 0
+AC_GROUND
+Wire Wire Line
+	1200 1350 1200 1600
+Wire Wire Line
+	1200 1600 1250 1600
+Text GLabel 5150 1450 0    50   Input ~ 0
+AC_GROUND
 $EndSCHEMATC

@@ -975,12 +975,12 @@ TOUCH
 Text GLabel 9500 1000 0    50   Input ~ 0
 TOUCH
 $Comp
-L Connector:Conn_01x01_Male J?
+L Connector:Conn_01x01_Male J10
 U 1 1 627E9A98
 P 9700 1000
-F 0 "J?" H 9672 932 50  0000 R CNN
+F 0 "J10" H 9672 932 50  0000 R CNN
 F 1 "Conn_01x01_Male" H 9672 1023 50  0000 R CNN
-F 2 "" H 9700 1000 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 9700 1000 50  0001 C CNN
 F 3 "~" H 9700 1000 50  0001 C CNN
 	1    9700 1000
 	-1   0    0    1   
