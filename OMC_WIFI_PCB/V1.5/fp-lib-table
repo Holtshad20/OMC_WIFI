@@ -7,4 +7,5 @@
   (lib (name level_shifter)(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/level_shifter")(options "")(descr ""))
   (lib (name NEMA_5_P)(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/NEMA_5_P")(options "")(descr ""))
   (lib (name NEMA_5_R)(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/NEMA_5_R")(options "")(descr ""))
+  (lib (name conector_espada)(type KiCad)(uri "C:/Users/cgarc/OneDrive - est.ucab.edu.ve/Documentos/GitHub/OMC_WIFI/OMC_WIFI_PCB/Libs/conector_espada")(options "")(descr ""))
 )

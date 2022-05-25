@@ -721,23 +721,23 @@ Wire Notes Line
 $Comp
 L Graphic:SYM_Flash_Small SYM1
 U 1 1 6268094E
-P 5350 1650
-F 0 "SYM1" V 5260 1650 50  0001 C CNN
-F 1 "SYM_Flash_Small" V 5440 1650 50  0001 C CNN
-F 2 "Symbol:Symbol_HighVoltage_Type2_CopperTop_VerySmall" H 5350 1874 50  0001 C CNN
-F 3 "~" H 5750 1550 50  0001 C CNN
-	1    5350 1650
+P 3450 1500
+F 0 "SYM1" V 3360 1500 50  0001 C CNN
+F 1 "SYM_Flash_Small" V 3540 1500 50  0001 C CNN
+F 2 "Symbol:Symbol_HighVoltage_Type2_CopperTop_VerySmall" H 3450 1724 50  0001 C CNN
+F 3 "~" H 3850 1400 50  0001 C CNN
+	1    3450 1500
 	1    0    0    -1  
 $EndComp
 $Comp
 L Graphic:SYM_Flash_Small SYM2
 U 1 1 6268B7DC
-P 5700 1650
-F 0 "SYM2" V 5610 1650 50  0001 C CNN
-F 1 "SYM_Flash_Small" V 5790 1650 50  0001 C CNN
-F 2 "Symbol:Symbol_HighVoltage_Type2_CopperTop_VerySmall" H 5700 1874 50  0001 C CNN
-F 3 "~" H 6100 1550 50  0001 C CNN
-	1    5700 1650
+P 3800 1500
+F 0 "SYM2" V 3710 1500 50  0001 C CNN
+F 1 "SYM_Flash_Small" V 3890 1500 50  0001 C CNN
+F 2 "Symbol:Symbol_HighVoltage_Type2_CopperTop_VerySmall" H 3800 1724 50  0001 C CNN
+F 3 "~" H 4200 1400 50  0001 C CNN
+	1    3800 1500
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -930,28 +930,6 @@ Wire Notes Line
 	6400 1750 9650 1750
 Text Notes 6970 2140 0    50   ~ 10
 Relay\n
-$Comp
-L Connector:Conn_01x01_Female J7
-U 1 1 6284CB5E
-P 4750 1000
-F 0 "J7" V 4596 1048 50  0000 L CNN
-F 1 "Conn_01x01_Female" V 4687 1048 50  0000 L CNN
-F 2 "Connector_Pin:Pin_D1.3mm_L10.0mm_W3.5mm_Flat" H 4750 1000 50  0001 C CNN
-F 3 "~" H 4750 1000 50  0001 C CNN
-	1    4750 1000
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Connector:Conn_01x01_Female J9
-U 1 1 62853AFC
-P 5100 1000
-F 0 "J9" V 4946 1048 50  0000 L CNN
-F 1 "Conn_01x01_Female" V 5037 1048 50  0000 L CNN
-F 2 "Connector_Pin:Pin_D1.3mm_L10.0mm_W3.5mm_Flat" H 5100 1000 50  0001 C CNN
-F 3 "~" H 5100 1000 50  0001 C CNN
-	1    5100 1000
-	0    1    -1   0   
-$EndComp
 Wire Notes Line
 	750  600  6200 600 
 Wire Notes Line
@@ -959,11 +937,7 @@ Wire Notes Line
 Wire Notes Line
 	750  1850 6200 1850
 Wire Wire Line
-	5100 1200 5100 1250
-Wire Wire Line
 	4650 1250 4750 1250
-Wire Wire Line
-	4750 1250 4750 1200
 Wire Wire Line
 	5100 1250 5150 1250
 Text Notes 4800 950  0    50   ~ 0
@@ -993,4 +967,34 @@ Wire Wire Line
 	1200 1600 1250 1600
 Text GLabel 5150 1450 0    50   Input ~ 0
 AC_GROUND
+$Comp
+L espada:62409-1 J11
+U 1 1 628EB61B
+P 5500 950
+F 0 "J11" H 5730 996 50  0000 L CNN
+F 1 "62409-1" H 5730 905 50  0000 L CNN
+F 2 "conector_espada:espada" H 5500 950 50  0001 L BNN
+F 3 "" H 5500 950 50  0001 L BNN
+F 4 "62409-1" H 5500 950 50  0001 L BNN "Comment"
+F 5 "Compliant" H 5500 950 50  0001 L BNN "EU_RoHS_Compliance"
+	1    5500 950 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5100 950  5100 1250
+Wire Wire Line
+	4750 950  4750 1250
+$Comp
+L espada:62409-1 J7
+U 1 1 62907647
+P 4350 950
+F 0 "J7" H 4243 583 50  0000 C CNN
+F 1 "62409-1" H 4243 674 50  0000 C CNN
+F 2 "conector_espada:espada" H 4350 950 50  0001 L BNN
+F 3 "" H 4350 950 50  0001 L BNN
+F 4 "62409-1" H 4350 950 50  0001 L BNN "Comment"
+F 5 "Compliant" H 4350 950 50  0001 L BNN "EU_RoHS_Compliance"
+	1    4350 950 
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC
