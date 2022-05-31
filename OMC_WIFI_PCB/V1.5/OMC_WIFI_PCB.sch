@@ -899,17 +899,6 @@ F 3 "https://www.diodes.com/assets/Datasheets/ds16008.pdf" H 7900 2300 50  0001 
 	0    1    1    0   
 $EndComp
 $Comp
-L Transistor_BJT:2N3904 Q1
-U 1 1 6251C78E
-P 7800 2750
-F 0 "Q1" H 7990 2796 50  0000 L CNN
-F 1 "2N3904" H 7990 2705 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SC-59_Handsoldering" H 8000 2675 50  0001 L CIN
-F 3 "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF" H 7800 2750 50  0001 L CNN
-	1    7800 2750
-	1    0    0    -1  
-$EndComp
-$Comp
 L SLA-12VDC-SL-C:SLA-12VDC-SL-C K1
 U 1 1 626D4711
 P 8600 2300
@@ -967,34 +956,41 @@ Wire Wire Line
 	1200 1600 1250 1600
 Text GLabel 5150 1450 0    50   Input ~ 0
 AC_GROUND
-$Comp
-L espada:62409-1 J11
-U 1 1 628EB61B
-P 5500 950
-F 0 "J11" H 5730 996 50  0000 L CNN
-F 1 "62409-1" H 5730 905 50  0000 L CNN
-F 2 "conector_espada:espada" H 5500 950 50  0001 L BNN
-F 3 "" H 5500 950 50  0001 L BNN
-F 4 "62409-1" H 5500 950 50  0001 L BNN "Comment"
-F 5 "Compliant" H 5500 950 50  0001 L BNN "EU_RoHS_Compliance"
-	1    5500 950 
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	5100 950  5100 1250
 Wire Wire Line
 	4750 950  4750 1250
 $Comp
-L espada:62409-1 J7
-U 1 1 62907647
-P 4350 950
-F 0 "J7" H 4243 583 50  0000 C CNN
-F 1 "62409-1" H 4243 674 50  0000 C CNN
-F 2 "conector_espada:espada" H 4350 950 50  0001 L BNN
-F 3 "" H 4350 950 50  0001 L BNN
-F 4 "62409-1" H 4350 950 50  0001 L BNN "Comment"
-F 5 "Compliant" H 4350 950 50  0001 L BNN "EU_RoHS_Compliance"
-	1    4350 950 
+L Connector:Conn_01x01_Female J9
+U 1 1 629675E0
+P 5300 950
+F 0 "J9" H 5328 976 50  0000 L CNN
+F 1 "Conn_01x01_Female" H 5328 885 50  0000 L CNN
+F 2 "Connector_Wire:SolderWire-1.5sqmm_1x01_D1.7mm_OD3mm" H 5300 950 50  0001 C CNN
+F 3 "~" H 5300 950 50  0001 C CNN
+	1    5300 950 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x01_Female J7
+U 1 1 6296884C
+P 4550 950
+F 0 "J7" H 4442 725 50  0000 C CNN
+F 1 "Conn_01x01_Female" H 4442 816 50  0000 C CNN
+F 2 "Connector_Wire:SolderWire-1.5sqmm_1x01_D1.7mm_OD3mm" H 4550 950 50  0001 C CNN
+F 3 "~" H 4550 950 50  0001 C CNN
+	1    4550 950 
 	-1   0    0    1   
+$EndComp
+$Comp
+L Transistor_BJT:MMBT3904 Q1
+U 1 1 6298E1FD
+P 7800 2750
+F 0 "Q1" H 7991 2796 50  0000 L CNN
+F 1 "MMBT3904" H 7991 2705 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 8000 2675 50  0001 L CIN
+F 3 "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF" H 7800 2750 50  0001 L CNN
+	1    7800 2750
+	1    0    0    -1  
 $EndComp
 $EndSCHEMATC
