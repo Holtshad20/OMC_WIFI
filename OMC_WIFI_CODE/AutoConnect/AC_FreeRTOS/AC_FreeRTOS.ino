@@ -65,9 +65,11 @@ float rmsCorr = 0;                    // Valor RMS Corriente
 //*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
 //***************************************************************************************************************************************************************
 
+const int relayPin         = 32;      //Pin que se empleará para el relay
+
 uint8_t voltSup = 135;                // Máximo voltaje permitido
-uint8_t voltInf = 0;                // Mínimo voltaje permitido
-uint8_t corrSup = 15;                 // Máxima corriente permitida
+uint8_t voltInf = 100;                // Mínimo voltaje permitido
+uint8_t corrSup = 7;                 // Máxima corriente permitida
 
 uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
 
@@ -588,6 +590,7 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
 }
 
 
+// Función para actualizar los datos e la página del suministro eléctrico
 String onSupply(AutoConnectAux& aux, PageArgument& args) {
 
   //Textos que aparecerán es esta página
@@ -623,7 +626,7 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
 
 }
 
-
+//Función para actualizar los datos de la página de switcheo del relé
 String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
 
   //AutoConnectText& switchRelay = supply["switchState"].as<AutoConnectText>();
@@ -824,8 +827,8 @@ void onMqttPublish(uint16_t packetId) {
 void publicarValores() {
 
   mqttClient.publish("esp32/volt", 0, true, String(rmsVolt).c_str());
-  //mqttClient.publish("esp32/corr", 0, true, String(rmsCorr).c_str());
-  mqttClient.publish("esp32/corr", 0, true, "0");
+  mqttClient.publish("esp32/corr", 0, true, String(rmsCorr).c_str());
+  //mqttClient.publish("esp32/corr", 0, true, "0");
   Serial.println();
   Serial.print("V RMS = ");
   Serial.println(rmsVolt);
@@ -893,8 +896,8 @@ void pasoTiempoRecuperacion() {   // Se ejecuta luego de que trascurran "tiempoR
 
 void relaySetUp () {
 
-  pinMode(32, OUTPUT);        // El Relé es una salida
-  digitalWrite(32, LOW);      // Al reiniciar el dispositivo el relé está apagado
+  pinMode(relayPin, OUTPUT);        // El Relé es una salida
+  digitalWrite(relayPin, LOW);      // Al reiniciar el dispositivo el relé está apagado
   relay = LOW;                // Variable del estado relay (para ser leída por software)
 
   pasoElTiempo = 0;           // La variable indica que transcurrieron los segundos necesarios para restaurar corriente
@@ -1076,8 +1079,8 @@ void analogReadCode (void *analogReadParameter) {
       suma += cuadradoCorr[i];            //Se suman todos los valores cuadráticos.
     }
 
-    //rmsCorr = sqrt(suma / 2500);        //Calcula valor RMS al sacar raiz de promedio de valores cuadráticos
-    rmsCorr = 0;
+    rmsCorr = sqrt(suma / 2500);        //Calcula valor RMS al sacar raiz de promedio de valores cuadráticos
+    //rmsCorr = 0;
 
 
     //    vTaskDelay(1000 / portTICK_PERIOD_MS);
@@ -1103,7 +1106,7 @@ void analogReadCode (void *analogReadParameter) {
 
         if (pasoElTiempo == 1) {                                                                    // Si pasaron los segundos necesarios entonces
           relay = HIGH;                                                                               // Enciende el relay
-          digitalWrite(32, HIGH);
+          digitalWrite(relayPin, HIGH);
 
           xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
           xTimerStop(timerRecuperacion, 0);
@@ -1127,7 +1130,7 @@ void analogReadCode (void *analogReadParameter) {
       if ( (rmsVolt < voltInf) || (rmsVolt > voltSup) || (rmsCorr > corrSup) ) {     // Si la alimentación está mal entonces:
         if (relay == HIGH) {                                                          // Solo si el relay estaba encendido antes
           relay = LOW;                                                                  // Apaga el relay
-          digitalWrite(32, LOW);
+          digitalWrite(relayPin, LOW);
 
           xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
           xTimerStop(timerRecuperacion, 0);
@@ -1157,7 +1160,7 @@ void analogReadCode (void *analogReadParameter) {
     }
     else if (relay == HIGH) {             // Si el relé se mandó a apagar de manera manual:
       relay = LOW;                          // Se apaga el relé
-      digitalWrite(32, LOW);
+      digitalWrite(relayPin, LOW);
 
       xTimerReset(timerRecuperacion, 0);    // Se detiene el temporizador
       xTimerStop(timerRecuperacion, 0);
@@ -1427,9 +1430,9 @@ void setup() {
     "AutoConnectCode",      //Nombre descriptivo
     15000,                  //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
-    0,                      //Prioridad de la tarea (de 0 a 25)
+    1,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
-    0);                     //Núcleo en el que se ejecutará
+    1);                     //Núcleo en el que se ejecutará
 
 
   //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
@@ -1448,9 +1451,9 @@ void setup() {
     "greenLedTask",             //Nombre descriptivo
     1024,                       //Tamaño del Stack para esta tarea
     NULL,                       //Parámetro para guardar la función
-    1,                          //Prioridad de la tarea (de 0 a 25)
+    0,                          //Prioridad de la tarea (de 0 a 25)
     NULL,                       //Manejador de tareas
-    1);                         //Núcleo en el que se ejecutará
+    0);                         //Núcleo en el que se ejecutará
 
 
   xTaskCreatePinnedToCore(
@@ -1458,9 +1461,9 @@ void setup() {
     "redLedTask",               //Nombre descriptivo
     1024,                       //Tamaño del Stack para esta tarea
     NULL,                       //Parámetro para guardar la función
-    1,                          //Prioridad de la tarea (de 0 a 25)
+    0,                          //Prioridad de la tarea (de 0 a 25)
     NULL,                       //Manejador de tareas
-    1);                         //Núcleo en el que se ejecutará
+    0);                         //Núcleo en el que se ejecutará
 
 
   //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
