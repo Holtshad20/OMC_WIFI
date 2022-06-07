@@ -1,11 +1,13 @@
-#ifndef OMC_WIFI_GLOBALVARIABLES_H
-#define OMC_WIFI_GLOBALVARIABLES_H
+#ifndef OMC_WIFI_GLOBALVARIABLES_HPP
+#define OMC_WIFI_GLOBALVARIABLES_HPP
 
 #include <Arduino.h>
 #include <WiFi.h>
 #include <Preferences.h>
 #include <nvs_flash.h>
 #include <AsyncMqttClient.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/timers.h"
 
 
 //***************************************************************************************************************************************************************
@@ -50,16 +52,19 @@ extern float rmsCorr;      // Valor RMS Corriente
 //***************************************************************************************************************************************************************
 //*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
 //***************************************************************************************************************************************************************
-extern uint8_t voltSup;               // Máximo voltaje permitido
-extern uint8_t voltInf;               // Mínimo voltaje permitido
-extern uint8_t corrSup;               // Máxima corriente permitida
+extern uint8_t voltSup;                   // Máximo voltaje permitido
+extern uint8_t voltInf;                   // Mínimo voltaje permitido
+extern uint8_t corrSup;                   // Máxima corriente permitida
 
-extern uint8_t tiempoRecuperacion;    // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
+extern uint8_t tiempoRecuperacion;        // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
 
-extern boolean relay;                 // Estado del relay (software)
-extern boolean controlGlobalRelay;    // Control Global del Relé
-// Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
-// Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
+extern boolean relay;                     // Estado del relay (software)
+extern boolean controlGlobalRelay;        // Control Global del Relé
+                                            // Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
+                                            // Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
+
+extern TimerHandle_t timerRecuperacion;   // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
+
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************

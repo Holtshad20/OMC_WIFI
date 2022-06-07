@@ -1,7 +1,10 @@
-#ifndef OMC_WIFI_WEBPAGE_H
-#define OMC_WIFI_WEBPAGE_H
+#ifndef OMC_WIFI_MAIN_HPP
+#define OMC_WIFI_MAIN_HPP
 
 #include "OMC_WIFI_GlobalVariables.hpp"
+#include "OMC_WIFI_mqtt.hpp"
+#include "OMC_WIFI_Leds.hpp"
+#include "OMC_WIFI_TouchSensor.hpp"
 #include <AutoConnect.h>
 #include <AutoConnectCredential.h>
 #include <WebServer.h>
@@ -12,7 +15,6 @@ AutoConnect       Portal(Server);     // Constructor del portal captivo del ESP3
 AutoConnectConfig config;             // Constructor de las configuraciones del AutoConnect
 
 boolean inside = false;
-
 
 //***************************************************************************************************************************************************************
 //*************************************************    ELEMENTOS Y CONSTRUCTORES PARA PÁGINA WEB DE AUTOCONNECT     *********************************************
@@ -222,7 +224,7 @@ void getChipID();
 
 void acSetUp(void);
 
-void acLoop (void *acParameter);
+void acTask (void *acParameter);
 
 
 #endif

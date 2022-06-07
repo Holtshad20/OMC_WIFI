@@ -1,4 +1,4 @@
-#include "OMC_WIFI_WebPage.hpp"
+#include "OMC_WIFI_main.hpp"
 
 
 //***************************************************************************************************************************************************************
@@ -389,15 +389,96 @@ void acSetUp(void) {
 }
 
 //Código para el portal captivo de AutoConnect
-void acLoop (void *acParameter) {
+void acTask (void *acParameter) {
   Serial.println("AutoConnect Task created");
 
   Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
   Server.on("/", rootPage);                                             //Se inicializa el servidor web
 
-
   while (true) {
     Portal.handleClient();
   }
+
+}
+
+
+//Función de configuración inicial del microcontrolador
+void setup() {
+
+  Serial.begin(115200);
+
+//  vTaskDelay(500 / portTICK_PERIOD_MS);
+
+  Serial.println("Inicializando " + hostname);
+  Serial.println(controlGlobalRelay);
+
+  mqttSetUp();
+//  analogReadSetUp();
+//  relaySetUp();
+  acSetUp();
+  ledSetUp();
+  touchSetUp();
+
+
+  //Tarea para ejecutar el código de AutoConnect
+  xTaskCreatePinnedToCore(
+    acTask,                 //Función que se ejecutará en la tarea
+    "AutoConnectCode",      //Nombre descriptivo
+    15000,                  //Tamaño del Stack para esta tarea
+    NULL,                   //Parámetro para guardar la función
+    1,                      //Prioridad de la tarea (de 0 a 25)
+    NULL,                   //Manejador de tareas
+    1);                     //Núcleo en el que se ejecutará
+
+
+//  //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
+//  xTaskCreatePinnedToCore(
+//    analogReadCode,         //Función que se ejecutará en la tarea
+//    "AnalogReadCode",       //Nombre descriptivo
+//    10000,                  //Tamaño del Stack para esta tarea
+//    NULL,                   //Parámetro para guardar la función
+//    1,                      //Prioridad de la tarea (de 0 a 25)
+//    NULL,                   //Manejador de tareas
+//    1);                     //Núcleo en el que se ejecutará
+
+
+  xTaskCreatePinnedToCore(
+    greenLedTask,               //Función que se ejecutará en la tarea
+    "greenLedTask",             //Nombre descriptivo
+    1024,                       //Tamaño del Stack para esta tarea
+    NULL,                       //Parámetro para guardar la función
+    0,                          //Prioridad de la tarea (de 0 a 25)
+    NULL,                       //Manejador de tareas
+    0);                         //Núcleo en el que se ejecutará
+
+
+  xTaskCreatePinnedToCore(
+    redLedTask,                 //Función que se ejecutará en la tarea
+    "redLedTask",               //Nombre descriptivo
+    1024,                       //Tamaño del Stack para esta tarea
+    NULL,                       //Parámetro para guardar la función
+    0,                          //Prioridad de la tarea (de 0 a 25)
+    NULL,                       //Manejador de tareas
+    0);                         //Núcleo en el que se ejecutará
+
+
+  //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
+  xTaskCreatePinnedToCore(
+    touchTask,              //Función que se ejecutará en la tarea
+    "touch",                //Nombre descriptivo
+    1024,                   //Tamaño del Stack para esta tarea
+    NULL,                   //Parámetro para guardar la función
+    1,                      //Prioridad de la tarea (de 0 a 25)
+    &xTouchHandle,          //Manejador de tareas
+    1);                     //Núcleo en el que se ejecutará
+
+  vTaskSuspend(xTouchHandle);
+
+  //vTaskStartScheduler();    //Se inicializa el organizador de tareas
+
+}
+
+
+void loop() {
 
 }

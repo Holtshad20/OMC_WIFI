@@ -2,6 +2,32 @@
 
 
 //***************************************************************************************************************************************************************
+//******************************************************    VARIABLES Y CONSTANTES PARA CLIENTE MQTT     ********************************************************
+//***************************************************************************************************************************************************************
+
+//#define WIFI_SSID "dos-desktop"
+//#define WIFI_PASSWORD "8RlGCKQL"
+
+//#define WIFI_SSID "Thorondor"
+//#define WIFI_PASSWORD "n140862m041260n200689m170697gizmokingdom"
+//#define MQTT_HOST IPAddress(192, 168, 0, 50)
+//#define MQTT_PORT 1883
+
+#define         MQTT_PORT 1883
+IPAddress       MQTT_HOST;
+
+AsyncMqttClient mqttClient;
+
+TimerHandle_t   mqttReconnectTimer;
+TimerHandle_t   wifiReconnectTimer;
+TimerHandle_t   publishTimer;
+
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+
+
+//***************************************************************************************************************************************************************
 //*************************************************    VARIABLES, CONSTANTES Y ARREGLOS PARA LECTURA ANALÓGICA     **********************************************
 //***************************************************************************************************************************************************************
 
@@ -26,8 +52,10 @@ uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corri
 
 boolean relay              = LOW;     // Estado del relay (software)
 boolean controlGlobalRelay = true;    // Control Global del Relé
-// Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
-// Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
+                                        // Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
+                                        // Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
+
+TimerHandle_t timerRecuperacion;      // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
