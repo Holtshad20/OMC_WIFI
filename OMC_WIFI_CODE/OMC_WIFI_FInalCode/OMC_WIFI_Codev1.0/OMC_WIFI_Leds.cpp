@@ -84,7 +84,6 @@ void redLedTask(void *redLedParameter) {
   Serial.println("Red Led Task created");
 
   while (true) {
-
   
     if (!controlGlobalRelay) {
 
@@ -92,22 +91,22 @@ void redLedTask(void *redLedParameter) {
       vTaskDelay(200 / portTICK_PERIOD_MS);
 
     }
-//    else if (xTimerIsTimerActive(timerRecuperacion) != pdFALSE) {
-//
-//      for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle++) {
-//        // changing the LED brightness with PWM
-//        ledcWrite(redChannel, dutyCycle);
-//        vTaskDelay(10 / portTICK_PERIOD_MS);
-//      }
-//
-//      // decrease the LED brightness
-//      for (int dutyCycle = 255; dutyCycle >= 0; dutyCycle--) {
-//        // changing the LED brightness with PWM
-//        ledcWrite(redChannel, dutyCycle);
-//        vTaskDelay(10 / portTICK_PERIOD_MS);
-//      }
-//
-//    }
+    else if (xTimerIsTimerActive(timerRecuperacion) != pdFALSE) {
+
+      for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle++) {
+        // changing the LED brightness with PWM
+        ledcWrite(redChannel, dutyCycle);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+      }
+
+      // decrease the LED brightness
+      for (int dutyCycle = 255; dutyCycle >= 0; dutyCycle--) {
+        // changing the LED brightness with PWM
+        ledcWrite(redChannel, dutyCycle);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+      }
+
+    }
     else if (rmsCorr > 0.9 * corrSup) {
 
       //ledcSetup(greenChannel, 1, 8);

@@ -1,8 +1,9 @@
 #ifndef OMC_WIFI_MAIN_HPP
 #define OMC_WIFI_MAIN_HPP
 
-#include "OMC_WIFI_GlobalVariables.hpp"
+
 #include "OMC_WIFI_mqtt.hpp"
+#include "OMC_WIFI_read.hpp"
 #include "OMC_WIFI_Leds.hpp"
 #include "OMC_WIFI_TouchSensor.hpp"
 #include <AutoConnect.h>

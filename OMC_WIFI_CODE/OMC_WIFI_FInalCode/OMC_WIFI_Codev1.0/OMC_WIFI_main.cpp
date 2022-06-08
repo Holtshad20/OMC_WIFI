@@ -262,6 +262,8 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
 //Función para actualizar los datos de la página de switcheo del relé
 String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
 
+  storage.begin("config", true);
+
   //AutoConnectText& switchRelay = supply["switchState"].as<AutoConnectText>();
   if (args.arg("passVer") == storage.getString("pass", "12345678")) {
 
@@ -286,6 +288,7 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
 
   }
 
+  storage.end();
 
   return String();
 
@@ -407,14 +410,14 @@ void setup() {
 
   Serial.begin(115200);
 
-//  vTaskDelay(500 / portTICK_PERIOD_MS);
+  vTaskDelay(500 / portTICK_PERIOD_MS);
 
   Serial.println("Inicializando " + hostname);
   Serial.println(controlGlobalRelay);
 
   mqttSetUp();
-//  analogReadSetUp();
-//  relaySetUp();
+  readSetUp();
+  relaySetUp();
   acSetUp();
   ledSetUp();
   touchSetUp();
@@ -424,22 +427,22 @@ void setup() {
   xTaskCreatePinnedToCore(
     acTask,                 //Función que se ejecutará en la tarea
     "AutoConnectCode",      //Nombre descriptivo
-    15000,                  //Tamaño del Stack para esta tarea
+    8192,                  //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
     1,                      //Prioridad de la tarea (de 0 a 25)
     NULL,                   //Manejador de tareas
     1);                     //Núcleo en el que se ejecutará
 
 
-//  //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
-//  xTaskCreatePinnedToCore(
-//    analogReadCode,         //Función que se ejecutará en la tarea
-//    "AnalogReadCode",       //Nombre descriptivo
-//    10000,                  //Tamaño del Stack para esta tarea
-//    NULL,                   //Parámetro para guardar la función
-//    1,                      //Prioridad de la tarea (de 0 a 25)
-//    NULL,                   //Manejador de tareas
-//    1);                     //Núcleo en el que se ejecutará
+  //Tarea para ejecutar el código de lectura analógica de voltaje y corriente y control del relay
+  xTaskCreatePinnedToCore(
+    readCode,         //Función que se ejecutará en la tarea
+    "readCode",       //Nombre descriptivo
+    8192,                  //Tamaño del Stack para esta tarea
+    NULL,                   //Parámetro para guardar la función
+    1,                      //Prioridad de la tarea (de 0 a 25)
+    NULL,                   //Manejador de tareas
+    1);                     //Núcleo en el que se ejecutará
 
 
   xTaskCreatePinnedToCore(
@@ -466,7 +469,7 @@ void setup() {
   xTaskCreatePinnedToCore(
     touchTask,              //Función que se ejecutará en la tarea
     "touch",                //Nombre descriptivo
-    1024,                   //Tamaño del Stack para esta tarea
+    4096,                   //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
     1,                      //Prioridad de la tarea (de 0 a 25)
     &xTouchHandle,          //Manejador de tareas

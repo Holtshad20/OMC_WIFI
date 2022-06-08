@@ -1,6 +1,6 @@
 #include "OMC_WIFI_TouchSensor.hpp"
 
-//static TaskHandle_t  xTouchHandle;          //Manejador de tareas de la rutina del Touch Sensor
+TaskHandle_t  xTouchHandle;          //Manejador de tareas de la rutina del Touch Sensor
 
 void touchInterrupt() {
 
@@ -11,10 +11,10 @@ void touchInterrupt() {
 }
 
 
-void touchSetUp(){
+void touchSetUp() {
 
   touchAttachInterrupt(TOUCH_SENSOR, touchInterrupt, THRESHOLD);
-  
+
 }
 
 //Tarea p
@@ -41,7 +41,8 @@ void touchTask(void *touchParameter) {
 
       if (WiFi.softAPdisconnect()) {                          //Si el ESP32 está en modo AP/Estación
 
-        WiFi.mode(WIFI_STA);                                    //Se cambia el modo del ESP32 a Estación
+        esp_wifi_set_mode(WIFI_MODE_STA);                     //Se cambia el modo del ESP32 a Estación
+
         Serial.println("Cambiado a modo Estación");
 
       }
@@ -49,11 +50,12 @@ void touchTask(void *touchParameter) {
 
         storage.begin("config", true);                          // Se apertura el espacio en memoria flash denominado "storage" para leer (true)
 
-        WiFi.mode(WIFI_AP_STA);                                 //Se cambia el modo del ESP32 a AP/Estación
+        esp_wifi_set_mode(WIFI_MODE_APSTA);                     //Se cambia el modo del ESP32 a AP/Estación
         WiFi.softAPConfig(IPAddress(172, 16, 16, 1), IPAddress(172, 16, 16, 1), IPAddress(255, 255, 255, 0));
-        WiFi.softAP(storage.getString("ssid", hostname.c_str()).c_str(), storage.getString("pass", "12345678").c_str());                    //Se inicializa el AP con las credenciales guardadas
+        WiFi.softAP(storage.getString("ssid", hostname.c_str()).c_str(), storage.getString("pass", "12345678").c_str());    //Se inicializa el AP con las credenciales guardadas
         Serial.println("Cambiado a modo AP/Estación");
 
+        storage.end();
 
       }
 
@@ -80,7 +82,7 @@ void touchTask(void *touchParameter) {
     }
 
 
-    touch_pad_intr_enable();          //sE HABILITA NUEVAMNETE LA INTERRUPCIÓN
+    touch_pad_intr_enable();          //Se habilita nuevamente la interrupción
     vTaskSuspend(NULL);               //Se suspende la tarea del Touch Sensor
 
   }

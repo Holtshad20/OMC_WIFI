@@ -96,50 +96,46 @@ void onMqttUnsubscribe(uint16_t packetId) {
 }
 
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
-  //Serial.println();
-  //Serial.println("Se ha enviado/recibido un mensaje MQTT");
-  //Serial.println("Topic: " + String(topic));
-  //Serial.println("Payload: " + String(payload));
 
-  if (String(topic) == "esp32/controlRelay") {
+  if (String(topic) == "omc/01/cambios") {
 
-    Serial.println();
-    Serial.println(payload);
-    Serial.println();
-    if (controlGlobalRelay == false) {
-      controlGlobalRelay = true;
-      Serial.println("Cambio a habilitado");
-      Serial.println();
-      Serial.println(controlGlobalRelay);
-    }
-    else if (controlGlobalRelay == true) {
-      controlGlobalRelay = false;
-      Serial.println("Cambio a deshabilitado");
-      Serial.println();
-      Serial.println(controlGlobalRelay);
+
 
     }
   }
-}
 
-void onMqttPublish(uint16_t packetId) {
-  //Serial.println();
-  //Serial.println("Publish acknowledged.");
-  //Serial.print("  packetId: ");
-  //Serial.println(packetId);
-}
 
 void publicarValores() {
 
-  mqttClient.publish("esp32/volt", 0, true, String(rmsVolt).c_str());
-  mqttClient.publish("esp32/corr", 0, true, String(rmsCorr).c_str());
-  //mqttClient.publish("esp32/corr", 0, true, "0");
-  Serial.println();
-  Serial.print("V RMS = ");
-  Serial.println(rmsVolt);
-  Serial.print("C RMS = ");
-  Serial.println(rmsCorr);
+  char state[60];
+  snprintf(state,60,"vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv%d,lc%d"
+  , (int)rmsVolt
+  , (int)(((rmsVolt-(int)rmsVolt)*pow(10,2))+0.01)
+  , (int)rmsCorr
+  , (int)(((rmsCorr-(int)rmsCorr)*pow(10,2))+0.01)
+  , (int)(rmsVolt*rmsCorr)
+  , (int)((((rmsVolt*rmsCorr)-(int)(rmsVolt*rmsCorr))*pow(10,2))+0.01)
+  //, (int)powFactor
+  //, (int)(((powFactor-(int)powFactor)*pow(10,2))+0.01)
+  , 0
+  , 75
+  //, (int)energy
+  //, (int)(((energy-(int)energy)*pow(10,2))+0.01)
+  , 0
+  , 0
+  , relay
+  , controlGlobalRelay
+  //, voltMode
+  , 110
+  , corrSup
+  
+  );
+  
+  
+  mqttClient.publish("omc/01/estado", 0, true, state);
+  
   xTimerReset(publishTimer, 0);
+  
 }
 
 void mqttSetUp() {
@@ -160,7 +156,6 @@ void mqttSetUp() {
   mqttClient.onSubscribe(onMqttSubscribe);
   mqttClient.onUnsubscribe(onMqttUnsubscribe);
   mqttClient.onMessage(onMqttMessage);
-  mqttClient.onPublish(onMqttPublish);
 
   if (MQTT_HOST != IPAddress(0, 0, 0, 0)) {
 

@@ -890,7 +890,9 @@ void analogReadSetUp(void) {
 
 
 void pasoTiempoRecuperacion() {   // Se ejecuta luego de que trascurran "tiempoRecuperacion" segundos
+  
   pasoElTiempo = 1;               // La variable indica que transcurrieron los segundos
+  
 }
 
 
