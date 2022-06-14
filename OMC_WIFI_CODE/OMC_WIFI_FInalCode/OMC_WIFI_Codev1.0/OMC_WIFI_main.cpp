@@ -33,30 +33,35 @@ String onConfig(AutoConnectAux& aux, PageArgument& args) {
     inside = true;
 
     //Textos que aparecerán es esta página
+    aux["header01"].as<AutoConnectText>().value = "<h2>Cambiar Nombre del Dispositivo</h2>";
+    aux["header02"].as<AutoConnectText>().value = "<h2>Cambiar Clave del Dispositivo</h2>";
+    aux["header03"].as<AutoConnectText>().value = "<h2>Configurar Dirección IP del Servidor</h2>";
+    aux["header04"].as<AutoConnectText>().value = "<h2>Modo de Voltaje</h2>";
+    aux["header05"].as<AutoConnectText>().value = "<h2>Restablecer Credenciales</h2>";
+
     aux["txt01"].as<AutoConnectText>().value = "Desde este portal podrá configurar algunas características del dispositivo OMC-WIFI.";
     aux["txt02"].as<AutoConnectText>().value = "<p>El <b>nombre</b> debe tener entre 2 y 32 caracteres y solo acepta el guión como caracter especial (NO puede ser el último).</p>";
     aux["txt03"].as<AutoConnectText>().value = "<p>La <b>clave</b> debe tener entre 8 y 16 caracateres.</p>";
     aux["txt04"].as<AutoConnectText>().value = "A continuación deberá introducir la <b>dirección IP</b> del servidor al que se desea conectar (la dirección IP actual es " + storage.getString("server_ip", "0.0.0.0") + ").";
-    aux["txt05"].as<AutoConnectText>().value = "Elija <b>\"Sí\"</b> para restablecer los datos del dispositivo a los de fábrica (APs conectados, credenciales, dirección del servidor IP). <b>ESTE PROCESO ES IRREVERSIBLE</b>";
-
-    aux["header01"].as<AutoConnectText>().value = "<h2>Cambiar Nombre del Dispositivo</h2>";
-    aux["header02"].as<AutoConnectText>().value = "<h2>Cambiar Clave del Dispositivo</h2>";
-    aux["header03"].as<AutoConnectText>().value = "<h2>Configurar Dirección IP del Servidor</h2>";
-    aux["header04"].as<AutoConnectText>().value = "<h2>Restablecer Credenciales</h2>";
+    aux["txt05"].as<AutoConnectText>().value = "Desde este portal podrá cambiar el <b>modo de voltaje</b> a <b>120 voltios</b> o a <b>220 voltios</b> (el modo actual es " + String(storage.getInt("voltMode", 120)) + " voltios). Para ello, por favor verifique el voltaje de su suministro.";
+    aux["txt06"].as<AutoConnectText>().value = "Elija <b>\"Sí\"</b> para restablecer los datos del dispositivo a los de fábrica (APs conectados, credenciales, dirección del servidor IP). <b>ESTE PROCESO ES IRREVERSIBLE</b>";
 
 
     //Se habilitan los botones y las entradas de texto
-    aux["ssid"].as<AutoConnectInput>().enable    = true;
-    aux["pass1"].as<AutoConnectInput>().enable   = true;
-    aux["pass2"].as<AutoConnectInput>().enable   = true;
-    aux["server"].as<AutoConnectInput>().enable  = true;
+    aux["ssid"].as<AutoConnectInput>().enable         = true;
+    aux["pass1"].as<AutoConnectInput>().enable        = true;
+    aux["pass2"].as<AutoConnectInput>().enable        = true;
+    aux["server"].as<AutoConnectInput>().enable       = true;
 
-    aux["save01"].as<AutoConnectSubmit>().enable = true;
-    aux["save02"].as<AutoConnectSubmit>().enable = true;
-    aux["save03"].as<AutoConnectSubmit>().enable = true;
-    aux["save04"].as<AutoConnectSubmit>().enable = true;
+    aux["save01"].as<AutoConnectSubmit>().enable      = true;
+    aux["save02"].as<AutoConnectSubmit>().enable      = true;
+    aux["save03"].as<AutoConnectSubmit>().enable      = true;
+    aux["save04"].as<AutoConnectSubmit>().enable      = true;
+    aux["voltChange"].as<AutoConnectSubmit>().enable  = true;
 
-    aux["resetCred"].as<AutoConnectRadio>().enable = true;
+    aux["voltageMode"].as<AutoConnectSelect>().enable = true;
+
+    aux["resetCred"].as<AutoConnectRadio>().enable    = true;
 
 
     //Se limpian las entradas de datos al acceder al directorio
@@ -74,11 +79,13 @@ String onConfig(AutoConnectAux& aux, PageArgument& args) {
     aux["txt03"].as<AutoConnectText>().value = "";
     aux["txt04"].as<AutoConnectText>().value = "";
     aux["txt05"].as<AutoConnectText>().value = "";
+    aux["txt06"].as<AutoConnectText>().value = "";
 
     aux["header01"].as<AutoConnectText>().value = "";
     aux["header02"].as<AutoConnectText>().value = "";
     aux["header03"].as<AutoConnectText>().value = "";
     aux["header04"].as<AutoConnectText>().value = "";
+    aux["header05"].as<AutoConnectText>().value = "";
 
     //Se deshabilitan los botones y las entradas de texto
     aux["ssid"].as<AutoConnectInput>().enable    = false;
@@ -90,9 +97,12 @@ String onConfig(AutoConnectAux& aux, PageArgument& args) {
     aux["save02"].as<AutoConnectSubmit>().enable = false;
     aux["save03"].as<AutoConnectSubmit>().enable = false;
     aux["save04"].as<AutoConnectSubmit>().enable = false;
+    aux["voltChange"].as<AutoConnectSubmit>().enable = false;
 
+    aux["voltageMode"].as<AutoConnectSelect>().enable = false;
+    
     aux["resetCred"].as<AutoConnectRadio>().enable = false;
-
+    
   }
 
   storage.end();                       // Se cierra el espacio en memoria flash denominado "storage"
@@ -194,6 +204,41 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
 }
 
 
+String onVoltageMode(AutoConnectAux& aux, PageArgument& args) {
+
+  storage.begin("config", false);
+
+  if (args.arg("voltageMode") == "120") {
+
+    voltMode  = 120;
+    aux["txtCenter01"].as<AutoConnectText>().value = "Modo de voltaje cambiado a <b>120 voltios</b>";
+
+  }
+  //else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
+  else if (args.arg("voltageMode") == "220") {
+
+    voltMode  = 220;
+    aux["txtCenter01"].as<AutoConnectText>().value = "Modo de voltaje cambiado a <b>220 voltios</b>";
+
+  }
+  else {
+
+    aux["txtCenter01"].as<AutoConnectText>().value = "No se seleccionó ninguna opción de cambio";
+
+  }
+
+  voltInf  = voltMode * 0.9;                              //Se define el voltaje de corte inferior en base al modo de voltaje
+  voltSup  = voltMode * 1.1;                              //Se define el voltaje de corte superior en base al modo de voltaje
+
+  storage.putInt("voltMode", voltMode);
+
+  storage.end();
+
+  return String();
+
+}
+
+
 // Función para validar el reinicio de credenciales
 String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
 
@@ -226,67 +271,72 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
 // Función para actualizar los datos e la página del suministro eléctrico
 String onSupply(AutoConnectAux& aux, PageArgument& args) {
 
+  aux["passVer"].as<AutoConnectInput>().value  = "";
+
   //Textos que aparecerán es esta página
-  aux["txtCenter01"].as<AutoConnectText>().value = String(rmsVolt) + " Volts";
-  aux["txtCenter02"].as<AutoConnectText>().value = String(rmsCorr) + " Amps";
+  aux["header01"].as<AutoConnectText>().value = "<h2>Estado del Suministro Eléctrico</h2>";
+  aux["header02"].as<AutoConnectText>().value = "<h2>Estado del Relay</h2>";
+  aux["header03"].as<AutoConnectText>().value = "<h2>Cortar/Reestablecer Suministro Eléctrico</h2>";
+
+  aux["txtCenter01"].as<AutoConnectText>().value = "Voltaje: " + String(rmsVolt) + " V";
+  aux["txtCenter02"].as<AutoConnectText>().value = "Corriente: " + String(rmsCorr) + " A";
+  aux["txtCenter03"].as<AutoConnectText>().value = "Potencia: " + String(rmsVolt * rmsCorr) + " W";
+  //  aux["txtCenter04"].as<AutoConnectText>().value = "Factor de Potencia: " + String(powerFactor);
 
   if (relay == HIGH) {
-    aux["txtCenter03"].as<AutoConnectText>().value = "Encendido";
-  }
-  else {
-    aux["txtCenter03"].as<AutoConnectText>().value = "Apagado";
-  }
-
-  if (controlGlobalRelay == true) {
-    aux["txt04"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.\n Actualmente el suministro se encuentra <b>habilitado manualmente</b>.";
+    aux["txtCenter05"].as<AutoConnectText>().value = "Estado del Relé: Encendido";
 
   }
   else {
-    aux["txt04"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.\n Actualmente el suministro se encuentra <b>cortado manualmente</b>.";
+    aux["txtCenter05"].as<AutoConnectText>().value = "Estado del Relé: Apagado";
 
   }
 
+  if (controlGlobalRelay) {
+    aux["txtCenter06"].as<AutoConnectText>().value = "Bloqueo Manual: Desbloqueado";
 
-  aux["header01"].as<AutoConnectText>().value = "<h2>Voltaje</h2>";
-  aux["header02"].as<AutoConnectText>().value = "<h2>Corriente</h2>";
-  aux["header03"].as<AutoConnectText>().value = "<h2>Estado del Relay</h2>";
-  aux["header04"].as<AutoConnectText>().value = "<h2>Cortar/Reestablecer Suministro</h2>";
+  }
+  else {
+    aux["txtCenter06"].as<AutoConnectText>().value = "Bloqueo Manual: Bloqueado";
 
+  }
 
-  aux["passVer"].as<AutoConnectInput>().value  = "";
+  aux["txt01"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.";
+
 
   return String();
 
 }
 
+
 //Función para actualizar los datos de la página de switcheo del relé
 String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
 
-  storage.begin("config", true);
+  storage.begin("config", false);
 
   //AutoConnectText& switchRelay = supply["switchState"].as<AutoConnectText>();
   if (args.arg("passVer") == storage.getString("pass", "12345678")) {
 
-    aux["txtCenter01"].as<AutoConnectText>().value = "";
-
-    //if (aux["switchState"].as<AutoConnectText>().value == "Suministro reestablecido.") {
     if (controlGlobalRelay == true) {
+      
       controlGlobalRelay  = false;
-      aux["txtCenter02"].as<AutoConnectText>().value = "Suministro cortado manualmente.";
-      mqttClient.publish("esp32/controlRelay", 0, true, "0");
+      aux["txtCenter01"].as<AutoConnectText>().value = "Suministro cortado manualmente.";
+      
     }
-    //else if (aux["switchState"].as<AutoConnectText>().value == "Suministro cortado.") {
     else {
+      
       controlGlobalRelay  = true;
-      aux["txtCenter02"].as<AutoConnectText>().value = "Suministro reestablecido manualmente.";
-      mqttClient.publish("esp32/controlRelay", 0, true, "1");
+      aux["txtCenter01"].as<AutoConnectText>().value = "Suministro reestablecido manualmente.";
+      
     }
   }
   else {
+    
     aux["txtCenter01"].as<AutoConnectText>().value = "La <b>clave introducida</b> es <b>inválida</b>. No podrá cambiar el estado del suministro.";
-    aux["txtCenter02"].as<AutoConnectText>().value = "";
-
+    
   }
+
+  storage.putBool("controlManual", controlGlobalRelay);
 
   storage.end();
 
@@ -368,6 +418,13 @@ void acSetUp(void) {
     config.psk = "12345678";                                //Se coloca la contraseña por defecto
   }
 
+  //Configuración inicial de modo voltaje
+  voltMode = storage.getInt("voltMode", 120);        //Se extrae el modo de voltaje guardado en el espacio de memoria "storage"
+  voltInf  = voltMode * 0.9;                              //Se define el voltaje de corte inferior en base al modo de voltaje
+  voltSup  = voltMode * 1.1;                              //Se define el voltaje de corte superior en base al modo de voltaje
+
+  controlGlobalRelay = storage.getBool("controlManual", true);
+
   storage.end();
 
   config.apip       = IPAddress(172, 16, 16, 1);      //Se configura la dirección IPv4 del AP ESP32
@@ -377,13 +434,14 @@ void acSetUp(void) {
   config.title      = hostname;                       //Título de la página web
   config.homeUri    = "/_ac";                         //Directorio HOME de la página web
   config.menuItems  = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET | AC_MENUITEM_HOME;     //Se deshabilita el menú de desconectar del AP
-  Portal.join({pre_config, ap_config, ap_ssid, ap_pass, cred_reset, server_ip, supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
+  Portal.join({pre_config, ap_config, ap_ssid, ap_pass, cred_reset, server_ip, voltage_mode, supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
   Portal.on("/pre-config", onPreConfig);              //Se enlaza la función "onPreConfig" con la página en el directorio "/pre-config" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap-config", onConfig);                  //Se enlaza la función "onConfig" con la página en el directorio "/ap-config" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap-ssid", onChangeSSID);                //Se enlaza la función "onChangeSSID" con la página en el directorio "/ap-ssid" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap-pass", onChangePass);                //Se enlaza la función "onChangePass" con la página en el directorio "/ap-pass" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/cred-reset", onCredentialReset);        //Se enlaza la función "onCredentialReset" con la página en el directorio "/cred-reset" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/server-ip", onServerIP);                //Se enlaza la función "onServerIP" con la página en el directorio "/server-ip" (la función se ejecutará cada vez que se acceda al directorio)
+  Portal.on("/voltage-mode", onVoltageMode);          //Se enlaza la función "onVoltageMode" con la página en el directorio "/voltage-mode" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/supply", onSupply);                     //Se enlaza la función "onSupply" con la página en el directorio "/supply" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/switch-relay", onSwitchRelay);          //Se enlaza la función "onSwitchRelay" con la página en el directorio "/switch-relay" (la función se ejecutará cada vez que se acceda al directorio)
 
@@ -413,7 +471,6 @@ void setup() {
   vTaskDelay(500 / portTICK_PERIOD_MS);
 
   Serial.println("Inicializando " + hostname);
-  Serial.println(controlGlobalRelay);
 
   mqttSetUp();
   readSetUp();
@@ -422,6 +479,7 @@ void setup() {
   ledSetUp();
   touchSetUp();
 
+  Serial.println(controlGlobalRelay);
 
   //Tarea para ejecutar el código de AutoConnect
   xTaskCreatePinnedToCore(

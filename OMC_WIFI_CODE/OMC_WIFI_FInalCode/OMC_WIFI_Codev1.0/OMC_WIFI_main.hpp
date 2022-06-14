@@ -26,6 +26,9 @@ ACText(header01, "", "text-align:center;color:2f4f4f;");
 ACText(header02, "", "text-align:center;color:2f4f4f;");
 ACText(header03, "", "text-align:center;color:2f4f4f;");
 ACText(header04, "", "text-align:center;color:2f4f4f;");
+ACText(header05, "", "text-align:center;color:2f4f4f;");
+ACText(header06, "", "text-align:center;color:2f4f4f;");
+
 
 //Declaración de elementos para texto
 ACText(txt01, "", "text-align:justify");
@@ -33,9 +36,14 @@ ACText(txt02, "", "text-align:justify");
 ACText(txt03, "", "text-align:justify");
 ACText(txt04, "", "text-align:justify");
 ACText(txt05, "", "text-align:justify");
+ACText(txt06, "", "text-align:justify");
+ACText(txt07, "", "text-align:justify");
 ACText(txtCenter01, "", "text-align:center");
 ACText(txtCenter02, "", "text-align:center");
 ACText(txtCenter03, "", "text-align:center");
+ACText(txtCenter04, "", "text-align:center");
+ACText(txtCenter05, "", "text-align:center");
+ACText(txtCenter06, "", "text-align:center");
 
 
 // Declaración de elementos AutoConnect para la página web de verificación de contraseña antes de configurar el dispositivo
@@ -52,6 +60,10 @@ ACInput(pass2, "", "Confirme Clave", "^.{8,16}$", "Introduzca la clave de nuevo"
 ACSubmit(save02, "Guardar Clave", "/ap-pass");
 ACInput(server, "", "IP del Servidor", "\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\\b", "Introduzca la IP del servidor");
 ACSubmit(save03, "Guardar Dirección IP", "/server-ip");
+ACSelect(voltageMode, {"","120", "220"}, "", 0);
+ACSubmit(voltChange, "Cambiar modo de voltaje", "/voltage-mode");
+ACSelect(corrLimit, {"","0.5", "1", "2", "3", , "4", "5", "6", "7", "8", "9", "10"}, "", 0);
+ACSubmit(corrChange, "Cambiar límite de corriente", "/corr-limit");
 ACRadio(resetCred, {"Sí", "No"}, "", AC_Horizontal, 2);
 ACSubmit(save04, "Restablecer Credenciales", "/cred-reset");
 
@@ -61,11 +73,15 @@ ACSubmit(reset, "Reiniciar equipo", "/_ac#rdlg");
 ACSubmit(backConfig, "Volver", "/ap-config");
 
 
+// Declaración de elementos AutoConnect para la página web de suministro eléctrico
+ACButton(updateData, "Actualizar Datos", "window.location = window.location.href");
+ACSubmit(cutRestore, "Cortar/Reestablecer suministro", "/switch-relay");
+
+
 // Declaración de elementos AutoConnect para la página web de corte del suministro eléctrico
 ACText(switchState, "", "text-align:center;");
-ACSubmit(cutRestore, "Cortar/Reestablecer suministro", "/switch-relay");
 ACSubmit(backSupply, "Volver", "/supply");
-ACButton(updateData, "Actualizar Datos", "window.location = window.location.href");
+
 
 
 // Declaración de la página web para la página web de verificación de contraseña antes de configurar el dispositivo
@@ -98,6 +114,14 @@ AutoConnectAux ap_config("/ap-config", "Configuración del Dispositivo", false, 
   save03,
   header04,
   txt05,
+  voltageMode,
+  voltChange,
+  header05,
+  txt06,
+  corrLimit,
+  corrChange,
+  header06,
+  txt07,
   resetCred,
   save04,
   backMenu,
@@ -139,6 +163,15 @@ AutoConnectAux server_ip("/server-ip", "Configuración del Dispositivo", false, 
 });
 
 
+AutoConnectAux voltage_mode("/voltage-mode", "Suministro Eléctrico", false, {
+
+  header04,
+  txtCenter01,
+  backConfig,
+
+});
+
+
 // Declaración de la página web para restablecer las credenciales a las de fábrica
 AutoConnectAux cred_reset("/cred-reset", "Configuración del Dispositivo", false, {
 
@@ -155,26 +188,26 @@ AutoConnectAux supply("/supply", "Suministro Eléctrico", true, {
 
   header01,
   txtCenter01,
-  header02,
   txtCenter02,
-  header03,
   txtCenter03,
+  txtCenter04,
+  header02,
+  txtCenter05,
+  txtCenter06,
   updateData,
-  header04,
-  txt04,
+  header03,
+  txt01,
   passVer,
   cutRestore,
   backMenu,
-  //reloadPage,
 
 });
 
 
 AutoConnectAux switch_relay("/switch-relay", "Suministro Eléctrico", false, {
 
-  header04,
+  header03,
   txtCenter01,
-  txtCenter02,
   backSupply,
 
 });
@@ -204,6 +237,9 @@ String onChangePass(AutoConnectAux& aux, PageArgument& args);
 
 // Función para validar la dirección IP del servidor
 String onServerIP(AutoConnectAux& aux, PageArgument& args);
+
+//Función para actualizar el modo de voltaje
+String onVoltageMode(AutoConnectAux& aux, PageArgument& args);
 
 // Función para validar el reinicio de credenciales
 String onCredentialReset(AutoConnectAux& aux, PageArgument& args);

@@ -44,6 +44,8 @@ float rmsCorr = 0;      // Valor RMS Corriente
 //*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
 //***************************************************************************************************************************************************************
 
+int voltMode;
+
 uint8_t voltSup            = 135;     // Máximo voltaje permitido
 uint8_t voltInf            = 100;     // Mínimo voltaje permitido
 uint8_t corrSup            = 7;       // Máxima corriente permitida
@@ -51,7 +53,7 @@ uint8_t corrSup            = 7;       // Máxima corriente permitida
 uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
 
 boolean relay              = LOW;     // Estado del relay (software)
-boolean controlGlobalRelay = true;    // Control Global del Relé
+boolean controlGlobalRelay;    // Control Global del Relé
                                         // Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
                                         // Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
 

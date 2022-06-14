@@ -97,7 +97,7 @@ void onMqttUnsubscribe(uint16_t packetId) {
 
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
 
-  if (String(topic) == "omc/01/cambios") {
+  if (String(topic) == "omc/02/cambios") {
 
 
 
@@ -125,14 +125,13 @@ void publicarValores() {
   , 0
   , relay
   , controlGlobalRelay
-  //, voltMode
-  , 110
+  , voltMode
   , corrSup
   
   );
   
   
-  mqttClient.publish("omc/01/estado", 0, true, state);
+  mqttClient.publish("omc/02/estado", 0, true, state);
   
   xTimerReset(publishTimer, 0);
   
