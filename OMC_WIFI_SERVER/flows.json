@@ -1,0 +1,4968 @@
+[
+    {
+        "id": "1f35534c8fd78b65",
+        "type": "tab",
+        "label": "Flow 11",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2e9d9a63f5843708",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6f4784e8cf2fe1e0",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "960c0b986ae7e0fc",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3b3439c6de64720a",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e8f647337ed9dae4",
+        "type": "tab",
+        "label": "Flow 5",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ae85575a21155d1c",
+        "type": "tab",
+        "label": "Flow 6",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2fda3a02bb66fe0f",
+        "type": "tab",
+        "label": "Flow 7",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3974a1c708eddb35",
+        "type": "tab",
+        "label": "Flow 8",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "73be0d245c0caa40",
+        "type": "tab",
+        "label": "Flow 9",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3c7bdc336f76b0ee",
+        "type": "tab",
+        "label": "Flow 10",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "10e78a89.5b4fd5",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "e7c46d5e.a1283",
+        "type": "ui_tab",
+        "name": "Resumen",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "cf3f5f32c0b4bf65",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#004080",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "reset": false
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": true
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#004080",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#0066cc",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#004080",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Servidor OMC-WIFI",
+            "hideToolbar": "false",
+            "allowSwipe": "true",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "11810919457698fb",
+        "type": "ui_tab",
+        "name": "Dispositivo 1",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "76cd008ee20ad04e",
+        "type": "ui_group",
+        "name": "Monitoreo",
+        "tab": "11810919457698fb",
+        "order": 1,
+        "disp": true,
+        "width": 7,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3ef4816e57556e06",
+        "type": "ui_tab",
+        "name": "Dispositivo 2",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "aa88a6b9707e45ba",
+        "type": "ui_tab",
+        "name": "Dispositivo 3",
+        "icon": "dashboard",
+        "order": 4,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "49fd72d0e249acf0",
+        "type": "ui_tab",
+        "name": "Dispositivo 4",
+        "icon": "dashboard",
+        "order": 5,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "369054c763f7fbb4",
+        "type": "ui_tab",
+        "name": "Dispositivo 6",
+        "icon": "dashboard",
+        "order": 6,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "0aae13674b884002",
+        "type": "ui_tab",
+        "name": "Dispositivo 7",
+        "icon": "dashboard",
+        "order": 7,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "1bdb100ad2433277",
+        "type": "ui_tab",
+        "name": "Dispositivo 8",
+        "icon": "dashboard",
+        "order": 8,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "59b7221d5c9bfcc8",
+        "type": "ui_tab",
+        "name": "Dispositivo 9",
+        "icon": "dashboard",
+        "order": 9,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "4347d1310f237594",
+        "type": "ui_tab",
+        "name": "Dispositivo 10",
+        "icon": "dashboard",
+        "order": 10,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "8a55ae788db337bb",
+        "type": "ui_group",
+        "name": "Control",
+        "tab": "11810919457698fb",
+        "order": 3,
+        "disp": true,
+        "width": 7,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5dcfa381d1f525d2",
+        "type": "ui_group",
+        "name": "Monitoreo 2",
+        "tab": "11810919457698fb",
+        "order": 2,
+        "disp": false,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c1ddd0629c8a913a",
+        "type": "ui_group",
+        "name": "Dispositivo 1",
+        "tab": "e7c46d5e.a1283",
+        "order": 1,
+        "disp": true,
+        "width": "5",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "3af6d3cba2425ff8",
+        "type": "ui_group",
+        "name": "Dispositivo 2",
+        "tab": "e7c46d5e.a1283",
+        "order": 2,
+        "disp": true,
+        "width": "5",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "f9dfc9a220a82de7",
+        "type": "ui_group",
+        "name": "Dispositivo 3",
+        "tab": "e7c46d5e.a1283",
+        "order": 3,
+        "disp": true,
+        "width": "5",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "3ff394bd9036151f",
+        "type": "ui_group",
+        "name": "Dispositivo 4",
+        "tab": "e7c46d5e.a1283",
+        "order": 4,
+        "disp": true,
+        "width": "5",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "e00e4fc84f4e1bac",
+        "type": "ui_group",
+        "name": "Dispositivo 5",
+        "tab": "e7c46d5e.a1283",
+        "order": 5,
+        "disp": true,
+        "width": "5",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "753065e3a360957e",
+        "type": "ui_group",
+        "name": "Dispositivo 6",
+        "tab": "e7c46d5e.a1283",
+        "order": 6,
+        "disp": true,
+        "width": "5",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "b70cc8a1b4cc3153",
+        "type": "ui_group",
+        "name": "Dispositivo 7",
+        "tab": "e7c46d5e.a1283",
+        "order": 7,
+        "disp": true,
+        "width": "5",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "3c08646986b553c8",
+        "type": "ui_group",
+        "name": "Dispositivo 8",
+        "tab": "e7c46d5e.a1283",
+        "order": 8,
+        "disp": true,
+        "width": "5",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "7157ec15d9059687",
+        "type": "ui_group",
+        "name": "Dispositivo 9",
+        "tab": "e7c46d5e.a1283",
+        "order": 9,
+        "disp": true,
+        "width": "5",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "1ab945836557152a",
+        "type": "ui_group",
+        "name": "Dispositivo 10",
+        "tab": "e7c46d5e.a1283",
+        "order": 10,
+        "disp": true,
+        "width": "5",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "8391a58821209850",
+        "type": "ui_spacer",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "spacer",
+        "group": "5dcfa381d1f525d2",
+        "order": 1,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "3ec1104d286ca262",
+        "type": "ui_spacer",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "spacer",
+        "group": "8a55ae788db337bb",
+        "order": 13,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "ccb058b5b21ab43c",
+        "type": "ui_spacer",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "spacer",
+        "group": "8a55ae788db337bb",
+        "order": 14,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "5a56c428f6a1d33c",
+        "type": "ui_spacer",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "spacer",
+        "group": "8a55ae788db337bb",
+        "order": 16,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "b10a66030f37c48f",
+        "type": "ui_spacer",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "spacer",
+        "group": "8a55ae788db337bb",
+        "order": 18,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "15071a15387b5605",
+        "type": "ui_group",
+        "name": "Monitoreo",
+        "tab": "3ef4816e57556e06",
+        "order": 1,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "dca4c44b0cbbf58c",
+        "type": "ui_group",
+        "name": "Monitoreo 2",
+        "tab": "3ef4816e57556e06",
+        "order": 2,
+        "disp": false,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7b94c25eb64f2edb",
+        "type": "ui_group",
+        "name": "Control",
+        "tab": "3ef4816e57556e06",
+        "order": 3,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "55c6d7fef49b0134",
+        "type": "ui_group",
+        "name": "Monitoreo",
+        "tab": "aa88a6b9707e45ba",
+        "order": 1,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "355fd248ba792be0",
+        "type": "ui_group",
+        "name": "Monitoreo 2",
+        "tab": "aa88a6b9707e45ba",
+        "order": 2,
+        "disp": false,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "8cb837d0726f2f17",
+        "type": "ui_group",
+        "name": "Control",
+        "tab": "aa88a6b9707e45ba",
+        "order": 3,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "98c80919081d1db9",
+        "type": "ui_spacer",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "spacer",
+        "group": "7b94c25eb64f2edb",
+        "order": 7,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "d03ad3fa5f15031d",
+        "type": "ui_spacer",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "spacer",
+        "group": "7b94c25eb64f2edb",
+        "order": 8,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "b93a0988d980c254",
+        "type": "ui_spacer",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "spacer",
+        "group": "7b94c25eb64f2edb",
+        "order": 10,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "1a7f1b9e1715c863",
+        "type": "mqtt in",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "topic": "omc/peticion",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 520,
+        "wires": [
+            [
+                "014da73047ad8f7c"
+            ]
+        ]
+    },
+    {
+        "id": "0890a143b1219f87",
+        "type": "ui_ui_control",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "events": "all",
+        "x": 1040,
+        "y": 980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "014da73047ad8f7c",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "buscar en lista",
+        "func": "let topic;\nlet payload;\nlet num = -1;\nlet id;\nlet dispositivos = global.get(\"dispositivos\");  // Arreglo\n\n// Si es una petición...\nif (msg.payload[0] == 'p'){\n    id = msg.payload.slice(1, 7);\n    num = dispositivos.indexOf(id);\n    flow.set(\"ultimoID\", id);\n    \n    if (num == -1){\n        topic = \"Dispositivo nuevo\";\n        payload = `El dispositivo OMC-WIFI-${id} \n        se está intentando asociar con el servidor. \n        ¿Desea agregar dicho dispositivo?`;\n        \n        msg.topic = topic;\n        msg.payload = payload;\n    }\n    else {\n        topic = \"Dispositivo conocido\";\n        payload = 'r' + id + num;\n        // Esto es lo que se enviará por MQTT\n        // rAABBCCxx\n        msg.topic = topic;\n        msg.payload = payload;\n    }\n    return msg;\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Codigo que corre la primera vez que se inicia el nodo\n\nlet dispositivos = global.get(\"dispositivos\");\n\n// Si el arreglo no está declarado, decláralo\nif (dispositivos == undefined){\n    dispositivos = [0,null,null,null,null,null,\n                    null,null,null,null,null]\n    global.set(\"dispositivos\", dispositivos);\n}\n",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 520,
+        "wires": [
+            [
+                "3223f9641b497bf4"
+            ]
+        ],
+        "info": "hola"
+    },
+    {
+        "id": "93ba2292148ef3b4",
+        "type": "mqtt out",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "topic": "omc/peticion",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 1210,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "49b06091b509a46f",
+        "type": "comment",
+        "z": "1f35534c8fd78b65",
+        "name": "pAABBCC",
+        "info": "",
+        "x": 180,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "3223f9641b497bf4",
+        "type": "switch",
+        "z": "1f35534c8fd78b65",
+        "name": "conocido?",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Dispositivo conocido",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Dispositivo nuevo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 590,
+        "y": 520,
+        "wires": [
+            [
+                "93ba2292148ef3b4"
+            ],
+            [
+                "960faeff33d98017"
+            ]
+        ]
+    },
+    {
+        "id": "960faeff33d98017",
+        "type": "ui_toast",
+        "z": "1f35534c8fd78b65",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "Aceptar",
+        "cancel": "Rechazar",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "Aceptar/rechazar",
+        "x": 630,
+        "y": 640,
+        "wires": [
+            [
+                "ecc32b6e6233506b"
+            ]
+        ]
+    },
+    {
+        "id": "1150948bac3b0217",
+        "type": "inject",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "pABCDEF",
+        "payloadType": "str",
+        "x": 200,
+        "y": 340,
+        "wires": [
+            [
+                "014da73047ad8f7c"
+            ]
+        ]
+    },
+    {
+        "id": "33ecd779ded6d0b7",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "agregar a lista",
+        "func": "let topic;\nlet payload;\nlet num;\nlet id = flow.get(\"ultimoID\");\nlet dispositivos = global.get(\"dispositivos\");\n\n// Busca el primer indice sin dispositivo asignado\nnum = dispositivos.indexOf(null);\n\n\n// Y se lo asigna\ndispositivos[num] = id;\n\nglobal.set(\"dispositivos\", dispositivos);\n\ntopic = \"Dispositivo agregado\";\npayload = `El dispositivo OMC-WIFI-${id} \nse ha registrado como Dispositivo ${num}`;\n    \nmsg.topic = topic;\nmsg.payload = payload;\n\nlet msgMQTT = { payload: 'r' + id + num };\n\nreturn [msgMQTT, msg];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 600,
+        "wires": [
+            [
+                "93ba2292148ef3b4"
+            ],
+            [
+                "04ec58ea6a4769b3"
+            ]
+        ],
+        "info": "hola"
+    },
+    {
+        "id": "ecc32b6e6233506b",
+        "type": "switch",
+        "z": "1f35534c8fd78b65",
+        "name": "aceptar?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Aceptar",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Rechazar",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 800,
+        "y": 640,
+        "wires": [
+            [
+                "33ecd779ded6d0b7"
+            ],
+            [
+                "9f0a73ac19efbb74"
+            ]
+        ]
+    },
+    {
+        "id": "04ec58ea6a4769b3",
+        "type": "ui_toast",
+        "z": "1f35534c8fd78b65",
+        "position": "top right",
+        "displayTime": "5",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "Aceptar",
+        "cancel": "Rechazar",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "mostrar mensaje",
+        "x": 1230,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "9f0a73ac19efbb74",
+        "type": "change",
+        "z": "1f35534c8fd78b65",
+        "name": "rechazar",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Dispositivo rechazado",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Se ha rechazado un dispositivo. Reinicie dicho dispositivo para volver a hacer la petición.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 980,
+        "y": 680,
+        "wires": [
+            [
+                "04ec58ea6a4769b3"
+            ]
+        ]
+    },
+    {
+        "id": "3fa3b83a6cebbf2e",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "limpiar lista",
+        "func": "\nlet dispositivos = [0,null,null,null,null,null,\n                    null,null,null,null,null]\nglobal.set(\"dispositivos\", dispositivos);\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 900,
+        "wires": [
+            []
+        ],
+        "info": "hola"
+    },
+    {
+        "id": "88a98bac81662498",
+        "type": "inject",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "p123456",
+        "payloadType": "str",
+        "x": 200,
+        "y": 400,
+        "wires": [
+            [
+                "014da73047ad8f7c"
+            ]
+        ]
+    },
+    {
+        "id": "38868c3a78284fe8",
+        "type": "inject",
+        "z": "1f35534c8fd78b65",
+        "name": "limpiar lista",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 280,
+        "y": 900,
+        "wires": [
+            [
+                "3fa3b83a6cebbf2e"
+            ]
+        ]
+    },
+    {
+        "id": "952708e23619e65f",
+        "type": "comment",
+        "z": "1f35534c8fd78b65",
+        "name": "gestión de dispositivos",
+        "info": "",
+        "x": 720,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "9e58624.7faaba",
+        "type": "mqtt out",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "topic": "omc/01/cambios",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 1200,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "601779c6d973b86e",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "76cd008ee20ad04e",
+        "order": 9,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Voltaje",
+        "format": "{{msg.payload}} V",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1270,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "9fadc1d2582c4b9c",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "76cd008ee20ad04e",
+        "order": 5,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Estado relay",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1290,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "17a8ab0c9514744f",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "76cd008ee20ad04e",
+        "order": 12,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Corriente",
+        "format": "{{msg.payload}} A",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1280,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "f993466202806a0f",
+        "type": "ui_chart",
+        "z": "2e9d9a63f5843708",
+        "name": "voltaje grafico",
+        "group": "76cd008ee20ad04e",
+        "order": 10,
+        "width": 7,
+        "height": 4,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "cubic",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1300,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0c50ef92cf568a54",
+        "type": "ui_chart",
+        "z": "2e9d9a63f5843708",
+        "name": "corriente grafico ",
+        "group": "76cd008ee20ad04e",
+        "order": 14,
+        "width": 7,
+        "height": 4,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "cubic",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1300,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "04a71c42b065d960",
+        "type": "ui_button",
+        "z": "2e9d9a63f5843708",
+        "name": "Cambiar control",
+        "group": "8a55ae788db337bb",
+        "order": 2,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "Cambiar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "mr",
+        "payloadType": "str",
+        "topic": "Cambio de funcionamiento relay",
+        "topicType": "str",
+        "x": 360,
+        "y": 980,
+        "wires": [
+            [
+                "7d7126de24350179",
+                "db73ed04829042e1"
+            ]
+        ]
+    },
+    {
+        "id": "67ae83030ff59557",
+        "type": "mqtt in",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "topic": "omc/01/estado",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 420,
+        "wires": [
+            [
+                "64cbe0cf0f5c11e7",
+                "f47e6ac6f28c3c65"
+            ]
+        ]
+    },
+    {
+        "id": "64cbe0cf0f5c11e7",
+        "type": "split",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "splt": ",",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 590,
+        "y": 440,
+        "wires": [
+            [
+                "41a66be3e09de959"
+            ]
+        ]
+    },
+    {
+        "id": "41a66be3e09de959",
+        "type": "switch",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "regex",
+                "v": "^vo",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^co",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^po",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^fp",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^en",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^es",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^mr",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^mv",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^lc",
+                "vt": "str",
+                "case": false
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 9,
+        "x": 770,
+        "y": 440,
+        "wires": [
+            [
+                "1a9d22af4ace8ff1"
+            ],
+            [
+                "c9ab78e5de80c8a5"
+            ],
+            [
+                "fb67c7cf255d944d"
+            ],
+            [
+                "0d72b99fdd1708d3"
+            ],
+            [
+                "9c31e07f82b9e3be"
+            ],
+            [
+                "02a6ac882bf41e1c"
+            ],
+            [
+                "75223437c6171287"
+            ],
+            [
+                "a258a9bb09a6b200"
+            ],
+            [
+                "4b905c3b79fedf61"
+            ]
+        ]
+    },
+    {
+        "id": "88402dd2e2b05626",
+        "type": "inject",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "vo120,co0.1,po12,fp0.99,en21,es1,mr1,mv110,lc10",
+        "payloadType": "str",
+        "x": 250,
+        "y": 340,
+        "wires": [
+            [
+                "64cbe0cf0f5c11e7"
+            ]
+        ]
+    },
+    {
+        "id": "1a9d22af4ace8ff1",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "voltaje",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "vo",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Voltaje",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1010,
+        "y": 60,
+        "wires": [
+            [
+                "601779c6d973b86e",
+                "f993466202806a0f",
+                "ac17015cb56787b6"
+            ]
+        ]
+    },
+    {
+        "id": "c9ab78e5de80c8a5",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "corriente",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "co",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Corriente",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1020,
+        "y": 180,
+        "wires": [
+            [
+                "17a8ab0c9514744f",
+                "0c50ef92cf568a54",
+                "e1cefec0463e94a8"
+            ]
+        ]
+    },
+    {
+        "id": "fb67c7cf255d944d",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "potencia",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "po",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Potencia",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1020,
+        "y": 300,
+        "wires": [
+            [
+                "5d81bcac976e17ea",
+                "088c5f18eb8b93c5",
+                "c66b58864829dbe5"
+            ]
+        ]
+    },
+    {
+        "id": "0d72b99fdd1708d3",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "f. potencia",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "fp",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "F. Potencia",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1030,
+        "y": 400,
+        "wires": [
+            [
+                "46a34c6b0b56be26",
+                "d00d409e4f224ad7"
+            ]
+        ]
+    },
+    {
+        "id": "9c31e07f82b9e3be",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "energia",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "en",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Energía",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1020,
+        "y": 480,
+        "wires": [
+            [
+                "1f972687a8acc36f",
+                "19ac63c3274e7994"
+            ]
+        ]
+    },
+    {
+        "id": "02a6ac882bf41e1c",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "estado relay",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "es",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "0",
+                "fromt": "str",
+                "to": "OFF",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "1",
+                "fromt": "str",
+                "to": "ON",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "2",
+                "fromt": "str",
+                "to": "ESPERA",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Estado relay",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1030,
+        "y": 600,
+        "wires": [
+            [
+                "9fadc1d2582c4b9c",
+                "0fe7e98b9e797bf4",
+                "50a69199d30c4fea",
+                "81963e9dd5c7ca5c"
+            ]
+        ]
+    },
+    {
+        "id": "a258a9bb09a6b200",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "modo voltaje",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Modo voltaje",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1030,
+        "y": 740,
+        "wires": [
+            [
+                "5d81065e6e04e3d4"
+            ]
+        ]
+    },
+    {
+        "id": "4b905c3b79fedf61",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "limite corriente",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Límite de corriente",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 780,
+        "wires": [
+            [
+                "887c4f2e8b6589df"
+            ]
+        ]
+    },
+    {
+        "id": "5d81bcac976e17ea",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "5dcfa381d1f525d2",
+        "order": 2,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Potencia",
+        "format": "{{msg.payload}} W",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1280,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "088c5f18eb8b93c5",
+        "type": "ui_chart",
+        "z": "2e9d9a63f5843708",
+        "name": "potencia",
+        "group": "5dcfa381d1f525d2",
+        "order": 4,
+        "width": 7,
+        "height": 4,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "cubic",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1280,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "46a34c6b0b56be26",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "5dcfa381d1f525d2",
+        "order": 6,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Factor de potencia",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1310,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "1f972687a8acc36f",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "5dcfa381d1f525d2",
+        "order": 11,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "Energía consumida",
+        "format": "{{msg.payload}} kWh",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1310,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "75223437c6171287",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "modo relay",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "mr",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "0",
+                "fromt": "str",
+                "to": "Cortado manualmente",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "1",
+                "fromt": "str",
+                "to": "Automático",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Modo relay",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1030,
+        "y": 700,
+        "wires": [
+            [
+                "f5477b84495477f4"
+            ]
+        ]
+    },
+    {
+        "id": "f5477b84495477f4",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "8a55ae788db337bb",
+        "order": 1,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "Control relay",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1290,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "5318d739eae0d6e1",
+        "type": "comment",
+        "z": "2e9d9a63f5843708",
+        "name": "Preparación de mensaje",
+        "info": "",
+        "x": 1010,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "0d1ad1f64291e3dc",
+        "type": "comment",
+        "z": "2e9d9a63f5843708",
+        "name": "Serie -> Paralelo",
+        "info": "",
+        "x": 760,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "9af5bee99a5ce1f5",
+        "type": "comment",
+        "z": "2e9d9a63f5843708",
+        "name": "Separación de mensaje",
+        "info": "",
+        "x": 600,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "dce15149d974d8bc",
+        "type": "ui_toast",
+        "z": "2e9d9a63f5843708",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "confirmar",
+        "x": 840,
+        "y": 1100,
+        "wires": [
+            [
+                "9cdfb8767ac6bf92"
+            ]
+        ]
+    },
+    {
+        "id": "9cdfb8767ac6bf92",
+        "type": "switch",
+        "z": "2e9d9a63f5843708",
+        "name": "selección",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Aceptar",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1000,
+        "y": 1100,
+        "wires": [
+            [
+                "b69dc61d7e66f91d"
+            ],
+            [
+                "5facbc0a1a7551fe"
+            ]
+        ]
+    },
+    {
+        "id": "35b3309c53c05101",
+        "type": "ui_toast",
+        "z": "2e9d9a63f5843708",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "cancelar",
+        "x": 1420,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "0c2934a8d3826197",
+        "type": "ui_toast",
+        "z": "2e9d9a63f5843708",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "aceptar",
+        "x": 1420,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "b69dc61d7e66f91d",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "Aceptar cambio",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Se cambiará el modo de operación del suministro eléctrico del dispositivo 1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1220,
+        "y": 1060,
+        "wires": [
+            [
+                "0c2934a8d3826197"
+            ]
+        ]
+    },
+    {
+        "id": "7d7126de24350179",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "Cambio de control",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Para cambiar el modo de operación del suministro eléctrico debe seleccionar \"Aceptar\". Al hacer esto es probable que el suministro eléctrico del equipo conectado sea afectado, tome sus precacuciones.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 1100,
+        "wires": [
+            [
+                "dce15149d974d8bc"
+            ]
+        ]
+    },
+    {
+        "id": "d00d409e4f224ad7",
+        "type": "ui_gauge",
+        "z": "2e9d9a63f5843708",
+        "name": "factor de potencia",
+        "group": "5dcfa381d1f525d2",
+        "order": 8,
+        "width": 7,
+        "height": 3,
+        "gtype": "gage",
+        "title": "",
+        "label": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1",
+        "colors": [
+            "#c60000",
+            "#e6e600",
+            "#00b500"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 1310,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "5facbc0a1a7551fe",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "Cancelar",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "No se registró ningún cambio. Canceló la operación.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1200,
+        "y": 1240,
+        "wires": [
+            [
+                "35b3309c53c05101"
+            ]
+        ]
+    },
+    {
+        "id": "897916b587b73ba8",
+        "type": "complete",
+        "z": "2e9d9a63f5843708",
+        "name": "sí dio aceptar",
+        "scope": [
+            "b69dc61d7e66f91d",
+            "6fe5d9d52e876b0f",
+            "457fe55c8c01716f"
+        ],
+        "uncaught": false,
+        "x": 230,
+        "y": 920,
+        "wires": [
+            [
+                "aea318f85c73e785"
+            ]
+        ]
+    },
+    {
+        "id": "0fe7e98b9e797bf4",
+        "type": "ui_led",
+        "z": "2e9d9a63f5843708",
+        "order": 6,
+        "group": "76cd008ee20ad04e",
+        "width": 1,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "OFF",
+                "valueType": "str"
+            },
+            {
+                "color": "#ff0000",
+                "value": "ESPERA",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "ON",
+                "valueType": "str"
+            },
+            {
+                "color": "#808080",
+                "value": "null",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": false,
+        "name": "estado relay",
+        "x": 1290,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "db73ed04829042e1",
+        "type": "function",
+        "z": "2e9d9a63f5843708",
+        "name": "habilitado el paso del mensaje?",
+        "func": "if (msg.payload != \"habilitador\") {\n    //significa que el mensaje es de cambio\n    \n    //guardamos dicho mensaje solo para enviarse \n    //cuando llegue un habilitador\n    flow.set(\"cambio\", msg.payload);\n    \n    //el mensaje que mandaremos al siguiente nodo será nulo\n    msg.payload = null;\n}\n\nelse {\n    //significa que el mensaje es un habilitador\n    \n    if (flow.get(\"cambio\") != null) {\n        //si tengo cambio entonces lo paso al siguiente nodo\n        msg.payload = flow.get(\"cambio\");\n        //y digo que ahora no tengo cambio\n        flow.set(\"cambio\", null);\n    }\n    else {\n        msg.payload = null; \n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 920,
+        "wires": [
+            [
+                "7ec19aa1f44e907f"
+            ]
+        ]
+    },
+    {
+        "id": "67c52a2ffdc1d58b",
+        "type": "debug",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "aea318f85c73e785",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "habilitar",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "habilitador",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 920,
+        "wires": [
+            [
+                "db73ed04829042e1"
+            ]
+        ]
+    },
+    {
+        "id": "7ec19aa1f44e907f",
+        "type": "switch",
+        "z": "2e9d9a63f5843708",
+        "name": "dejar pasar los no nulos",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 970,
+        "y": 920,
+        "wires": [
+            [
+                "67c52a2ffdc1d58b",
+                "9e58624.7faaba"
+            ]
+        ]
+    },
+    {
+        "id": "d48d18792ab50a3d",
+        "type": "ui_button",
+        "z": "2e9d9a63f5843708",
+        "name": "Reiniciar energía",
+        "group": "5dcfa381d1f525d2",
+        "order": 12,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "Reiniciar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "en",
+        "payloadType": "str",
+        "topic": "Reinicio de energía",
+        "topicType": "str",
+        "x": 350,
+        "y": 1160,
+        "wires": [
+            [
+                "826d71ea93ed4231",
+                "db73ed04829042e1"
+            ]
+        ]
+    },
+    {
+        "id": "5d2814c3f5905bfd",
+        "type": "ui_dropdown",
+        "z": "2e9d9a63f5843708",
+        "name": "Cambio voltaje",
+        "label": "",
+        "tooltip": "Cambio en modo de operación de voltaje",
+        "place": "",
+        "group": "8a55ae788db337bb",
+        "order": 6,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "120 V",
+                "value": "mv120",
+                "type": "str"
+            },
+            {
+                "label": "220 V",
+                "value": "mv220",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "Cambio de modo de voltaje",
+        "topicType": "str",
+        "className": "",
+        "x": 360,
+        "y": 1040,
+        "wires": [
+            [
+                "7d7126de24350179",
+                "db73ed04829042e1"
+            ]
+        ]
+    },
+    {
+        "id": "447c9250befca299",
+        "type": "ui_led",
+        "z": "2e9d9a63f5843708",
+        "order": 2,
+        "group": "76cd008ee20ad04e",
+        "width": 1,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "DESCONECTADO",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "CONECTADO",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": false,
+        "name": "conexión",
+        "x": 400,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "f47e6ac6f28c3c65",
+        "type": "trigger",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "op1": "CONECTADO",
+        "op2": "DESCONECTADO",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "10",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 210,
+        "y": 540,
+        "wires": [
+            [
+                "447c9250befca299",
+                "31fd1b1751a5836f",
+                "b8afbb23041348ba",
+                "5bb23cb8da450bbe"
+            ]
+        ]
+    },
+    {
+        "id": "31fd1b1751a5836f",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "76cd008ee20ad04e",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Estado conexión",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 430,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "f77090bce6e2b478",
+        "type": "link in",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "links": [
+            "5d81065e6e04e3d4"
+        ],
+        "x": 225,
+        "y": 1040,
+        "wires": [
+            [
+                "5d2814c3f5905bfd"
+            ]
+        ]
+    },
+    {
+        "id": "5d81065e6e04e3d4",
+        "type": "link out",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "f77090bce6e2b478"
+        ],
+        "x": 1235,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "588d193faaf4edd8",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "8a55ae788db337bb",
+        "order": 9,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "Límite de corriente",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1350,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "826d71ea93ed4231",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "Reinicio de energía",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "¿Está seguro de que desea reiniciar el contador de energía consumida?",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 1160,
+        "wires": [
+            [
+                "dbfbb10db1a82da1"
+            ]
+        ]
+    },
+    {
+        "id": "070865d7eaab90f6",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "8a55ae788db337bb",
+        "order": 5,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "Modo de voltaje",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1340,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "887c4f2e8b6589df",
+        "type": "link out",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "abdf8744ae892575"
+        ],
+        "x": 1235,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "abdf8744ae892575",
+        "type": "link in",
+        "z": "2e9d9a63f5843708",
+        "name": "",
+        "links": [
+            "887c4f2e8b6589df"
+        ],
+        "x": 225,
+        "y": 1100,
+        "wires": [
+            [
+                "68e7fad4f41c3d20"
+            ]
+        ]
+    },
+    {
+        "id": "68e7fad4f41c3d20",
+        "type": "ui_dropdown",
+        "z": "2e9d9a63f5843708",
+        "name": "Cambio corriente",
+        "label": "",
+        "tooltip": "Cambio en límite de corriente",
+        "place": "",
+        "group": "8a55ae788db337bb",
+        "order": 10,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "0.5 A",
+                "value": "lc0.5",
+                "type": "str"
+            },
+            {
+                "label": "1 A",
+                "value": "lc1",
+                "type": "str"
+            },
+            {
+                "label": "2 A",
+                "value": "lc2",
+                "type": "str"
+            },
+            {
+                "label": "3 A",
+                "value": "lc3",
+                "type": "str"
+            },
+            {
+                "label": "4 A",
+                "value": "lc4",
+                "type": "str"
+            },
+            {
+                "label": "5 A",
+                "value": "lc5",
+                "type": "str"
+            },
+            {
+                "label": "6 A",
+                "value": "lc6",
+                "type": "str"
+            },
+            {
+                "label": "7 A",
+                "value": "lc7",
+                "type": "str"
+            },
+            {
+                "label": "8 A",
+                "value": "lc8",
+                "type": "str"
+            },
+            {
+                "label": "9 A",
+                "value": "lc9",
+                "type": "str"
+            },
+            {
+                "label": "10 A (Máx)",
+                "value": "lc10",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "Cambio en límite de corriente",
+        "topicType": "str",
+        "className": "",
+        "x": 350,
+        "y": 1100,
+        "wires": [
+            [
+                "7d7126de24350179",
+                "db73ed04829042e1"
+            ]
+        ]
+    },
+    {
+        "id": "b8afbb23041348ba",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "mensaje vacio",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "DESCONECTADO",
+                "fromt": "str",
+                "to": "vo,co,po,fp,en,es,mr,mv,lc",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 500,
+        "wires": [
+            [
+                "64cbe0cf0f5c11e7"
+            ]
+        ]
+    },
+    {
+        "id": "075cb3f78eaff5fb",
+        "type": "ui_button",
+        "z": "2e9d9a63f5843708",
+        "name": "Reinicio dispositivo",
+        "group": "8a55ae788db337bb",
+        "order": 15,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "label": "Reiniciar dispositivo",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "re",
+        "payloadType": "str",
+        "topic": "Reinicio del dispositivo",
+        "topicType": "str",
+        "x": 350,
+        "y": 1220,
+        "wires": [
+            [
+                "d8197df038a51564",
+                "db73ed04829042e1"
+            ]
+        ]
+    },
+    {
+        "id": "d8197df038a51564",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "Reinicio dispositivo",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "¿Está seguro de que desea reiniciar el dispositivo? Esto hará que se corte el suminstro eléctrico, tome sus precauciones.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 1220,
+        "wires": [
+            [
+                "e0e802e3bd996ae8"
+            ]
+        ]
+    },
+    {
+        "id": "dbfbb10db1a82da1",
+        "type": "ui_toast",
+        "z": "2e9d9a63f5843708",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "confirmar",
+        "x": 840,
+        "y": 1160,
+        "wires": [
+            [
+                "085793a5aecb42aa"
+            ]
+        ]
+    },
+    {
+        "id": "e0e802e3bd996ae8",
+        "type": "ui_toast",
+        "z": "2e9d9a63f5843708",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "confirmar",
+        "x": 840,
+        "y": 1220,
+        "wires": [
+            [
+                "dfad921c19ed5f93"
+            ]
+        ]
+    },
+    {
+        "id": "085793a5aecb42aa",
+        "type": "switch",
+        "z": "2e9d9a63f5843708",
+        "name": "selección",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Aceptar",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1000,
+        "y": 1160,
+        "wires": [
+            [
+                "6fe5d9d52e876b0f"
+            ],
+            [
+                "5facbc0a1a7551fe"
+            ]
+        ]
+    },
+    {
+        "id": "dfad921c19ed5f93",
+        "type": "switch",
+        "z": "2e9d9a63f5843708",
+        "name": "selección",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Aceptar",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1000,
+        "y": 1220,
+        "wires": [
+            [
+                "457fe55c8c01716f"
+            ],
+            [
+                "5facbc0a1a7551fe"
+            ]
+        ]
+    },
+    {
+        "id": "6fe5d9d52e876b0f",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "Aceptar reinicio Ener",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Se reiniciará el contador de energía del dispositivo 1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1240,
+        "y": 1120,
+        "wires": [
+            [
+                "0dff84907fea3ee8"
+            ]
+        ]
+    },
+    {
+        "id": "0dff84907fea3ee8",
+        "type": "ui_toast",
+        "z": "2e9d9a63f5843708",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "aceptar",
+        "x": 1420,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "457fe55c8c01716f",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "Aceptar reinicio Disp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Se reiniciará el dispositivo 1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1240,
+        "y": 1180,
+        "wires": [
+            [
+                "0136e20ba3c64344"
+            ]
+        ]
+    },
+    {
+        "id": "0136e20ba3c64344",
+        "type": "ui_toast",
+        "z": "2e9d9a63f5843708",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "aceptar",
+        "x": 1420,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "ac17015cb56787b6",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "c1ddd0629c8a913a",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "voltaje resumen 1",
+        "label": "Voltaje",
+        "format": "{{msg.payload}} V",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1310,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "e1cefec0463e94a8",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "c1ddd0629c8a913a",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "corriente resumen 1",
+        "label": "Corriente",
+        "format": "{{msg.payload}} A",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1320,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "c66b58864829dbe5",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "c1ddd0629c8a913a",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "potencia resumen",
+        "label": "Potencia",
+        "format": "{{msg.payload}} W",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1310,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "19ac63c3274e7994",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "c1ddd0629c8a913a",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "energia resumen 1",
+        "label": "Consumo",
+        "format": "{{msg.payload}} kWh",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1310,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "81963e9dd5c7ca5c",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "c1ddd0629c8a913a",
+        "order": 7,
+        "width": 4,
+        "height": 1,
+        "name": "Estado suministro resumen 1",
+        "label": "Estado suministro",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1340,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "50a69199d30c4fea",
+        "type": "ui_led",
+        "z": "2e9d9a63f5843708",
+        "order": 8,
+        "group": "c1ddd0629c8a913a",
+        "width": 1,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "OFF",
+                "valueType": "str"
+            },
+            {
+                "color": "#ff0000",
+                "value": "ESPERA",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "ON",
+                "valueType": "str"
+            },
+            {
+                "color": "#808080",
+                "value": "null",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": false,
+        "name": "estado suministro resumen 1",
+        "x": 1340,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "5bb23cb8da450bbe",
+        "type": "ui_led",
+        "z": "2e9d9a63f5843708",
+        "order": 2,
+        "group": "c1ddd0629c8a913a",
+        "width": 1,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "DESCONECTADO",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "CONECTADO",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": false,
+        "name": "conexión resumen 1",
+        "x": 440,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "d2370b6c6415f3d0",
+        "type": "ui_text",
+        "z": "2e9d9a63f5843708",
+        "group": "c1ddd0629c8a913a",
+        "order": 1,
+        "width": 4,
+        "height": 1,
+        "name": "conexión resumen 1",
+        "label": "Estado conexión",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "x": 440,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "a5ef54eabeda9209",
+        "type": "mqtt out",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "topic": "omc/02/cambios",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 1120,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "3cd1efa5c88f3243",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "5dcfa381d1f525d2",
+        "order": 9,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Voltaje",
+        "format": "{{msg.payload}} V",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1190,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b5ec48a762c84f01",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "15071a15387b5605",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Estado relay",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1210,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "879ffa8dfb1243a3",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "15071a15387b5605",
+        "order": 6,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Corriente",
+        "format": "{{msg.payload}} A",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1200,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "e58386e856515c1c",
+        "type": "ui_chart",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "voltaje grafico",
+        "group": "15071a15387b5605",
+        "order": 5,
+        "width": 7,
+        "height": 4,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "cubic",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4",
+            "#1f77b4"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1220,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "429c89536fb893a9",
+        "type": "ui_chart",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "corriente grafico ",
+        "group": "15071a15387b5605",
+        "order": 7,
+        "width": 7,
+        "height": 4,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "cubic",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03",
+            "#0dbe03"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1220,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b2c8805f0e11ad95",
+        "type": "ui_button",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Cambiar control",
+        "group": "7b94c25eb64f2edb",
+        "order": 2,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "Cambiar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "mr",
+        "payloadType": "str",
+        "topic": "Cambio de funcionamiento relay",
+        "topicType": "str",
+        "x": 280,
+        "y": 1000,
+        "wires": [
+            [
+                "45f59c290a134054",
+                "c6940e3c08171e02"
+            ]
+        ]
+    },
+    {
+        "id": "b1c120f913ba5c37",
+        "type": "mqtt in",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "topic": "omc/02/estado",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 440,
+        "wires": [
+            [
+                "1220e63d02485ce3",
+                "8efa3e0f72644843"
+            ]
+        ]
+    },
+    {
+        "id": "1220e63d02485ce3",
+        "type": "split",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "splt": ",",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 510,
+        "y": 460,
+        "wires": [
+            [
+                "d6c8101f4359e578"
+            ]
+        ]
+    },
+    {
+        "id": "d6c8101f4359e578",
+        "type": "switch",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "regex",
+                "v": "^vo",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^co",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^po",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^fp",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^en",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^es",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^mr",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^mv",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^lc",
+                "vt": "str",
+                "case": false
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 9,
+        "x": 690,
+        "y": 460,
+        "wires": [
+            [
+                "1cd5a6ea50be9f19"
+            ],
+            [
+                "906cb48e68582e6b"
+            ],
+            [
+                "c22bd22626d5932f"
+            ],
+            [
+                "8043c460cff814d9"
+            ],
+            [
+                "86a9f775073de29f"
+            ],
+            [
+                "b051031c5e24a1e6"
+            ],
+            [
+                "f35e44eb5272a818"
+            ],
+            [
+                "326d30adaea15ede"
+            ],
+            [
+                "1f246ec4824c2201"
+            ]
+        ]
+    },
+    {
+        "id": "b57ac98cde701b9b",
+        "type": "inject",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "vo120,co0.1,po12,fp0.99,en21,es1,mr1,mv110,lc10",
+        "payloadType": "str",
+        "x": 170,
+        "y": 360,
+        "wires": [
+            [
+                "1220e63d02485ce3"
+            ]
+        ]
+    },
+    {
+        "id": "1cd5a6ea50be9f19",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "voltaje",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "vo",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Voltaje",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 930,
+        "y": 80,
+        "wires": [
+            [
+                "3cd1efa5c88f3243",
+                "e58386e856515c1c",
+                "1e39d826e055797d"
+            ]
+        ]
+    },
+    {
+        "id": "906cb48e68582e6b",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "corriente",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "co",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Corriente",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 940,
+        "y": 200,
+        "wires": [
+            [
+                "879ffa8dfb1243a3",
+                "429c89536fb893a9",
+                "753d7e5139f09036"
+            ]
+        ]
+    },
+    {
+        "id": "c22bd22626d5932f",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "potencia",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "po",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Potencia",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 940,
+        "y": 320,
+        "wires": [
+            [
+                "4d306ffb45e75237",
+                "02b4df5c011a306d",
+                "24b31092d8be1692"
+            ]
+        ]
+    },
+    {
+        "id": "8043c460cff814d9",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "f. potencia",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "fp",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "F. Potencia",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 420,
+        "wires": [
+            [
+                "a4395fb8974a773e",
+                "526343f9eeb03e33"
+            ]
+        ]
+    },
+    {
+        "id": "86a9f775073de29f",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "energia",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "en",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Energía",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 940,
+        "y": 500,
+        "wires": [
+            [
+                "acf226b6535a2d1d",
+                "9a2d381027141c38"
+            ]
+        ]
+    },
+    {
+        "id": "b051031c5e24a1e6",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "estado relay",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "es",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "0",
+                "fromt": "str",
+                "to": "OFF",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "1",
+                "fromt": "str",
+                "to": "ON",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "2",
+                "fromt": "str",
+                "to": "ESPERA",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Estado relay",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 620,
+        "wires": [
+            [
+                "b5ec48a762c84f01",
+                "5bf97438c1b3e84b",
+                "0b02f85362a7e788",
+                "1d43b2bb741c9b6e"
+            ]
+        ]
+    },
+    {
+        "id": "326d30adaea15ede",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "modo voltaje",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Modo voltaje",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 760,
+        "wires": [
+            [
+                "caf04e101e702774"
+            ]
+        ]
+    },
+    {
+        "id": "1f246ec4824c2201",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "limite corriente",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Límite de corriente",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 960,
+        "y": 800,
+        "wires": [
+            [
+                "636a21656a14434a"
+            ]
+        ]
+    },
+    {
+        "id": "4d306ffb45e75237",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "dca4c44b0cbbf58c",
+        "order": 1,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Potencia",
+        "format": "{{msg.payload}} W",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1200,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "02b4df5c011a306d",
+        "type": "ui_chart",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "potencia",
+        "group": "dca4c44b0cbbf58c",
+        "order": 2,
+        "width": 7,
+        "height": 4,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "cubic",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac",
+            "#bf02ac"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1200,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a4395fb8974a773e",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "dca4c44b0cbbf58c",
+        "order": 3,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Factor de potencia",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1230,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "acf226b6535a2d1d",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "dca4c44b0cbbf58c",
+        "order": 5,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "Energía consumida",
+        "format": "{{msg.payload}} kWh",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1230,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f35e44eb5272a818",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "modo relay",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "mr",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "0",
+                "fromt": "str",
+                "to": "Cortado manualmente",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "1",
+                "fromt": "str",
+                "to": "Automático",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Modo relay",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 720,
+        "wires": [
+            [
+                "8ccc2f09ac155e3f"
+            ]
+        ]
+    },
+    {
+        "id": "8ccc2f09ac155e3f",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "7b94c25eb64f2edb",
+        "order": 1,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "Control relay",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1210,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "c2a9c870a4f0297d",
+        "type": "comment",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Preparación de mensaje",
+        "info": "",
+        "x": 930,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "92953d9bc5d3dcf2",
+        "type": "comment",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Serie -> Paralelo",
+        "info": "",
+        "x": 680,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "15a682f581e59144",
+        "type": "comment",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Separación de mensaje",
+        "info": "",
+        "x": 520,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "e2c4fdab717300b8",
+        "type": "ui_toast",
+        "z": "6f4784e8cf2fe1e0",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "confirmar",
+        "x": 760,
+        "y": 1120,
+        "wires": [
+            [
+                "dba2fc7b9a968f8e"
+            ]
+        ]
+    },
+    {
+        "id": "dba2fc7b9a968f8e",
+        "type": "switch",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "selección",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Aceptar",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 920,
+        "y": 1120,
+        "wires": [
+            [
+                "78bedd241ab8549c"
+            ],
+            [
+                "9d1c4b1a757017dd"
+            ]
+        ]
+    },
+    {
+        "id": "1ac027db23e0bc7d",
+        "type": "ui_toast",
+        "z": "6f4784e8cf2fe1e0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "cancelar",
+        "x": 1340,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "7737312a746c8395",
+        "type": "ui_toast",
+        "z": "6f4784e8cf2fe1e0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "aceptar",
+        "x": 1340,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "78bedd241ab8549c",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Aceptar cambio",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Se cambiará el modo de operación del suministro eléctrico del dispositivo 2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1140,
+        "y": 1080,
+        "wires": [
+            [
+                "7737312a746c8395"
+            ]
+        ]
+    },
+    {
+        "id": "45f59c290a134054",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Cambio de control",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Para cambiar el modo de operación del suministro eléctrico debe seleccionar \"Aceptar\". Al hacer esto es probable que el suministro eléctrico del equipo conectado sea afectado, tome sus precacuciones.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 1120,
+        "wires": [
+            [
+                "e2c4fdab717300b8"
+            ]
+        ]
+    },
+    {
+        "id": "526343f9eeb03e33",
+        "type": "ui_gauge",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "factor de potencia",
+        "group": "dca4c44b0cbbf58c",
+        "order": 4,
+        "width": 7,
+        "height": 3,
+        "gtype": "gage",
+        "title": "",
+        "label": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1",
+        "colors": [
+            "#c60000",
+            "#e6e600",
+            "#00b500"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 1230,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "9d1c4b1a757017dd",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Cancelar",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "No se registró ningún cambio. Canceló la operación.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 1260,
+        "wires": [
+            [
+                "1ac027db23e0bc7d"
+            ]
+        ]
+    },
+    {
+        "id": "7a8d548c6c6d2315",
+        "type": "complete",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "sí dio aceptar",
+        "scope": [
+            "78bedd241ab8549c",
+            "4c72c5fdf79a601e",
+            "fe5852e5a1d4e6f3"
+        ],
+        "uncaught": false,
+        "x": 150,
+        "y": 940,
+        "wires": [
+            [
+                "58fe6f9a85611292"
+            ]
+        ]
+    },
+    {
+        "id": "5bf97438c1b3e84b",
+        "type": "ui_led",
+        "z": "6f4784e8cf2fe1e0",
+        "order": 4,
+        "group": "15071a15387b5605",
+        "width": 1,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "OFF",
+                "valueType": "str"
+            },
+            {
+                "color": "#ff0000",
+                "value": "ESPERA",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "ON",
+                "valueType": "str"
+            },
+            {
+                "color": "#808080",
+                "value": "null",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": false,
+        "name": "estado relay",
+        "x": 1210,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "c6940e3c08171e02",
+        "type": "function",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "habilitado el paso del mensaje?",
+        "func": "if (msg.payload != \"habilitador\") {\n    //significa que el mensaje es de cambio\n    \n    //guardamos dicho mensaje solo para enviarse \n    //cuando llegue un habilitador\n    flow.set(\"cambio\", msg.payload);\n    \n    //el mensaje que mandaremos al siguiente nodo será nulo\n    msg.payload = null;\n}\n\nelse {\n    //significa que el mensaje es un habilitador\n    \n    if (flow.get(\"cambio\") != null) {\n        //si tengo cambio entonces lo paso al siguiente nodo\n        msg.payload = flow.get(\"cambio\");\n        //y digo que ahora no tengo cambio\n        flow.set(\"cambio\", null);\n    }\n    else {\n        msg.payload = null; \n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 940,
+        "wires": [
+            [
+                "14bddfe1342c5e13"
+            ]
+        ]
+    },
+    {
+        "id": "88ad65b3699ec9cf",
+        "type": "debug",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "58fe6f9a85611292",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "habilitar",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "habilitador",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 940,
+        "wires": [
+            [
+                "c6940e3c08171e02"
+            ]
+        ]
+    },
+    {
+        "id": "14bddfe1342c5e13",
+        "type": "switch",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "dejar pasar los no nulos",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 890,
+        "y": 940,
+        "wires": [
+            [
+                "88ad65b3699ec9cf",
+                "a5ef54eabeda9209"
+            ]
+        ]
+    },
+    {
+        "id": "302a1bfc55736266",
+        "type": "ui_button",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Reiniciar energía",
+        "group": "dca4c44b0cbbf58c",
+        "order": 6,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "Reiniciar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "en",
+        "payloadType": "str",
+        "topic": "Reinicio de energía",
+        "topicType": "str",
+        "x": 270,
+        "y": 1180,
+        "wires": [
+            [
+                "11045db1e0ebe7d4",
+                "c6940e3c08171e02"
+            ]
+        ]
+    },
+    {
+        "id": "46f875161d3254ea",
+        "type": "ui_dropdown",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Cambio voltaje",
+        "label": "",
+        "tooltip": "Cambio en modo de operación de voltaje",
+        "place": "",
+        "group": "7b94c25eb64f2edb",
+        "order": 4,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "120 V",
+                "value": "mv120",
+                "type": "str"
+            },
+            {
+                "label": "220 V",
+                "value": "mv220",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "Cambio de modo de voltaje",
+        "topicType": "str",
+        "className": "",
+        "x": 280,
+        "y": 1060,
+        "wires": [
+            [
+                "45f59c290a134054",
+                "c6940e3c08171e02"
+            ]
+        ]
+    },
+    {
+        "id": "abec89a41462fa3b",
+        "type": "ui_led",
+        "z": "6f4784e8cf2fe1e0",
+        "order": 2,
+        "group": "15071a15387b5605",
+        "width": 1,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "DESCONECTADO",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "CONECTADO",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": false,
+        "name": "conexión",
+        "x": 320,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "8efa3e0f72644843",
+        "type": "trigger",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "op1": "CONECTADO",
+        "op2": "DESCONECTADO",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "10",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 130,
+        "y": 560,
+        "wires": [
+            [
+                "abec89a41462fa3b",
+                "1294718710cb77b6",
+                "4f3d428d5bc4a9ca",
+                "c27dd9a3de96856d"
+            ]
+        ]
+    },
+    {
+        "id": "1294718710cb77b6",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "15071a15387b5605",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Estado conexión",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 350,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "49091613a28ef60d",
+        "type": "link in",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "links": [
+            "caf04e101e702774"
+        ],
+        "x": 145,
+        "y": 1060,
+        "wires": [
+            [
+                "46f875161d3254ea"
+            ]
+        ]
+    },
+    {
+        "id": "caf04e101e702774",
+        "type": "link out",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "49091613a28ef60d"
+        ],
+        "x": 1155,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "a5dea8a97afdaa06",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "7b94c25eb64f2edb",
+        "order": 5,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "Límite de corriente",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1270,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "11045db1e0ebe7d4",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Reinicio de energía",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "¿Está seguro de que desea reiniciar el contador de energía consumida?",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 1180,
+        "wires": [
+            [
+                "7fd8f83a1814de41"
+            ]
+        ]
+    },
+    {
+        "id": "830bb95b0807b07a",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "7b94c25eb64f2edb",
+        "order": 3,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "Modo de voltaje",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1260,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "636a21656a14434a",
+        "type": "link out",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "933bf17e994adc87"
+        ],
+        "x": 1155,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "933bf17e994adc87",
+        "type": "link in",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "",
+        "links": [
+            "636a21656a14434a"
+        ],
+        "x": 145,
+        "y": 1120,
+        "wires": [
+            [
+                "9a6ba481282a3a5b"
+            ]
+        ]
+    },
+    {
+        "id": "9a6ba481282a3a5b",
+        "type": "ui_dropdown",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Cambio corriente",
+        "label": "",
+        "tooltip": "Cambio en límite de corriente",
+        "place": "",
+        "group": "7b94c25eb64f2edb",
+        "order": 6,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "0.5 A",
+                "value": "lc0.5",
+                "type": "str"
+            },
+            {
+                "label": "1 A",
+                "value": "lc1",
+                "type": "str"
+            },
+            {
+                "label": "2 A",
+                "value": "lc2",
+                "type": "str"
+            },
+            {
+                "label": "3 A",
+                "value": "lc3",
+                "type": "str"
+            },
+            {
+                "label": "4 A",
+                "value": "lc4",
+                "type": "str"
+            },
+            {
+                "label": "5 A",
+                "value": "lc5",
+                "type": "str"
+            },
+            {
+                "label": "6 A",
+                "value": "lc6",
+                "type": "str"
+            },
+            {
+                "label": "7 A",
+                "value": "lc7",
+                "type": "str"
+            },
+            {
+                "label": "8 A",
+                "value": "lc8",
+                "type": "str"
+            },
+            {
+                "label": "9 A",
+                "value": "lc9",
+                "type": "str"
+            },
+            {
+                "label": "10 A (Máx)",
+                "value": "lc10",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "Cambio en límite de corriente",
+        "topicType": "str",
+        "className": "",
+        "x": 270,
+        "y": 1120,
+        "wires": [
+            [
+                "45f59c290a134054",
+                "c6940e3c08171e02"
+            ]
+        ]
+    },
+    {
+        "id": "4f3d428d5bc4a9ca",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "mensaje vacio",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "DESCONECTADO",
+                "fromt": "str",
+                "to": "vo,co,po,fp,en,es,mr,mv,lc",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 520,
+        "wires": [
+            [
+                "1220e63d02485ce3"
+            ]
+        ]
+    },
+    {
+        "id": "08a250d80f49e33a",
+        "type": "ui_button",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Reinicio dispositivo",
+        "group": "7b94c25eb64f2edb",
+        "order": 9,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "label": "Reiniciar dispositivo",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "re",
+        "payloadType": "str",
+        "topic": "Reinicio del dispositivo",
+        "topicType": "str",
+        "x": 270,
+        "y": 1240,
+        "wires": [
+            [
+                "edb982cee783db7a",
+                "c6940e3c08171e02"
+            ]
+        ]
+    },
+    {
+        "id": "edb982cee783db7a",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Reinicio dispositivo",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "¿Está seguro de que desea reiniciar el dispositivo? Esto hará que se corte el suminstro eléctrico, tome sus precauciones.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 1240,
+        "wires": [
+            [
+                "27c7dbb66a10b196"
+            ]
+        ]
+    },
+    {
+        "id": "7fd8f83a1814de41",
+        "type": "ui_toast",
+        "z": "6f4784e8cf2fe1e0",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "confirmar",
+        "x": 760,
+        "y": 1180,
+        "wires": [
+            [
+                "88b8a56d5b69e7a8"
+            ]
+        ]
+    },
+    {
+        "id": "27c7dbb66a10b196",
+        "type": "ui_toast",
+        "z": "6f4784e8cf2fe1e0",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "confirmar",
+        "x": 760,
+        "y": 1240,
+        "wires": [
+            [
+                "6f96c533167a99d6"
+            ]
+        ]
+    },
+    {
+        "id": "88b8a56d5b69e7a8",
+        "type": "switch",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "selección",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Aceptar",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 920,
+        "y": 1180,
+        "wires": [
+            [
+                "4c72c5fdf79a601e"
+            ],
+            [
+                "9d1c4b1a757017dd"
+            ]
+        ]
+    },
+    {
+        "id": "6f96c533167a99d6",
+        "type": "switch",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "selección",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Aceptar",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 920,
+        "y": 1240,
+        "wires": [
+            [
+                "fe5852e5a1d4e6f3"
+            ],
+            [
+                "9d1c4b1a757017dd"
+            ]
+        ]
+    },
+    {
+        "id": "4c72c5fdf79a601e",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Aceptar reinicio Ener",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Se reiniciará el contador de energía del dispositivo 2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1160,
+        "y": 1140,
+        "wires": [
+            [
+                "d091581f02c005ec"
+            ]
+        ]
+    },
+    {
+        "id": "d091581f02c005ec",
+        "type": "ui_toast",
+        "z": "6f4784e8cf2fe1e0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "aceptar",
+        "x": 1340,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "fe5852e5a1d4e6f3",
+        "type": "change",
+        "z": "6f4784e8cf2fe1e0",
+        "name": "Aceptar reinicio Disp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Se reiniciará el dispositivo 2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1160,
+        "y": 1200,
+        "wires": [
+            [
+                "2776acf61ea4e47a"
+            ]
+        ]
+    },
+    {
+        "id": "2776acf61ea4e47a",
+        "type": "ui_toast",
+        "z": "6f4784e8cf2fe1e0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "aceptar",
+        "x": 1340,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "1e39d826e055797d",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "3af6d3cba2425ff8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "voltaje resumen 2",
+        "label": "Voltaje",
+        "format": "{{msg.payload}} V",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1230,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "753d7e5139f09036",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "3af6d3cba2425ff8",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "corriente resumen 1",
+        "label": "Corriente",
+        "format": "{{msg.payload}} A",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1240,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "24b31092d8be1692",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "3af6d3cba2425ff8",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "potencia resumen",
+        "label": "Potencia",
+        "format": "{{msg.payload}} W",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1230,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "9a2d381027141c38",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "3af6d3cba2425ff8",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "energia resumen 1",
+        "label": "Consumo",
+        "format": "{{msg.payload}} kWh",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1230,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "1d43b2bb741c9b6e",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "3af6d3cba2425ff8",
+        "order": 7,
+        "width": 4,
+        "height": 1,
+        "name": "Estado suministro resumen 1",
+        "label": "Estado suministro",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1260,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "0b02f85362a7e788",
+        "type": "ui_led",
+        "z": "6f4784e8cf2fe1e0",
+        "order": 8,
+        "group": "3af6d3cba2425ff8",
+        "width": 1,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "OFF",
+                "valueType": "str"
+            },
+            {
+                "color": "#ff0000",
+                "value": "ESPERA",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "ON",
+                "valueType": "str"
+            },
+            {
+                "color": "#808080",
+                "value": "null",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": false,
+        "name": "estado suministro resumen 1",
+        "x": 1260,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "c27dd9a3de96856d",
+        "type": "ui_led",
+        "z": "6f4784e8cf2fe1e0",
+        "order": 2,
+        "group": "3af6d3cba2425ff8",
+        "width": 1,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "DESCONECTADO",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "CONECTADO",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": false,
+        "name": "conexión resumen 1",
+        "x": 360,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "06823006328c5a36",
+        "type": "ui_text",
+        "z": "6f4784e8cf2fe1e0",
+        "group": "3af6d3cba2425ff8",
+        "order": 1,
+        "width": 4,
+        "height": 1,
+        "name": "conexión resumen 1",
+        "label": "Estado conexión",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "x": 360,
+        "y": 680,
+        "wires": []
+    }
+]
