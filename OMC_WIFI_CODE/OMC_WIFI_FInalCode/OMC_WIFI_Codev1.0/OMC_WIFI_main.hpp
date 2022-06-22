@@ -62,8 +62,8 @@ ACInput(server, "", "IP del Servidor", "\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0
 ACSubmit(save03, "Guardar Dirección IP", "/server-ip");
 ACSelect(voltageMode, {"","120", "220"}, "", 0);
 ACSubmit(voltChange, "Cambiar modo de voltaje", "/voltage-mode");
-ACSelect(corrLimit, {"","0.5", "1", "2", "3", , "4", "5", "6", "7", "8", "9", "10"}, "", 0);
-ACSubmit(corrChange, "Cambiar límite de corriente", "/corr-limit");
+ACSelect(corrLimit, {"","0.5", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}, "", 0);
+ACSubmit(corrChange, "Cambiar límite de corriente", "/current-limit");
 ACRadio(resetCred, {"Sí", "No"}, "", AC_Horizontal, 2);
 ACSubmit(save04, "Restablecer Credenciales", "/cred-reset");
 
@@ -172,6 +172,15 @@ AutoConnectAux voltage_mode("/voltage-mode", "Suministro Eléctrico", false, {
 });
 
 
+AutoConnectAux current_limit("/current-limit", "Suministro Eléctrico", false, {
+
+  header05,
+  txtCenter01,
+  backConfig,
+
+});
+
+
 // Declaración de la página web para restablecer las credenciales a las de fábrica
 AutoConnectAux cred_reset("/cred-reset", "Configuración del Dispositivo", false, {
 
@@ -240,6 +249,9 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args);
 
 //Función para actualizar el modo de voltaje
 String onVoltageMode(AutoConnectAux& aux, PageArgument& args);
+
+//Función para actualizar el modo de voltaje
+String onCurrentLimit(AutoConnectAux& aux, PageArgument& args);
 
 // Función para validar el reinicio de credenciales
 String onCredentialReset(AutoConnectAux& aux, PageArgument& args);

@@ -97,44 +97,89 @@ void onMqttUnsubscribe(uint16_t packetId) {
 
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
 
+  char* message = payload;
+  char buff[2];
+
+  for (int i = 0; i = 1; i++) {
+
+    buff[i] = message[i];
+
+  }
+
   if (String(topic) == "omc/02/cambios") {
 
+    if (buff == "mr") {
+
+      controlGlobalRelay = !controlGlobalRelay;
+
+    }
+    else if (buff == "mv") {
+
+      for (int i = 2; i = 3; i++) {
+
+        buff[(i - 2)] = message[i];
+
+      }
+
+      switch (int(buff)) {
+
+        case 1:
+          voltMode = 120;
+          break;
+
+        case 2:
+          voltMode = 220;
+          break;
+
+      }
+
+      storage.begin("config", false);
+
+      storage.putInt("voltMode", voltMode);
+
+      storage.end();
+
+      voltInf  = voltMode * lowFactor;                              //Se define el voltaje de corte inferior en base al modo de voltaje
+      voltSup  = voltMode * highFactor;                             //Se define el voltaje de corte superior en base al modo de voltaje
 
 
     }
+
+
   }
+}
 
 
 void publicarValores() {
 
   char state[60];
-  snprintf(state,60,"vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv%d,lc%d"
-  , (int)rmsVolt
-  , (int)(((rmsVolt-(int)rmsVolt)*pow(10,2))+0.01)
-  , (int)rmsCorr
-  , (int)(((rmsCorr-(int)rmsCorr)*pow(10,2))+0.01)
-  , (int)(rmsVolt*rmsCorr)
-  , (int)((((rmsVolt*rmsCorr)-(int)(rmsVolt*rmsCorr))*pow(10,2))+0.01)
-  //, (int)powFactor
-  //, (int)(((powFactor-(int)powFactor)*pow(10,2))+0.01)
-  , 0
-  , 75
-  //, (int)energy
-  //, (int)(((energy-(int)energy)*pow(10,2))+0.01)
-  , 0
-  , 0
-  , relay
-  , controlGlobalRelay
-  , voltMode
-  , corrSup
-  
-  );
-  
-  
+  snprintf(state, 60, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv%d,lc%d"
+           , (int)rmsVolt
+           , (int)(((rmsVolt - (int)rmsVolt)*pow(10, 2)) + 0.01)
+           , (int)rmsCorr
+           , (int)(((rmsCorr - (int)rmsCorr)*pow(10, 2)) + 0.01)
+           , (int)(rmsVolt * rmsCorr)
+           , (int)((((rmsVolt * rmsCorr) - (int)(rmsVolt * rmsCorr))*pow(10, 2)) + 0.01)
+           //, (int)powFactor
+           //, (int)(((powFactor-(int)powFactor)*pow(10,2))+0.01)
+           , 0
+           , 75
+           //, (int)energy
+           //, (int)(((energy-(int)energy)*pow(10,2))+0.01)
+           , 0
+           , 0
+           , relay
+           , controlGlobalRelay
+           , voltMode
+           , corrSup
+
+          );
+
+
   mqttClient.publish("omc/02/estado", 0, true, state);
-  
+
   xTimerReset(publishTimer, 0);
-  
+
 }
 
 void mqttSetUp() {
