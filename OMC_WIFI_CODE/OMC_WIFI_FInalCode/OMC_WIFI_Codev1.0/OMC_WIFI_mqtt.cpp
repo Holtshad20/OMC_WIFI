@@ -41,27 +41,16 @@ void onMqttConnect(bool sessionPresent) {
   Serial.print("Session present: ");
   Serial.println(sessionPresent);
 
-  uint16_t packetIdSub = mqttClient.subscribe("esp32/estadoRelay", 0);
+//  uint16_t packetIdSub = mqttClient.subscribe("omc/01/estado", 0);
+//  Serial.println();
+//  Serial.print("Suscrito a omc/01/estado con QoS 0. Packet ID: ");
+//  Serial.println(packetIdSub);
+  
+  uint16_t packetIdSub = mqttClient.subscribe("omc/01/cambios", 2);
   Serial.println();
-  Serial.print("Suscrito a esp32/estadoRelay con QoS 0. Packet ID: ");
+  Serial.print("Suscrito a omc/01/cambios con QoS 2. Packet ID: ");
   Serial.println(packetIdSub);
 
-  packetIdSub = mqttClient.subscribe("esp32/controlRelay", 0);
-  Serial.println();
-  Serial.print("Suscrito a esp32/controlRelay con QoS 1. Packet ID: ");
-  Serial.println(packetIdSub);
-
-  mqttClient.publish("esp32/controlRelay", 0, true, "1");
-
-  packetIdSub = mqttClient.subscribe("esp32/volt", 0);
-  Serial.println();
-  Serial.print("Suscrito a esp32/volt con QoS 0. Packet ID: ");
-  Serial.println(packetIdSub);
-
-  packetIdSub = mqttClient.subscribe("esp32/corr", 0);
-  Serial.println();
-  Serial.print("Suscrito a esp32/corr con QoS 0. Packet ID: ");
-  Serial.println(packetIdSub);
 }
 
 void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
@@ -98,30 +87,18 @@ void onMqttUnsubscribe(uint16_t packetId) {
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
 
   char* message = payload;
-  char buff[2];
+  String rate   = String(message[2]) + String(message[3]);  
 
-  for (int i = 0; i = 1; i++) {
+  if (String(topic) == "omc/01/cambios") {
 
-    buff[i] = message[i];
-
-  }
-
-  if (String(topic) == "omc/02/cambios") {
-
-    if (buff == "mr") {
+    if ((message[0] + message[1]) == ('m' + 'r')) {
 
       controlGlobalRelay = !controlGlobalRelay;
 
     }
-    else if (buff == "mv") {
+    else if ((message[0] + message[1]) == ('m' + 'v')) {
 
-      for (int i = 2; i = 3; i++) {
-
-        buff[(i - 2)] = message[i];
-
-      }
-
-      switch (int(buff)) {
+      switch (rate.toInt()) {
 
         case 1:
           voltMode = 120;
@@ -144,7 +121,75 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
 
     }
+    else if ((message[0] + message[1]) == ('l' + 'c')) {
 
+      switch ((String(message[2]) + String(message[3])).toInt()) {
+
+        case 0:
+          corrSup = 0.5;
+          break;
+
+        case 1:
+          corrSup = 1;
+          break;
+
+        case 2:
+          corrSup = 2;
+          break;
+
+        case 3:
+          corrSup = 3;
+          break;
+
+        case 4:
+          corrSup = 4;
+          break;
+
+        case 5:
+          corrSup = 5;
+          break;
+
+        case 6:
+          corrSup = 6;
+          break;
+
+        case 7:
+          corrSup = 7;
+          break;
+
+        case 8:
+          corrSup = 8;
+          break;
+
+        case 9:
+          corrSup = 9;
+          break;
+
+        case 10:
+          corrSup = 10;
+          break;
+
+      }
+
+      storage.begin("config", false);
+
+      storage.putUChar("corrSup", corrSup);
+
+      storage.end();
+
+    }
+//    else if ((message[0] + message[1]) == ('e' + 'n')) {
+//
+//      pzem.resetEnergy();
+//
+//    }
+    else if ((message[0] + message[1]) == ('r' + 'e')) {
+
+      Serial.println("Rebooting OMC-WIFI in 5 seconds...");
+      vTaskDelay(5000 / portTICK_PERIOD_MS);
+      ESP.restart();
+
+    }
 
   }
 }
@@ -152,8 +197,39 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
 void publicarValores() {
 
-  char state[60];
-  snprintf(state, 60, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv%d,lc%d"
+  char   state[60];
+  int    _voltMode;
+  String _corrSup;
+
+  switch (voltMode){
+
+    case 120:
+      _voltMode = 1;
+      break;
+
+    case 220:
+      _voltMode = 2;
+      break;
+    
+  }
+
+    switch (corrSup){
+
+    case 10:
+      _corrSup = "10";
+      break;
+
+    default:
+      _corrSup = "0" + String(corrSup);
+      break;
+    
+  }
+
+  Serial.println(_corrSup);
+
+
+  
+  snprintf(state, 60, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s"
            , (int)rmsVolt
            , (int)(((rmsVolt - (int)rmsVolt)*pow(10, 2)) + 0.01)
            , (int)rmsCorr
@@ -170,13 +246,13 @@ void publicarValores() {
            , 0
            , relay
            , controlGlobalRelay
-           , voltMode
-           , corrSup
+           , _voltMode
+           , _corrSup
 
           );
 
 
-  mqttClient.publish("omc/02/estado", 0, true, state);
+  mqttClient.publish("omc/01/estado", 0, true, state);
 
   xTimerReset(publishTimer, 0);
 

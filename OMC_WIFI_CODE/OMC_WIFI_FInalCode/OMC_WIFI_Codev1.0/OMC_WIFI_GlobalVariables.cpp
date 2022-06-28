@@ -46,9 +46,9 @@ float rmsCorr = 0;      // Valor RMS Corriente
 
 int voltMode;
 
-uint8_t voltSup            = 135;     // Máximo voltaje permitido
-uint8_t voltInf            = 100;     // Mínimo voltaje permitido
-uint8_t corrSup            = 7;       // Máxima corriente permitida
+uint8_t voltSup;     // Máximo voltaje permitido
+uint8_t voltInf;     // Mínimo voltaje permitido
+uint8_t corrSup;       // Máxima corriente permitida
 
 uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
 

@@ -54,8 +54,8 @@ extern float rmsCorr;      // Valor RMS Corriente
 //*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
 //***************************************************************************************************************************************************************
 
-#define lowFactor 0.9
-#define highFactor 1.1
+#define lowFactor 0.85
+#define highFactor 1.15
 
 extern int voltMode;
 
