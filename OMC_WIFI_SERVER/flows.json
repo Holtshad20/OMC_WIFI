@@ -441,56 +441,6 @@
         "className": ""
     },
     {
-        "id": "8391a58821209850",
-        "type": "ui_spacer",
-        "z": "6f4784e8cf2fe1e0",
-        "name": "spacer",
-        "group": "5dcfa381d1f525d2",
-        "order": 1,
-        "width": 7,
-        "height": 1
-    },
-    {
-        "id": "3ec1104d286ca262",
-        "type": "ui_spacer",
-        "z": "6f4784e8cf2fe1e0",
-        "name": "spacer",
-        "group": "8a55ae788db337bb",
-        "order": 13,
-        "width": 7,
-        "height": 1
-    },
-    {
-        "id": "ccb058b5b21ab43c",
-        "type": "ui_spacer",
-        "z": "6f4784e8cf2fe1e0",
-        "name": "spacer",
-        "group": "8a55ae788db337bb",
-        "order": 14,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "5a56c428f6a1d33c",
-        "type": "ui_spacer",
-        "z": "6f4784e8cf2fe1e0",
-        "name": "spacer",
-        "group": "8a55ae788db337bb",
-        "order": 16,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "b10a66030f37c48f",
-        "type": "ui_spacer",
-        "z": "6f4784e8cf2fe1e0",
-        "name": "spacer",
-        "group": "8a55ae788db337bb",
-        "order": 18,
-        "width": 2,
-        "height": 1
-    },
-    {
         "id": "15071a15387b5605",
         "type": "ui_group",
         "name": "Monitoreo",
@@ -557,7 +507,26 @@
         "className": ""
     },
     {
-        "id": "98c80919081d1db9",
+        "id": "a3cb0eccf6244471",
+        "type": "ui_tab",
+        "name": "Configuración",
+        "icon": "mi-videogame_asset",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "bf378dfbb8ffaa4c",
+        "type": "ui_group",
+        "name": "Cambiar orden de dispositivos",
+        "tab": "a3cb0eccf6244471",
+        "order": 2,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4b9fae21fd2986d6",
         "type": "ui_spacer",
         "z": "6f4784e8cf2fe1e0",
         "name": "spacer",
@@ -567,7 +536,7 @@
         "height": 1
     },
     {
-        "id": "d03ad3fa5f15031d",
+        "id": "e137bdda145894b8",
         "type": "ui_spacer",
         "z": "6f4784e8cf2fe1e0",
         "name": "spacer",
@@ -577,13 +546,204 @@
         "height": 1
     },
     {
-        "id": "b93a0988d980c254",
+        "id": "61169a9817c92a1e",
         "type": "ui_spacer",
         "z": "6f4784e8cf2fe1e0",
         "name": "spacer",
         "group": "7b94c25eb64f2edb",
         "order": 10,
         "width": 1,
+        "height": 1
+    },
+    {
+        "id": "5d454f4b0e2735c2",
+        "type": "ui_group",
+        "name": "Dispositivos asociados",
+        "tab": "a3cb0eccf6244471",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "946f6d89c70d93a6",
+        "type": "ui_spacer",
+        "z": "2e9d9a63f5843708",
+        "name": "spacer",
+        "group": "5dcfa381d1f525d2",
+        "order": 1,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "688a1b3f0872c6e6",
+        "type": "ui_spacer",
+        "z": "2e9d9a63f5843708",
+        "name": "spacer",
+        "group": "8a55ae788db337bb",
+        "order": 7,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "b4f6b65189225b59",
+        "type": "ui_spacer",
+        "z": "2e9d9a63f5843708",
+        "name": "spacer",
+        "group": "8a55ae788db337bb",
+        "order": 8,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "521c1222941b82f0",
+        "type": "ui_spacer",
+        "z": "2e9d9a63f5843708",
+        "name": "spacer",
+        "group": "8a55ae788db337bb",
+        "order": 10,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "4e05121bf2a4350e",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 1,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "e0969cba2ae160f8",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "1c891a9fd265e749",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "28fedea48484e3fa",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "409a7ead06afc6ab",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "0925009e57d61887",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 7,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "37b2657a1a4d0965",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 8,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "9650964c471ca513",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 9,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "670a820d91b9d520",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 10,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "fedbc86b3a9beadc",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 11,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "2c3d10e218947d8b",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 12,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "423a744078d9f684",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "5d454f4b0e2735c2",
+        "order": 13,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "44f89c3aef1bb765",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "bf378dfbb8ffaa4c",
+        "order": 5,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "720cdcdd6e735654",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "bf378dfbb8ffaa4c",
+        "order": 7,
+        "width": 2,
         "height": 1
     },
     {
@@ -605,18 +765,6 @@
             [
                 "014da73047ad8f7c"
             ]
-        ]
-    },
-    {
-        "id": "0890a143b1219f87",
-        "type": "ui_ui_control",
-        "z": "1f35534c8fd78b65",
-        "name": "",
-        "events": "all",
-        "x": 1040,
-        "y": 980,
-        "wires": [
-            []
         ]
     },
     {
@@ -872,8 +1020,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 450,
-        "y": 900,
+        "x": 1090,
+        "y": 780,
         "wires": [
             []
         ],
@@ -925,8 +1073,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 280,
-        "y": 900,
+        "x": 860,
+        "y": 780,
         "wires": [
             [
                 "3fa3b83a6cebbf2e"
@@ -942,6 +1090,456 @@
         "x": 720,
         "y": 280,
         "wires": []
+    },
+    {
+        "id": "ab5534ac288247af",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "mostrar lista",
+        "func": "\nlet dispositivos = global.get(\"dispositivos\");\n\nnode.warn(dispositivos[1]);\n\nmsg.payload = [\n      { num: 1, id: dispositivos[1]},\n      { num: 2, id: dispositivos[2]},\n      { num: 3, id: dispositivos[3]},\n      { num: 4, id: dispositivos[4]},\n      { num: 5, id: dispositivos[5]},\n      { num: 6, id: dispositivos[6]},\n      { num: 7, id: dispositivos[7]},\n      { num: 8, id: dispositivos[8]},\n      { num: 9, id: dispositivos[9]},\n      { num: 10, id: dispositivos[10]},\n    ];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 820,
+        "wires": [
+            [
+                "035bb364e4e5823b"
+            ]
+        ],
+        "info": "hola"
+    },
+    {
+        "id": "55eb2c1d8e5c6138",
+        "type": "inject",
+        "z": "1f35534c8fd78b65",
+        "name": "mostrar lista",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 870,
+        "y": 820,
+        "wires": [
+            [
+                "ab5534ac288247af"
+            ]
+        ]
+    },
+    {
+        "id": "f6852b79ac2c63aa",
+        "type": "ui_dropdown",
+        "z": "1f35534c8fd78b65",
+        "name": "Elegir 1",
+        "label": "",
+        "tooltip": "",
+        "place": "Seleccione",
+        "group": "bf378dfbb8ffaa4c",
+        "order": 2,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "1",
+                "value": 1,
+                "type": "num"
+            },
+            {
+                "label": "2",
+                "value": 2,
+                "type": "num"
+            },
+            {
+                "label": "3",
+                "value": 3,
+                "type": "num"
+            },
+            {
+                "label": "4",
+                "value": 4,
+                "type": "num"
+            },
+            {
+                "label": "5",
+                "value": 5,
+                "type": "num"
+            },
+            {
+                "label": "6",
+                "value": 6,
+                "type": "num"
+            },
+            {
+                "label": "7",
+                "value": 7,
+                "type": "num"
+            },
+            {
+                "label": "8",
+                "value": 8,
+                "type": "num"
+            },
+            {
+                "label": "9",
+                "value": 9,
+                "type": "num"
+            },
+            {
+                "label": "10",
+                "value": 10,
+                "type": "num"
+            }
+        ],
+        "payload": "",
+        "topic": "elegir1",
+        "topicType": "str",
+        "className": "",
+        "x": 460,
+        "y": 940,
+        "wires": [
+            [
+                "26ac5b81154e920c"
+            ]
+        ]
+    },
+    {
+        "id": "b8096a2d4cd31640",
+        "type": "ui_dropdown",
+        "z": "1f35534c8fd78b65",
+        "name": "Elegir 2",
+        "label": "",
+        "tooltip": "",
+        "place": "Seleccione",
+        "group": "bf378dfbb8ffaa4c",
+        "order": 4,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "1",
+                "value": 1,
+                "type": "num"
+            },
+            {
+                "label": "2",
+                "value": 2,
+                "type": "num"
+            },
+            {
+                "label": "3",
+                "value": 3,
+                "type": "num"
+            },
+            {
+                "label": "4",
+                "value": 4,
+                "type": "num"
+            },
+            {
+                "label": "5",
+                "value": 5,
+                "type": "num"
+            },
+            {
+                "label": "6",
+                "value": 6,
+                "type": "num"
+            },
+            {
+                "label": "7",
+                "value": 7,
+                "type": "num"
+            },
+            {
+                "label": "8",
+                "value": 8,
+                "type": "num"
+            },
+            {
+                "label": "9",
+                "value": 9,
+                "type": "num"
+            },
+            {
+                "label": "10",
+                "value": 10,
+                "type": "num"
+            }
+        ],
+        "payload": "",
+        "topic": "elegir2",
+        "topicType": "str",
+        "className": "",
+        "x": 460,
+        "y": 1020,
+        "wires": [
+            [
+                "26ac5b81154e920c"
+            ]
+        ]
+    },
+    {
+        "id": "0ef458bfa244cc7a",
+        "type": "ui_button",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "group": "bf378dfbb8ffaa4c",
+        "order": 6,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "label": "Cambiar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Cambiar",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "str",
+        "x": 700,
+        "y": 1040,
+        "wires": [
+            [
+                "26ac5b81154e920c"
+            ]
+        ]
+    },
+    {
+        "id": "5ad43563dba01f17",
+        "type": "ui_text",
+        "z": "1f35534c8fd78b65",
+        "group": "bf378dfbb8ffaa4c",
+        "order": 1,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "Intercambiar dispositivo",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "x": 410,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "0a0a723944800622",
+        "type": "ui_text",
+        "z": "1f35534c8fd78b65",
+        "group": "bf378dfbb8ffaa4c",
+        "order": 3,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "Con dispositivo",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "x": 440,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "26ac5b81154e920c",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "func": "if (msg.topic == \"elegir1\"){\n    flow.set(\"elegir1\", msg.payload); \n} \nelse if (msg.topic == \"elegir2\"){\n    flow.set(\"elegir2\", msg.payload); \n}\nelse {\n    let elegir1 = flow.get(\"elegir1\"); \n    let elegir2 = flow.get(\"elegir2\");\n    if ((elegir1 != elegir2) && (elegir1 != 0) && (elegir2 != 0)){\n        msg.payload = [elegir1, elegir2];\n        \n        let dispositivos = global.get(\"dispositivos\");\n        let a = dispositivos[elegir1]\n        dispositivos[elegir1] = dispositivos[elegir2];\n        dispositivos[elegir2] = a;\n        \n        global.set(\"dispositivos\", dispositivos); \n        \n        return msg;\n    }\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "flow.set(\"elegir1\", 0);\nflow.set(\"elegir2\", 0);",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 980,
+        "wires": [
+            [
+                "fd297d866a6786a2",
+                "dd0149188d4a0728",
+                "ab5534ac288247af"
+            ]
+        ]
+    },
+    {
+        "id": "fd297d866a6786a2",
+        "type": "debug",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "8cb9e2bce715911c",
+        "type": "inject",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 170,
+        "y": 940,
+        "wires": [
+            [
+                "f6852b79ac2c63aa",
+                "b8096a2d4cd31640"
+            ]
+        ]
+    },
+    {
+        "id": "dd0149188d4a0728",
+        "type": "change",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 980,
+        "y": 1060,
+        "wires": [
+            [
+                "603512f1caae2630"
+            ]
+        ]
+    },
+    {
+        "id": "294a58e59222f0a3",
+        "type": "link in",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "links": [
+            "603512f1caae2630"
+        ],
+        "x": 205,
+        "y": 1020,
+        "wires": [
+            [
+                "b8096a2d4cd31640",
+                "f6852b79ac2c63aa"
+            ]
+        ]
+    },
+    {
+        "id": "603512f1caae2630",
+        "type": "link out",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "294a58e59222f0a3"
+        ],
+        "x": 1095,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "035bb364e4e5823b",
+        "type": "ui_table",
+        "z": "1f35534c8fd78b65",
+        "group": "5d454f4b0e2735c2",
+        "name": "",
+        "order": 2,
+        "width": 4,
+        "height": 6,
+        "columns": [
+            {
+                "field": "num",
+                "title": "Disp.",
+                "width": "40%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "id",
+                "title": "ID",
+                "width": "60%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 1230,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "8dbfbd3efb81ea4e",
+        "type": "ui_button",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "group": "bf378dfbb8ffaa4c",
+        "order": 6,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "label": "Cambiar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Cambiar",
+        "payloadType": "str",
+        "topic": "Limpiar",
+        "topicType": "str",
+        "x": 700,
+        "y": 1120,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "9e58624.7faaba",
@@ -966,7 +1564,7 @@
         "type": "ui_text",
         "z": "2e9d9a63f5843708",
         "group": "76cd008ee20ad04e",
-        "order": 9,
+        "order": 5,
         "width": 7,
         "height": 1,
         "name": "",
@@ -983,7 +1581,7 @@
         "type": "ui_text",
         "z": "2e9d9a63f5843708",
         "group": "76cd008ee20ad04e",
-        "order": 5,
+        "order": 3,
         "width": 6,
         "height": 1,
         "name": "",
@@ -1000,7 +1598,7 @@
         "type": "ui_text",
         "z": "2e9d9a63f5843708",
         "group": "76cd008ee20ad04e",
-        "order": 12,
+        "order": 7,
         "width": 7,
         "height": 1,
         "name": "",
@@ -1018,7 +1616,7 @@
         "z": "2e9d9a63f5843708",
         "name": "voltaje grafico",
         "group": "76cd008ee20ad04e",
-        "order": 10,
+        "order": 6,
         "width": 7,
         "height": 4,
         "label": "",
@@ -1026,12 +1624,12 @@
         "legend": "false",
         "xformat": "HH:mm",
         "interpolate": "cubic",
-        "nodata": "",
+        "nodata": "Dispositivo desconectado",
         "dot": false,
         "ymin": "",
         "ymax": "",
         "removeOlder": 1,
-        "removeOlderPoints": "",
+        "removeOlderPoints": "120",
         "removeOlderUnit": "60",
         "cutout": 0,
         "useOneColor": false,
@@ -1062,7 +1660,7 @@
         "z": "2e9d9a63f5843708",
         "name": "corriente grafico ",
         "group": "76cd008ee20ad04e",
-        "order": 14,
+        "order": 8,
         "width": 7,
         "height": 4,
         "label": "",
@@ -1070,12 +1668,12 @@
         "legend": "false",
         "xformat": "dd HH:mm",
         "interpolate": "cubic",
-        "nodata": "",
+        "nodata": "Dispositivo desconectado",
         "dot": false,
         "ymin": "",
         "ymax": "",
         "removeOlder": 1,
-        "removeOlderPoints": "",
+        "removeOlderPoints": "120",
         "removeOlderUnit": "60",
         "cutout": 0,
         "useOneColor": false,
@@ -1517,22 +2115,6 @@
                 "fromt": "str",
                 "to": "ON",
                 "tot": "str"
-            },
-            {
-                "t": "change",
-                "p": "payload",
-                "pt": "msg",
-                "from": "2",
-                "fromt": "str",
-                "to": "ESPERA",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "Estado relay",
-                "tot": "str"
             }
         ],
         "action": "",
@@ -1628,20 +2210,20 @@
         "z": "2e9d9a63f5843708",
         "name": "potencia",
         "group": "5dcfa381d1f525d2",
-        "order": 4,
+        "order": 3,
         "width": 7,
         "height": 4,
         "label": "",
         "chartType": "line",
         "legend": "false",
-        "xformat": "HH:mm:ss",
+        "xformat": "HH:mm",
         "interpolate": "cubic",
-        "nodata": "",
+        "nodata": "Dispositivo desconectado",
         "dot": false,
         "ymin": "",
         "ymax": "",
         "removeOlder": 1,
-        "removeOlderPoints": "",
+        "removeOlderPoints": "120",
         "removeOlderUnit": "60",
         "cutout": 0,
         "useOneColor": false,
@@ -1671,7 +2253,7 @@
         "type": "ui_text",
         "z": "2e9d9a63f5843708",
         "group": "5dcfa381d1f525d2",
-        "order": 6,
+        "order": 4,
         "width": 7,
         "height": 1,
         "name": "",
@@ -1688,7 +2270,7 @@
         "type": "ui_text",
         "z": "2e9d9a63f5843708",
         "group": "5dcfa381d1f525d2",
-        "order": 11,
+        "order": 6,
         "width": 5,
         "height": 1,
         "name": "",
@@ -1953,7 +2535,7 @@
         "z": "2e9d9a63f5843708",
         "name": "factor de potencia",
         "group": "5dcfa381d1f525d2",
-        "order": 8,
+        "order": 5,
         "width": 7,
         "height": 3,
         "gtype": "gage",
@@ -2024,7 +2606,7 @@
         "id": "0fe7e98b9e797bf4",
         "type": "ui_led",
         "z": "2e9d9a63f5843708",
-        "order": 6,
+        "order": 4,
         "group": "76cd008ee20ad04e",
         "width": 1,
         "height": 1,
@@ -2154,7 +2736,7 @@
         "z": "2e9d9a63f5843708",
         "name": "Reiniciar energía",
         "group": "5dcfa381d1f525d2",
-        "order": 12,
+        "order": 7,
         "width": 2,
         "height": 1,
         "passthru": false,
@@ -2186,7 +2768,7 @@
         "tooltip": "Cambio en modo de operación de voltaje",
         "place": "",
         "group": "8a55ae788db337bb",
-        "order": 6,
+        "order": 4,
         "width": 3,
         "height": 1,
         "passthru": false,
@@ -2194,12 +2776,12 @@
         "options": [
             {
                 "label": "120 V",
-                "value": "mv120",
+                "value": "mv01",
                 "type": "str"
             },
             {
                 "label": "220 V",
-                "value": "mv220",
+                "value": "mv02",
                 "type": "str"
             }
         ],
@@ -2326,7 +2908,7 @@
         "type": "ui_text",
         "z": "2e9d9a63f5843708",
         "group": "8a55ae788db337bb",
-        "order": 9,
+        "order": 5,
         "width": 4,
         "height": 1,
         "name": "",
@@ -2370,7 +2952,7 @@
         "type": "ui_text",
         "z": "2e9d9a63f5843708",
         "group": "8a55ae788db337bb",
-        "order": 5,
+        "order": 3,
         "width": 4,
         "height": 1,
         "name": "",
@@ -2420,7 +3002,7 @@
         "tooltip": "Cambio en límite de corriente",
         "place": "",
         "group": "8a55ae788db337bb",
-        "order": 10,
+        "order": 6,
         "width": 3,
         "height": 1,
         "passthru": false,
@@ -2428,52 +3010,52 @@
         "options": [
             {
                 "label": "0.5 A",
-                "value": "lc0.5",
+                "value": "lc00",
                 "type": "str"
             },
             {
                 "label": "1 A",
-                "value": "lc1",
+                "value": "lc01",
                 "type": "str"
             },
             {
                 "label": "2 A",
-                "value": "lc2",
+                "value": "lc02",
                 "type": "str"
             },
             {
                 "label": "3 A",
-                "value": "lc3",
+                "value": "lc03",
                 "type": "str"
             },
             {
                 "label": "4 A",
-                "value": "lc4",
+                "value": "lc04",
                 "type": "str"
             },
             {
                 "label": "5 A",
-                "value": "lc5",
+                "value": "lc05",
                 "type": "str"
             },
             {
                 "label": "6 A",
-                "value": "lc6",
+                "value": "lc06",
                 "type": "str"
             },
             {
                 "label": "7 A",
-                "value": "lc7",
+                "value": "lc07",
                 "type": "str"
             },
             {
                 "label": "8 A",
-                "value": "lc8",
+                "value": "lc08",
                 "type": "str"
             },
             {
                 "label": "9 A",
-                "value": "lc9",
+                "value": "lc09",
                 "type": "str"
             },
             {
@@ -2530,7 +3112,7 @@
         "z": "2e9d9a63f5843708",
         "name": "Reinicio dispositivo",
         "group": "8a55ae788db337bb",
-        "order": 15,
+        "order": 9,
         "width": 5,
         "height": 1,
         "passthru": false,
@@ -2976,8 +3558,8 @@
         "id": "3cd1efa5c88f3243",
         "type": "ui_text",
         "z": "6f4784e8cf2fe1e0",
-        "group": "5dcfa381d1f525d2",
-        "order": 9,
+        "group": "15071a15387b5605",
+        "order": 5,
         "width": 7,
         "height": 1,
         "name": "",
@@ -3011,7 +3593,7 @@
         "type": "ui_text",
         "z": "6f4784e8cf2fe1e0",
         "group": "15071a15387b5605",
-        "order": 6,
+        "order": 7,
         "width": 7,
         "height": 1,
         "name": "",
@@ -3029,7 +3611,7 @@
         "z": "6f4784e8cf2fe1e0",
         "name": "voltaje grafico",
         "group": "15071a15387b5605",
-        "order": 5,
+        "order": 6,
         "width": 7,
         "height": 4,
         "label": "",
@@ -3037,12 +3619,12 @@
         "legend": "false",
         "xformat": "HH:mm",
         "interpolate": "cubic",
-        "nodata": "",
+        "nodata": "Dispositivo desconectado",
         "dot": false,
         "ymin": "",
         "ymax": "",
         "removeOlder": 1,
-        "removeOlderPoints": "",
+        "removeOlderPoints": "120",
         "removeOlderUnit": "60",
         "cutout": 0,
         "useOneColor": false,
@@ -3073,20 +3655,20 @@
         "z": "6f4784e8cf2fe1e0",
         "name": "corriente grafico ",
         "group": "15071a15387b5605",
-        "order": 7,
+        "order": 8,
         "width": 7,
         "height": 4,
         "label": "",
         "chartType": "line",
         "legend": "false",
-        "xformat": "dd HH:mm",
+        "xformat": "HH:mm",
         "interpolate": "cubic",
         "nodata": "",
         "dot": false,
         "ymin": "",
         "ymax": "",
         "removeOlder": 1,
-        "removeOlderPoints": "",
+        "removeOlderPoints": "120",
         "removeOlderUnit": "60",
         "cutout": 0,
         "useOneColor": false,
@@ -3645,14 +4227,14 @@
         "label": "",
         "chartType": "line",
         "legend": "false",
-        "xformat": "HH:mm:ss",
+        "xformat": "HH:mm",
         "interpolate": "cubic",
         "nodata": "",
         "dot": false,
         "ymin": "",
         "ymax": "",
         "removeOlder": 1,
-        "removeOlderPoints": "",
+        "removeOlderPoints": "120",
         "removeOlderUnit": "60",
         "cutout": 0,
         "useOneColor": false,
@@ -4205,12 +4787,12 @@
         "options": [
             {
                 "label": "120 V",
-                "value": "mv120",
+                "value": "mv01",
                 "type": "str"
             },
             {
                 "label": "220 V",
-                "value": "mv220",
+                "value": "mv02",
                 "type": "str"
             }
         ],
@@ -4439,52 +5021,52 @@
         "options": [
             {
                 "label": "0.5 A",
-                "value": "lc0.5",
+                "value": "lc00",
                 "type": "str"
             },
             {
                 "label": "1 A",
-                "value": "lc1",
+                "value": "lc01",
                 "type": "str"
             },
             {
                 "label": "2 A",
-                "value": "lc2",
+                "value": "lc02",
                 "type": "str"
             },
             {
                 "label": "3 A",
-                "value": "lc3",
+                "value": "lc03",
                 "type": "str"
             },
             {
                 "label": "4 A",
-                "value": "lc4",
+                "value": "lc04",
                 "type": "str"
             },
             {
                 "label": "5 A",
-                "value": "lc5",
+                "value": "lc05",
                 "type": "str"
             },
             {
                 "label": "6 A",
-                "value": "lc6",
+                "value": "lc06",
                 "type": "str"
             },
             {
                 "label": "7 A",
-                "value": "lc7",
+                "value": "lc07",
                 "type": "str"
             },
             {
                 "label": "8 A",
-                "value": "lc8",
+                "value": "lc08",
                 "type": "str"
             },
             {
                 "label": "9 A",
-                "value": "lc9",
+                "value": "lc09",
                 "type": "str"
             },
             {
