@@ -48,11 +48,13 @@ void touchTask(void *touchParameter) {
       }
       else {                                                  //Si el ESP32 está en modo Estación
 
+        String ssid = "OMC-WIFI-" + omcID;
+        
         storage.begin("config", true);                          // Se apertura el espacio en memoria flash denominado "storage" para leer (true)
 
         esp_wifi_set_mode(WIFI_MODE_APSTA);                     //Se cambia el modo del ESP32 a AP/Estación
         WiFi.softAPConfig(IPAddress(172, 16, 16, 1), IPAddress(172, 16, 16, 1), IPAddress(255, 255, 255, 0));
-        WiFi.softAP(storage.getString("ssid", hostname.c_str()).c_str(), storage.getString("pass", "12345678").c_str());    //Se inicializa el AP con las credenciales guardadas
+        WiFi.softAP(storage.getString("ssid", ssid.c_str()).c_str(), storage.getString("pass", "12345678").c_str());    //Se inicializa el AP con las credenciales guardadas
         Serial.println("Cambiado a modo AP/Estación");
 
         storage.end();

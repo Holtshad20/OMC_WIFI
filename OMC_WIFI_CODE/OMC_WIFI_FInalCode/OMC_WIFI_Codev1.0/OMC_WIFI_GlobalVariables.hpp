@@ -85,7 +85,7 @@ extern TimerHandle_t timerRecuperacion;   // Temporizador, se desborda y ejecuta
 
 extern Preferences storage;         // Espacio en memoria para guardar los datos necesarios
 
-extern String      hostname;        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
+extern String      omcID;        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 extern boolean     connServer;      // Variable para indicar si el ESP32 está conectado al servidor
 

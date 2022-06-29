@@ -1,5 +1,6 @@
 #include "OMC_WIFI_main.hpp"
 
+String hostname;
 
 //***************************************************************************************************************************************************************
 //*************************************************    FUNCIONES DE LAS PÁGINAS WEB DE AUTOCONNECT     **********************************************************
@@ -198,11 +199,13 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
   else if (server.isValid()) {                                                                                                      //Si se introdujo una dirección IP y se cumplen las condiciones establecidas
     storage.begin("config", false);                                                                                                   //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
     storage.putString("server_ip", args.arg("server"));                                                                               //Se guarda la dirección IP en la memoria flash
-    Serial.println("La <b>dirección IP del servidor</b> ha cambiado a:\n" + storage.getString("server_ip", ""));
+    Serial.println("La dirección IP del servidor ha cambiado a:\n" + storage.getString("server_ip", ""));
     storage.end();                                                                                                                    //Se cierra el espacio en memoria flash denominado "storage"
-
-    mqttClient.setServer(MQTT_HOST.fromString(args.arg("server")), MQTT_PORT);
-
+    
+    MQTT_HOST.fromString(args.arg("server"));
+    mqttClient.setServer(MQTT_HOST, MQTT_PORT);
+    connectToMqtt();
+    
     aux["txtCenter01"].as<AutoConnectText>().value = "La <b>dirección IP del servidor</b> ha cambiado a:\n" + args.arg("server");           //Aparecerá este mensaje en la página web
   }
   else {                                                                                                                            //Si se introdujo una dirección IP pero NO se cumplen las condiciones establecidas
@@ -472,12 +475,12 @@ void getChipID() {
 
   for (int i = 3; i < 6; i++) {
     if (mac[i] < 0x10) {
-      hostname += '0';
+      omcID += '0';
     }
-    hostname += String(mac[i], HEX);
+    omcID += String(mac[i], HEX);
   }
 
-  hostname = "OMC-WIFI-" + hostname;
+  hostname = "OMC-WIFI-" + omcID;
 
 }
 
@@ -519,8 +522,11 @@ void acSetUp(void) {
 
   storage.end();
 
-  config.apip       = IPAddress(172, 16, 16, 1);      //Se configura la dirección IPv4 del AP ESP32
-  config.gateway    = IPAddress(172, 16, 16, 1);      //Se configura la dirección IPv4 del gateway
+  config.apip              = IPAddress(172, 16, 16, 1);      //Se configura la dirección IPv4 del AP ESP32
+  config.gateway           = IPAddress(172, 16, 16, 1);      //Se configura la dirección IPv4 del gateway
+  config.autoReconnect     = true;                           // Attempt automatic reconnection.
+  config.reconnectInterval = 1;                              // Seek interval time is 30[s].
+
   config.retainPortal = true;                         //Se mantiene el portal
   //config.preserveAPMode = true;
   config.title      = hostname;                       //Título de la página web

@@ -3,10 +3,7 @@
 
 #include "OMC_WIFI_GlobalVariables.hpp"
 
-//Funciones necesarias para configurar el cliente MQTT
-//void connectToWifi();
-
-void connectToMqtt();
+extern void connectToMqtt();
 
 void WiFiEvent(WiFiEvent_t event);
 

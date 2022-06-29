@@ -71,7 +71,7 @@ TimerHandle_t timerRecuperacion;      // Temporizador, se desborda y ejecuta pas
 
 Preferences storage;                 // Espacio en memoria para guardar los datos necesarios
 
-String      hostname;                // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
+String      omcID;                   // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 boolean     connServer = false;      // Variable para indicar si el ESP32 está conectado al servidor
 

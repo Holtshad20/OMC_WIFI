@@ -1,22 +1,29 @@
 #include "OMC_WIFI_mqtt.hpp"
 
-//Funciones necesarias para configurar el cliente MQTT
-//void connectToWifi() {
-//  Serial.println();
-//  Serial.println("Connecting to Wi-Fi...");
-//  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-//}
+int    numberID;
+
+String omcState;
+String omcChanges;
+
 
 void connectToMqtt() {
+
   Serial.println();
   Serial.println("Connecting to MQTT...");
+  mqttClient.disconnect();
   mqttClient.connect();
+  Serial.println("Server IP: " + MQTT_HOST.toString());
+
 }
 
+
 void WiFiEvent(WiFiEvent_t event) {
+
   Serial.println();
   Serial.printf("[WiFi-event] event: %d\n", event);
+
   switch (event) {
+
     case SYSTEM_EVENT_STA_GOT_IP:
       Serial.println("WiFi connected");
       Serial.println("IP address: ");
@@ -29,10 +36,14 @@ void WiFiEvent(WiFiEvent_t event) {
       xTimerStop(mqttReconnectTimer, 0); // ensure we don't reconnect to MQTT while reconnecting to Wi-Fi
       //xTimerStart(wifiReconnectTimer, 0);
       break;
+
   }
 }
 
+
 void onMqttConnect(bool sessionPresent) {
+
+  char petition[6];
 
   connServer = true;
 
@@ -41,17 +52,28 @@ void onMqttConnect(bool sessionPresent) {
   Serial.print("Session present: ");
   Serial.println(sessionPresent);
 
-//  uint16_t packetIdSub = mqttClient.subscribe("omc/01/estado", 0);
-//  Serial.println();
-//  Serial.print("Suscrito a omc/01/estado con QoS 0. Packet ID: ");
-//  Serial.println(packetIdSub);
-  
-  uint16_t packetIdSub = mqttClient.subscribe("omc/01/cambios", 2);
+  //  uint16_t packetIdSub = mqttClient.subscribe("omc/01/estado", 0);
+  //  Serial.println();
+  //  Serial.print("Suscrito a omc/01/estado con QoS 0. Packet ID: ");
+  //  Serial.println(packetIdSub);
+
+  uint16_t packetIdSub = mqttClient.subscribe("omc/respuesta", 2);
   Serial.println();
-  Serial.print("Suscrito a omc/01/cambios con QoS 2. Packet ID: ");
+  Serial.print("Suscrito a omc/respuesta con QoS 2. Packet ID: ");
   Serial.println(packetIdSub);
 
+
+  //publish de peticion
+  //uint16_t packetIdSub = mqttClient.subscribe("omc/01/cambios", 2);
+  //Serial.println();
+  //Serial.print("Suscrito a omc/01/cambios con QoS 2. Packet ID: ");
+  //Serial.println(packetIdSub);
+
+  snprintf(petition, 6, "%s", omcID);
+  mqttClient.publish("omc/peticion", 2, true, petition);
+
 }
+
 
 void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
 
@@ -87,7 +109,7 @@ void onMqttUnsubscribe(uint16_t packetId) {
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
 
   char* message = payload;
-  String rate   = String(message[2]) + String(message[3]);  
+  String rate   = String(message[2]) + String(message[3]);
 
   if (String(topic) == "omc/01/cambios") {
 
@@ -98,7 +120,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     }
     else if ((message[0] + message[1]) == ('m' + 'v')) {
 
-      switch (rate.toInt()) {
+      switch ((String(message[2]) + String(message[3])).toInt()) {
 
         case 1:
           voltMode = 120;
@@ -123,51 +145,56 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     }
     else if ((message[0] + message[1]) == ('l' + 'c')) {
 
-      switch ((String(message[2]) + String(message[3])).toInt()) {
+      if (message[2] == '0') {
 
-        case 0:
-          corrSup = 0.5;
-          break;
+        switch (message[3] - '0') {
 
-        case 1:
-          corrSup = 1;
-          break;
+          case 0:
+            corrSup = 0.5;
+            break;
 
-        case 2:
-          corrSup = 2;
-          break;
+          case 1:
+            corrSup = 1;
+            break;
 
-        case 3:
-          corrSup = 3;
-          break;
+          case 2:
+            corrSup = 2;
+            break;
 
-        case 4:
-          corrSup = 4;
-          break;
+          case 3:
+            corrSup = 3;
+            break;
 
-        case 5:
-          corrSup = 5;
-          break;
+          case 4:
+            corrSup = 4;
+            break;
 
-        case 6:
-          corrSup = 6;
-          break;
+          case 5:
+            corrSup = 5;
+            break;
 
-        case 7:
-          corrSup = 7;
-          break;
+          case 6:
+            corrSup = 6;
+            break;
 
-        case 8:
-          corrSup = 8;
-          break;
+          case 7:
+            corrSup = 7;
+            break;
 
-        case 9:
-          corrSup = 9;
-          break;
+          case 8:
+            corrSup = 8;
+            break;
 
-        case 10:
-          corrSup = 10;
-          break;
+          case 9:
+            corrSup = 9;
+            break;
+
+        }
+
+      }
+      else if (message[2] == '1') {
+
+        corrSup = 10;
 
       }
 
@@ -178,11 +205,11 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
       storage.end();
 
     }
-//    else if ((message[0] + message[1]) == ('e' + 'n')) {
-//
-//      pzem.resetEnergy();
-//
-//    }
+    //    else if ((message[0] + message[1]) == ('e' + 'n')) {
+    //
+    //      pzem.resetEnergy();
+    //
+    //    }
     else if ((message[0] + message[1]) == ('r' + 'e')) {
 
       Serial.println("Rebooting OMC-WIFI in 5 seconds...");
@@ -190,6 +217,90 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
       ESP.restart();
 
     }
+
+  }
+  else if (String(topic) == "omc/respuesta") {
+
+    char _omcID[7];
+
+    for (int i = 0; i == 5; i++){
+
+      _omcID[i] = message[i];
+      
+    }
+
+    
+    if (String(_omcID) == omcID){
+
+      switch ((String(message[6]) + String(message[7])).toInt()) {
+
+        case 1:
+          numberID = 1;
+          break;
+
+        case 2:
+          numberID = 2;
+          break;
+
+        case 3:
+          numberID = 3;
+          break;
+
+        case 4:
+          numberID = 4;
+          break;
+
+        case 5:
+          numberID = 5;
+          break;
+
+        case 6:
+          numberID = 6;
+          break;
+
+        case 7:
+          numberID = 7;
+          break;
+
+        case 8:
+          numberID = 8;
+          break;
+
+        case 9:
+          numberID = 9;
+          break;
+
+        case 10:
+          numberID = 10;
+          break;
+          
+      }
+
+      if (numberID < 10){
+
+        omcState   = "omc/0" + String(numberID) + "/estado";
+        omcChanges = "omc/0" + String(numberID) + "/cambios";
+        
+      }
+      else{
+
+        omcState   = "omc/" + String(numberID) + "/estado";
+        omcChanges = "omc/" + String(numberID) + "/cambios";
+        
+      }
+
+
+      
+    }
+
+    
+    // el id que me mando el servidor es igual al mio?
+    // cual es el numero que me dio el servidor?
+    // el numero que me dio el servidor es el 5
+    // me suscribo al topico omc/05/cambios
+    // debo publicar en omc/05/estado
+
+    // cuando compruebo que el id si es el mio entonces me desuscribo del topico en donde estuviera conectado antes
 
   }
 }
@@ -201,7 +312,7 @@ void publicarValores() {
   int    _voltMode;
   String _corrSup;
 
-  switch (voltMode){
+  switch (voltMode) {
 
     case 120:
       _voltMode = 1;
@@ -210,10 +321,10 @@ void publicarValores() {
     case 220:
       _voltMode = 2;
       break;
-    
+
   }
 
-    switch (corrSup){
+  switch (corrSup) {
 
     case 10:
       _corrSup = "10";
@@ -222,13 +333,9 @@ void publicarValores() {
     default:
       _corrSup = "0" + String(corrSup);
       break;
-    
+
   }
 
-  Serial.println(_corrSup);
-
-
-  
   snprintf(state, 60, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s"
            , (int)rmsVolt
            , (int)(((rmsVolt - (int)rmsVolt)*pow(10, 2)) + 0.01)
@@ -283,6 +390,5 @@ void mqttSetUp() {
 
   }
 
-  //  connectToWifi();
   xTimerReset(publishTimer, 0);
 }
