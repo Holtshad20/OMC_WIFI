@@ -1,9 +1,9 @@
 #include "OMC_WIFI_mqtt.hpp"
 
-int    numberID;
+int    numberID = 0;
 
-String omcState;
-String omcChanges;
+String omcState   = "omc/00/estado";
+String omcChanges = "omc/00/cambios";
 
 
 void connectToMqtt() {
@@ -43,7 +43,7 @@ void WiFiEvent(WiFiEvent_t event) {
 
 void onMqttConnect(bool sessionPresent) {
 
-  char petition[6];
+  //  char petition[6];
 
   connServer = true;
 
@@ -69,8 +69,8 @@ void onMqttConnect(bool sessionPresent) {
   //Serial.print("Suscrito a omc/01/cambios con QoS 2. Packet ID: ");
   //Serial.println(packetIdSub);
 
-  snprintf(petition, 6, "%s", omcID);
-  mqttClient.publish("omc/peticion", 2, true, petition);
+  //  snprintf(petition, 6, "%s", omcID);
+  //  mqttClient.publish("omc/peticion", 2, true, petition);
 
 }
 
@@ -111,7 +111,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   char* message = payload;
   String rate   = String(message[2]) + String(message[3]);
 
-  if (String(topic) == "omc/01/cambios") {
+  if (String(topic) == omcChanges) {
 
     if ((message[0] + message[1]) == ('m' + 'r')) {
 
@@ -221,16 +221,18 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   }
   else if (String(topic) == "omc/respuesta") {
 
-    char _omcID[7];
+    //    String _omcID = "";
+    char _omcID[4];
 
-    for (int i = 0; i == 5; i++){
+    for (int i = 0; i < 6; i++) {
 
       _omcID[i] = message[i];
-      
+      //      _omcID = _omcID + String(message[i]);
+
     }
 
-    
-    if (String(_omcID) == omcID){
+
+    if (String(_omcID) == omcID) {
 
       switch ((String(message[6]) + String(message[7])).toInt()) {
 
@@ -273,27 +275,36 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
         case 10:
           numberID = 10;
           break;
-          
+
+        case 99:
+          numberID = 99;
+          break;
+
       }
 
-      if (numberID < 10){
+      if (numberID < 10) {
 
         omcState   = "omc/0" + String(numberID) + "/estado";
         omcChanges = "omc/0" + String(numberID) + "/cambios";
-        
+        Serial.println("Soy el OMC0" + String(numberID));
+
       }
-      else{
+      else {
 
         omcState   = "omc/" + String(numberID) + "/estado";
         omcChanges = "omc/" + String(numberID) + "/cambios";
-        
+        Serial.println("Soy el OMC" + String(numberID));
+
       }
 
+      uint16_t packetIdSub = mqttClient.subscribe(omcChanges.c_str(), 2);
+      Serial.println();
+      Serial.print("Suscrito a " + omcChanges + " con QoS 2. Packet ID: ");
+      Serial.println(packetIdSub);
 
-      
     }
 
-    
+
     // el id que me mando el servidor es igual al mio?
     // cual es el numero que me dio el servidor?
     // el numero que me dio el servidor es el 5
@@ -308,58 +319,82 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
 void publicarValores() {
 
+  char   petition[7];
   char   state[60];
   int    _voltMode;
   String _corrSup;
 
-  switch (voltMode) {
 
-    case 120:
-      _voltMode = 1;
-      break;
 
-    case 220:
-      _voltMode = 2;
-      break;
+  if (numberID == 0) {
 
-  }
+    xTimerChangePeriod(publishTimer, 15000 / portTICK_PERIOD_MS, 0);
 
-  switch (corrSup) {
-
-    case 10:
-      _corrSup = "10";
-      break;
-
-    default:
-      _corrSup = "0" + String(corrSup);
-      break;
+    snprintf(petition, 7, "%s", omcID);
+    mqttClient.publish("omc/peticion", 2, true, petition);
+    Serial.println("Petición enviada");
 
   }
+  else if (numberID == 99) {
 
-  snprintf(state, 60, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s"
-           , (int)rmsVolt
-           , (int)(((rmsVolt - (int)rmsVolt)*pow(10, 2)) + 0.01)
-           , (int)rmsCorr
-           , (int)(((rmsCorr - (int)rmsCorr)*pow(10, 2)) + 0.01)
-           , (int)(rmsVolt * rmsCorr)
-           , (int)((((rmsVolt * rmsCorr) - (int)(rmsVolt * rmsCorr))*pow(10, 2)) + 0.01)
-           //, (int)powFactor
-           //, (int)(((powFactor-(int)powFactor)*pow(10,2))+0.01)
-           , 0
-           , 75
-           //, (int)energy
-           //, (int)(((energy-(int)energy)*pow(10,2))+0.01)
-           , 0
-           , 0
-           , relay
-           , controlGlobalRelay
-           , _voltMode
-           , _corrSup
+    xTimerStop(publishTimer, 0);
+    Serial.println("Solicitud rechazada");
 
-          );
+  }
+  else {
+
+    xTimerChangePeriod(publishTimer, 1000 / portTICK_PERIOD_MS, 0);
+
+    switch (voltMode) {
+
+      case 120:
+        _voltMode = 1;
+        break;
+
+      case 220:
+        _voltMode = 2;
+        break;
+
+    }
+
+    switch (corrSup) {
+
+      case 10:
+        _corrSup = "10";
+        break;
+
+      default:
+        _corrSup = "0" + String(corrSup);
+        break;
+
+    }
+
+    snprintf(state, 60, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s"
+             , (int)rmsVolt
+             , (int)(((rmsVolt - (int)rmsVolt)*pow(10, 2)) + 0.01)
+             , (int)rmsCorr
+             , (int)(((rmsCorr - (int)rmsCorr)*pow(10, 2)) + 0.01)
+             , (int)(rmsVolt * rmsCorr)
+             , (int)((((rmsVolt * rmsCorr) - (int)(rmsVolt * rmsCorr))*pow(10, 2)) + 0.01)
+             //, (int)powFactor
+             //, (int)(((powFactor-(int)powFactor)*pow(10,2))+0.01)
+             , 0
+             , 75
+             //, (int)energy
+             //, (int)(((energy-(int)energy)*pow(10,2))+0.01)
+             , 0
+             , 0
+             , relay
+             , controlGlobalRelay
+             , _voltMode
+             , _corrSup
+
+            );
 
 
-  mqttClient.publish("omc/01/estado", 0, true, state);
+    mqttClient.publish(omcState.c_str(), 0, true, state);
+
+  }
 
   xTimerReset(publishTimer, 0);
 
