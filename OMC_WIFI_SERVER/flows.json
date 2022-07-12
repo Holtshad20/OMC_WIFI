@@ -759,11 +759,12 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 190,
+        "x": 130,
         "y": 520,
         "wires": [
             [
-                "014da73047ad8f7c"
+                "014da73047ad8f7c",
+                "2b022ca5cb6e79e8"
             ]
         ]
     },
@@ -772,13 +773,13 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "buscar en lista",
-        "func": "let topic;\nlet payload;\nlet num = -1;\nlet id;\nlet dispositivos = global.get(\"dispositivos\");  // Arreglo\n\n// Si es una petición...\nif (msg.payload[0] == 'p'){\n    id = msg.payload.slice(1, 7);\n    num = dispositivos.indexOf(id);\n    flow.set(\"ultimoID\", id);\n    \n    if (num == -1){\n        topic = \"Dispositivo nuevo\";\n        payload = `El dispositivo OMC-WIFI-${id} \n        se está intentando asociar con el servidor. \n        ¿Desea agregar dicho dispositivo?`;\n        \n        msg.topic = topic;\n        msg.payload = payload;\n    }\n    else {\n        topic = \"Dispositivo conocido\";\n        payload = 'r' + id + num;\n        // Esto es lo que se enviará por MQTT\n        // rAABBCCxx\n        msg.topic = topic;\n        msg.payload = payload;\n    }\n    return msg;\n}\n\n",
+        "func": "let topic;\nlet payload;\nlet num = -1;\nlet id = msg.payload;\nlet dispositivos = global.get(\"dispositivos\");  // Arreglo\n\nnum = dispositivos.indexOf(id);\n\nif (num == -1){\n    topic = \"Dispositivo nuevo\";\n    payload = `El dispositivo OMC-WIFI-${id} \n    se está intentando asociar con el servidor. \n    ¿Desea agregar dicho dispositivo?`;\n    \n    msg.topic = topic;\n    msg.payload = payload;\n    \n    flow.set(\"ultimoID\", id);\n}\nelse {\n    topic = \"Dispositivo conocido\";\n    if (num == 10) {\n        payload = id + num;\n    }\n    else {\n        payload = id + '0' + num;\n    }\n    // Esto es lo que se enviará por MQTT\n    // AABBCCxx\n    msg.topic = topic;\n    msg.payload = payload;\n}\nreturn msg;\n\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "// Codigo que corre la primera vez que se inicia el nodo\n\nlet dispositivos = global.get(\"dispositivos\");\n\n// Si el arreglo no está declarado, decláralo\nif (dispositivos == undefined){\n    dispositivos = [0,null,null,null,null,null,\n                    null,null,null,null,null]\n    global.set(\"dispositivos\", dispositivos);\n}\n",
         "finalize": "",
         "libs": [],
-        "x": 400,
+        "x": 340,
         "y": 520,
         "wires": [
             [
@@ -792,7 +793,7 @@
         "type": "mqtt out",
         "z": "1f35534c8fd78b65",
         "name": "",
-        "topic": "omc/peticion",
+        "topic": "omc/respuesta",
         "qos": "2",
         "retain": "",
         "respTopic": "",
@@ -801,7 +802,7 @@
         "correl": "",
         "expiry": "",
         "broker": "10e78a89.5b4fd5",
-        "x": 1210,
+        "x": 1300,
         "y": 520,
         "wires": []
     },
@@ -811,7 +812,7 @@
         "z": "1f35534c8fd78b65",
         "name": "pAABBCC",
         "info": "",
-        "x": 180,
+        "x": 120,
         "y": 480,
         "wires": []
     },
@@ -837,14 +838,14 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 590,
+        "x": 530,
         "y": 520,
         "wires": [
             [
                 "93ba2292148ef3b4"
             ],
             [
-                "960faeff33d98017"
+                "c5dbecb961485505"
             ]
         ]
     },
@@ -864,10 +865,12 @@
         "topic": "",
         "name": "Aceptar/rechazar",
         "x": 630,
-        "y": 640,
+        "y": 620,
         "wires": [
             [
-                "ecc32b6e6233506b"
+                "ecc32b6e6233506b",
+                "20783694de51087f",
+                "f2bd5ac518e5e066"
             ]
         ]
     },
@@ -890,9 +893,9 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "pABCDEF",
+        "payload": "ABCDEF",
         "payloadType": "str",
-        "x": 200,
+        "x": 140,
         "y": 340,
         "wires": [
             [
@@ -905,17 +908,18 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "agregar a lista",
-        "func": "let topic;\nlet payload;\nlet num;\nlet id = flow.get(\"ultimoID\");\nlet dispositivos = global.get(\"dispositivos\");\n\n// Busca el primer indice sin dispositivo asignado\nnum = dispositivos.indexOf(null);\n\n\n// Y se lo asigna\ndispositivos[num] = id;\n\nglobal.set(\"dispositivos\", dispositivos);\n\ntopic = \"Dispositivo agregado\";\npayload = `El dispositivo OMC-WIFI-${id} \nse ha registrado como Dispositivo ${num}`;\n    \nmsg.topic = topic;\nmsg.payload = payload;\n\nlet msgMQTT = { payload: 'r' + id + num };\n\nreturn [msgMQTT, msg];",
+        "func": "let topic;\nlet payload;\nlet num;\nlet id = flow.get(\"ultimoID\");\nlet dispositivos = global.get(\"dispositivos\");\nlet msgMQTT;\n\nif (dispositivos.indexOf(id) == -1) {\n    \n    // Busca el primer indice sin dispositivo asignado\n    num = dispositivos.indexOf(null);\n    \n    \n    // Y se lo asigna\n    dispositivos[num] = id;\n    \n    global.set(\"dispositivos\", dispositivos);\n    \n    topic = \"Dispositivo agregado\";\n    payload = `El dispositivo OMC-WIFI-${id} \n    se ha registrado como Dispositivo ${num}`;\n        \n    msg.topic = topic;\n    msg.payload = payload;\n    \n    if (num == 10) {\n        msgMQTT = { payload: id + num };\n    }\n    else {\n        msgMQTT = { payload: id + '0' + num };\n    }\n    \n}\nelse {\n    topic = \"Error en registro\";\n    payload = `Reinicie el dispositivo para intentar nuevamente`;\n    msg.topic = topic;\n    msg.payload = payload;\n}\n\nreturn [null, msg];\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 980,
+        "x": 1020,
         "y": 600,
         "wires": [
             [
-                "93ba2292148ef3b4"
+                "93ba2292148ef3b4",
+                "1430aa8dd0158bc7"
             ],
             [
                 "04ec58ea6a4769b3"
@@ -945,14 +949,14 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 800,
-        "y": 640,
+        "x": 840,
+        "y": 620,
         "wires": [
             [
                 "33ecd779ded6d0b7"
             ],
             [
-                "9f0a73ac19efbb74"
+                "1b6a138a13dda395"
             ]
         ]
     },
@@ -971,43 +975,9 @@
         "className": "",
         "topic": "",
         "name": "mostrar mensaje",
-        "x": 1230,
-        "y": 640,
+        "x": 1310,
+        "y": 600,
         "wires": []
-    },
-    {
-        "id": "9f0a73ac19efbb74",
-        "type": "change",
-        "z": "1f35534c8fd78b65",
-        "name": "rechazar",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "Dispositivo rechazado",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Se ha rechazado un dispositivo. Reinicie dicho dispositivo para volver a hacer la petición.",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 980,
-        "y": 680,
-        "wires": [
-            [
-                "04ec58ea6a4769b3"
-            ]
-        ]
     },
     {
         "id": "3fa3b83a6cebbf2e",
@@ -1020,8 +990,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1090,
-        "y": 780,
+        "x": 1170,
+        "y": 820,
         "wires": [
             []
         ],
@@ -1046,9 +1016,9 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "p123456",
+        "payload": "123456",
         "payloadType": "str",
-        "x": 200,
+        "x": 130,
         "y": 400,
         "wires": [
             [
@@ -1073,8 +1043,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 860,
-        "y": 780,
+        "x": 940,
+        "y": 820,
         "wires": [
             [
                 "3fa3b83a6cebbf2e"
@@ -1096,14 +1066,14 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "mostrar lista",
-        "func": "\nlet dispositivos = global.get(\"dispositivos\");\n\nnode.warn(dispositivos[1]);\n\nmsg.payload = [\n      { num: 1, id: dispositivos[1]},\n      { num: 2, id: dispositivos[2]},\n      { num: 3, id: dispositivos[3]},\n      { num: 4, id: dispositivos[4]},\n      { num: 5, id: dispositivos[5]},\n      { num: 6, id: dispositivos[6]},\n      { num: 7, id: dispositivos[7]},\n      { num: 8, id: dispositivos[8]},\n      { num: 9, id: dispositivos[9]},\n      { num: 10, id: dispositivos[10]},\n    ];\n\nreturn msg;",
+        "func": "\nlet dispositivos = global.get(\"dispositivos\");\n\nnode.warn(dispositivos);\n\nmsg.payload = [\n      { num: 1, id: dispositivos[1]},\n      { num: 2, id: dispositivos[2]},\n      { num: 3, id: dispositivos[3]},\n      { num: 4, id: dispositivos[4]},\n      { num: 5, id: dispositivos[5]},\n      { num: 6, id: dispositivos[6]},\n      { num: 7, id: dispositivos[7]},\n      { num: 8, id: dispositivos[8]},\n      { num: 9, id: dispositivos[9]},\n      { num: 10, id: dispositivos[10]},\n    ];\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1090,
-        "y": 820,
+        "x": 1170,
+        "y": 860,
         "wires": [
             [
                 "035bb364e4e5823b"
@@ -1123,13 +1093,13 @@
         ],
         "repeat": "",
         "crontab": "",
-        "once": false,
+        "once": true,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 870,
-        "y": 820,
+        "x": 950,
+        "y": 860,
         "wires": [
             [
                 "ab5534ac288247af"
@@ -1333,7 +1303,7 @@
         "format": "",
         "layout": "row-spread",
         "className": "",
-        "x": 410,
+        "x": 510,
         "y": 900,
         "wires": []
     },
@@ -1350,7 +1320,7 @@
         "format": "",
         "layout": "row-spread",
         "className": "",
-        "x": 440,
+        "x": 480,
         "y": 980,
         "wires": []
     },
@@ -1358,20 +1328,25 @@
         "id": "26ac5b81154e920c",
         "type": "function",
         "z": "1f35534c8fd78b65",
-        "name": "",
-        "func": "if (msg.topic == \"elegir1\"){\n    flow.set(\"elegir1\", msg.payload); \n} \nelse if (msg.topic == \"elegir2\"){\n    flow.set(\"elegir2\", msg.payload); \n}\nelse {\n    let elegir1 = flow.get(\"elegir1\"); \n    let elegir2 = flow.get(\"elegir2\");\n    if ((elegir1 != elegir2) && (elegir1 != 0) && (elegir2 != 0)){\n        msg.payload = [elegir1, elegir2];\n        \n        let dispositivos = global.get(\"dispositivos\");\n        let a = dispositivos[elegir1]\n        dispositivos[elegir1] = dispositivos[elegir2];\n        dispositivos[elegir2] = a;\n        \n        global.set(\"dispositivos\", dispositivos); \n        \n        return msg;\n    }\n}\n",
-        "outputs": 1,
+        "name": "intercambiar numeros",
+        "func": "if (msg.topic == \"elegir1\"){\n    flow.set(\"elegir1\", msg.payload); \n} \nelse if (msg.topic == \"elegir2\"){\n    flow.set(\"elegir2\", msg.payload); \n}\nelse {\n    let elegir1 = flow.get(\"elegir1\"); \n    let elegir2 = flow.get(\"elegir2\");\n    if ((elegir1 != elegir2) && (elegir1 != 0) && (elegir2 != 0)){\n        //msg.payload = [elegir1, elegir2];\n        \n        let dispositivos = global.get(\"dispositivos\");\n        let a = dispositivos[elegir1]\n        dispositivos[elegir1] = dispositivos[elegir2];\n        dispositivos[elegir2] = a;\n        \n        global.set(\"dispositivos\", dispositivos); \n        \n        let num1;\n        let num2;\n        \n        if (elegir1 == 10) {\n            num1  = String(elegir1); \n        }\n        else{\n            num1 = \"0\" + String(elegir1);\n        }\n        \n        if (elegir2 == 10) {\n            num2  = String(elegir2); \n        }\n        else{\n            num2 = \"0\" + String(elegir2);\n        }\n        \n        msgMQTT1 = { payload: dispositivos[elegir1] + num1};\n        msgMQTT2 = { payload: dispositivos[elegir2] + num2};\n        \n        return [msgMQTT1, msgMQTT2];\n    }\n}\n",
+        "outputs": 2,
         "noerr": 0,
         "initialize": "flow.set(\"elegir1\", 0);\nflow.set(\"elegir2\", 0);",
         "finalize": "",
         "libs": [],
-        "x": 880,
+        "x": 920,
         "y": 980,
         "wires": [
             [
                 "fd297d866a6786a2",
                 "dd0149188d4a0728",
-                "ab5534ac288247af"
+                "ab5534ac288247af",
+                "6a089b24186ca679"
+            ],
+            [
+                "6a089b24186ca679",
+                "fd297d866a6786a2"
             ]
         ]
     },
@@ -1384,11 +1359,12 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1050,
-        "y": 980,
+        "x": 1170,
+        "y": 1120,
         "wires": []
     },
     {
@@ -1440,8 +1416,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 980,
-        "y": 1060,
+        "x": 1200,
+        "y": 1040,
         "wires": [
             [
                 "603512f1caae2630"
@@ -1474,8 +1450,8 @@
         "links": [
             "294a58e59222f0a3"
         ],
-        "x": 1095,
-        "y": 1060,
+        "x": 1315,
+        "y": 1040,
         "wires": []
     },
     {
@@ -1511,34 +1487,243 @@
         ],
         "outputs": 0,
         "cts": false,
-        "x": 1230,
-        "y": 820,
+        "x": 1310,
+        "y": 860,
         "wires": []
     },
     {
-        "id": "8dbfbd3efb81ea4e",
-        "type": "ui_button",
+        "id": "1430aa8dd0158bc7",
+        "type": "debug",
         "z": "1f35534c8fd78b65",
         "name": "",
-        "group": "bf378dfbb8ffaa4c",
-        "order": 6,
-        "width": 3,
-        "height": 1,
-        "passthru": false,
-        "label": "Cambiar",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "Cambiar",
-        "payloadType": "str",
-        "topic": "Limpiar",
-        "topicType": "str",
-        "x": 700,
-        "y": 1120,
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1290,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "1b6a138a13dda395",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "rechazar",
+        "func": "let id = flow.get(\"ultimoID\");\nlet msgMQTT;\n\nmsg.topic = \"Dispositivo rechazado\";\nmsg.payload = `Se ha rechazado un dispositivo. \nReinicie dicho dispositivo para volver a hacer la petición.`;\n    \nmsgMQTT = { payload: id + \"99\" };\n\nreturn [msgMQTT, msg];\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 640,
+        "wires": [
+            [
+                "93ba2292148ef3b4",
+                "1430aa8dd0158bc7"
+            ],
+            [
+                "04ec58ea6a4769b3"
+            ]
+        ],
+        "info": "hola"
+    },
+    {
+        "id": "2b022ca5cb6e79e8",
+        "type": "debug",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c5dbecb961485505",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "func": "buffer = flow.get(\"buffer\");\nnode.warn(buffer);\nif ((msg.payload != \"completado\") && (msg.payload != null)) {\n    //significa que llego un codigo nuevo que meteremos en el\n    //buffer (solo si no está repetido)\n\n    if ( buffer.indexOf(msg.payload) == -1 ) {\n        buffer.push(msg.payload);\n        flow.set(\"buffer\", buffer);\n    }\n    if ((buffer.length == 1) && (habilitador == 1)) {\n        return msg;\n    }\n}\n\nelse {\n    //significa que el usuario tocó un botón\n    //por lo tanto, puedo sacar del buffer un nuevo mensaje\n    msg.payload = buffer.pop();\n    if (msg.payload != undefined){\n        habilitador = 0;\n        return msg;\n    }\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Codigo que corre la primera vez que se inicia el nodo\n\nlet buffer = flow.get(\"buffer\");\nlet habilitador = 1;\n\n// Si el arreglo no está declarado, decláralo\nif (buffer == undefined){\n    buffer = [];\n    flow.set(\"buffer\", buffer);\n}\n",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 620,
+        "wires": [
+            [
+                "960faeff33d98017"
+            ]
+        ]
+    },
+    {
+        "id": "6a089b24186ca679",
+        "type": "mqtt out",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "topic": "omc/respuesta",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 1200,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "20783694de51087f",
+        "type": "debug",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "f2bd5ac518e5e066",
+        "type": "change",
+        "z": "1f35534c8fd78b65",
+        "name": "completado",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "completado",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 850,
+        "y": 680,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "7c46eedf0c83e861",
+        "type": "complete",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "scope": [],
+        "uncaught": false,
+        "x": 210,
+        "y": 620,
+        "wires": [
+            [
+                "c5dbecb961485505"
+            ]
+        ]
+    },
+    {
+        "id": "2b06c9e6411436af",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "limpiar buffer",
+        "func": "\nlet buffer = [];\nflow.set(\"buffer\", buffer);\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 740,
+        "wires": [
+            []
+        ],
+        "info": "hola"
+    },
+    {
+        "id": "25a68e69c642657a",
+        "type": "inject",
+        "z": "1f35534c8fd78b65",
+        "name": "limpiar buffer",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 740,
+        "wires": [
+            [
+                "2b06c9e6411436af"
+            ]
+        ]
+    },
+    {
+        "id": "e40ec3ccb84ceec6",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "mostrar buffer",
+        "func": "\nlet buffer = flow.get(\"buffer\");\n\nnode.warn(buffer);\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 780,
+        "wires": [
+            []
+        ],
+        "info": "hola"
+    },
+    {
+        "id": "9a6e9258a9a74a36",
+        "type": "inject",
+        "z": "1f35534c8fd78b65",
+        "name": "mostrar buffer",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 780,
+        "wires": [
+            [
+                "e40ec3ccb84ceec6"
+            ]
         ]
     },
     {
@@ -1622,13 +1807,13 @@
         "label": "",
         "chartType": "line",
         "legend": "false",
-        "xformat": "HH:mm",
+        "xformat": "dd HH:mm",
         "interpolate": "cubic",
         "nodata": "Dispositivo desconectado",
         "dot": false,
         "ymin": "",
         "ymax": "",
-        "removeOlder": 1,
+        "removeOlder": "1",
         "removeOlderPoints": "120",
         "removeOlderUnit": "60",
         "cutout": 0,
