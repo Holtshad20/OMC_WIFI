@@ -374,16 +374,12 @@ void publicarValores() {
              , (int)(((rmsVolt - (int)rmsVolt)*pow(10, 2)) + 0.01)
              , (int)rmsCorr
              , (int)(((rmsCorr - (int)rmsCorr)*pow(10, 2)) + 0.01)
-             , (int)(rmsVolt * rmsCorr)
-             , (int)((((rmsVolt * rmsCorr) - (int)(rmsVolt * rmsCorr))*pow(10, 2)) + 0.01)
-             //, (int)powFactor
-             //, (int)(((powFactor-(int)powFactor)*pow(10,2))+0.01)
-             , 0
-             , 75
-             //, (int)energy
-             //, (int)(((energy-(int)energy)*pow(10,2))+0.01)
-             , 0
-             , 0
+             , (int)rmsPower
+             , (int)(((rmsPower - (int)rmsPower)*pow(10, 2)) + 0.01)
+             , (int)powFactor
+             , (int)(((powFactor-(int)powFactor)*pow(10,2))+0.01)
+             , (int)_energy
+             , (int)(((_energy-(int)_energy)*pow(10,2))+0.01)
              , relay
              , controlGlobalRelay
              , _voltMode

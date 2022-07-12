@@ -46,9 +46,9 @@ float rmsCorr = 0;      // Valor RMS Corriente
 
 int voltMode;
 
-uint8_t voltSup            = 135;     // Máximo voltaje permitido
-uint8_t voltInf            = 100;     // Mínimo voltaje permitido
-uint8_t corrSup            = 7;       // Máxima corriente permitida
+uint8_t voltSup;     // Máximo voltaje permitido
+uint8_t voltInf;     // Mínimo voltaje permitido
+uint8_t corrSup;       // Máxima corriente permitida
 
 uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
 
@@ -71,7 +71,7 @@ TimerHandle_t timerRecuperacion;      // Temporizador, se desborda y ejecuta pas
 
 Preferences storage;                 // Espacio en memoria para guardar los datos necesarios
 
-String      hostname;                // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
+String      omcID;                   // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 boolean     connServer = false;      // Variable para indicar si el ESP32 está conectado al servidor
 

@@ -1,14 +1,4 @@
-#ifndef OMC_WIFI_GLOBALVARIABLES_HPP
-#define OMC_WIFI_GLOBALVARIABLES_HPP
-
-#include <Arduino.h>
-#include <WiFi.h>
-#include <Preferences.h>
-#include <nvs_flash.h>
-#include <AsyncMqttClient.h>
-#include "esp_wifi.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/timers.h"
+#include "OMC_WIFI_GlobalVariables.hpp"
 
 
 //***************************************************************************************************************************************************************
@@ -23,14 +13,14 @@
 //#define MQTT_HOST IPAddress(192, 168, 0, 50)
 //#define MQTT_PORT 1883
 
-#define                MQTT_PORT 1883
-extern IPAddress       MQTT_HOST;
+#define         MQTT_PORT 1883
+IPAddress       MQTT_HOST;
 
-extern AsyncMqttClient mqttClient;
+AsyncMqttClient mqttClient;
 
-extern TimerHandle_t   mqttReconnectTimer;
-extern TimerHandle_t   wifiReconnectTimer;
-extern TimerHandle_t   publishTimer;
+TimerHandle_t   mqttReconnectTimer;
+TimerHandle_t   wifiReconnectTimer;
+TimerHandle_t   publishTimer;
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -41,8 +31,11 @@ extern TimerHandle_t   publishTimer;
 //*************************************************    VARIABLES, CONSTANTES Y ARREGLOS PARA LECTURA ANALÓGICA     **********************************************
 //***************************************************************************************************************************************************************
 
-extern float rmsVolt;      // Valor RMS Voltaje
-extern float rmsCorr;      // Valor RMS Corriente
+float rmsVolt    = 0;      // Valor RMS Voltaje
+float rmsCorr    = 0;      // Valor RMS Corriente
+float rmsPower   = 0;      // Valor RMS Potencia
+float powFactor  = 0;      // Valor Factor de Potencia
+float _energy    = 0;      // Valor Energía
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -54,24 +47,20 @@ extern float rmsCorr;      // Valor RMS Corriente
 //*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
 //***************************************************************************************************************************************************************
 
-#define lowFactor 0.85
-#define highFactor 1.15
+int voltMode;
 
-extern int voltMode;
+uint8_t voltSup;     // Máximo voltaje permitido
+uint8_t voltInf;     // Mínimo voltaje permitido
+uint8_t corrSup;       // Máxima corriente permitida
 
-extern uint8_t voltSup;                   // Máximo voltaje permitido
-extern uint8_t voltInf;                   // Mínimo voltaje permitido
-extern uint8_t corrSup;                   // Máxima corriente permitida
+uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
 
-extern uint8_t tiempoRecuperacion;        // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
+boolean relay              = LOW;     // Estado del relay (software)
+boolean controlGlobalRelay;    // Control Global del Relé
+                                        // Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
+                                        // Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
 
-extern boolean relay;                     // Estado del relay (software)
-extern boolean controlGlobalRelay;        // Control Global del Relé
-                                            // Si controlGlobalRelay = 0 entonces estamos forzando a que se mantenga apagado sin importar el voltaje o la corriente.
-                                            // Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
-
-extern TimerHandle_t timerRecuperacion;   // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
-
+TimerHandle_t timerRecuperacion;      // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -83,16 +72,21 @@ extern TimerHandle_t timerRecuperacion;   // Temporizador, se desborda y ejecuta
 //*******************************************************    CONSTANTES Y CONSTRUCTORES PARA AUTOCONNECT     ****************************************************
 //***************************************************************************************************************************************************************
 
-extern Preferences storage;         // Espacio en memoria para guardar los datos necesarios
+Preferences storage;                 // Espacio en memoria para guardar los datos necesarios
 
-extern String      omcID;        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
+String      omcID;                   // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
-extern boolean     connServer;      // Variable para indicar si el ESP32 está conectado al servidor
+boolean     connServer = false;      // Variable para indicar si el ESP32 está conectado al servidor
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 
-void credReset();
 
-#endif
+void credReset() {
+
+  nvs_flash_deinit();     // Se desinicializa la partición NVS (necesario para poder borrarla)
+  nvs_flash_erase();      // Se borra la partición NVS
+  nvs_flash_init();       // Se inicializa la partición NVS
+
+}

@@ -372,7 +372,7 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
 
   aux["txtCenter01"].as<AutoConnectText>().value = "Voltaje: " + String(rmsVolt) + " V";
   aux["txtCenter02"].as<AutoConnectText>().value = "Corriente: " + String(rmsCorr) + " A";
-  aux["txtCenter03"].as<AutoConnectText>().value = "Potencia: " + String(rmsVolt * rmsCorr) + " W";
+  aux["txtCenter03"].as<AutoConnectText>().value = "Potencia: " + String(rmsPower) + " W";
   //  aux["txtCenter04"].as<AutoConnectText>().value = "Factor de Potencia: " + String(powerFactor);
 
   if (relay == HIGH) {

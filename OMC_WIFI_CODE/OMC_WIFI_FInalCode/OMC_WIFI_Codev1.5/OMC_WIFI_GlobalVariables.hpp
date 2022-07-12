@@ -43,6 +43,9 @@ extern TimerHandle_t   publishTimer;
 
 extern float rmsVolt;      // Valor RMS Voltaje
 extern float rmsCorr;      // Valor RMS Corriente
+extern float rmsPower;     // Valor RMS Potencia
+extern float powFactor;    // Valor Factor de Potencia
+extern float _energy;      // Valor Energía
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
