@@ -9,7 +9,7 @@
 //*******************************************************    CONSTANTES Y CONSTRUCTORES PARA TOUCH SENSOR     ***************************************************
 //***************************************************************************************************************************************************************
 
-#define TOUCH_SENSOR  T0                    //Se define cuál es el pin a utilizar como touch sensor
+#define TOUCH_SENSOR  T9                    //Se define cuál es el pin a utilizar como touch sensor
 
 const int THRESHOLD            = 40;        //Se define cuál es el valor para activar la interrrupción del Touch Sensor
 const int AP_MODE_THRESHOLD    = 1000;      //Se define cuál es el valor para activar o desactivar el modo AP

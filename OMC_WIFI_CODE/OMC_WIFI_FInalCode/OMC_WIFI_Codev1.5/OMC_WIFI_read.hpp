@@ -11,7 +11,7 @@
 //*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR EL RELAY     *******************************************************
 //***************************************************************************************************************************************************************
 
-const int relayPin = 32;      //Pin que se empleará para el relay
+const int relayPin = 21;      //Pin que se empleará para el relay
 
 extern boolean pasoElTiempo;   // Indica si transcurrió el tiempo de recuperación
 
