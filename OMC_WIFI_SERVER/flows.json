@@ -521,7 +521,7 @@
         "tab": "a3cb0eccf6244471",
         "order": 2,
         "disp": true,
-        "width": "7",
+        "width": 7,
         "collapse": false,
         "className": ""
     },
@@ -607,7 +607,18 @@
         "height": 1
     },
     {
-        "id": "4e05121bf2a4350e",
+        "id": "4dc5ab4e1f917121",
+        "type": "ui_group",
+        "name": "Desvincular dispositivos",
+        "tab": "a3cb0eccf6244471",
+        "order": 3,
+        "disp": true,
+        "width": 7,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6daaf9cb2457826d",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -617,7 +628,7 @@
         "height": 1
     },
     {
-        "id": "e0969cba2ae160f8",
+        "id": "42c98a0ece821892",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -627,7 +638,7 @@
         "height": 1
     },
     {
-        "id": "1c891a9fd265e749",
+        "id": "ad76844ca3f48d98",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -637,7 +648,7 @@
         "height": 1
     },
     {
-        "id": "28fedea48484e3fa",
+        "id": "6c6738fe419ecb23",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -647,7 +658,7 @@
         "height": 1
     },
     {
-        "id": "409a7ead06afc6ab",
+        "id": "356ba14ce8eea22c",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -657,7 +668,7 @@
         "height": 1
     },
     {
-        "id": "0925009e57d61887",
+        "id": "e4d4556041cf051f",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -667,7 +678,7 @@
         "height": 1
     },
     {
-        "id": "37b2657a1a4d0965",
+        "id": "2afde9d5f0142bdd",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -677,7 +688,7 @@
         "height": 1
     },
     {
-        "id": "9650964c471ca513",
+        "id": "eaf326b460a9ef72",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -687,7 +698,7 @@
         "height": 1
     },
     {
-        "id": "670a820d91b9d520",
+        "id": "4dc9c13f408af32b",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -697,7 +708,7 @@
         "height": 1
     },
     {
-        "id": "fedbc86b3a9beadc",
+        "id": "7963c5f811409dad",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -707,7 +718,7 @@
         "height": 1
     },
     {
-        "id": "2c3d10e218947d8b",
+        "id": "b1a915ac641035a7",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -717,7 +728,7 @@
         "height": 1
     },
     {
-        "id": "423a744078d9f684",
+        "id": "3744dbea56a1abb1",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -727,7 +738,7 @@
         "height": 1
     },
     {
-        "id": "44f89c3aef1bb765",
+        "id": "7c6bb68cdf09856b",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
@@ -737,13 +748,43 @@
         "height": 1
     },
     {
-        "id": "720cdcdd6e735654",
+        "id": "de54a1eb9b1230c1",
         "type": "ui_spacer",
         "z": "1f35534c8fd78b65",
         "name": "spacer",
         "group": "bf378dfbb8ffaa4c",
         "order": 7,
         "width": 2,
+        "height": 1
+    },
+    {
+        "id": "14e4233ca6572f5e",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "4dc5ab4e1f917121",
+        "order": 1,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "95fc9385a4021ba8",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "4dc5ab4e1f917121",
+        "order": 2,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "86c13f2ffe49a1f5",
+        "type": "ui_spacer",
+        "z": "1f35534c8fd78b65",
+        "name": "spacer",
+        "group": "4dc5ab4e1f917121",
+        "order": 4,
+        "width": 1,
         "height": 1
     },
     {
@@ -763,8 +804,7 @@
         "y": 520,
         "wires": [
             [
-                "014da73047ad8f7c",
-                "2b022ca5cb6e79e8"
+                "014da73047ad8f7c"
             ]
         ]
     },
@@ -773,7 +813,7 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "buscar en lista",
-        "func": "let topic;\nlet payload;\nlet num = -1;\nlet id = msg.payload;\nlet dispositivos = global.get(\"dispositivos\");  // Arreglo\n\nnum = dispositivos.indexOf(id);\n\nif (num == -1){\n    topic = \"Dispositivo nuevo\";\n    payload = `El dispositivo OMC-WIFI-${id} \n    se está intentando asociar con el servidor. \n    ¿Desea agregar dicho dispositivo?`;\n    \n    msg.topic = topic;\n    msg.payload = payload;\n    \n    flow.set(\"ultimoID\", id);\n}\nelse {\n    topic = \"Dispositivo conocido\";\n    if (num == 10) {\n        payload = id + num;\n    }\n    else {\n        payload = id + '0' + num;\n    }\n    // Esto es lo que se enviará por MQTT\n    // AABBCCxx\n    msg.topic = topic;\n    msg.payload = payload;\n}\nreturn msg;\n\n\n",
+        "func": "let topic;\nlet payload;\nlet num = -1;\nlet id = msg.payload;\nlet dispositivos = global.get(\"dispositivos\");  // Arreglo\n\nnum = dispositivos.indexOf(id);\n\nif (num == -1){\n    topic = \"Dispositivo nuevo\";\n    payload = id;\n    // Si es dispositivo nuevo se manda el ID\n}\nelse {\n    topic = \"Dispositivo conocido\";\n    if (num == 10) {\n        payload = id + num;\n    }\n    else {\n        payload = id + '0' + num;\n    }\n    // Esto es lo que se enviará por MQTT\n    // AABBCCxx\n}\nmsg.topic = topic;\nmsg.payload = payload;\nreturn msg;\n\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "// Codigo que corre la primera vez que se inicia el nodo\n\nlet dispositivos = global.get(\"dispositivos\");\n\n// Si el arreglo no está declarado, decláralo\nif (dispositivos == undefined){\n    dispositivos = [0,null,null,null,null,null,\n                    null,null,null,null,null]\n    global.set(\"dispositivos\", dispositivos);\n}\n",
@@ -803,14 +843,14 @@
         "expiry": "",
         "broker": "10e78a89.5b4fd5",
         "x": 1300,
-        "y": 520,
+        "y": 500,
         "wires": []
     },
     {
         "id": "49b06091b509a46f",
         "type": "comment",
         "z": "1f35534c8fd78b65",
-        "name": "pAABBCC",
+        "name": "AABBCC",
         "info": "",
         "x": 120,
         "y": 480,
@@ -869,8 +909,7 @@
         "wires": [
             [
                 "ecc32b6e6233506b",
-                "20783694de51087f",
-                "f2bd5ac518e5e066"
+                "82780bfca8c779e1"
             ]
         ]
     },
@@ -896,7 +935,7 @@
         "payload": "ABCDEF",
         "payloadType": "str",
         "x": 140,
-        "y": 340,
+        "y": 360,
         "wires": [
             [
                 "014da73047ad8f7c"
@@ -908,7 +947,7 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "agregar a lista",
-        "func": "let topic;\nlet payload;\nlet num;\nlet id = flow.get(\"ultimoID\");\nlet dispositivos = global.get(\"dispositivos\");\nlet msgMQTT;\n\nif (dispositivos.indexOf(id) == -1) {\n    \n    // Busca el primer indice sin dispositivo asignado\n    num = dispositivos.indexOf(null);\n    \n    \n    // Y se lo asigna\n    dispositivos[num] = id;\n    \n    global.set(\"dispositivos\", dispositivos);\n    \n    topic = \"Dispositivo agregado\";\n    payload = `El dispositivo OMC-WIFI-${id} \n    se ha registrado como Dispositivo ${num}`;\n        \n    msg.topic = topic;\n    msg.payload = payload;\n    \n    if (num == 10) {\n        msgMQTT = { payload: id + num };\n    }\n    else {\n        msgMQTT = { payload: id + '0' + num };\n    }\n    \n}\nelse {\n    topic = \"Error en registro\";\n    payload = `Reinicie el dispositivo para intentar nuevamente`;\n    msg.topic = topic;\n    msg.payload = payload;\n}\n\nreturn [null, msg];\n",
+        "func": "let topic;\nlet payload;\nlet num;\nlet id = flow.get(\"ultimoID\");\nlet dispositivos = global.get(\"dispositivos\");\nlet msgMQTT;\n\nif (dispositivos.indexOf(id) == -1) {\n    \n    // Busca el primer indice sin dispositivo asignado\n    num = dispositivos.indexOf(null);\n    \n    \n    // Y se lo asigna\n    dispositivos[num] = id;\n    \n    global.set(\"dispositivos\", dispositivos);\n    \n    topic = \"Dispositivo agregado\";\n    payload = `El dispositivo OMC-WIFI-${id} \n    se ha registrado como Dispositivo ${num}`;\n        \n    msg.topic = topic;\n    msg.payload = payload;\n    \n    if (num == 10) {\n        msgMQTT = { payload: id + num };\n    }\n    else {\n        msgMQTT = { payload: id + '0' + num };\n    }\n    \n}\nelse {\n    topic = \"Error en registro\";\n    payload = `Reinicie el dispositivo para intentar nuevamente`;\n    msg.topic = topic;\n    msg.payload = payload;\n}\n\nreturn [msgMQTT, msg];\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -919,7 +958,7 @@
         "wires": [
             [
                 "93ba2292148ef3b4",
-                "1430aa8dd0158bc7"
+                "29aa94bf97fafd0e"
             ],
             [
                 "04ec58ea6a4769b3"
@@ -984,16 +1023,18 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "limpiar lista",
-        "func": "\nlet dispositivos = [0,null,null,null,null,null,\n                    null,null,null,null,null]\nglobal.set(\"dispositivos\", dispositivos);\n",
+        "func": "\nlet dispositivos = [0,null,null,null,null,null,\n                      null,null,null,null,null]\nglobal.set(\"dispositivos\", dispositivos);\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1170,
-        "y": 820,
+        "x": 710,
+        "y": 880,
         "wires": [
-            []
+            [
+                "ab5534ac288247af"
+            ]
         ],
         "info": "hola"
     },
@@ -1043,7 +1084,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 940,
+        "x": 480,
         "y": 820,
         "wires": [
             [
@@ -1072,8 +1113,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1170,
-        "y": 860,
+        "x": 1250,
+        "y": 880,
         "wires": [
             [
                 "035bb364e4e5823b"
@@ -1098,8 +1139,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 950,
-        "y": 860,
+        "x": 990,
+        "y": 840,
         "wires": [
             [
                 "ab5534ac288247af"
@@ -1176,8 +1217,8 @@
         "topic": "elegir1",
         "topicType": "str",
         "className": "",
-        "x": 460,
-        "y": 940,
+        "x": 500,
+        "y": 1180,
         "wires": [
             [
                 "26ac5b81154e920c"
@@ -1254,8 +1295,8 @@
         "topic": "elegir2",
         "topicType": "str",
         "className": "",
-        "x": 460,
-        "y": 1020,
+        "x": 500,
+        "y": 1260,
         "wires": [
             [
                 "26ac5b81154e920c"
@@ -1277,13 +1318,13 @@
         "color": "",
         "bgcolor": "",
         "className": "",
-        "icon": "",
+        "icon": "swap-horizontal",
         "payload": "Cambiar",
         "payloadType": "str",
         "topic": "topic",
         "topicType": "str",
-        "x": 700,
-        "y": 1040,
+        "x": 720,
+        "y": 1300,
         "wires": [
             [
                 "26ac5b81154e920c"
@@ -1303,8 +1344,8 @@
         "format": "",
         "layout": "row-spread",
         "className": "",
-        "x": 510,
-        "y": 900,
+        "x": 550,
+        "y": 1140,
         "wires": []
     },
     {
@@ -1320,8 +1361,8 @@
         "format": "",
         "layout": "row-spread",
         "className": "",
-        "x": 480,
-        "y": 980,
+        "x": 520,
+        "y": 1220,
         "wires": []
     },
     {
@@ -1329,43 +1370,24 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "intercambiar numeros",
-        "func": "if (msg.topic == \"elegir1\"){\n    flow.set(\"elegir1\", msg.payload); \n} \nelse if (msg.topic == \"elegir2\"){\n    flow.set(\"elegir2\", msg.payload); \n}\nelse {\n    let elegir1 = flow.get(\"elegir1\"); \n    let elegir2 = flow.get(\"elegir2\");\n    if ((elegir1 != elegir2) && (elegir1 != 0) && (elegir2 != 0)){\n        //msg.payload = [elegir1, elegir2];\n        \n        let dispositivos = global.get(\"dispositivos\");\n        let a = dispositivos[elegir1]\n        dispositivos[elegir1] = dispositivos[elegir2];\n        dispositivos[elegir2] = a;\n        \n        global.set(\"dispositivos\", dispositivos); \n        \n        let num1;\n        let num2;\n        \n        if (elegir1 == 10) {\n            num1  = String(elegir1); \n        }\n        else{\n            num1 = \"0\" + String(elegir1);\n        }\n        \n        if (elegir2 == 10) {\n            num2  = String(elegir2); \n        }\n        else{\n            num2 = \"0\" + String(elegir2);\n        }\n        \n        msgMQTT1 = { payload: dispositivos[elegir1] + num1};\n        msgMQTT2 = { payload: dispositivos[elegir2] + num2};\n        \n        return [msgMQTT1, msgMQTT2];\n    }\n}\n",
+        "func": "if (msg.topic == \"elegir1\"){\n    flow.set(\"elegir1\", msg.payload); \n} \nelse if (msg.topic == \"elegir2\"){\n    flow.set(\"elegir2\", msg.payload); \n}\nelse {\n    let elegir1 = flow.get(\"elegir1\"); \n    let elegir2 = flow.get(\"elegir2\");\n    if ((elegir1 != elegir2) && (elegir1 != 0) && (elegir2 != 0)){\n        //msg.payload = [elegir1, elegir2];\n        \n        let dispositivos = global.get(\"dispositivos\");\n        let a = dispositivos[elegir1]\n        dispositivos[elegir1] = dispositivos[elegir2];\n        dispositivos[elegir2] = a;\n        \n        global.set(\"dispositivos\", dispositivos); \n        \n        let cambio1 = dispositivos[elegir1];\n        let cambio2 = dispositivos[elegir2];\n        \n        if (cambio1 == null) {\n            cambio1 = \"000000\";\n        } \n        \n        if (cambio2 == null) {\n            cambio2 = \"000000\";\n        }\n        \n        \n        \n        let num1;\n        let num2;\n        \n        if (elegir1 == 10) {\n            num1  = String(elegir1); \n        }\n        else{\n            num1 = \"0\" + String(elegir1);\n        }\n        \n        if (elegir2 == 10) {\n            num2  = String(elegir2); \n        }\n        else{\n            num2 = \"0\" + String(elegir2);\n        }\n    \n        msgMQTT1 = { payload: cambio1 + num1};\n        msgMQTT2 = { payload: cambio2 + num2};\n        \n        return [msgMQTT1, msgMQTT2];\n    }\n}\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "flow.set(\"elegir1\", 0);\nflow.set(\"elegir2\", 0);",
         "finalize": "",
         "libs": [],
-        "x": 920,
-        "y": 980,
+        "x": 960,
+        "y": 1220,
         "wires": [
             [
-                "fd297d866a6786a2",
                 "dd0149188d4a0728",
-                "ab5534ac288247af",
-                "6a089b24186ca679"
+                "6a089b24186ca679",
+                "00d377c6daaa72bb"
             ],
             [
-                "6a089b24186ca679",
-                "fd297d866a6786a2"
+                "6a089b24186ca679"
             ]
         ]
-    },
-    {
-        "id": "fd297d866a6786a2",
-        "type": "debug",
-        "z": "1f35534c8fd78b65",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1170,
-        "y": 1120,
-        "wires": []
     },
     {
         "id": "8cb9e2bce715911c",
@@ -1388,8 +1410,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "str",
-        "x": 170,
-        "y": 940,
+        "x": 210,
+        "y": 1180,
         "wires": [
             [
                 "f6852b79ac2c63aa",
@@ -1416,8 +1438,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1200,
-        "y": 1040,
+        "x": 1240,
+        "y": 1280,
         "wires": [
             [
                 "603512f1caae2630"
@@ -1432,8 +1454,8 @@
         "links": [
             "603512f1caae2630"
         ],
-        "x": 205,
-        "y": 1020,
+        "x": 245,
+        "y": 1260,
         "wires": [
             [
                 "b8096a2d4cd31640",
@@ -1450,8 +1472,8 @@
         "links": [
             "294a58e59222f0a3"
         ],
-        "x": 1315,
-        "y": 1040,
+        "x": 1355,
+        "y": 1280,
         "wires": []
     },
     {
@@ -1487,24 +1509,8 @@
         ],
         "outputs": 0,
         "cts": false,
-        "x": 1310,
-        "y": 860,
-        "wires": []
-    },
-    {
-        "id": "1430aa8dd0158bc7",
-        "type": "debug",
-        "z": "1f35534c8fd78b65",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1290,
-        "y": 440,
+        "x": 1390,
+        "y": 880,
         "wires": []
     },
     {
@@ -1522,8 +1528,7 @@
         "y": 640,
         "wires": [
             [
-                "93ba2292148ef3b4",
-                "1430aa8dd0158bc7"
+                "93ba2292148ef3b4"
             ],
             [
                 "04ec58ea6a4769b3"
@@ -1532,33 +1537,17 @@
         "info": "hola"
     },
     {
-        "id": "2b022ca5cb6e79e8",
-        "type": "debug",
-        "z": "1f35534c8fd78b65",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 370,
-        "y": 460,
-        "wires": []
-    },
-    {
         "id": "c5dbecb961485505",
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "",
-        "func": "buffer = flow.get(\"buffer\");\nnode.warn(buffer);\nif ((msg.payload != \"completado\") && (msg.payload != null)) {\n    //significa que llego un codigo nuevo que meteremos en el\n    //buffer (solo si no está repetido)\n\n    if ( buffer.indexOf(msg.payload) == -1 ) {\n        buffer.push(msg.payload);\n        flow.set(\"buffer\", buffer);\n    }\n    if ((buffer.length == 1) && (habilitador == 1)) {\n        return msg;\n    }\n}\n\nelse {\n    //significa que el usuario tocó un botón\n    //por lo tanto, puedo sacar del buffer un nuevo mensaje\n    msg.payload = buffer.pop();\n    if (msg.payload != undefined){\n        habilitador = 0;\n        return msg;\n    }\n}\n",
+        "func": "let buffer = flow.get(\"buffer\");\nlet id = 0;\n\n//node.warn(flow.get(\"buffer\"));\n\nif (msg.payload != \"\") {\n    //significa que llego un codigo nuevo que meteremos en el\n    //buffer (solo si no está repetido)\n    \n    // verificamos que no esté repetido\n    if ((buffer.indexOf(msg.payload) == -1) && (msg.payload != flow.get(\"ultimoID\"))) {\n        // metemos en el buffer\n        buffer.push(msg.payload);\n        flow.set(\"buffer\", buffer);\n    }\n}\n\nif (flow.get(\"habilitador\") == 1) {\n    //significa que el usuario tocó un botón\n    //por lo tanto, puedo sacar del buffer un nuevo mensaje\n    \n    id = buffer.shift();\n    flow.set(\"buffer\", buffer);\n    \n    if (id != undefined){\n        flow.set(\"habilitador\", 0);\n        msg.payload = `El dispositivo OMC-WIFI-${id} \n                    se está intentando asociar con el servidor. \n                    ¿Desea agregar dicho dispositivo?`;\n        flow.set(\"ultimoID\", id);\n        return msg;\n    }\n}\n",
         "outputs": 1,
         "noerr": 0,
-        "initialize": "// Codigo que corre la primera vez que se inicia el nodo\n\nlet buffer = flow.get(\"buffer\");\nlet habilitador = 1;\n\n// Si el arreglo no está declarado, decláralo\nif (buffer == undefined){\n    buffer = [];\n    flow.set(\"buffer\", buffer);\n}\n",
+        "initialize": "flow.set(\"habilitador\",1)",
         "finalize": "",
         "libs": [],
-        "x": 420,
+        "x": 460,
         "y": 620,
         "wires": [
             [
@@ -1580,59 +1569,43 @@
         "correl": "",
         "expiry": "",
         "broker": "10e78a89.5b4fd5",
-        "x": 1200,
-        "y": 980,
+        "x": 1240,
+        "y": 1220,
         "wires": []
     },
     {
-        "id": "20783694de51087f",
-        "type": "debug",
+        "id": "82780bfca8c779e1",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "habilitar",
+        "func": "flow.set(\"habilitador\", 1)\n",
+        "outputs": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "fd1ddb29564410db",
+        "type": "inject",
         "z": "1f35534c8fd78b65",
         "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 830,
-        "y": 720,
-        "wires": []
-    },
-    {
-        "id": "f2bd5ac518e5e066",
-        "type": "change",
-        "z": "1f35534c8fd78b65",
-        "name": "completado",
-        "rules": [
+        "props": [
             {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "completado",
-                "tot": "str"
+                "p": "payload"
             }
         ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 850,
-        "y": 680,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "7c46eedf0c83e861",
-        "type": "complete",
-        "z": "1f35534c8fd78b65",
-        "name": "",
-        "scope": [],
-        "uncaught": false,
-        "x": 210,
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 250,
         "y": 620,
         "wires": [
             [
@@ -1641,31 +1614,17 @@
         ]
     },
     {
-        "id": "2b06c9e6411436af",
-        "type": "function",
-        "z": "1f35534c8fd78b65",
-        "name": "limpiar buffer",
-        "func": "\nlet buffer = [];\nflow.set(\"buffer\", buffer);\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 450,
-        "y": 740,
-        "wires": [
-            []
-        ],
-        "info": "hola"
-    },
-    {
-        "id": "25a68e69c642657a",
+        "id": "8af4a6d935f41c69",
         "type": "inject",
         "z": "1f35534c8fd78b65",
-        "name": "limpiar buffer",
+        "name": "",
         "props": [
             {
                 "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
             }
         ],
         "repeat": "",
@@ -1673,42 +1632,28 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 230,
-        "y": 740,
+        "payload": "CARLOS",
+        "payloadType": "str",
+        "x": 140,
+        "y": 320,
         "wires": [
             [
-                "2b06c9e6411436af"
+                "014da73047ad8f7c"
             ]
         ]
     },
     {
-        "id": "e40ec3ccb84ceec6",
-        "type": "function",
-        "z": "1f35534c8fd78b65",
-        "name": "mostrar buffer",
-        "func": "\nlet buffer = flow.get(\"buffer\");\n\nnode.warn(buffer);\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 460,
-        "y": 780,
-        "wires": [
-            []
-        ],
-        "info": "hola"
-    },
-    {
-        "id": "9a6e9258a9a74a36",
+        "id": "d3b9044a04587cae",
         "type": "inject",
         "z": "1f35534c8fd78b65",
-        "name": "mostrar buffer",
+        "name": "",
         "props": [
             {
                 "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
             }
         ],
         "repeat": "",
@@ -1716,15 +1661,360 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 230,
-        "y": 780,
+        "payload": "DAVID1",
+        "payloadType": "str",
+        "x": 130,
+        "y": 280,
         "wires": [
             [
-                "e40ec3ccb84ceec6"
+                "014da73047ad8f7c"
             ]
         ]
+    },
+    {
+        "id": "63edca0416387526",
+        "type": "ui_button",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "group": "4dc5ab4e1f917121",
+        "order": 3,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "label": "Desvincular todos",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "cancel",
+        "payload": "Cambiar",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "str",
+        "x": 150,
+        "y": 960,
+        "wires": [
+            [
+                "476d5cd41a1948eb",
+                "71fcdf01d246092c"
+            ]
+        ]
+    },
+    {
+        "id": "23040aa472acdd3f",
+        "type": "link in",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "links": [
+            "29aa94bf97fafd0e",
+            "00d377c6daaa72bb"
+        ],
+        "x": 1135,
+        "y": 840,
+        "wires": [
+            [
+                "ab5534ac288247af"
+            ]
+        ]
+    },
+    {
+        "id": "29aa94bf97fafd0e",
+        "type": "link out",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "23040aa472acdd3f"
+        ],
+        "x": 1225,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "00d377c6daaa72bb",
+        "type": "link out",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "23040aa472acdd3f"
+        ],
+        "x": 1175,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "476d5cd41a1948eb",
+        "type": "change",
+        "z": "1f35534c8fd78b65",
+        "name": "Cambio de control",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Presione Aceptar para eliminar todos los dispositivos registrados. Este proceso es irreversible.",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Eliminar dispositivos",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 960,
+        "wires": [
+            [
+                "22f34f55b4f9dbf8"
+            ]
+        ]
+    },
+    {
+        "id": "22f34f55b4f9dbf8",
+        "type": "ui_toast",
+        "z": "1f35534c8fd78b65",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "confirmar",
+        "x": 540,
+        "y": 960,
+        "wires": [
+            [
+                "053a1656f6fcf8f0"
+            ]
+        ]
+    },
+    {
+        "id": "ca8ce12ae269eefd",
+        "type": "complete",
+        "z": "1f35534c8fd78b65",
+        "name": "sí dio aceptar",
+        "scope": [
+            "1d5a99640b02789c"
+        ],
+        "uncaught": false,
+        "x": 130,
+        "y": 880,
+        "wires": [
+            [
+                "351989373cb74b52"
+            ]
+        ]
+    },
+    {
+        "id": "351989373cb74b52",
+        "type": "change",
+        "z": "1f35534c8fd78b65",
+        "name": "habilitar",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "habilitador",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 880,
+        "wires": [
+            [
+                "71fcdf01d246092c"
+            ]
+        ]
+    },
+    {
+        "id": "71fcdf01d246092c",
+        "type": "function",
+        "z": "1f35534c8fd78b65",
+        "name": "habilitado el paso del mensaje?",
+        "func": "if (msg.payload != \"habilitador\") {\n    //significa que el mensaje es de cambio\n    \n    //guardamos dicho mensaje solo para enviarse \n    //cuando llegue un habilitador\n    flow.set(\"cambio\", msg.payload);\n    \n    //el mensaje que mandaremos al siguiente nodo será nulo\n    msg.payload = null;\n}\n\nelse {\n    //significa que el mensaje es un habilitador\n    \n    if (flow.get(\"cambio\") != null) {\n        //si tengo cambio entonces lo paso al siguiente nodo\n        msg.payload = flow.get(\"cambio\");\n        //y digo que ahora no tengo cambio\n        flow.set(\"cambio\", null);\n    }\n    else {\n        msg.payload = null; \n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 880,
+        "wires": [
+            [
+                "3fa3b83a6cebbf2e"
+            ]
+        ]
+    },
+    {
+        "id": "053a1656f6fcf8f0",
+        "type": "switch",
+        "z": "1f35534c8fd78b65",
+        "name": "selección",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Aceptar",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 680,
+        "y": 960,
+        "wires": [
+            [
+                "1d5a99640b02789c"
+            ],
+            [
+                "429c472d841a8db4"
+            ]
+        ]
+    },
+    {
+        "id": "1d5a99640b02789c",
+        "type": "change",
+        "z": "1f35534c8fd78b65",
+        "name": "aceptar cambio",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Se ha borrado el registro de todos los dispositivos",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 940,
+        "wires": [
+            [
+                "40ff1856b62164a2"
+            ]
+        ]
+    },
+    {
+        "id": "40ff1856b62164a2",
+        "type": "ui_toast",
+        "z": "1f35534c8fd78b65",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "aceptar",
+        "x": 1000,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "429c472d841a8db4",
+        "type": "change",
+        "z": "1f35534c8fd78b65",
+        "name": "cancelar cambio",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "No se registró ningún cambio. Canceló la operación.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 980,
+        "wires": [
+            [
+                "c1d37efac039853b"
+            ]
+        ]
+    },
+    {
+        "id": "c1d37efac039853b",
+        "type": "ui_toast",
+        "z": "1f35534c8fd78b65",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "cancelar",
+        "x": 1000,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "a181b1b2b0a987b5",
+        "type": "comment",
+        "z": "1f35534c8fd78b65",
+        "name": "manejo de peticiones",
+        "info": "",
+        "x": 720,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "2b2e36cf16a332db",
+        "type": "comment",
+        "z": "1f35534c8fd78b65",
+        "name": "limpiar lista de dispositivos",
+        "info": "",
+        "x": 730,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "d3d226c0d6e2aa20",
+        "type": "comment",
+        "z": "1f35534c8fd78b65",
+        "name": "modificar orden de dispositivos",
+        "info": "",
+        "x": 750,
+        "y": 1080,
+        "wires": []
     },
     {
         "id": "9e58624.7faaba",
@@ -2592,37 +2882,6 @@
         ]
     },
     {
-        "id": "9cdfb8767ac6bf92",
-        "type": "switch",
-        "z": "2e9d9a63f5843708",
-        "name": "selección",
-        "property": "payload",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "Aceptar",
-                "vt": "str"
-            },
-            {
-                "t": "else"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 2,
-        "x": 1000,
-        "y": 1100,
-        "wires": [
-            [
-                "b69dc61d7e66f91d"
-            ],
-            [
-                "5facbc0a1a7551fe"
-            ]
-        ]
-    },
-    {
         "id": "35b3309c53c05101",
         "type": "ui_toast",
         "z": "2e9d9a63f5843708",
@@ -2640,52 +2899,6 @@
         "x": 1420,
         "y": 1240,
         "wires": []
-    },
-    {
-        "id": "0c2934a8d3826197",
-        "type": "ui_toast",
-        "z": "2e9d9a63f5843708",
-        "position": "top right",
-        "displayTime": "3",
-        "highlight": "",
-        "sendall": true,
-        "outputs": 0,
-        "ok": "OK",
-        "cancel": "",
-        "raw": false,
-        "className": "",
-        "topic": "",
-        "name": "aceptar",
-        "x": 1420,
-        "y": 1060,
-        "wires": []
-    },
-    {
-        "id": "b69dc61d7e66f91d",
-        "type": "change",
-        "z": "2e9d9a63f5843708",
-        "name": "Aceptar cambio",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Se cambiará el modo de operación del suministro eléctrico del dispositivo 1",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1220,
-        "y": 1060,
-        "wires": [
-            [
-                "0c2934a8d3826197"
-            ]
-        ]
     },
     {
         "id": "7d7126de24350179",
@@ -3720,6 +3933,83 @@
         "x": 440,
         "y": 660,
         "wires": []
+    },
+    {
+        "id": "0c2934a8d3826197",
+        "type": "ui_toast",
+        "z": "2e9d9a63f5843708",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "aceptar",
+        "x": 1420,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "b69dc61d7e66f91d",
+        "type": "change",
+        "z": "2e9d9a63f5843708",
+        "name": "Aceptar cambio",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Se cambiará el modo de operación del suministro eléctrico del dispositivo 1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1220,
+        "y": 1060,
+        "wires": [
+            [
+                "0c2934a8d3826197"
+            ]
+        ]
+    },
+    {
+        "id": "9cdfb8767ac6bf92",
+        "type": "switch",
+        "z": "2e9d9a63f5843708",
+        "name": "selección",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Aceptar",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1000,
+        "y": 1100,
+        "wires": [
+            [
+                "b69dc61d7e66f91d"
+            ],
+            [
+                "5facbc0a1a7551fe"
+            ]
+        ]
     },
     {
         "id": "a5ef54eabeda9209",
