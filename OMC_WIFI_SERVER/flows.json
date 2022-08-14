@@ -1023,15 +1023,18 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "limpiar lista",
-        "func": "\nlet dispositivos = [0,null,null,null,null,null,\n                      null,null,null,null,null]\nglobal.set(\"dispositivos\", dispositivos);\n\nreturn msg;\n",
-        "outputs": 1,
+        "func": "let dispositivos = global.get(\"dispositivos\");\nlet mensajesMQTT = [];\n\n\ndispositivos = [0,\"ASDFGG\",\"QWERTY\",null,\"MNBVCX\",\"LKJHGF\",\n                      \"POIUYT\",null,null,\"ZXCVBN\",\"ABCDEF\"]\n                      \n// almacenar mensajes mqtt con el rechazo en un solo arreglo\nfor (i = 0; i < 10; i++) {\n    if (dispositivos[i + 1] != null) {\n        mensajesMQTT[i] = { payload: dispositivos[i + 1] + \"99\" };\n    }\n}\n\n// borrar dipositivos de la lista\ndispositivos = [0,null,null,null,null,null,\n                      null,null,null,null,null]\nglobal.set(\"dispositivos\", dispositivos);\n\n\nreturn [mensajesMQTT,msg];\n",
+        "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 710,
-        "y": 880,
+        "x": 810,
+        "y": 920,
         "wires": [
+            [
+                "867ab9056a1803ae"
+            ],
             [
                 "ab5534ac288247af"
             ]
@@ -1084,8 +1087,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 480,
-        "y": 820,
+        "x": 600,
+        "y": 860,
         "wires": [
             [
                 "3fa3b83a6cebbf2e"
@@ -1098,8 +1101,8 @@
         "z": "1f35534c8fd78b65",
         "name": "gestión de dispositivos",
         "info": "",
-        "x": 720,
-        "y": 280,
+        "x": 740,
+        "y": 220,
         "wires": []
     },
     {
@@ -1107,14 +1110,14 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "mostrar lista",
-        "func": "\nlet dispositivos = global.get(\"dispositivos\");\n\nnode.warn(dispositivos);\n\nmsg.payload = [\n      { num: 1, id: dispositivos[1]},\n      { num: 2, id: dispositivos[2]},\n      { num: 3, id: dispositivos[3]},\n      { num: 4, id: dispositivos[4]},\n      { num: 5, id: dispositivos[5]},\n      { num: 6, id: dispositivos[6]},\n      { num: 7, id: dispositivos[7]},\n      { num: 8, id: dispositivos[8]},\n      { num: 9, id: dispositivos[9]},\n      { num: 10, id: dispositivos[10]},\n    ];\n\nreturn msg;",
+        "func": "\nlet dispositivos = global.get(\"dispositivos\");\n\n//node.warn(dispositivos);\n\nmsg.payload = [\n      { num: 1, id: dispositivos[1]},\n      { num: 2, id: dispositivos[2]},\n      { num: 3, id: dispositivos[3]},\n      { num: 4, id: dispositivos[4]},\n      { num: 5, id: dispositivos[5]},\n      { num: 6, id: dispositivos[6]},\n      { num: 7, id: dispositivos[7]},\n      { num: 8, id: dispositivos[8]},\n      { num: 9, id: dispositivos[9]},\n      { num: 10, id: dispositivos[10]},\n    ];\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1250,
-        "y": 880,
+        "x": 1110,
+        "y": 940,
         "wires": [
             [
                 "035bb364e4e5823b"
@@ -1139,8 +1142,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 990,
-        "y": 840,
+        "x": 930,
+        "y": 980,
         "wires": [
             [
                 "ab5534ac288247af"
@@ -1217,8 +1220,8 @@
         "topic": "elegir1",
         "topicType": "str",
         "className": "",
-        "x": 500,
-        "y": 1180,
+        "x": 440,
+        "y": 1340,
         "wires": [
             [
                 "26ac5b81154e920c"
@@ -1295,8 +1298,8 @@
         "topic": "elegir2",
         "topicType": "str",
         "className": "",
-        "x": 500,
-        "y": 1260,
+        "x": 440,
+        "y": 1420,
         "wires": [
             [
                 "26ac5b81154e920c"
@@ -1318,13 +1321,13 @@
         "color": "",
         "bgcolor": "",
         "className": "",
-        "icon": "swap-horizontal",
+        "icon": "swap_vert",
         "payload": "Cambiar",
         "payloadType": "str",
         "topic": "topic",
         "topicType": "str",
-        "x": 720,
-        "y": 1300,
+        "x": 660,
+        "y": 1460,
         "wires": [
             [
                 "26ac5b81154e920c"
@@ -1344,8 +1347,8 @@
         "format": "",
         "layout": "row-spread",
         "className": "",
-        "x": 550,
-        "y": 1140,
+        "x": 490,
+        "y": 1300,
         "wires": []
     },
     {
@@ -1361,8 +1364,8 @@
         "format": "",
         "layout": "row-spread",
         "className": "",
-        "x": 520,
-        "y": 1220,
+        "x": 460,
+        "y": 1380,
         "wires": []
     },
     {
@@ -1376,13 +1379,12 @@
         "initialize": "flow.set(\"elegir1\", 0);\nflow.set(\"elegir2\", 0);",
         "finalize": "",
         "libs": [],
-        "x": 960,
-        "y": 1220,
+        "x": 900,
+        "y": 1380,
         "wires": [
             [
                 "dd0149188d4a0728",
-                "6a089b24186ca679",
-                "00d377c6daaa72bb"
+                "0f6c0b3a873ac3c5"
             ],
             [
                 "6a089b24186ca679"
@@ -1410,8 +1412,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "str",
-        "x": 210,
-        "y": 1180,
+        "x": 150,
+        "y": 1340,
         "wires": [
             [
                 "f6852b79ac2c63aa",
@@ -1438,11 +1440,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1240,
-        "y": 1280,
+        "x": 1160,
+        "y": 1300,
         "wires": [
             [
-                "603512f1caae2630"
+                "00d377c6daaa72bb"
             ]
         ]
     },
@@ -1452,29 +1454,17 @@
         "z": "1f35534c8fd78b65",
         "name": "",
         "links": [
-            "603512f1caae2630"
+            "603512f1caae2630",
+            "00d377c6daaa72bb"
         ],
-        "x": 245,
-        "y": 1260,
+        "x": 185,
+        "y": 1420,
         "wires": [
             [
                 "b8096a2d4cd31640",
                 "f6852b79ac2c63aa"
             ]
         ]
-    },
-    {
-        "id": "603512f1caae2630",
-        "type": "link out",
-        "z": "1f35534c8fd78b65",
-        "name": "",
-        "mode": "link",
-        "links": [
-            "294a58e59222f0a3"
-        ],
-        "x": 1355,
-        "y": 1280,
-        "wires": []
     },
     {
         "id": "035bb364e4e5823b",
@@ -1509,8 +1499,8 @@
         ],
         "outputs": 0,
         "cts": false,
-        "x": 1390,
-        "y": 880,
+        "x": 1250,
+        "y": 940,
         "wires": []
     },
     {
@@ -1540,14 +1530,14 @@
         "id": "c5dbecb961485505",
         "type": "function",
         "z": "1f35534c8fd78b65",
-        "name": "",
-        "func": "let buffer = flow.get(\"buffer\");\nlet id = 0;\n\n//node.warn(flow.get(\"buffer\"));\n\nif (msg.payload != \"\") {\n    //significa que llego un codigo nuevo que meteremos en el\n    //buffer (solo si no está repetido)\n    \n    // verificamos que no esté repetido\n    if ((buffer.indexOf(msg.payload) == -1) && (msg.payload != flow.get(\"ultimoID\"))) {\n        // metemos en el buffer\n        buffer.push(msg.payload);\n        flow.set(\"buffer\", buffer);\n    }\n}\n\nif (flow.get(\"habilitador\") == 1) {\n    //significa que el usuario tocó un botón\n    //por lo tanto, puedo sacar del buffer un nuevo mensaje\n    \n    id = buffer.shift();\n    flow.set(\"buffer\", buffer);\n    \n    if (id != undefined){\n        flow.set(\"habilitador\", 0);\n        msg.payload = `El dispositivo OMC-WIFI-${id} \n                    se está intentando asociar con el servidor. \n                    ¿Desea agregar dicho dispositivo?`;\n        flow.set(\"ultimoID\", id);\n        return msg;\n    }\n}\n",
+        "name": "buffer",
+        "func": "let buffer = flow.get(\"buffer\");\nlet id = 0;\n\n//node.warn(flow.get(\"buffer\"));\n\nif (msg.payload != \"\") {\n    //significa que llego un codigo nuevo que meteremos en el\n    //buffer (solo si no está repetido)\n    \n    // verificamos que no esté repetido\n    if ((buffer.indexOf(msg.payload) == -1) && (msg.payload != flow.get(\"ultimoID\"))) {\n        // metemos en el buffer\n        buffer.push(msg.payload);\n        flow.set(\"buffer\", buffer);\n    }\n}\n\nif (flow.get(\"habilitador\") == 1) {\n    //significa que el usuario tocó un botón\n    //por lo tanto, puedo sacar del buffer un nuevo mensaje\n    \n    id = buffer.shift();\n    flow.set(\"buffer\", buffer);\n    \n    if (id != undefined){\n        flow.set(\"habilitador\", 0);\n        msg.payload = `El dispositivo OMC-WIFI-${id} \n                    se está intentando asociar con el servidor. \n                    ¿Desea agregar dicho dispositivo?`;\n        msg.topic = \"Dispositivo nuevo\"\n        \n        flow.set(\"ultimoID\", id);\n        return msg;\n    }\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "flow.set(\"habilitador\",1)",
         "finalize": "",
         "libs": [],
-        "x": 460,
+        "x": 450,
         "y": 620,
         "wires": [
             [
@@ -1569,8 +1559,8 @@
         "correl": "",
         "expiry": "",
         "broker": "10e78a89.5b4fd5",
-        "x": 1240,
-        "y": 1220,
+        "x": 1320,
+        "y": 1380,
         "wires": []
     },
     {
@@ -1691,8 +1681,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "str",
-        "x": 150,
-        "y": 960,
+        "x": 190,
+        "y": 1100,
         "wires": [
             [
                 "476d5cd41a1948eb",
@@ -1709,8 +1699,8 @@
             "29aa94bf97fafd0e",
             "00d377c6daaa72bb"
         ],
-        "x": 1135,
-        "y": 840,
+        "x": 985,
+        "y": 900,
         "wires": [
             [
                 "ab5534ac288247af"
@@ -1737,10 +1727,11 @@
         "name": "",
         "mode": "link",
         "links": [
-            "23040aa472acdd3f"
+            "23040aa472acdd3f",
+            "294a58e59222f0a3"
         ],
-        "x": 1175,
-        "y": 1180,
+        "x": 1275,
+        "y": 1300,
         "wires": []
     },
     {
@@ -1769,8 +1760,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 370,
-        "y": 960,
+        "x": 410,
+        "y": 1100,
         "wires": [
             [
                 "22f34f55b4f9dbf8"
@@ -1792,8 +1783,8 @@
         "className": "",
         "topic": "",
         "name": "confirmar",
-        "x": 540,
-        "y": 960,
+        "x": 580,
+        "y": 1100,
         "wires": [
             [
                 "053a1656f6fcf8f0"
@@ -1809,8 +1800,8 @@
             "1d5a99640b02789c"
         ],
         "uncaught": false,
-        "x": 130,
-        "y": 880,
+        "x": 170,
+        "y": 920,
         "wires": [
             [
                 "351989373cb74b52"
@@ -1836,8 +1827,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 280,
-        "y": 880,
+        "x": 320,
+        "y": 920,
         "wires": [
             [
                 "71fcdf01d246092c"
@@ -1849,14 +1840,14 @@
         "type": "function",
         "z": "1f35534c8fd78b65",
         "name": "habilitado el paso del mensaje?",
-        "func": "if (msg.payload != \"habilitador\") {\n    //significa que el mensaje es de cambio\n    \n    //guardamos dicho mensaje solo para enviarse \n    //cuando llegue un habilitador\n    flow.set(\"cambio\", msg.payload);\n    \n    //el mensaje que mandaremos al siguiente nodo será nulo\n    msg.payload = null;\n}\n\nelse {\n    //significa que el mensaje es un habilitador\n    \n    if (flow.get(\"cambio\") != null) {\n        //si tengo cambio entonces lo paso al siguiente nodo\n        msg.payload = flow.get(\"cambio\");\n        //y digo que ahora no tengo cambio\n        flow.set(\"cambio\", null);\n    }\n    else {\n        msg.payload = null; \n    }\n}\nreturn msg;",
+        "func": "if (msg.payload != \"habilitador\") {\n    //significa que el mensaje es de cambio\n    \n    //guardamos dicho mensaje solo para enviarse \n    //cuando llegue un habilitador\n    flow.set(\"cambio\", msg.payload);\n    \n    //el mensaje que mandaremos al siguiente nodo será nulo\n    msg.payload = null;\n}\n\nelse {\n    //significa que el mensaje es un habilitador\n    \n    if (flow.get(\"cambio\") != null) {\n        //si tengo cambio entonces lo paso al siguiente nodo\n        msg.payload = flow.get(\"cambio\");\n        //y digo que ahora no tengo cambio\n        flow.set(\"cambio\", null);\n        return msg;\n    }\n    else {\n        msg.payload = null; \n    }\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
-        "y": 880,
+        "x": 530,
+        "y": 920,
         "wires": [
             [
                 "3fa3b83a6cebbf2e"
@@ -1883,8 +1874,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 680,
-        "y": 960,
+        "x": 720,
+        "y": 1100,
         "wires": [
             [
                 "1d5a99640b02789c"
@@ -1913,8 +1904,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 840,
-        "y": 940,
+        "x": 880,
+        "y": 1080,
         "wires": [
             [
                 "40ff1856b62164a2"
@@ -1936,8 +1927,8 @@
         "className": "",
         "topic": "",
         "name": "aceptar",
-        "x": 1000,
-        "y": 940,
+        "x": 1040,
+        "y": 1080,
         "wires": []
     },
     {
@@ -1959,8 +1950,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 840,
-        "y": 980,
+        "x": 880,
+        "y": 1120,
         "wires": [
             [
                 "c1d37efac039853b"
@@ -1982,8 +1973,8 @@
         "className": "",
         "topic": "",
         "name": "cancelar",
-        "x": 1000,
-        "y": 980,
+        "x": 1040,
+        "y": 1120,
         "wires": []
     },
     {
@@ -2003,7 +1994,7 @@
         "name": "limpiar lista de dispositivos",
         "info": "",
         "x": 730,
-        "y": 760,
+        "y": 800,
         "wires": []
     },
     {
@@ -2012,9 +2003,77 @@
         "z": "1f35534c8fd78b65",
         "name": "modificar orden de dispositivos",
         "info": "",
-        "x": 750,
-        "y": 1080,
+        "x": 730,
+        "y": 1240,
         "wires": []
+    },
+    {
+        "id": "867ab9056a1803ae",
+        "type": "delay",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "2",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1040,
+        "y": 840,
+        "wires": [
+            [
+                "dfbacf061e02c6c1"
+            ]
+        ]
+    },
+    {
+        "id": "dfbacf061e02c6c1",
+        "type": "mqtt out",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "topic": "omc/respuesta",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 1220,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "0f6c0b3a873ac3c5",
+        "type": "delay",
+        "z": "1f35534c8fd78b65",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1140,
+        "y": 1340,
+        "wires": [
+            [
+                "6a089b24186ca679"
+            ]
+        ]
     },
     {
         "id": "9e58624.7faaba",
