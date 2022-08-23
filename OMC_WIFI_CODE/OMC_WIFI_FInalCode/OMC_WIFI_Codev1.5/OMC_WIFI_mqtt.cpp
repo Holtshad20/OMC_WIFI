@@ -205,11 +205,11 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
       storage.end();
 
     }
-    //    else if ((message[0] + message[1]) == ('e' + 'n')) {
-    //
-    //      pzem.resetEnergy();
-    //
-    //    }
+    else if ((message[0] + message[1]) == ('e' + 'n')) {
+
+      pzem.resetEnergy();
+
+    }
     else if ((message[0] + message[1]) == ('r' + 'e')) {
 
       Serial.println("Rebooting OMC-WIFI in 5 seconds...");
@@ -377,9 +377,9 @@ void publicarValores() {
              , (int)rmsPower
              , (int)(((rmsPower - (int)rmsPower)*pow(10, 2)) + 0.01)
              , (int)powFactor
-             , (int)(((powFactor-(int)powFactor)*pow(10,2))+0.01)
+             , (int)(((powFactor - (int)powFactor)*pow(10, 2)) + 0.01)
              , (int)_energy
-             , (int)(((_energy-(int)_energy)*pow(10,2))+0.01)
+             , (int)(((_energy - (int)_energy)*pow(10, 2)) + 0.01)
              , relay
              , controlGlobalRelay
              , _voltMode
