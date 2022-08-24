@@ -204,7 +204,10 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
     
     MQTT_HOST.fromString(args.arg("server"));
     mqttClient.setServer(MQTT_HOST, MQTT_PORT);
-    connectToMqtt();
+    
+    //mqttSetUp();
+    //connectToMqtt();
+    xTimerStart(mqttReconnectTimer, 0); // Para reconectarnos, el temporizador intenta reconectar una vez se desborda
     
     aux["txtCenter01"].as<AutoConnectText>().value = "La <b>dirección IP del servidor</b> ha cambiado a:\n" + args.arg("server");           //Aparecerá este mensaje en la página web
   }
@@ -448,7 +451,7 @@ void rootPage() {
     "<title>OMC-WIFI</title>"
     "</head>"
     "<body>"
-    "<h1 align=\"center\" style=\"color:purple;margin:10px;\">Bienvenido al Menú</h1>"
+    "<h1 align=\"center\" style=\"color:purple;margin:10px;\">Presione el boton para entrar a la configuracion</h1>"
     "<p></p>"
     "<p style=\"padding-top:5px;text-align:center\">"AUTOCONNECT_LINK(COG_24)"</p>"
     "</body>"

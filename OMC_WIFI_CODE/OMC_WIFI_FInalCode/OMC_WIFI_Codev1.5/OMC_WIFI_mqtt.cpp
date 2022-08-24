@@ -6,13 +6,26 @@ String omcState   = "omc/00/estado";
 String omcChanges = "omc/00/cambios";
 
 
+PZEM004Tv30 pzem1(Serial2, 16, 17);
+
 void connectToMqtt() {
 
   Serial.println();
   Serial.println("Connecting to MQTT...");
-  mqttClient.disconnect();
-  mqttClient.connect();
-  Serial.println("Server IP: " + MQTT_HOST.toString());
+  //mqttClient.disconnect();
+  if (MQTT_HOST != IPAddress(0, 0, 0, 0)) {
+
+    mqttClient.connect();
+    Serial.println("Server IP: " + MQTT_HOST.toString());
+
+  }
+  else {
+    
+    Serial.println("No hay servidor configurado");
+    
+  }
+  
+  //xTimerStart(mqttReconnectTimer, 0);
 
 }
 
@@ -28,7 +41,8 @@ void WiFiEvent(WiFiEvent_t event) {
       Serial.println("WiFi connected");
       Serial.println("IP address: ");
       Serial.println(WiFi.localIP());
-      connectToMqtt();
+      //connectToMqtt();
+      xTimerStart(mqttReconnectTimer, 0);
       break;
 
     case SYSTEM_EVENT_STA_DISCONNECTED:
@@ -46,6 +60,8 @@ void onMqttConnect(bool sessionPresent) {
   //  char petition[6];
 
   connServer = true;
+
+  xTimerStop(mqttReconnectTimer, 0);
 
   Serial.println();
   Serial.println("Connected to MQTT.");
@@ -207,7 +223,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     }
     else if ((message[0] + message[1]) == ('e' + 'n')) {
 
-      pzem.resetEnergy();
+      pzem1.resetEnergy();
 
     }
     else if ((message[0] + message[1]) == ('r' + 'e')) {
@@ -277,30 +293,27 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
           break;
 
         case 99:
+          uint16_t packetIdUns = mqttClient.unsubscribe(omcChanges.c_str());
           numberID = 99;
           break;
 
       }
-
+      
+      Serial.println("Soy el OMC0" + String(numberID));
+      
       if (numberID < 10) {
 
         omcState   = "omc/0" + String(numberID) + "/estado";
         omcChanges = "omc/0" + String(numberID) + "/cambios";
-        Serial.println("Soy el OMC0" + String(numberID));
-
+        
+        uint16_t packetIdSub = mqttClient.subscribe(omcChanges.c_str(), 2);
+        Serial.println();
+        Serial.print("Suscrito a " + omcChanges + " con QoS 2. Packet ID: ");
+        Serial.println(packetIdSub);
+        
+        xTimerChangePeriod(publishTimer, 1000 / portTICK_PERIOD_MS, 0);
+        
       }
-      else {
-
-        omcState   = "omc/" + String(numberID) + "/estado";
-        omcChanges = "omc/" + String(numberID) + "/cambios";
-        Serial.println("Soy el OMC" + String(numberID));
-
-      }
-
-      uint16_t packetIdSub = mqttClient.subscribe(omcChanges.c_str(), 2);
-      Serial.println();
-      Serial.print("Suscrito a " + omcChanges + " con QoS 2. Packet ID: ");
-      Serial.println(packetIdSub);
 
     }
 
@@ -329,21 +342,28 @@ void publicarValores() {
   if (numberID == 0) {
 
     xTimerChangePeriod(publishTimer, 15000 / portTICK_PERIOD_MS, 0);
+    if (connServer == true) {
 
-    snprintf(petition, 7, "%s", omcID);
-    mqttClient.publish("omc/peticion", 2, true, petition);
-    Serial.println("Petición enviada");
+      snprintf(petition, 7, "%s", omcID);
+      mqttClient.publish("omc/peticion", 2, true, petition);
+      Serial.println("Petición enviada");
+      Serial.println(petition);
+
+    }
+    else {
+
+      Serial.println("Dispositivo no conectado a servidor");
+
+    }
 
   }
   else if (numberID == 99) {
-
-    xTimerStop(publishTimer, 0);
-    Serial.println("Solicitud rechazada");
+    xTimerChangePeriod(publishTimer, 15000 / portTICK_PERIOD_MS, 0);
+    Serial.println("El servidor ha rechazado/desvinculado este dispositivo");
+    Serial.println("Reinicie el dispositivo para volver a intentar vincularlo");
 
   }
   else {
-
-    xTimerChangePeriod(publishTimer, 1000 / portTICK_PERIOD_MS, 0);
 
     switch (voltMode) {
 
@@ -398,11 +418,11 @@ void publicarValores() {
 
 void mqttSetUp() {
 
-  storage.begin("config", true);                                          //Se apertura el espacio en memoria flash denominado "storage" para leer y escribir (false)
+  storage.begin("config", true);                                          //Se abre el espacio en memoria flash denominado "storage" para leer y escribir (false)
   MQTT_HOST.fromString(storage.getString("server_ip", "0.0.0.0"));
   storage.end();
 
-  mqttReconnectTimer = xTimerCreate("mqttTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToMqtt));
+  mqttReconnectTimer = xTimerCreate("mqttTimer", pdMS_TO_TICKS(5000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToMqtt));
   //wifiReconnectTimer = xTimerCreate("wifiTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToWifi));
   publishTimer = xTimerCreate("publishTimer", pdMS_TO_TICKS(1000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(publicarValores));
   xTimerStop(publishTimer, 0);
