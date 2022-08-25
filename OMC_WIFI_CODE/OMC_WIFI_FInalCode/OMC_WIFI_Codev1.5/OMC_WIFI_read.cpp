@@ -51,7 +51,7 @@ void relaySetUp () {
   timerRecuperacion = xTimerCreate("TimerDeRecuperacion", pdMS_TO_TICKS(tiempoRecuperacion * 2500), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(pasoTiempoRecuperacion));
   xTimerStop(timerRecuperacion, 0); // Mantiene apagado el temporizador hasta que se vuelva a iniciar
 
-  mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
+  //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
 
   Serial.println();
   Serial.println("Dispositivo inicializado");
@@ -136,7 +136,7 @@ void readCode (void *readParameter) {
           xTimerStop(timerRecuperacion, 0);
           pasoElTiempo = 0;
 
-          mqttClient.publish("esp32/estadoRelay", 0, true, "ON");
+          //mqttClient.publish("esp32/estadoRelay", 0, true, "ON");
 
           Serial.println();
           Serial.println("*** Relay encendido ***");
@@ -159,7 +159,7 @@ void readCode (void *readParameter) {
           xTimerStop(timerRecuperacion, 0);
           pasoElTiempo = 0;
 
-          mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
+          //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
 
           Serial.println();
           Serial.println("*** ¡Voltaje/corriente fuera de rango! ***");
@@ -189,7 +189,7 @@ void readCode (void *readParameter) {
       xTimerStop(timerRecuperacion, 0);
       pasoElTiempo = 0;
 
-      mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
+      //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
 
       Serial.println();
       Serial.println("*** Se ha forzado corte de alimentación ***");

@@ -11,7 +11,7 @@ PZEM004Tv30 pzem1(Serial2, 16, 17);
 void connectToMqtt() {
 
   Serial.println();
-  Serial.println("Connecting to MQTT...");
+  Serial.println("Conectando MQTT...");
   //mqttClient.disconnect();
   if (MQTT_HOST != IPAddress(0, 0, 0, 0)) {
 
@@ -38,15 +38,15 @@ void WiFiEvent(WiFiEvent_t event) {
   switch (event) {
 
     case SYSTEM_EVENT_STA_GOT_IP:
-      Serial.println("WiFi connected");
-      Serial.println("IP address: ");
+      Serial.println("WiFi conectado");
+      Serial.println("Direción IP OMC: ");
       Serial.println(WiFi.localIP());
       //connectToMqtt();
       xTimerStart(mqttReconnectTimer, 0);
       break;
 
     case SYSTEM_EVENT_STA_DISCONNECTED:
-      Serial.println("WiFi lost connection");
+      Serial.println("Conexión WiFi perdida");
       xTimerStop(mqttReconnectTimer, 0); // ensure we don't reconnect to MQTT while reconnecting to Wi-Fi
       //xTimerStart(wifiReconnectTimer, 0);
       break;
@@ -64,8 +64,8 @@ void onMqttConnect(bool sessionPresent) {
   xTimerStop(mqttReconnectTimer, 0);
 
   Serial.println();
-  Serial.println("Connected to MQTT.");
-  Serial.print("Session present: ");
+  Serial.println("Conectado a MQTT.");
+  Serial.print("Sesión: ");
   Serial.println(sessionPresent);
 
   //  uint16_t packetIdSub = mqttClient.subscribe("omc/01/estado", 0);
@@ -96,7 +96,7 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
   connServer = false;
 
   Serial.println();
-  Serial.println("Disconnected from MQTT.");
+  Serial.println("Desconectado de MQTT.");
 
   if (WiFi.isConnected()) {
 
@@ -108,7 +108,7 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
 
 void onMqttSubscribe(uint16_t packetId, uint8_t qos) {
   Serial.println();
-  Serial.println("Subscribe acknowledged.");
+  Serial.println("Suscripción exitosa");
   Serial.print("  packetId: ");
   Serial.println(packetId);
   Serial.print("  qos: ");
@@ -117,7 +117,7 @@ void onMqttSubscribe(uint16_t packetId, uint8_t qos) {
 
 void onMqttUnsubscribe(uint16_t packetId) {
   Serial.println();
-  Serial.println("Unsubscribe acknowledged.");
+  Serial.println("Desuscripción existosa");
   Serial.print("  packetId: ");
   Serial.println(packetId);
 }
@@ -224,11 +224,12 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     else if ((message[0] + message[1]) == ('e' + 'n')) {
 
       pzem1.resetEnergy();
-
+      Serial.println("Reiniciando consumo de energía");
+      
     }
     else if ((message[0] + message[1]) == ('r' + 'e')) {
 
-      Serial.println("Rebooting OMC-WIFI in 5 seconds...");
+      Serial.println("Reiniciando OMC-WIFI en 5 segundos...");
       vTaskDelay(5000 / portTICK_PERIOD_MS);
       ESP.restart();
 
@@ -389,6 +390,7 @@ void publicarValores() {
 
     }
 
+
     snprintf(state, 60, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s"
              , (int)rmsVolt
              , (int)(((rmsVolt - (int)rmsVolt)*pow(10, 2)) + 0.01)
@@ -400,15 +402,17 @@ void publicarValores() {
              , (int)(((powFactor - (int)powFactor)*pow(10, 2)) + 0.01)
              , (int)_energy
              , (int)(((_energy - (int)_energy)*pow(10, 2)) + 0.01)
-             , relay
+             , estadoOMC
              , controlGlobalRelay
              , _voltMode
              , _corrSup
-
+             //,ip
             );
 
 
     mqttClient.publish(omcState.c_str(), 0, true, state);
+
+    //IPAddress ip = WiFi.localIP();
 
   }
 

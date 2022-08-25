@@ -60,6 +60,7 @@ extern float _energy;      // Valor Energía
 #define lowFactor 0.85
 #define highFactor 1.15
 
+extern uint8_t estadoOMC;
 extern int voltMode;
 
 extern uint8_t voltSup;                   // Máximo voltaje permitido

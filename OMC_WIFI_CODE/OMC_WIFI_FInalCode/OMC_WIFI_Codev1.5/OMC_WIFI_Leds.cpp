@@ -87,12 +87,18 @@ void redLedTask(void *redLedParameter) {
   
     if (!controlGlobalRelay) {
 
+      // Bloqueo manual
+      estadoOMC = 2;
+
       ledcWrite(redChannel, 255);
       vTaskDelay(200 / portTICK_PERIOD_MS);
 
     }
     else if (xTimerIsTimerActive(timerRecuperacion) != pdFALSE) {
 
+      // Tiempo de espera
+      estadoOMC = 1;
+      
       for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle++) {
         // changing the LED brightness with PWM
         ledcWrite(redChannel, dutyCycle);
@@ -109,6 +115,9 @@ void redLedTask(void *redLedParameter) {
     }
     else if (rmsCorr > 0.9 * corrSup) {
 
+      // Alta corriente
+      estadoOMC = 5;
+
       //ledcSetup(greenChannel, 1, 8);
       ledcWrite(redChannel, 255);
       vTaskDelay(200 / portTICK_PERIOD_MS);
@@ -119,6 +128,9 @@ void redLedTask(void *redLedParameter) {
     }
     else if (rmsVolt > voltSup) {
 
+      // Alto voltaje
+      estadoOMC = 4;
+
       ledcWrite(redChannel, 255);
       vTaskDelay(200 / portTICK_PERIOD_MS);
 
@@ -132,9 +144,11 @@ void redLedTask(void *redLedParameter) {
       vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     }
-    else if (rmsVolt < voltInf) {
-
-      //ledcSetup(greenChannel, 1, 8);
+    else if (rmsVolt < voltInf) { 
+      
+      // Bajo voltaje
+      estadoOMC = 3;
+      
       ledcWrite(redChannel, 255);
       vTaskDelay(1000 / portTICK_PERIOD_MS);
 
@@ -143,7 +157,10 @@ void redLedTask(void *redLedParameter) {
 
     }
     else{
-
+      
+      // Operación normal
+      estadoOMC = 0;
+      
       ledcWrite(redChannel, 0);
       vTaskDelay(200 / portTICK_PERIOD_MS);
       
