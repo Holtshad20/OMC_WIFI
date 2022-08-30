@@ -432,7 +432,6 @@ String onSwitchRelay(AutoConnectAux& aux, PageArgument& args) {
   }
 
   storage.putBool("controlManual", controlGlobalRelay);
-
   storage.end();
 
   return String();

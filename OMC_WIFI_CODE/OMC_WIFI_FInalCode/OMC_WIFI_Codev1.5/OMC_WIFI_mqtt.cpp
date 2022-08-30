@@ -5,7 +5,7 @@ int    numberID = 0;
 String omcState   = "omc/00/estado";
 String omcChanges = "omc/00/cambios";
 
-String omcIDtopic = "omc/" + omcID;
+char   omcIDtopic[11];
 
 PZEM004Tv30 pzem1(Serial2, 16, 17);
 
@@ -21,11 +21,11 @@ void connectToMqtt() {
 
   }
   else {
-    
+
     Serial.println("No hay servidor configurado");
-    
+
   }
-  
+
   //xTimerStart(mqttReconnectTimer, 0);
 
 }
@@ -64,8 +64,8 @@ void onMqttConnect(bool sessionPresent) {
 
   xTimerStop(mqttReconnectTimer, 0);
 
-  esp_wifi_set_mode(WIFI_MODE_STA); 
-  
+  esp_wifi_set_mode(WIFI_MODE_STA);
+
   Serial.println();
   Serial.println("Conectado a MQTT.");
   Serial.print("Sesión: ");
@@ -80,10 +80,10 @@ void onMqttConnect(bool sessionPresent) {
   Serial.println();
   Serial.print("Suscrito a omc/respuesta con QoS 2. Packet ID: ");
   Serial.println(packetIdSub);
-  
-  mqttClient.publish(omcIDtopic.c_str(), 2, true, "CONECTADO");
+
+  mqttClient.publish(omcIDtopic, 2, true, "CONECTADO");
   Serial.print("Mensaje de conexión enviado: CONECTADO");
-  
+
   //publish de peticion
   //uint16_t packetIdSub = mqttClient.subscribe("omc/01/cambios", 2);
   //Serial.println();
@@ -137,6 +137,10 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     if ((message[0] + message[1]) == ('m' + 'r')) {
 
       controlGlobalRelay = !controlGlobalRelay;
+
+      storage.begin("config", false);
+      storage.putBool("controlManual", controlGlobalRelay);
+      storage.end();
 
     }
     else if ((message[0] + message[1]) == ('m' + 'v')) {
@@ -230,7 +234,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
       pzem1.resetEnergy();
       Serial.println("Reiniciando consumo de energía");
-      
+
     }
     else if ((message[0] + message[1]) == ('r' + 'e')) {
 
@@ -255,7 +259,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
 
     if (String(_omcID) == omcID) {
-      
+
       // Nos desuscribimos de cualquier topico en el que estuvimos suscritos antes, pues ahora toco hacer un cambio
       uint16_t packetIdUns = mqttClient.unsubscribe(omcChanges.c_str());
 
@@ -308,21 +312,21 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
           break;
 
       }
-      
+
       Serial.println("Soy el OMC0" + String(numberID));
-      
+
       if (numberID < 10) {
 
         omcState   = "omc/0" + String(numberID) + "/estado";
         omcChanges = "omc/0" + String(numberID) + "/cambios";
-        
+
         uint16_t packetIdSub = mqttClient.subscribe(omcChanges.c_str(), 2);
         Serial.println();
         Serial.print("Suscrito a " + omcChanges + " con QoS 2. Packet ID: ");
         Serial.println(packetIdSub);
-        
+
         xTimerChangePeriod(publishTimer, 1000 / portTICK_PERIOD_MS, 0);
-        
+
       }
 
     }
@@ -342,14 +346,13 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
 void publicarValores() {
 
-  char   petition[7];
-  char   state[82];
-  int    _voltMode;
-  String _corrSup;
-  IPAddress ip = WiFi.localIP();
-
-  //Serial.println(ip[1].toString());
-
+  char        petition[7];
+  char        state[110];
+  uint32_t    oldTicks = 0;
+  int         uptime   = 0;
+  int         _voltMode;
+  String      _corrSup;
+  IPAddress   ip = WiFi.localIP();
 
   if (numberID == 0) {
 
@@ -401,8 +404,21 @@ void publicarValores() {
 
     }
 
+    if ((xTaskGetTickCount() - oldTicks) > 0){
 
-    snprintf(state, 82, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s,ip%d.%d.%d.%d,"
+      uptime = uptime + ((int)(xTaskGetTickCount() - oldTicks))/1000;
+      
+    }
+    else{
+
+      uptime = uptime + ((int)xTaskGetTickCount())/1000;
+      
+    }
+
+    oldTicks = xTaskGetTickCount();
+
+
+    snprintf(state, 110, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s,ip%d.%d.%d.%d,up%d,"
              , (int)rmsVolt
              , (int)(((rmsVolt - (int)rmsVolt)*pow(10, 2)) + 0.01)
              , (int)rmsCorr
@@ -421,9 +437,14 @@ void publicarValores() {
              , (int)ip[1]
              , (int)ip[2]
              , (int)ip[3]
+             , uptime
             );
 
-    Serial.println(state);
+    Serial.println(xTaskGetTickCount());
+    Serial.println(xTaskGetTickCount());
+    Serial.println(xTaskGetTickCount());
+    Serial.println(xTaskGetTickCount());
+    Serial.println(xTaskGetTickCount());
 
 
     mqttClient.publish(omcState.c_str(), 0, false, state);
@@ -438,6 +459,8 @@ void publicarValores() {
 
 void mqttSetUp() {
 
+  snprintf(omcIDtopic, 11, "omc/%s", omcID);
+ 
   storage.begin("config", true);                                          //Se abre el espacio en memoria flash denominado "storage" para leer y escribir (false)
   MQTT_HOST.fromString(storage.getString("server_ip", "0.0.0.0"));
   storage.end();
@@ -461,11 +484,12 @@ void mqttSetUp() {
 
   }
 
-  //mqttClient.setKeepAlive(10); // Keep alive de 10 segundos (por defecto son 15 seg)
+  mqttClient.setKeepAlive(10); // Keep alive de 10 segundos (por defecto son 15 seg)
 
   // Configuración del testamento
-  mqttClient.setWill(omcIDtopic.c_str(), 2, true, "DESCONECTADO", 0);
-  Serial.println("Topico LWT: " + omcIDtopic);
-  
+  mqttClient.setWill(omcIDtopic, 2, true, "DESCONECTADO");
+  Serial.print("Topico LWT: ");
+  Serial.print(omcIDtopic);
+
   xTimerReset(publishTimer, 0);
 }
