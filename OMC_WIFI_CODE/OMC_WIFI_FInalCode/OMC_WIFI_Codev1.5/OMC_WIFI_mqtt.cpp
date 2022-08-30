@@ -250,7 +250,11 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
 
     if (String(_omcID) == omcID) {
+      
+      // Nos desuscribimos de cualquier topico en el que estuvimos suscritos antes, pues ahora toco hacer un cambio
+      uint16_t packetIdUns = mqttClient.unsubscribe(omcChanges.c_str());
 
+      // Verificamos ahora cuál será nuestro nuevo ID
       switch ((String(message[6]) + String(message[7])).toInt()) {
 
         case 1:
@@ -294,7 +298,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
           break;
 
         case 99:
-          uint16_t packetIdUns = mqttClient.unsubscribe(omcChanges.c_str());
+          connServer = false;
           numberID = 99;
           break;
 
@@ -346,7 +350,7 @@ void publicarValores() {
     if (connServer == true) {
 
       snprintf(petition, 7, "%s", omcID);
-      mqttClient.publish("omc/peticion", 2, true, petition);
+      mqttClient.publish("omc/peticion", 2, false, petition);
       Serial.println("Petición enviada");
       Serial.println(petition);
 
@@ -410,7 +414,7 @@ void publicarValores() {
             );
 
 
-    mqttClient.publish(omcState.c_str(), 0, true, state);
+    mqttClient.publish(omcState.c_str(), 0, false, state);
 
     //IPAddress ip = WiFi.localIP();
 
