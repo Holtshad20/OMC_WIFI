@@ -63,6 +63,8 @@ void onMqttConnect(bool sessionPresent) {
 
   xTimerStop(mqttReconnectTimer, 0);
 
+  esp_wifi_set_mode(WIFI_MODE_STA); 
+  
   Serial.println();
   Serial.println("Conectado a MQTT.");
   Serial.print("Sesión: ");
@@ -77,7 +79,7 @@ void onMqttConnect(bool sessionPresent) {
   Serial.println();
   Serial.print("Suscrito a omc/respuesta con QoS 2. Packet ID: ");
   Serial.println(packetIdSub);
-
+  
 
   //publish de peticion
   //uint16_t packetIdSub = mqttClient.subscribe("omc/01/cambios", 2);
@@ -338,10 +340,12 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 void publicarValores() {
 
   char   petition[7];
-  char   state[60];
+  char   state[82];
   int    _voltMode;
   String _corrSup;
+  IPAddress ip = WiFi.localIP();
 
+  //Serial.println(ip[1].toString());
 
 
   if (numberID == 0) {
@@ -395,7 +399,7 @@ void publicarValores() {
     }
 
 
-    snprintf(state, 60, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s"
+    snprintf(state, 82, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s,ip%d.%d.%d.%d,"
              , (int)rmsVolt
              , (int)(((rmsVolt - (int)rmsVolt)*pow(10, 2)) + 0.01)
              , (int)rmsCorr
@@ -410,8 +414,13 @@ void publicarValores() {
              , controlGlobalRelay
              , _voltMode
              , _corrSup
-             //,ip
+             , (int)ip[0]
+             , (int)ip[1]
+             , (int)ip[2]
+             , (int)ip[3]
             );
+
+    Serial.println(state);
 
 
     mqttClient.publish(omcState.c_str(), 0, false, state);

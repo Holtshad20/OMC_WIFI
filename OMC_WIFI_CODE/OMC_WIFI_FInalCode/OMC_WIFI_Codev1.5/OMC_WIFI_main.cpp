@@ -574,10 +574,10 @@ void setup() {
 
   Serial.println("Inicializando " + hostname);
 
+  acSetUp();
   mqttSetUp();
   readSetUp();
   relaySetUp();
-  acSetUp();
   ledSetUp();
   touchSetUp();
 
