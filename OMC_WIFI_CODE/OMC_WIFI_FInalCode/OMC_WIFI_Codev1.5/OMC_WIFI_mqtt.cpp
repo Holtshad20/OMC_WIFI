@@ -5,6 +5,7 @@ int    numberID = 0;
 String omcState   = "omc/00/estado";
 String omcChanges = "omc/00/cambios";
 
+String omcIDtopic = "omc/" + omcID;
 
 PZEM004Tv30 pzem1(Serial2, 16, 17);
 
@@ -80,7 +81,9 @@ void onMqttConnect(bool sessionPresent) {
   Serial.print("Suscrito a omc/respuesta con QoS 2. Packet ID: ");
   Serial.println(packetIdSub);
   
-
+  mqttClient.publish(omcIDtopic.c_str(), 2, true, "CONECTADO");
+  Serial.print("Mensaje de conexión enviado: CONECTADO");
+  
   //publish de peticion
   //uint16_t packetIdSub = mqttClient.subscribe("omc/01/cambios", 2);
   //Serial.println();
@@ -458,5 +461,11 @@ void mqttSetUp() {
 
   }
 
+  //mqttClient.setKeepAlive(10); // Keep alive de 10 segundos (por defecto son 15 seg)
+
+  // Configuración del testamento
+  mqttClient.setWill(omcIDtopic.c_str(), 2, true, "DESCONECTADO", 0);
+  Serial.println("Topico LWT: " + omcIDtopic);
+  
   xTimerReset(publishTimer, 0);
 }
