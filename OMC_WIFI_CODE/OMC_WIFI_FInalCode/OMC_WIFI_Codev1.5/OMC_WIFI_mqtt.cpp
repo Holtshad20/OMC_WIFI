@@ -1,7 +1,5 @@
 #include "OMC_WIFI_mqtt.hpp"
 
-int    numberID = 0;
-
 String omcState   = "omc/00/estado";
 String omcChanges = "omc/00/cambios";
 
@@ -356,7 +354,7 @@ void publicarValores() {
 
   if (numberID == 0) {
 
-    xTimerChangePeriod(publishTimer, 15000 / portTICK_PERIOD_MS, 0);
+    xTimerChangePeriod(publishTimer, 10000 / portTICK_PERIOD_MS, 0);
     if (connServer == true) {
 
       snprintf(petition, 7, "%s", omcID);
@@ -373,7 +371,7 @@ void publicarValores() {
 
   }
   else if (numberID == 99) {
-    xTimerChangePeriod(publishTimer, 15000 / portTICK_PERIOD_MS, 0);
+    xTimerChangePeriod(publishTimer, 10000 / portTICK_PERIOD_MS, 0);
     Serial.println("El servidor ha rechazado/desvinculado este dispositivo");
     Serial.println("Reinicie el dispositivo para volver a intentar vincularlo");
 
@@ -439,13 +437,6 @@ void publicarValores() {
              , (int)ip[3]
              , uptime
             );
-
-    Serial.println(xTaskGetTickCount());
-    Serial.println(xTaskGetTickCount());
-    Serial.println(xTaskGetTickCount());
-    Serial.println(xTaskGetTickCount());
-    Serial.println(xTaskGetTickCount());
-
 
     mqttClient.publish(omcState.c_str(), 0, false, state);
 

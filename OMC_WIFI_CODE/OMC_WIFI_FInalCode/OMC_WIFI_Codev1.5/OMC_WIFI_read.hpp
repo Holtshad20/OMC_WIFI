@@ -25,6 +25,8 @@ void relaySetUp ();
 
 void pasoTiempoRecuperacion();
 
+void pasoTiempoSecundario();
+
 void readCode (void *readParameter);
 
 

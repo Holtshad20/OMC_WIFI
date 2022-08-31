@@ -48,8 +48,12 @@ void relaySetUp () {
   pasoElTiempo = 0;           // La variable indica que transcurrieron los segundos necesarios para restaurar corriente
 
   // Creación del temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
-  timerRecuperacion = xTimerCreate("TimerDeRecuperacion", pdMS_TO_TICKS(tiempoRecuperacion * 2500), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(pasoTiempoRecuperacion));
+  timerRecuperacion = xTimerCreate("TimerDeRecuperacion", pdMS_TO_TICKS(tiempoRecuperacion * 1000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(pasoTiempoRecuperacion));
   xTimerStop(timerRecuperacion, 0); // Mantiene apagado el temporizador hasta que se vuelva a iniciar
+
+  // Creación del temporizador, se desborda y ejecuta pasoTiempoSecundario() luego de que trascurra el tiempo estimado para cada OMC
+  timerSecundario   = xTimerCreate("TimerSecundario", pdMS_TO_TICKS(3000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(pasoTiempoSecundario));
+  xTimerStop(timerSecundario, 0); // Mantiene apagado el temporizador hasta que se vuelva a iniciar
 
   //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
 
@@ -62,7 +66,34 @@ void relaySetUp () {
 
 void pasoTiempoRecuperacion() {   // Se ejecuta luego de que trascurran "tiempoRecuperacion" segundos
 
+  if ((numberID != 0) and (numberID != 99)) {
+
+    xTimerChangePeriod(timerSecundario, pdMS_TO_TICKS((numberID - 1) * 5000), 0);
+    Serial.println("Rutina conectado a servidor completada: " + String((numberID - 1) * 5) + "segs");
+        
+  }
+  else {
+
+    xTimerChangePeriod(timerSecundario, pdMS_TO_TICKS(random(60000)), 0);
+    Serial.println("Rutina random completada.");
+
+  }
+  
+  xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
+  xTimerStop(timerRecuperacion, 0);
+
+  
+
+}
+
+
+void pasoTiempoSecundario() {   // Se ejecuta luego de que trascurran los segundos calculados para este OMC
+
   pasoElTiempo = 1;               // La variable indica que transcurrieron los segundos
+  xTimerReset(timerSecundario, 0);  // Se detiene el temporizador
+  xTimerStop(timerSecundario, 0);
+
+  Serial.println("Rutina secundaria completada.");
 
 }
 
@@ -118,7 +149,7 @@ void readCode (void *readParameter) {
     // Código de control del relay
     if (controlGlobalRelay == true) {                                                              // Si el relay está en modo automático entonces ejecuta el control automático:
       if ( (rmsVolt >= voltInf) && (rmsVolt <= voltSup) && (rmsCorr <= corrSup) && (relay == LOW) ) {      // Una vez esté la alimenteciión en los niveles correctos:
-        if (xTimerIsTimerActive(timerRecuperacion) == pdFALSE ) {
+        if ((xTimerIsTimerActive(timerRecuperacion) == pdFALSE) and (xTimerIsTimerActive(timerSecundario) == pdFALSE)) {
           xTimerReset(timerRecuperacion, 0);                                                          // Se inicia el temporizador solo si no estaba activo antes
 
           Serial.println();

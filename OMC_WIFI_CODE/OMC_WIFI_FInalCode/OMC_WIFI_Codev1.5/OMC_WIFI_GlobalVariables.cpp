@@ -18,6 +18,8 @@ IPAddress       MQTT_HOST;
 
 AsyncMqttClient mqttClient;
 
+int    numberID = 0;
+
 TimerHandle_t   mqttReconnectTimer;
 TimerHandle_t   wifiReconnectTimer;
 TimerHandle_t   publishTimer;
@@ -55,7 +57,7 @@ uint8_t voltSup;     // Máximo voltaje permitido
 uint8_t voltInf;     // Mínimo voltaje permitido
 uint8_t corrSup;       // Máxima corriente permitida
 
-uint8_t tiempoRecuperacion = 10;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
+uint8_t tiempoRecuperacion = 20;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
 
 boolean relay              = LOW;     // Estado del relay (software)
 boolean controlGlobalRelay;    // Control Global del Relé
@@ -63,6 +65,7 @@ boolean controlGlobalRelay;    // Control Global del Relé
                                         // Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
 
 TimerHandle_t timerRecuperacion;      // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
+TimerHandle_t timerSecundario;        // Temporizador, se desborda y ejecuta pasoTiempoSecundario() luego de que trascurra el tiempo estimado para cada OMC
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************

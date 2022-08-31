@@ -448,6 +448,7 @@ void rootPage() {
     "<head>"
     "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
     "<title>OMC-WIFI</title>"
+//    "<meta http-equiv=\"refresh\" content=\"1; URL=http://172.16.1.1/_ac\" />"
     "</head>"
     "<body>"
     "<h1 align=\"center\" style=\"color:purple;margin:10px;\">Presione el boton para entrar a la configuracion</h1>"
@@ -526,6 +527,7 @@ void acSetUp(void) {
 
   config.apip              = IPAddress(172, 16, 16, 1);      //Se configura la dirección IPv4 del AP ESP32
   config.gateway           = IPAddress(172, 16, 16, 1);      //Se configura la dirección IPv4 del gateway
+  config.retainPortal      = true;
   config.autoReconnect     = true;                           // Attempt automatic reconnection.
   config.reconnectInterval = 1;                              // Seek interval time is 30[s].
 

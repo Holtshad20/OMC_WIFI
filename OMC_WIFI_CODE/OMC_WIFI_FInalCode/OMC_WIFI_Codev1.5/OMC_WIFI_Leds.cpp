@@ -56,14 +56,14 @@ void greenLedTask(void *greenLedParameter) {
       }
       else if (!WiFi.isConnected()) {
 
-        for (int dutyCycle = 0; dutyCycle <= 128; dutyCycle++) {
+        for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle++) {
           // changing the LED brightness with PWM
           ledcWrite(greenChannel, dutyCycle);
           vTaskDelay(10 / portTICK_PERIOD_MS);
         }
 
         // decrease the LED brightness
-        for (int dutyCycle = 128; dutyCycle >= 0; dutyCycle--) {
+        for (int dutyCycle = 255; dutyCycle >= 0; dutyCycle--) {
           // changing the LED brightness with PWM
           ledcWrite(greenChannel, dutyCycle);
           vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -94,7 +94,7 @@ void redLedTask(void *redLedParameter) {
       vTaskDelay(200 / portTICK_PERIOD_MS);
 
     }
-    else if (xTimerIsTimerActive(timerRecuperacion) != pdFALSE) {
+    else if ((xTimerIsTimerActive(timerRecuperacion) != pdFALSE) or (xTimerIsTimerActive(timerSecundario) != pdFALSE)) {
 
       // Tiempo de espera
       estadoOMC = 1;

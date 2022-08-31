@@ -28,6 +28,8 @@ extern IPAddress       MQTT_HOST;
 
 extern AsyncMqttClient mqttClient;
 
+extern int             numberID;
+
 extern TimerHandle_t   mqttReconnectTimer;
 extern TimerHandle_t   wifiReconnectTimer;
 extern TimerHandle_t   publishTimer;
@@ -75,6 +77,7 @@ extern boolean controlGlobalRelay;        // Control Global del Relé
                                             // Si controlGlobalRelay = 1 entonces estamos trabajando de manera normal con los márgenes de voltaje y corriente normales.
 
 extern TimerHandle_t timerRecuperacion;   // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
+extern TimerHandle_t timerSecundario;     // Temporizador, se desborda y ejecuta pasoTiempoSecundario() luego de que trascurra el tiempo estimado para cada OMC
 
 
 //***************************************************************************************************************************************************************
