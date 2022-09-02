@@ -68,13 +68,13 @@ void pasoTiempoRecuperacion() {   // Se ejecuta luego de que trascurran "tiempoR
 
   if ((numberID != 0) and (numberID != 99)) {
 
-    xTimerChangePeriod(timerSecundario, pdMS_TO_TICKS((numberID - 1) * 5000), 0);
-    Serial.println("Rutina conectado a servidor completada: " + String((numberID - 1) * 5) + "segs");
+    xTimerChangePeriod(timerSecundario, pdMS_TO_TICKS((numberID - 1) * 5000 + 5), 0);
+    Serial.println("Rutina conectado a servidor completada: " + String((numberID - 1) * 5 + 5) + "segs");
         
   }
   else {
 
-    xTimerChangePeriod(timerSecundario, pdMS_TO_TICKS(random(60000)), 0);
+    xTimerChangePeriod(timerSecundario, pdMS_TO_TICKS(random(5,60000)), 0);
     Serial.println("Rutina random completada.");
 
   }
