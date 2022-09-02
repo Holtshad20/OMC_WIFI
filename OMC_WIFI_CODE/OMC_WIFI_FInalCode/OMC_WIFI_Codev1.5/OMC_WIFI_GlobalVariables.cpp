@@ -21,7 +21,6 @@ AsyncMqttClient mqttClient;
 int    numberID = 0;
 
 TimerHandle_t   mqttReconnectTimer;
-TimerHandle_t   wifiReconnectTimer;
 TimerHandle_t   publishTimer;
 
 //***************************************************************************************************************************************************************
