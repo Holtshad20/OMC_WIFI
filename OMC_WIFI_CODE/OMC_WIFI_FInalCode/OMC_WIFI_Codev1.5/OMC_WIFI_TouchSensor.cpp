@@ -1,6 +1,5 @@
 #include "OMC_WIFI_TouchSensor.hpp"
 
-TaskHandle_t  xTouchHandle;          //Manejador de tareas de la rutina del Touch Sensor
 
 void touchInterrupt() {
 

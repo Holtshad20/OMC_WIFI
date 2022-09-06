@@ -9,8 +9,11 @@ const int greenChannel = 0;       //Canal PWM empleado para el Led Verde
 const int redLed       = 22;      //Pin que se empleará para el Led Rojo
 const int redChannel   = 1;       //Canal PWM empleado para el Led Rojo
 
+
 void ledSetUp();
+
 void greenLedTask(void *greenLedParameter);
+
 void redLedTask(void *redLedParameter);
 
 #endif

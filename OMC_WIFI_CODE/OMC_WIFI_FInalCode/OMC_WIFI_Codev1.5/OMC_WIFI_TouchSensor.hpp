@@ -16,8 +16,6 @@ const int AP_MODE_THRESHOLD    = 1000;      //Se define cuál es el valor para a
 const int REBOOT_THRESHOLD     = 5000;      //Se define cuál es el valor para reiniciar el equipo
 const int CRED_RESET_THRESHOLD = 10000;     //Se define cuál es el valor para reiniciar credenciales y luego el equipo
 
-extern TaskHandle_t  xTouchHandle;          //Manejador de tareas de la rutina del Touch Sensor
-
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************

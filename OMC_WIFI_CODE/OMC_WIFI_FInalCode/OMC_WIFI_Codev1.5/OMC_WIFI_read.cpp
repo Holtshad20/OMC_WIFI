@@ -30,11 +30,9 @@ boolean pasoElTiempo = false;   // Indica si transcurrió el tiempo de recuperac
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
 
-
-
 void readSetUp() {
 
-
+  //ESP.restart();
 
 }
 
@@ -66,30 +64,37 @@ void relaySetUp () {
 
 void pasoTiempoRecuperacion() {   // Se ejecuta luego de que trascurran "tiempoRecuperacion" segundos
 
+  pasoElTiempo = 0;
+
   if ((numberID != 0) and (numberID != 99)) {
 
     xTimerChangePeriod(timerSecundario, pdMS_TO_TICKS((numberID - 1) * 5000 + 5), 0);
     Serial.println("Rutina conectado a servidor completada: " + String((numberID - 1) * 5 + 5) + "segs");
-        
+
   }
   else {
 
-    xTimerChangePeriod(timerSecundario, pdMS_TO_TICKS(random(5,60000)), 0);
+    xTimerChangePeriod(timerSecundario, pdMS_TO_TICKS(random(5, 60000)), 0);
     Serial.println("Rutina random completada.");
 
   }
-  
+
   xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
   xTimerStop(timerRecuperacion, 0);
 
-  
+
 
 }
 
 
 void pasoTiempoSecundario() {   // Se ejecuta luego de que trascurran los segundos calculados para este OMC
 
-  pasoElTiempo = 1;               // La variable indica que transcurrieron los segundos
+  if ( (rmsVolt >= voltInf) && (rmsVolt <= voltSup) && (rmsCorr <= corrSup) && (relay == LOW) ) {
+
+    pasoElTiempo = 1;               // La variable indica que transcurrieron los segundos
+
+  }
+
   xTimerReset(timerSecundario, 0);  // Se detiene el temporizador
   xTimerStop(timerSecundario, 0);
 
@@ -160,12 +165,14 @@ void readCode (void *readParameter) {
         }
 
         if (pasoElTiempo == 1) {                                                                    // Si pasaron los segundos necesarios entonces
+
+          pasoElTiempo = 0;
           relay = HIGH;                                                                               // Enciende el relay
           digitalWrite(relayPin, HIGH);
 
           xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
           xTimerStop(timerRecuperacion, 0);
-          pasoElTiempo = 0;
+
 
           //mqttClient.publish("esp32/estadoRelay", 0, true, "ON");
 

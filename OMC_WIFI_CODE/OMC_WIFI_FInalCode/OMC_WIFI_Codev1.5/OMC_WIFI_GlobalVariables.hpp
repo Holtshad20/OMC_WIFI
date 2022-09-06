@@ -79,6 +79,22 @@ extern boolean controlGlobalRelay;        // Control Global del Relé
 extern TimerHandle_t timerRecuperacion;   // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
 extern TimerHandle_t timerSecundario;     // Temporizador, se desborda y ejecuta pasoTiempoSecundario() luego de que trascurra el tiempo estimado para cada OMC
 
+extern TaskHandle_t  xReadHandle;         //Manejador de tareas de la rutina de lectura
+
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+//***************************************************************************************************************************************************************
+
+
+
+//***************************************************************************************************************************************************************
+//*************************************************    VARIABLES Y CONSTANTES PARA CONTROLAR LEDS     *******************************************************
+//***************************************************************************************************************************************************************
+
+extern TaskHandle_t  xGreenLedHandle;   //Manejador de tareas de la rutina del led verde
+extern TaskHandle_t  xRedLedHandle;     //Manejador de tareas de la rutina del led rojo
+
+extern TaskHandle_t  xTouchHandle;          //Manejador de tareas de la rutina del Touch Sensor
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************
@@ -95,6 +111,8 @@ extern Preferences storage;         // Espacio en memoria para guardar los datos
 extern String      omcID;        // Variable donde se guardan los últimos 3 bytes de la dirección MAC (ESP.getEfuseMAC extrae los bytes deordenados)
 
 extern boolean     connServer;      // Variable para indicar si el ESP32 está conectado al servidor
+
+extern TaskHandle_t  xAutoConnectHandle;          //Manejador de tareas de la rutina de AutoConnect
 
 //***************************************************************************************************************************************************************
 //***************************************************************************************************************************************************************

@@ -2,6 +2,7 @@
 
 String hostname;
 
+
 //***************************************************************************************************************************************************************
 //*************************************************    FUNCIONES DE LAS PÁGINAS WEB DE AUTOCONNECT     **********************************************************
 //***************************************************************************************************************************************************************
@@ -588,10 +589,10 @@ void setup() {
   xTaskCreatePinnedToCore(
     acTask,                 //Función que se ejecutará en la tarea
     "AutoConnectCode",      //Nombre descriptivo
-    8192,                  //Tamaño del Stack para esta tarea
+    8192,                   //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
     1,                      //Prioridad de la tarea (de 0 a 25)
-    NULL,                   //Manejador de tareas
+    &xAutoConnectHandle,    //Manejador de tareas
     1);                     //Núcleo en el que se ejecutará
 
 
@@ -602,7 +603,7 @@ void setup() {
     8192,                  //Tamaño del Stack para esta tarea
     NULL,                   //Parámetro para guardar la función
     1,                      //Prioridad de la tarea (de 0 a 25)
-    NULL,                   //Manejador de tareas
+    &xReadHandle,           //Manejador de tareas
     1);                     //Núcleo en el que se ejecutará
 
 
@@ -612,7 +613,7 @@ void setup() {
     1024,                       //Tamaño del Stack para esta tarea
     NULL,                       //Parámetro para guardar la función
     0,                          //Prioridad de la tarea (de 0 a 25)
-    NULL,                       //Manejador de tareas
+    &xGreenLedHandle,                       //Manejador de tareas
     0);                         //Núcleo en el que se ejecutará
 
 
@@ -622,7 +623,7 @@ void setup() {
     1024,                       //Tamaño del Stack para esta tarea
     NULL,                       //Parámetro para guardar la función
     0,                          //Prioridad de la tarea (de 0 a 25)
-    NULL,                       //Manejador de tareas
+    &xRedLedHandle,                       //Manejador de tareas
     0);                         //Núcleo en el que se ejecutará
 
 

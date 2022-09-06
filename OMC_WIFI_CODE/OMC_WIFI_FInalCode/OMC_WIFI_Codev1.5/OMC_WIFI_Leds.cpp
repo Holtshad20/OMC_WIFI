@@ -1,7 +1,7 @@
 #include "OMC_WIFI_Leds.hpp"
 
 
-void ledSetUp(){
+void ledSetUp() {
 
   ledcSetup(greenChannel, 1000, 8);
   ledcAttachPin(greenLed, greenChannel);
@@ -84,7 +84,7 @@ void redLedTask(void *redLedParameter) {
   Serial.println("Red Led Task created");
 
   while (true) {
-  
+
     if (!controlGlobalRelay) {
 
       // Bloqueo manual
@@ -98,11 +98,18 @@ void redLedTask(void *redLedParameter) {
 
       // Tiempo de espera
       estadoOMC = 1;
-      
+
       for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle++) {
         // changing the LED brightness with PWM
         ledcWrite(redChannel, dutyCycle);
         vTaskDelay(10 / portTICK_PERIOD_MS);
+
+        if ((rmsVolt <= voltInf) or (rmsVolt >= voltSup) or (rmsCorr >= corrSup)) {
+
+          break;
+
+        }
+        
       }
 
       // decrease the LED brightness
@@ -110,6 +117,13 @@ void redLedTask(void *redLedParameter) {
         // changing the LED brightness with PWM
         ledcWrite(redChannel, dutyCycle);
         vTaskDelay(10 / portTICK_PERIOD_MS);
+
+        if ((rmsVolt <= voltInf) or (rmsVolt >= voltSup) or (rmsCorr >= corrSup)) {
+
+          break;
+
+        }
+
       }
 
     }
@@ -144,11 +158,11 @@ void redLedTask(void *redLedParameter) {
       vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     }
-    else if (rmsVolt < voltInf) { 
-      
+    else if (rmsVolt < voltInf) {
+
       // Bajo voltaje
       estadoOMC = 3;
-      
+
       ledcWrite(redChannel, 255);
       vTaskDelay(1000 / portTICK_PERIOD_MS);
 
@@ -156,14 +170,14 @@ void redLedTask(void *redLedParameter) {
       vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     }
-    else{
-      
+    else {
+
       // Operación normal
       estadoOMC = 0;
-      
+
       ledcWrite(redChannel, 0);
       vTaskDelay(200 / portTICK_PERIOD_MS);
-      
+
     }
 
   }

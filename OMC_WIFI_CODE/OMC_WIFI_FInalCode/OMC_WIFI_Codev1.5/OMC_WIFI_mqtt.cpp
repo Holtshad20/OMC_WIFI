@@ -236,13 +236,23 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     }
     else if ((message[0] + message[1]) == ('r' + 'e')) {
 
-      Serial.println("Reiniciando OMC-WIFI...");
-      //vTaskDelay(5000 / portTICK_PERIOD_MS);
+//      Serial.println("Reiniciando OMC-WIFI por solicitud del servidor de monitoreo...");
+      Serial.end();
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+      
       xTimerDelete(publishTimer, 0);
       xTimerDelete(mqttReconnectTimer, 0);
       xTimerDelete(timerRecuperacion, 0);
       xTimerDelete(timerSecundario, 0);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
 
+      vTaskDelete(xAutoConnectHandle);
+      vTaskDelete(xGreenLedHandle);
+      vTaskDelete(xRedLedHandle);
+      vTaskDelete(xTouchHandle);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
+      
       ESP.restart();
 
     }
