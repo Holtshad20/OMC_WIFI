@@ -19,6 +19,7 @@ IPAddress       MQTT_HOST;
 AsyncMqttClient mqttClient;
 
 int    numberID = 0;
+int    uptime   = 0;
 
 TimerHandle_t   mqttReconnectTimer;
 TimerHandle_t   publishTimer;
@@ -51,6 +52,7 @@ float _energy    = 0;      // Valor Energía
 uint8_t estadoOMC; // Estado de OMC: alto voltaje, bajo voltaje... 
 
 int voltMode; // Modo voltaje: 120 o 220
+int corrFail = 0;
 
 uint8_t voltSup;     // Máximo voltaje permitido
 uint8_t voltInf;     // Mínimo voltaje permitido
@@ -65,6 +67,7 @@ boolean controlGlobalRelay;    // Control Global del Relé
 
 TimerHandle_t timerRecuperacion;      // Temporizador, se desborda y ejecuta pasoTiempoRecuperacion() luego de que trascurran "tiempoRecuperacion" segundos
 TimerHandle_t timerSecundario;        // Temporizador, se desborda y ejecuta pasoTiempoSecundario() luego de que trascurra el tiempo estimado para cada OMC
+TimerHandle_t timerCorrFail;          // Temporizador, se desborda y ejecuta blockCurrent() y reinicia la cuenta de corrFail
 
 TaskHandle_t  xReadHandle;         //Manejador de tareas de la rutina de lectura
 

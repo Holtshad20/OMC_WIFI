@@ -53,6 +53,9 @@ void relaySetUp () {
   timerSecundario   = xTimerCreate("TimerSecundario", pdMS_TO_TICKS(3000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(pasoTiempoSecundario));
   xTimerStop(timerSecundario, 0); // Mantiene apagado el temporizador hasta que se vuelva a iniciar
 
+  timerCorrFail   = xTimerCreate("TimerCorrFail", pdMS_TO_TICKS(60000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(pasoTiempoCorrFail));
+  xTimerStop(timerSecundario, 0); // Mantiene apagado el temporizador hasta que se vuelva a iniciar
+
   //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
 
   Serial.println();
@@ -82,8 +85,6 @@ void pasoTiempoRecuperacion() {   // Se ejecuta luego de que trascurran "tiempoR
   xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
   xTimerStop(timerRecuperacion, 0);
 
-
-
 }
 
 
@@ -100,6 +101,16 @@ void pasoTiempoSecundario() {   // Se ejecuta luego de que trascurran los segund
 
   Serial.println("Rutina secundaria completada.");
 
+}
+
+
+void pasoTiempoCorrFail(){
+
+  corrFail = 0;
+
+  xTimerReset(timerCorrFail, 0);  // Se detiene el temporizador
+  xTimerStop(timerCorrFail, 0);
+  
 }
 
 
@@ -196,6 +207,23 @@ void readCode (void *readParameter) {
           xTimerReset(timerRecuperacion, 0);  // Se detiene el temporizador
           xTimerStop(timerRecuperacion, 0);
           pasoElTiempo = 0;
+
+          if (rmsCorr > corrSup) {
+
+            corrFail += 1;
+            xTimerReset(timerCorrFail, 0);
+
+          }
+
+          if (corrFail >= 3){
+
+            corrFail = 0;
+            controlGlobalRelay = false;
+
+            Serial.println("*** ¡Voltaje/corriente fuera de rango! ***");
+            
+          }
+
 
           //mqttClient.publish("esp32/estadoRelay", 0, true, "OFF");
 

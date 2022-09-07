@@ -27,6 +27,8 @@ void pasoTiempoRecuperacion();
 
 void pasoTiempoSecundario();
 
+void pasoTiempoCorrFail();
+
 void readCode (void *readParameter);
 
 

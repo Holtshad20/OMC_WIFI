@@ -163,7 +163,7 @@ AutoConnectAux server_ip("/server-ip", "Configuración del Dispositivo", false, 
 });
 
 
-AutoConnectAux voltage_mode("/voltage-mode", "Suministro Eléctrico", false, {
+AutoConnectAux voltage_mode("/voltage-mode", "Configuración del Dispositivo", false, {
 
   header04,
   txtCenter01,
@@ -172,7 +172,7 @@ AutoConnectAux voltage_mode("/voltage-mode", "Suministro Eléctrico", false, {
 });
 
 
-AutoConnectAux current_limit("/current-limit", "Suministro Eléctrico", false, {
+AutoConnectAux current_limit("/current-limit", "Configuración del Dispositivo", false, {
 
   header05,
   txtCenter01,
@@ -193,18 +193,20 @@ AutoConnectAux cred_reset("/cred-reset", "Configuración del Dispositivo", false
 });
 
 
-AutoConnectAux supply("/supply", "Suministro Eléctrico", true, {
+AutoConnectAux supply("/supply", "Estado del Dispositivo", true, {
 
   header01,
   txtCenter01,
   txtCenter02,
   txtCenter03,
-  txtCenter04,
   header02,
+  txtCenter04,
+  header03,
   txtCenter05,
+  header04,
   txtCenter06,
   updateData,
-  header03,
+  header05,
   txt01,
   passVer,
   cutRestore,
@@ -213,7 +215,7 @@ AutoConnectAux supply("/supply", "Suministro Eléctrico", true, {
 });
 
 
-AutoConnectAux switch_relay("/switch-relay", "Suministro Eléctrico", false, {
+AutoConnectAux switch_relay("/switch-relay", "Estado del Dispositivo", false, {
 
   header03,
   txtCenter01,

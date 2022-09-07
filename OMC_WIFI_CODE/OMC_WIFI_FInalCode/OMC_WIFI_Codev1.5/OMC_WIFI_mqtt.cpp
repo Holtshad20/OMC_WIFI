@@ -362,7 +362,6 @@ void publicarValores() {
   char        petition[7];
   char        state[110];
   uint32_t    oldTicks = 0;
-  int         uptime   = 0;
   int         _voltMode;
   String      _corrSup;
   IPAddress   ip = WiFi.localIP();
@@ -417,18 +416,18 @@ void publicarValores() {
 
     }
 
-    if ((xTaskGetTickCount() - oldTicks) > 0){
-
-      uptime = uptime + ((int)(xTaskGetTickCount() - oldTicks))/1000;
-      
-    }
-    else{
-
-      uptime = uptime + ((int)xTaskGetTickCount())/1000;
-      
-    }
-
-    oldTicks = xTaskGetTickCount();
+//    if ((xTaskGetTickCount() - oldTicks) > 0){
+//
+//      uptime = uptime + ((int)(xTaskGetTickCount() - oldTicks))/1000;
+//      
+//    }
+//    else{
+//
+//      uptime = uptime + ((int)xTaskGetTickCount())/1000;
+//      
+//    }
+//
+//    oldTicks = xTaskGetTickCount();
 
 
     snprintf(state, 110, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s,ip%d.%d.%d.%d,up%d,"

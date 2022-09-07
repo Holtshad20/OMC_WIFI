@@ -48,7 +48,7 @@ void touchTask(void *touchParameter) {
       else {                                                  //Si el ESP32 está en modo Estación
 
         String ssid = "OMC-WIFI-" + omcID;
-        
+
         storage.begin("config", true);                          // Se apertura el espacio en memoria flash denominado "storage" para leer (true)
 
         esp_wifi_set_mode(WIFI_MODE_APSTA);                     //Se cambia el modo del ESP32 a AP/Estación
@@ -63,16 +63,46 @@ void touchTask(void *touchParameter) {
     }
     else if ((ticks >= REBOOT_THRESHOLD) and (ticks < CRED_RESET_THRESHOLD)) {
 
-      Serial.println("Rebooting OMC-WIFI in 5 seconds...");
-      vTaskDelay(5000 / portTICK_PERIOD_MS);
+      //Serial.println("Rebooting OMC-WIFI in 5 seconds...");
+
+      Serial.end();
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
+      xTimerDelete(publishTimer, 0);
+      xTimerDelete(mqttReconnectTimer, 0);
+      xTimerDelete(timerRecuperacion, 0);
+      xTimerDelete(timerSecundario, 0);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
+      vTaskDelete(xAutoConnectHandle);
+      vTaskDelete(xGreenLedHandle);
+      vTaskDelete(xRedLedHandle);
+      vTaskDelete(xTouchHandle);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
       ESP.restart();
 
     }
     else if (ticks >= CRED_RESET_THRESHOLD) {
 
-      Serial.println("Clearing credentials and rebooting OMC-WIFI in 5 seconds...");
+      //Serial.println("Clearing credentials and rebooting OMC-WIFI in 5 seconds...");
       credReset();
-      vTaskDelay(5000 / portTICK_PERIOD_MS);
+
+      Serial.end();
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
+      xTimerDelete(publishTimer, 0);
+      xTimerDelete(mqttReconnectTimer, 0);
+      xTimerDelete(timerRecuperacion, 0);
+      xTimerDelete(timerSecundario, 0);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
+      vTaskDelete(xAutoConnectHandle);
+      vTaskDelete(xGreenLedHandle);
+      vTaskDelete(xRedLedHandle);
+      vTaskDelete(xTouchHandle);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
       ESP.restart();
 
     }

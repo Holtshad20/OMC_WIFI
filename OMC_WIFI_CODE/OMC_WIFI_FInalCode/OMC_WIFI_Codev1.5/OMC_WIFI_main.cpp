@@ -202,14 +202,14 @@ String onServerIP(AutoConnectAux& aux, PageArgument& args) {
     storage.putString("server_ip", args.arg("server"));                                                                               //Se guarda la dirección IP en la memoria flash
     Serial.println("La dirección IP del servidor ha cambiado a:\n" + storage.getString("server_ip", ""));
     storage.end();                                                                                                                    //Se cierra el espacio en memoria flash denominado "storage"
-    
+
     MQTT_HOST.fromString(args.arg("server"));
     mqttClient.setServer(MQTT_HOST, MQTT_PORT);
-    
+
     //mqttSetUp();
     //connectToMqtt();
     xTimerStart(mqttReconnectTimer, 0); // Para reconectarnos, el temporizador intenta reconectar una vez se desborda
-    
+
     aux["txtCenter01"].as<AutoConnectText>().value = "La <b>dirección IP del servidor</b> ha cambiado a:\n" + args.arg("server");           //Aparecerá este mensaje en la página web
   }
   else {                                                                                                                            //Si se introdujo una dirección IP pero NO se cumplen las condiciones establecidas
@@ -367,35 +367,76 @@ String onCredentialReset(AutoConnectAux& aux, PageArgument& args) {
 // Función para actualizar los datos e la página del suministro eléctrico
 String onSupply(AutoConnectAux& aux, PageArgument& args) {
 
+  int  days = uptime / 86400;                                
+  int  hours = (uptime % 86400) / 3600;                       
+  int  minutes = ((uptime % 86400) % 3600) / 60;         
+  int  seconds = (((uptime % 86400) % 3600) % 60);
+  char runTime[21];
+
+
   aux["passVer"].as<AutoConnectInput>().value  = "";
 
   //Textos que aparecerán es esta página
   aux["header01"].as<AutoConnectText>().value = "<h2>Estado del Suministro Eléctrico</h2>";
   aux["header02"].as<AutoConnectText>().value = "<h2>Estado del Relay</h2>";
-  aux["header03"].as<AutoConnectText>().value = "<h2>Cortar/Reestablecer Suministro Eléctrico</h2>";
+  aux["header03"].as<AutoConnectText>().value = "<h2>Estado de Conexión con el Servidor de Monitoreo</h2>";
+  aux["header04"].as<AutoConnectText>().value = "<h2>Tiempo Encendido</h2>";
+  aux["header05"].as<AutoConnectText>().value = "<h2>Control Manual del Suministro Eléctrico</h2>";
 
   aux["txtCenter01"].as<AutoConnectText>().value = "Voltaje: " + String(rmsVolt) + " V";
   aux["txtCenter02"].as<AutoConnectText>().value = "Corriente: " + String(rmsCorr) + " A";
   aux["txtCenter03"].as<AutoConnectText>().value = "Potencia: " + String(rmsPower) + " W";
   //  aux["txtCenter04"].as<AutoConnectText>().value = "Factor de Potencia: " + String(powerFactor);
 
-  if (relay == HIGH) {
-    aux["txtCenter05"].as<AutoConnectText>().value = "Estado del Relé: Encendido";
+  if (estadoOMC == 0) {
+
+    aux["txtCenter04"].as<AutoConnectText>().value = "Habilitado (Suministro Eléctrico Estable)";
+
+  }
+  else if (estadoOMC == 1) {
+    aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Tiempo de Espera)";
+
+  }
+  else if (estadoOMC == 2) {
+
+    aux["txtCenter04"].as<AutoConnectText>().value = "Bloqueado Manualmente";
+
+  }
+  else if (estadoOMC == 3) {
+
+    aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Bajo Voltaje)";
+
+  }
+  else if (estadoOMC == 4) {
+
+    aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Bajo Voltaje)";
 
   }
   else {
-    aux["txtCenter05"].as<AutoConnectText>().value = "Estado del Relé: Apagado";
+
+    aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Alta Corriente)";
 
   }
 
-  if (controlGlobalRelay) {
-    aux["txtCenter06"].as<AutoConnectText>().value = "Bloqueo Manual: Desbloqueado";
+  if (connServer) {
+
+    aux["txtCenter05"].as<AutoConnectText>().value = "Conectado a " + MQTT_HOST.toString();
 
   }
   else {
-    aux["txtCenter06"].as<AutoConnectText>().value = "Bloqueo Manual: Bloqueado";
+
+    aux["txtCenter05"].as<AutoConnectText>().value = "Sin conexión";
 
   }
+
+  snprintf(runTime, 21, "%d d     %02d:%02d:%02d", days, hours, minutes, seconds);
+  aux["txtCenter06"].as<AutoConnectText>().value = runTime;
+
+  Serial.println("Days:" + String(days));
+  Serial.println("Hours:" + String(hours));
+  Serial.println("Minutes:" + String(minutes));
+  Serial.println("Seconds:" + String(seconds));
+  Serial.println("uptime:" + String(uptime));
 
   aux["txt01"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.";
 
@@ -447,15 +488,15 @@ void rootPage() {
   String content =
     "<html>"
     "<head>"
-    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-    "<title>OMC-WIFI</title>"
-//    "<meta http-equiv=\"refresh\" content=\"1; URL=http://172.16.1.1/_ac\" />"
-    "</head>"
-    "<body>"
-    "<h1 align=\"center\" style=\"color:purple;margin:10px;\">Presione el boton para entrar a la configuracion</h1>"
-    "<p></p>"
-    "<p style=\"padding-top:5px;text-align:center\">"AUTOCONNECT_LINK(COG_24)"</p>"
-    "</body>"
+    //    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+    //    "<title>OMC-WIFI</title>"
+    "<meta http-equiv=\"refresh\" content=\"1; URL=/_ac\" />"
+    //    "</head>"
+    //    "<body>"
+    //    "<h1 align=\"center\" style=\"color:purple;margin:10px;\">Presione el boton para entrar a la configuracion</h1>"
+    //    "<p></p>"
+    //    "<p style=\"padding-top:5px;text-align:center\">"AUTOCONNECT_LINK(COG_24)"</p>"
+    //    "</body>"
     "</html>";
 
   //Se envía al usuario el contenido de la página web
@@ -521,7 +562,7 @@ void acSetUp(void) {
 
   //Configuración inicial del límite de corriente
   corrSup = storage.getUChar("corrSup", 10);         //Se extrae el límite de corriente guardado en el espacio de memoria "storage"
-  
+
   controlGlobalRelay = storage.getBool("controlManual", true);
 
   storage.end();
@@ -536,7 +577,7 @@ void acSetUp(void) {
   //config.preserveAPMode = true;
   config.title      = hostname;                       //Título de la página web
   config.homeUri    = "/_ac";                         //Directorio HOME de la página web
-  config.menuItems  = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET | AC_MENUITEM_HOME;     //Se deshabilita el menú de desconectar del AP
+  config.menuItems  = AC_MENUITEM_CONFIGNEW | AC_MENUITEM_OPENSSIDS | AC_MENUITEM_RESET | AC_MENUITEM_HOME | AC_MENUITEM_DELETESSID;   //Se deshabilita el menú de desconectar del AP
   Portal.join({pre_config, ap_config, ap_ssid, ap_pass, cred_reset, server_ip, voltage_mode, current_limit, supply, switch_relay});    //Se cargan las páginas web diseñadas en el portal web
   Portal.on("/pre-config", onPreConfig);              //Se enlaza la función "onPreConfig" con la página en el directorio "/pre-config" (la función se ejecutará cada vez que se acceda al directorio)
   Portal.on("/ap-config", onConfig);                  //Se enlaza la función "onConfig" con la página en el directorio "/ap-config" (la función se ejecutará cada vez que se acceda al directorio)
@@ -646,5 +687,22 @@ void setup() {
 
 void loop() {
 
+  uint32_t    oldTicks = 0;
+
+  while (true) {
+    if ((xTaskGetTickCount() - oldTicks) > 0) {
+
+      uptime = uptime + ((int)(xTaskGetTickCount() - oldTicks)) / 1000;
+
+    }
+    else {
+
+      uptime =  + ((int)xTaskGetTickCount()) / 1000;
+
+    }
+
+    oldTicks = xTaskGetTickCount();
+
+  }
 
 }
