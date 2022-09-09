@@ -412,10 +412,15 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
     aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Bajo Voltaje)";
 
   }
-  else {
+  else if (estadoOMC == 5){
 
     aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Alta Corriente)";
 
+  }
+  else {
+
+    aux["txtCenter04"].as<AutoConnectText>().value = "Bloqueado Automáticamente (Más de 3 cortes por alta corriente)";
+    
   }
 
   if (connServer) {

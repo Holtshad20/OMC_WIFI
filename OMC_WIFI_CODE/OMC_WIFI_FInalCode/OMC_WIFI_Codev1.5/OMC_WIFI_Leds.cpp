@@ -85,7 +85,17 @@ void redLedTask(void *redLedParameter) {
 
   while (true) {
 
-    if (!controlGlobalRelay) {
+    if (corrFail >= 3) {
+
+      //Bloqueo manual por exceso de sobrepaso de límite de corriente
+      estadoOMC = 6;
+
+      ledcWrite(redChannel, 255);
+      vTaskDelay(200 / portTICK_PERIOD_MS);
+
+    }
+    else if (!controlGlobalRelay) {
+
 
       // Bloqueo manual
       estadoOMC = 2;
@@ -109,7 +119,7 @@ void redLedTask(void *redLedParameter) {
           break;
 
         }
-        
+
       }
 
       // decrease the LED brightness

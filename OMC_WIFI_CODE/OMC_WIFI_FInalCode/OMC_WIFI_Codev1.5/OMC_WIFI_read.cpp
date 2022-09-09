@@ -110,6 +110,8 @@ void pasoTiempoCorrFail(){
 
   xTimerReset(timerCorrFail, 0);  // Se detiene el temporizador
   xTimerStop(timerCorrFail, 0);
+
+  Serial.println("Reinicio de cantidad de fallas de alta corriente.");
   
 }
 
@@ -215,9 +217,8 @@ void readCode (void *readParameter) {
 
           }
 
-          if (corrFail >= 3){
+          if (corrFail == 3){
 
-            corrFail = 0;
             controlGlobalRelay = false;
 
             Serial.println("*** ¡Voltaje/corriente fuera de rango! ***");
