@@ -69,7 +69,7 @@ extern int corrFail;
 
 extern uint8_t voltSup;                   // Máximo voltaje permitido
 extern uint8_t voltInf;                   // Mínimo voltaje permitido
-extern uint8_t corrSup;                   // Máxima corriente permitida
+extern float   corrSup;                   // Máxima corriente permitida
 extern uint8_t estadoOMC;
 
 extern uint8_t tiempoRecuperacion;        // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)

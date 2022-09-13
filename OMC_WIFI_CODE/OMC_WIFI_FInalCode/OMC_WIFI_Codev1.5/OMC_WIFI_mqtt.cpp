@@ -59,6 +59,7 @@ void onMqttConnect(bool sessionPresent) {
   //  char petition[6];
 
   connServer = true;
+  numberID = 0;
 
   xTimerStop(mqttReconnectTimer, 0);
 
@@ -404,14 +405,14 @@ void publicarValores() {
 
     }
 
-    switch (corrSup) {
+    switch ((int)corrSup) {
 
       case 10:
         _corrSup = "10";
         break;
 
       default:
-        _corrSup = "0" + String(corrSup);
+        _corrSup = "0" + String((int)corrSup);
         break;
 
     }

@@ -56,14 +56,14 @@ void greenLedTask(void *greenLedParameter) {
       }
       else if (!WiFi.isConnected()) {
 
-        for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle++) {
+        for (int dutyCycle = 0; dutyCycle <= 254; dutyCycle = dutyCycle + 2) {
           // changing the LED brightness with PWM
           ledcWrite(greenChannel, dutyCycle);
           vTaskDelay(10 / portTICK_PERIOD_MS);
         }
 
         // decrease the LED brightness
-        for (int dutyCycle = 255; dutyCycle >= 0; dutyCycle--) {
+        for (int dutyCycle = 254; dutyCycle >= 0; dutyCycle = dutyCycle - 2) {
           // changing the LED brightness with PWM
           ledcWrite(greenChannel, dutyCycle);
           vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -85,7 +85,7 @@ void redLedTask(void *redLedParameter) {
 
   while (true) {
 
-    if (corrFail >= 3) {
+    if ((corrFail >= 3) and (!controlGlobalRelay)) {
 
       //Bloqueo manual por exceso de sobrepaso de límite de corriente
       estadoOMC = 6;
@@ -95,7 +95,6 @@ void redLedTask(void *redLedParameter) {
 
     }
     else if (!controlGlobalRelay) {
-
 
       // Bloqueo manual
       estadoOMC = 2;
@@ -109,7 +108,7 @@ void redLedTask(void *redLedParameter) {
       // Tiempo de espera
       estadoOMC = 1;
 
-      for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle++) {
+      for (int dutyCycle = 0; dutyCycle <= 254; dutyCycle = dutyCycle + 2) {
         // changing the LED brightness with PWM
         ledcWrite(redChannel, dutyCycle);
         vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -123,7 +122,7 @@ void redLedTask(void *redLedParameter) {
       }
 
       // decrease the LED brightness
-      for (int dutyCycle = 255; dutyCycle >= 0; dutyCycle--) {
+      for (int dutyCycle = 254; dutyCycle >= 0; dutyCycle = dutyCycle - 2) {
         // changing the LED brightness with PWM
         ledcWrite(redChannel, dutyCycle);
         vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -142,12 +141,16 @@ void redLedTask(void *redLedParameter) {
       // Alta corriente
       estadoOMC = 5;
 
-      //ledcSetup(greenChannel, 1, 8);
-      ledcWrite(redChannel, 255);
-      vTaskDelay(200 / portTICK_PERIOD_MS);
+      for (int dutyCycle = 0; dutyCycle <= 30; dutyCycle++) {
 
-      ledcWrite(redChannel, 0);
-      vTaskDelay(200 / portTICK_PERIOD_MS);
+        //ledcSetup(greenChannel, 1, 8);
+        ledcWrite(redChannel, 255);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+
+        ledcWrite(redChannel, 0);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+
+      }
 
     }
     else if (rmsVolt > voltSup) {

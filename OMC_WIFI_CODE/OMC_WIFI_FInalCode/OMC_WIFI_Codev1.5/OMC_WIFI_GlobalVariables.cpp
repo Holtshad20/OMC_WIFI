@@ -56,7 +56,7 @@ int corrFail = 0;
 
 uint8_t voltSup;     // Máximo voltaje permitido
 uint8_t voltInf;     // Mínimo voltaje permitido
-uint8_t corrSup;       // Máxima corriente permitida
+float corrSup;       // Máxima corriente permitida
 
 uint8_t tiempoRecuperacion = 20;      // Tiempo requerido permitir paso de corriente luego de una falla o un reinicio (segundos)
 
