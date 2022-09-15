@@ -12,8 +12,8 @@
 #define TOUCH_SENSOR  T9                    //Se define cuál es el pin a utilizar como touch sensor
 
 const int THRESHOLD            = 40;        //Se define cuál es el valor para activar la interrrupción del Touch Sensor
-const int AP_MODE_THRESHOLD    = 1000;      //Se define cuál es el valor para activar o desactivar el modo AP
-const int REBOOT_THRESHOLD     = 5000;      //Se define cuál es el valor para reiniciar el equipo
+const int AP_MODE_THRESHOLD    = 5000;      //Se define cuál es el valor para activar o desactivar el modo AP
+//const int REBOOT_THRESHOLD     = 5000;      //Se define cuál es el valor para reiniciar el equipo
 const int CRED_RESET_THRESHOLD = 10000;     //Se define cuál es el valor para reiniciar credenciales y luego el equipo
 
 //***************************************************************************************************************************************************************
