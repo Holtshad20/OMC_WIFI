@@ -899,17 +899,6 @@ F 3 "https://www.diodes.com/assets/Datasheets/ds16008.pdf" H 7900 2300 50  0001 
 	0    1    1    0   
 $EndComp
 $Comp
-L Transistor_BJT:2N3904 Q1
-U 1 1 6251C78E
-P 7800 2750
-F 0 "Q1" H 7990 2796 50  0000 L CNN
-F 1 "2N3904" H 7990 2705 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SC-59_Handsoldering" H 8000 2675 50  0001 L CIN
-F 3 "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF" H 7800 2750 50  0001 L CNN
-	1    7800 2750
-	1    0    0    -1  
-$EndComp
-$Comp
 L SLA-12VDC-SL-C:SLA-12VDC-SL-C K1
 U 1 1 626D4711
 P 8600 2300
@@ -992,5 +981,16 @@ F 2 "Connector_Wire:SolderWire-1.5sqmm_1x01_D1.7mm_OD3mm" H 4550 950 50  0001 C 
 F 3 "~" H 4550 950 50  0001 C CNN
 	1    4550 950 
 	-1   0    0    1   
+$EndComp
+$Comp
+L Transistor_BJT:MMBT3904 Q1
+U 1 1 6298E1FD
+P 7800 2750
+F 0 "Q1" H 7991 2796 50  0000 L CNN
+F 1 "MMBT3904" H 7991 2705 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 8000 2675 50  0001 L CIN
+F 3 "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF" H 7800 2750 50  0001 L CNN
+	1    7800 2750
+	1    0    0    -1  
 $EndComp
 $EndSCHEMATC
