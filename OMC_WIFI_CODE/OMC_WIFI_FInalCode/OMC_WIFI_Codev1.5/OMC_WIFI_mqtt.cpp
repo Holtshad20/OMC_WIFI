@@ -127,12 +127,22 @@ void onMqttUnsubscribe(uint16_t packetId) {
 }
 
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
+  
+  char*  message    = payload;
+  String messageStr = String(payload);
+  String topicStr   = String(topic);
+  String rate       = String(message[2]) + String(message[3]);
+  
+  Serial.println();
+  Serial.println("Mensaje recibido");
+  Serial.println("Topico: ");
+  Serial.println(topicStr);
+  Serial.println("Mensaje: ");
+  Serial.println(messageStr);
 
-  char* message = payload;
-  String rate   = String(message[2]) + String(message[3]);
-
-  if (String(topic) == omcChanges) {
-
+  
+  if (topicStr == omcChanges) {
+    Serial.println("El servidor pidio realizar un cambio");
     if ((message[0] + message[1]) == ('m' + 'r')) {
 
       controlGlobalRelay = !controlGlobalRelay;
@@ -259,22 +269,22 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     }
 
   }
-  else if (String(topic) == "omc/respuesta") {
-
+  else if (topicStr == "omc/respuesta") {
+    Serial.println("El servidor ha respondido a un dispositivo");
     //    String _omcID = "";
-    char _omcID[4];
+    //char _omcID[4]; //esto no se suponía que pudiera funcionar
+    String _omcID = "123456";
 
     for (int i = 0; i < 6; i++) {
 
-      _omcID[i] = message[i];
-      //      _omcID = _omcID + String(message[i]);
+      _omcID[i] = messageStr[i];
+              //_omcID = _omcID + String(message[i]);
 
     }
-
-
-    if (String(_omcID) == omcID) {
-
-      // Nos desuscribimos de cualquier topico en el que estuvimos suscritos antes, pues ahora toco hacer un cambio
+    if (_omcID == omcID) {
+    //if (String(_omcID) == omcID) {
+      Serial.println("Me ha respondido a mi");
+      // Nos desuscribimos de cualquier topico en el que estuvimos suscritos antes, pues ahora tocó hacer un cambio
       uint16_t packetIdUns = mqttClient.unsubscribe(omcChanges.c_str());
 
       // Verificamos ahora cuál será nuestro nuevo ID
