@@ -386,62 +386,57 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
   aux["txtCenter01"].as<AutoConnectText>().value = "Voltaje: " + String(rmsVolt) + " V";
   aux["txtCenter02"].as<AutoConnectText>().value = "Corriente: " + String(rmsCorr) + " A";
   aux["txtCenter03"].as<AutoConnectText>().value = "Potencia: " + String(rmsPower) + " W";
-  //  aux["txtCenter04"].as<AutoConnectText>().value = "Factor de Potencia: " + String(powerFactor);
+  aux["txtCenter04"].as<AutoConnectText>().value = "Factor de Potencia: " + String(powFactor);
+  aux["txtCenter05"].as<AutoConnectText>().value = "Energía Consumida: " + String(_energy) + "KWh"; 
 
   if (estadoOMC == 0) {
 
-    aux["txtCenter04"].as<AutoConnectText>().value = "Habilitado (Suministro Eléctrico Estable)";
+    aux["txtCenter06"].as<AutoConnectText>().value = "Habilitado (Suministro Eléctrico Estable)";
 
   }
   else if (estadoOMC == 1) {
-    aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Tiempo de Espera)";
+    aux["txtCenter06"].as<AutoConnectText>().value = "Cortado (Tiempo de Espera)";
 
   }
   else if (estadoOMC == 2) {
 
-    aux["txtCenter04"].as<AutoConnectText>().value = "Bloqueado Manualmente";
+    aux["txtCenter06"].as<AutoConnectText>().value = "Bloqueado Manualmente";
 
   }
   else if (estadoOMC == 3) {
 
-    aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Bajo Voltaje)";
+    aux["txtCenter06"].as<AutoConnectText>().value = "Cortado (Bajo Voltaje)";
 
   }
   else if (estadoOMC == 4) {
 
-    aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Bajo Voltaje)";
+    aux["txtCenter06"].as<AutoConnectText>().value = "Cortado (Bajo Voltaje)";
 
   }
   else if (estadoOMC == 5){
 
-    aux["txtCenter04"].as<AutoConnectText>().value = "Cortado (Alta Corriente)";
+    aux["txtCenter06"].as<AutoConnectText>().value = "Cortado (Alta Corriente)";
 
   }
   else {
 
-    aux["txtCenter04"].as<AutoConnectText>().value = "Bloqueado Automáticamente (Más de 3 cortes por alta corriente)";
+    aux["txtCenter06"].as<AutoConnectText>().value = "Bloqueado Automáticamente (Más de 3 cortes por alta corriente)";
     
   }
 
   if (connServer) {
 
-    aux["txtCenter05"].as<AutoConnectText>().value = "Conectado a " + MQTT_HOST.toString();
+    aux["txtCenter07"].as<AutoConnectText>().value = "Conectado a " + MQTT_HOST.toString();
 
   }
   else {
 
-    aux["txtCenter05"].as<AutoConnectText>().value = "Sin conexión";
+    aux["txtCenter07"].as<AutoConnectText>().value = "Sin conexión";
 
   }
 
   snprintf(runTime, 21, "%d d     %02d:%02d:%02d", days, hours, minutes, seconds);
-  aux["txtCenter06"].as<AutoConnectText>().value = runTime;
-
-  Serial.println("Days:" + String(days));
-  Serial.println("Hours:" + String(hours));
-  Serial.println("Minutes:" + String(minutes));
-  Serial.println("Seconds:" + String(seconds));
-  Serial.println("uptime:" + String(uptime));
+  aux["txtCenter08"].as<AutoConnectText>().value = runTime;
 
   aux["txt01"].as<AutoConnectText>().value = "Desde este portal podrá <b>cortar</b> o <b>reestablecer</b> el suministro eléctrico a su dispositivo. Para ello, por favor introduzca la <b>clave actual</b> del dispositivo.";
 

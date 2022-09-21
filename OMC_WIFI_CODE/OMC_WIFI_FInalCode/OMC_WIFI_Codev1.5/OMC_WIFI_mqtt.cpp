@@ -127,12 +127,12 @@ void onMqttUnsubscribe(uint16_t packetId) {
 }
 
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
-  
+
   char*  message    = payload;
   String messageStr = String(payload);
   String topicStr   = String(topic);
   String rate       = String(message[2]) + String(message[3]);
-  
+
   Serial.println();
   Serial.println("Mensaje recibido");
   Serial.println("Topico: ");
@@ -140,7 +140,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   Serial.println("Mensaje: ");
   Serial.println(messageStr);
 
-  
+
   if (topicStr == omcChanges) {
     Serial.println("El servidor pidio realizar un cambio");
     if ((message[0] + message[1]) == ('m' + 'r')) {
@@ -247,23 +247,32 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     }
     else if ((message[0] + message[1]) == ('r' + 'e')) {
 
-//      Serial.println("Reiniciando OMC-WIFI por solicitud del servidor de monitoreo...");
-      Serial.end();
-      vTaskDelay(100 / portTICK_PERIOD_MS);
       
+
+      //      Serial.println("Reiniciando OMC-WIFI por solicitud del servidor de monitoreo...");
+      
+
       xTimerDelete(publishTimer, 0);
       xTimerDelete(mqttReconnectTimer, 0);
       xTimerDelete(timerRecuperacion, 0);
       xTimerDelete(timerSecundario, 0);
+      Serial.println("Deleted temp");
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+      
+      mqttClient.disconnect();
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
       vTaskDelete(xAutoConnectHandle);
+      Serial.println("Deleted AC");
       vTaskDelete(xGreenLedHandle);
+      Serial.println("Deleted Green");
       vTaskDelete(xRedLedHandle);
-      vTaskDelete(xTouchHandle);
+      Serial.println("Deleted Red");
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
-      
+      Serial.end();
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
       ESP.restart();
 
     }
@@ -278,11 +287,11 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     for (int i = 0; i < 6; i++) {
 
       _omcID[i] = messageStr[i];
-              //_omcID = _omcID + String(message[i]);
+      //_omcID = _omcID + String(message[i]);
 
     }
     if (_omcID == omcID) {
-    //if (String(_omcID) == omcID) {
+      //if (String(_omcID) == omcID) {
       Serial.println("Me ha respondido a mi");
       // Nos desuscribimos de cualquier topico en el que estuvimos suscritos antes, pues ahora tocó hacer un cambio
       uint16_t packetIdUns = mqttClient.unsubscribe(omcChanges.c_str());
@@ -427,18 +436,18 @@ void publicarValores() {
 
     }
 
-//    if ((xTaskGetTickCount() - oldTicks) > 0){
-//
-//      uptime = uptime + ((int)(xTaskGetTickCount() - oldTicks))/1000;
-//      
-//    }
-//    else{
-//
-//      uptime = uptime + ((int)xTaskGetTickCount())/1000;
-//      
-//    }
-//
-//    oldTicks = xTaskGetTickCount();
+    //    if ((xTaskGetTickCount() - oldTicks) > 0){
+    //
+    //      uptime = uptime + ((int)(xTaskGetTickCount() - oldTicks))/1000;
+    //
+    //    }
+    //    else{
+    //
+    //      uptime = uptime + ((int)xTaskGetTickCount())/1000;
+    //
+    //    }
+    //
+    //    oldTicks = xTaskGetTickCount();
 
 
     snprintf(state, 110, "vo%d.%d,co%d.%d,po%d.%d,fp%d.%d,en%d.%d,es%d,mr%d,mv0%d,lc%s,ip%d.%d.%d.%d,up%d,"
@@ -476,7 +485,7 @@ void publicarValores() {
 void mqttSetUp() {
 
   snprintf(omcIDtopic, 11, "omc/%s", omcID);
- 
+
   storage.begin("config", true);                                          //Se abre el espacio en memoria flash denominado "storage" para leer y escribir (false)
   MQTT_HOST.fromString(storage.getString("server_ip", "0.0.0.0"));
   storage.end();
@@ -505,7 +514,7 @@ void mqttSetUp() {
   // Configuración del testamento
   mqttClient.setWill(omcIDtopic, 2, true, "DESCONECTADO");
   Serial.print("Topico LWT: ");
-  Serial.print(omcIDtopic);
+  Serial.println(omcIDtopic);
 
   xTimerReset(publishTimer, 0);
 }

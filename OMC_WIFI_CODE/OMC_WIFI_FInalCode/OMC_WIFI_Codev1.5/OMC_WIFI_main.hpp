@@ -44,6 +44,8 @@ ACText(txtCenter03, "", "text-align:center");
 ACText(txtCenter04, "", "text-align:center");
 ACText(txtCenter05, "", "text-align:center");
 ACText(txtCenter06, "", "text-align:center");
+ACText(txtCenter07, "", "text-align:center");
+ACText(txtCenter08, "", "text-align:center");
 
 
 // Declaración de elementos AutoConnect para la página web de verificación de contraseña antes de configurar el dispositivo
@@ -199,12 +201,14 @@ AutoConnectAux supply("/supply", "Estado del Dispositivo", true, {
   txtCenter01,
   txtCenter02,
   txtCenter03,
-  header02,
   txtCenter04,
-  header03,
   txtCenter05,
-  header04,
+  header02,
   txtCenter06,
+  header03,
+  txtCenter07,
+  header04,
+  txtCenter08,
   updateData,
   header05,
   txt01,

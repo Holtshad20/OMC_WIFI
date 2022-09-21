@@ -1,11 +1,20 @@
 #include "OMC_WIFI_TouchSensor.hpp"
 
+uint32_t ticks = 0;
 
 void touchInterrupt() {
 
-  Serial.println("Interrupted");
-  vTaskResume(xTouchHandle);
-  touch_pad_intr_disable();
+  if ((eTaskGetState(xTouchHandle) == eSuspended)) {
+
+    Serial.println("Interrupted");
+
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+    touch_pad_intr_disable();
+
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+    vTaskResume(xTouchHandle);
+
+  }
 
 }
 
@@ -18,8 +27,6 @@ void touchSetUp() {
 
 //Tarea p
 void touchTask(void *touchParameter) {
-
-  uint32_t ticks;
 
   Serial.println("Touch Task created");
 
@@ -52,7 +59,7 @@ void touchTask(void *touchParameter) {
         storage.begin("config", true);                          // Se apertura el espacio en memoria flash denominado "storage" para leer (true)
 
         esp_wifi_set_mode(WIFI_MODE_APSTA);                     //Se cambia el modo del ESP32 a AP/Estación
-        
+
         WiFi.softAPConfig(IPAddress(172, 16, 16, 1), IPAddress(172, 16, 16, 1), IPAddress(255, 255, 255, 0));
         WiFi.softAP(storage.getString("ssid", ssid.c_str()).c_str(), storage.getString("pass", "12345678").c_str());    //Se inicializa el AP con las credenciales guardadas
         Serial.println("Cambiado a modo AP/Estación");
@@ -62,34 +69,35 @@ void touchTask(void *touchParameter) {
       }
 
     }
-//    else if ((ticks >= REBOOT_THRESHOLD) and (ticks < CRED_RESET_THRESHOLD)) {
-//
-//      //Serial.println("Rebooting OMC-WIFI in 5 seconds...");
-//
-//      Serial.end();
-//      vTaskDelay(100 / portTICK_PERIOD_MS);
-//
-//      xTimerDelete(publishTimer, 0);
-//      xTimerDelete(mqttReconnectTimer, 0);
-//      xTimerDelete(timerRecuperacion, 0);
-//      xTimerDelete(timerSecundario, 0);
-//      vTaskDelay(100 / portTICK_PERIOD_MS);
-//
-//      vTaskDelete(xAutoConnectHandle);
-//      vTaskDelete(xGreenLedHandle);
-//      vTaskDelete(xRedLedHandle);
-//      vTaskDelete(xTouchHandle);
-//      vTaskDelay(100 / portTICK_PERIOD_MS);
-//
-//      ESP.restart();
-//
-//    }
+    //    else if ((ticks >= REBOOT_THRESHOLD) and (ticks < CRED_RESET_THRESHOLD)) {
+    //
+    //      //Serial.println("Rebooting OMC-WIFI in 5 seconds...");
+    //
+    //      Serial.end();
+    //      vTaskDelay(100 / portTICK_PERIOD_MS);
+    //
+    //      xTimerDelete(publishTimer, 0);
+    //      xTimerDelete(mqttReconnectTimer, 0);
+    //      xTimerDelete(timerRecuperacion, 0);
+    //      xTimerDelete(timerSecundario, 0);
+    //      vTaskDelay(100 / portTICK_PERIOD_MS);
+    //
+    //      vTaskDelete(xAutoConnectHandle);
+    //      vTaskDelete(xGreenLedHandle);
+    //      vTaskDelete(xRedLedHandle);
+    //      vTaskDelete(xTouchHandle);
+    //      vTaskDelay(100 / portTICK_PERIOD_MS);
+    //
+    //      ESP.restart();
+    //
+    //    }
     else if (ticks >= CRED_RESET_THRESHOLD) {
 
       //Serial.println("Clearing credentials and rebooting OMC-WIFI in 5 seconds...");
       credReset();
-
+      Serial.println("Credenciales borradas");
       Serial.end();
+
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
       xTimerDelete(publishTimer, 0);
@@ -101,7 +109,6 @@ void touchTask(void *touchParameter) {
       vTaskDelete(xAutoConnectHandle);
       vTaskDelete(xGreenLedHandle);
       vTaskDelete(xRedLedHandle);
-      vTaskDelete(xTouchHandle);
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
       ESP.restart();
