@@ -9,18 +9,18 @@ PZEM004Tv30 pzem1(Serial2, 16, 17);
 
 void connectToMqtt() {
 
-  Serial.println();
-  Serial.println("Conectando MQTT...");
+  //  Serial.println();
+  //  Serial.println("Conectando MQTT...");
   //mqttClient.disconnect();
   if (MQTT_HOST != IPAddress(0, 0, 0, 0)) {
 
     mqttClient.connect();
-    Serial.println("Server IP: " + MQTT_HOST.toString());
+    //    Serial.println("Server IP: " + MQTT_HOST.toString());
 
   }
   else {
 
-    Serial.println("No hay servidor configurado");
+    //    Serial.println("No hay servidor configurado");
 
   }
 
@@ -31,21 +31,21 @@ void connectToMqtt() {
 
 void WiFiEvent(WiFiEvent_t event) {
 
-  Serial.println();
-  Serial.printf("[WiFi-event] event: %d\n", event);
+  //  Serial.println();
+  //  Serial.printf("[WiFi-event] event: %d\n", event);
 
   switch (event) {
 
     case SYSTEM_EVENT_STA_GOT_IP:
-      Serial.println("WiFi conectado");
-      Serial.println("Direción IP OMC: ");
-      Serial.println(WiFi.localIP());
+      //      Serial.println("WiFi conectado");
+      //      Serial.println("Direción IP OMC: ");
+      //      Serial.println(WiFi.localIP());
       //connectToMqtt();
       xTimerStart(mqttReconnectTimer, 0);
       break;
 
     case SYSTEM_EVENT_STA_DISCONNECTED:
-      Serial.println("Conexión WiFi perdida");
+      //      Serial.println("Conexión WiFi perdida");
       xTimerStop(mqttReconnectTimer, 0); // ensure we don't reconnect to MQTT while reconnecting to Wi-Fi
       //xTimerStart(wifiReconnectTimer, 0);
       break;
@@ -65,10 +65,10 @@ void onMqttConnect(bool sessionPresent) {
 
   esp_wifi_set_mode(WIFI_MODE_STA);
 
-  Serial.println();
-  Serial.println("Conectado a MQTT.");
-  Serial.print("Sesión: ");
-  Serial.println(sessionPresent);
+  //  Serial.println();
+  //  Serial.println("Conectado a MQTT.");
+  //  Serial.print("Sesión: ");
+  //  Serial.println(sessionPresent);
 
   //  uint16_t packetIdSub = mqttClient.subscribe("omc/01/estado", 0);
   //  Serial.println();
@@ -76,12 +76,12 @@ void onMqttConnect(bool sessionPresent) {
   //  Serial.println(packetIdSub);
 
   uint16_t packetIdSub = mqttClient.subscribe("omc/respuesta", 2);
-  Serial.println();
-  Serial.print("Suscrito a omc/respuesta con QoS 2. Packet ID: ");
-  Serial.println(packetIdSub);
+  //  Serial.println();
+  //  Serial.print("Suscrito a omc/respuesta con QoS 2. Packet ID: ");
+  //  Serial.println(packetIdSub);
 
   mqttClient.publish(omcIDtopic, 2, true, "CONECTADO");
-  Serial.print("Mensaje de conexión enviado: CONECTADO");
+  //  Serial.print("Mensaje de conexión enviado: CONECTADO");
 
   //publish de peticion
   //uint16_t packetIdSub = mqttClient.subscribe("omc/01/cambios", 2);
@@ -99,8 +99,8 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
 
   connServer = false;
 
-  Serial.println();
-  Serial.println("Desconectado de MQTT.");
+  //  Serial.println();
+  //  Serial.println("Desconectado de MQTT.");
 
   if (WiFi.isConnected()) {
 
@@ -111,19 +111,19 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
 }
 
 void onMqttSubscribe(uint16_t packetId, uint8_t qos) {
-  Serial.println();
-  Serial.println("Suscripción exitosa");
-  Serial.print("  packetId: ");
-  Serial.println(packetId);
-  Serial.print("  qos: ");
-  Serial.println(qos);
+  //  Serial.println();
+  //  Serial.println("Suscripción exitosa");
+  //  Serial.print("  packetId: ");
+  //  Serial.println(packetId);
+  //  Serial.print("  qos: ");
+  //  Serial.println(qos);
 }
 
 void onMqttUnsubscribe(uint16_t packetId) {
-  Serial.println();
-  Serial.println("Desuscripción existosa");
-  Serial.print("  packetId: ");
-  Serial.println(packetId);
+  //  Serial.println();
+  //  Serial.println("Desuscripción existosa");
+  //  Serial.print("  packetId: ");
+  //  Serial.println(packetId);
 }
 
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
@@ -132,17 +132,17 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   String messageStr = String(payload);
   String topicStr   = String(topic);
   String rate       = String(message[2]) + String(message[3]);
-
-  Serial.println();
-  Serial.println("Mensaje recibido");
-  Serial.println("Topico: ");
-  Serial.println(topicStr);
-  Serial.println("Mensaje: ");
-  Serial.println(messageStr);
+  //
+  //  Serial.println();
+  //  Serial.println("Mensaje recibido");
+  //  Serial.println("Topico: ");
+  //  Serial.println(topicStr);
+  //  Serial.println("Mensaje: ");
+  //  Serial.println(messageStr);
 
 
   if (topicStr == omcChanges) {
-    Serial.println("El servidor pidio realizar un cambio");
+    //    Serial.println("El servidor pidio realizar un cambio");
     if ((message[0] + message[1]) == ('m' + 'r')) {
 
       controlGlobalRelay = !controlGlobalRelay;
@@ -242,35 +242,35 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     else if ((message[0] + message[1]) == ('e' + 'n')) {
 
       pzem1.resetEnergy();
-      Serial.println("Reiniciando consumo de energía");
+      //      Serial.println("Reiniciando consumo de energía");
 
     }
     else if ((message[0] + message[1]) == ('r' + 'e')) {
 
-      
-
       //      Serial.println("Reiniciando OMC-WIFI por solicitud del servidor de monitoreo...");
-      
+
+      Serial.end();
+      Serial2.end();
+      vTaskDelay(100 / portTICK_PERIOD_MS);
 
       xTimerDelete(publishTimer, 0);
       xTimerDelete(mqttReconnectTimer, 0);
       xTimerDelete(timerRecuperacion, 0);
       xTimerDelete(timerSecundario, 0);
-      Serial.println("Deleted temp");
       vTaskDelay(100 / portTICK_PERIOD_MS);
-      
+
       mqttClient.disconnect();
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
       vTaskDelete(xAutoConnectHandle);
-      Serial.println("Deleted AC");
+      vTaskDelete(xReadHandle);
       vTaskDelete(xGreenLedHandle);
-      Serial.println("Deleted Green");
       vTaskDelete(xRedLedHandle);
-      Serial.println("Deleted Red");
+      vTaskDelete(xTouchHandle);
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
-      Serial.end();
+      esp_task_wdt_init(1, true);
+      esp_task_wdt_add(NULL);
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
       ESP.restart();
@@ -279,7 +279,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
   }
   else if (topicStr == "omc/respuesta") {
-    Serial.println("El servidor ha respondido a un dispositivo");
+    //    Serial.println("El servidor ha respondido a un dispositivo");
     //    String _omcID = "";
     //char _omcID[4]; //esto no se suponía que pudiera funcionar
     String _omcID = "123456";
@@ -292,7 +292,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     }
     if (_omcID == omcID) {
       //if (String(_omcID) == omcID) {
-      Serial.println("Me ha respondido a mi");
+      //      Serial.println("Me ha respondido a mi");
       // Nos desuscribimos de cualquier topico en el que estuvimos suscritos antes, pues ahora tocó hacer un cambio
       uint16_t packetIdUns = mqttClient.unsubscribe(omcChanges.c_str());
 
@@ -346,7 +346,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
       }
 
-      Serial.println("Soy el OMC0" + String(numberID));
+      //      Serial.println("Soy el OMC0" + String(numberID));
 
       if (numberID < 10) {
 
@@ -354,9 +354,9 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
         omcChanges = "omc/0" + String(numberID) + "/cambios";
 
         uint16_t packetIdSub = mqttClient.subscribe(omcChanges.c_str(), 2);
-        Serial.println();
-        Serial.print("Suscrito a " + omcChanges + " con QoS 2. Packet ID: ");
-        Serial.println(packetIdSub);
+        //        Serial.println();
+        //        Serial.print("Suscrito a " + omcChanges + " con QoS 2. Packet ID: ");
+        //        Serial.println(packetIdSub);
 
         xTimerChangePeriod(publishTimer, 1000 / portTICK_PERIOD_MS, 0);
 
@@ -393,21 +393,21 @@ void publicarValores() {
 
       snprintf(petition, 7, "%s", omcID);
       mqttClient.publish("omc/peticion", 2, false, petition);
-      Serial.println("Petición enviada");
-      Serial.println(petition);
+      //      Serial.println("Petición enviada");
+      //      Serial.println(petition);
 
     }
     else {
 
-      Serial.println("Dispositivo no conectado a servidor");
+      //      Serial.println("Dispositivo no conectado a servidor");
 
     }
 
   }
   else if (numberID == 99) {
     xTimerChangePeriod(publishTimer, 10000 / portTICK_PERIOD_MS, 0);
-    Serial.println("El servidor ha rechazado/desvinculado este dispositivo");
-    Serial.println("Reinicie el dispositivo para volver a intentar vincularlo");
+    //    Serial.println("El servidor ha rechazado/desvinculado este dispositivo");
+    //    Serial.println("Reinicie el dispositivo para volver a intentar vincularlo");
 
   }
   else {
@@ -513,8 +513,8 @@ void mqttSetUp() {
 
   // Configuración del testamento
   mqttClient.setWill(omcIDtopic, 2, true, "DESCONECTADO");
-  Serial.print("Topico LWT: ");
-  Serial.println(omcIDtopic);
+  //  Serial.print("Topico LWT: ");
+  //  Serial.println(omcIDtopic);
 
   xTimerReset(publishTimer, 0);
 }

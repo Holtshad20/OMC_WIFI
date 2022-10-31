@@ -6,9 +6,11 @@
 #include <Preferences.h>
 #include <nvs_flash.h>
 #include <AsyncMqttClient.h>
+#include <PZEM004Tv30.h>
 #include "esp_wifi.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/timers.h"
+#include <esp_task_wdt.h>
 
 
 //***************************************************************************************************************************************************************

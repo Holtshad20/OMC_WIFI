@@ -377,7 +377,7 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
   aux["passVer"].as<AutoConnectInput>().value  = "";
 
   //Textos que aparecerán es esta página
-  aux["header01"].as<AutoConnectText>().value = "<h2>Estado del Suministro Eléctrico</h2>";
+  aux["header01"].as<AutoConnectText>().value = "<h2>Estado del Suministro Eléctrico (" + String(voltMode) + " voltios)</h2>";
   aux["header02"].as<AutoConnectText>().value = "<h2>Estado del Relay</h2>";
   aux["header03"].as<AutoConnectText>().value = "<h2>Estado de Conexión con el Servidor de Monitoreo</h2>";
   aux["header04"].as<AutoConnectText>().value = "<h2>Tiempo Encendido</h2>";
@@ -410,7 +410,7 @@ String onSupply(AutoConnectAux& aux, PageArgument& args) {
   }
   else if (estadoOMC == 4) {
 
-    aux["txtCenter06"].as<AutoConnectText>().value = "Cortado (Bajo Voltaje)";
+    aux["txtCenter06"].as<AutoConnectText>().value = "Cortado (Alto Voltaje)";
 
   }
   else if (estadoOMC == 5){
@@ -596,7 +596,7 @@ void acSetUp(void) {
 
 //Código para el portal captivo de AutoConnect
 void acTask (void *acParameter) {
-  Serial.println("AutoConnect Task created");
+//  Serial.println("AutoConnect Task created");
 
   Portal.begin();                                                       //Se inicializa el portal una vez ha sido configurado
   Server.on("/", rootPage);                                             //Se inicializa el servidor web
@@ -611,11 +611,11 @@ void acTask (void *acParameter) {
 //Función de configuración inicial del microcontrolador
 void setup() {
 
-  Serial.begin(115200);
+//  Serial.begin(115200);
 
   vTaskDelay(500 / portTICK_PERIOD_MS);
 
-  Serial.println("Inicializando " + hostname);
+//  Serial.println("Inicializando " + hostname);
 
   acSetUp();
   mqttSetUp();
@@ -624,7 +624,7 @@ void setup() {
   ledSetUp();
   touchSetUp();
 
-  Serial.println(controlGlobalRelay);
+//  Serial.println(controlGlobalRelay);
 
   //Tarea para ejecutar el código de AutoConnect
   xTaskCreatePinnedToCore(

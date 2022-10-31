@@ -2,7 +2,6 @@
 #define OMC_WIFI_MQTT_HPP
 
 #include "OMC_WIFI_GlobalVariables.hpp"
-#include <PZEM004Tv30.h>
 
 
 extern void connectToMqtt();

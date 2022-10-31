@@ -14,7 +14,7 @@ void greenLedTask(void *greenLedParameter) {      // Rutina de funcionamiento de
 
   wifi_mode_t esp_mode;                             // Se guarda el modo (AP o APSTA) del OMC
 
-  Serial.println("Green Led Task created");
+//  Serial.println("Green Led Task created");
 
   while (true) {
 
@@ -80,7 +80,7 @@ void greenLedTask(void *greenLedParameter) {      // Rutina de funcionamiento de
 
 void redLedTask(void *redLedParameter) {                // Rutina de funcionamiento del led rojo
 
-  Serial.println("Red Led Task created");
+//  Serial.println("Red Led Task created");
 
   while (true) {
 

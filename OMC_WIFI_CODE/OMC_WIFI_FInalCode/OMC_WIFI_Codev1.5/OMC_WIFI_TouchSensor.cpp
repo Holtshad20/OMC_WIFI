@@ -2,11 +2,13 @@
 
 uint32_t ticks = 0;
 
+PZEM004Tv30 pzem2(Serial2, 16, 17);
+
 void touchInterrupt() {
 
   if ((eTaskGetState(xTouchHandle) == eSuspended)) {
 
-    Serial.println("Interrupted");
+//    Serial.println("Interrupted");
 
     vTaskDelay(10 / portTICK_PERIOD_MS);
     touch_pad_intr_disable();
@@ -28,7 +30,7 @@ void touchSetUp() {
 //Tarea p
 void touchTask(void *touchParameter) {
 
-  Serial.println("Touch Task created");
+//  Serial.println("Touch Task created");
 
   while (true) {
 
@@ -40,7 +42,7 @@ void touchTask(void *touchParameter) {
 
     ticks = xTaskGetTickCount() - ticks;
 
-    Serial.println(ticks);
+//    Serial.println(ticks);
 
 
     if ((ticks >= AP_MODE_THRESHOLD) and (ticks < CRED_RESET_THRESHOLD)) {
@@ -49,7 +51,7 @@ void touchTask(void *touchParameter) {
 
         esp_wifi_set_mode(WIFI_MODE_STA);                       // Se cambia el modo del ESP32 a Estación
 
-        Serial.println("Cambiado a modo Estación");
+//        Serial.println("Cambiado a modo Estación");
 
       }
       else {                                                  // Si el ESP32 está en modo Estación
@@ -62,7 +64,7 @@ void touchTask(void *touchParameter) {
 
         WiFi.softAPConfig(IPAddress(172, 16, 16, 1), IPAddress(172, 16, 16, 1), IPAddress(255, 255, 255, 0));
         WiFi.softAP(storage.getString("ssid", ssid.c_str()).c_str(), storage.getString("pass", "12345678").c_str());    //Se inicializa el AP con las credenciales guardadas
-        Serial.println("Cambiado a modo AP/Estación");
+//        Serial.println("Cambiado a modo AP/Estación");
 
         storage.end();
 
@@ -94,10 +96,11 @@ void touchTask(void *touchParameter) {
     else if (ticks >= CRED_RESET_THRESHOLD) {
 
       //Serial.println("Clearing credentials and rebooting OMC-WIFI in 5 seconds...");
+      pzem2.resetEnergy();
       credReset();
-      Serial.println("Credenciales borradas");
+//      Serial.println("Credenciales borradas");
       Serial.end();
-
+      Serial2.end();
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
       xTimerDelete(publishTimer, 0);
@@ -107,8 +110,13 @@ void touchTask(void *touchParameter) {
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
       vTaskDelete(xAutoConnectHandle);
+      vTaskDelete(xReadHandle);
       vTaskDelete(xGreenLedHandle);
       vTaskDelete(xRedLedHandle);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+
+      esp_task_wdt_init(1, true);
+      esp_task_wdt_add(NULL);
       vTaskDelay(100 / portTICK_PERIOD_MS);
 
       ESP.restart();
@@ -116,7 +124,7 @@ void touchTask(void *touchParameter) {
     }
     else {
 
-      Serial.println("Se presionó el botón por menos de 5 segundos");
+//      Serial.println("Se presionó el botón por menos de 5 segundos");
 
     }
 
